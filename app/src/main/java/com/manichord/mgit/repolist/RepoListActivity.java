@@ -24,7 +24,7 @@ import android.widget.Toast;
 import com.manichord.mgit.ViewHelperKt;
 import com.manichord.mgit.clone.CloneViewModel;
 import com.manichord.mgit.common.OnActionClickListener;
-import com.manichord.mgit.transport.MGitHttpConnectionFactory;
+//import com.manichord.mgit.transport.MGitHttpConnectionFactory;
 
 import java.io.File;
 import java.net.MalformedURLException;

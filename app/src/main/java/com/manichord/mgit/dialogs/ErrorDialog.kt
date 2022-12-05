@@ -7,7 +7,7 @@ import androidx.annotation.StringRes
 import android.widget.Button
 import kotlinx.android.synthetic.main.dialog_error.view.*
 import me.sheimi.android.views.SheimiDialogFragment
-import me.sheimi.sgit.BuildConfig
+//import me.sheimi.sgit.BuildConfig
 import me.sheimi.sgit.R
 import me.sheimi.sgit.dialogs.DummyDialogListener
 //import timber.log.Timber
@@ -49,14 +49,14 @@ class ErrorDialog : SheimiDialogFragment() {
         val dialog = dialog as AlertDialog
         val positiveButton = dialog.getButton(Dialog.BUTTON_POSITIVE) as Button
         positiveButton.setOnClickListener {
-            if (BuildConfig.DEBUG) {
+           // if (BuildConfig.DEBUG) {
                 // when debugging just log the exception
                 if (mThrowable != null) {
                  //   Timber.e(mThrowable);
                 } else {
                 //    Timber.e(if (mErrorRes != 0) getString(mErrorRes) else "")
                 }
-            }
+          //  }
             dismiss()
         }
     }

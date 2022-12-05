@@ -15,7 +15,7 @@ android {
 
     defaultConfig {
         applicationId "com.manichord.mgit"
-        minSdkVersion 21
+        minSdkVersion 26
         targetSdkVersion 33
 
         vectorDrawables.useSupportLibrary = true
@@ -31,23 +31,6 @@ android {
     lintOptions {
         abortOnError false
     }
-
-    signingConfigs {
-        if (project.hasProperty('special')) {
-            release {
-                keyAlias alias
-                keyPassword password
-                storeFile file(keystore)
-                storePassword password
-            }
-        } else {
-            release {
-                keyAlias ''
-                keyPassword ''
-                storeFile file('/empty')
-                storePassword ''
-            }
-        }
     }
 
     buildTypes {
@@ -60,7 +43,7 @@ android {
 configurations.all {
     resolutionStrategy.eachDependency { DependencyResolveDetails details ->
         if (details.requested.group == "com.jcraft" && details.requested.name == "jsch") {
-            details.useTarget("com.github.mwiede:jsch:0.2.4")
+            details.useTarget("com.github.mwiede:jsch:0.2.0")
         }
 
     }
@@ -69,10 +52,7 @@ configurations.all {
 
 
 dependencies {
-    def supportLib_version = "28.0.0"
-    def lifecycle_version = "1.1.1"
-
-    def acraVersion = '5.8.4'
+  
     implementation fileTree(dir: "libs", include: ["*.jar"])
     implementation 'org.jetbrains.kotlin:kotlin-stdlib-jdk8'
     implementation 'androidx.fragment:fragment:1.4.0'
@@ -88,22 +68,15 @@ dependencies {
     kapt 'androidx.lifecycle:lifecycle-compiler:2.4.0'
 
     implementation 'com.jakewharton.timber:timber:4.5.1'
-    implementation 'com.github.mwiede:jsch:0.2.4'
+    implementation 'com.github.mwiede:jsch:0.2.0'
     implementation 'commons-io:commons-io:2.5'
-    implementation 'org.eclipse.jgit:org.eclipse.jgit:4.5.0.201609210915-r'
-    //implementation 'org.eclipse.jgit:org.eclipse.jgit:3.7.1.201504261725-r'
-  //  implementation 'org.eclipse.jgit:org.eclipse.jgit:6.4.0.202211300538-r'
+    implementation 'org.eclipse.jgit:org.eclipse.jgit:3.7.1.201504261725-r'
     implementation 'com.nostra13.universalimageloader:universal-image-loader:1.9.5'
     implementation 'com.scottyab:secure-preferences-lib:0.1.4'
     implementation 'org.conscrypt:conscrypt-android:2.5.2'
     implementation 'org.bouncycastle:bcprov-jdk15on:1.70'
 
-    implementation "ch.acra:acra-mail:$acraVersion"
-    implementation "ch.acra:acra-dialog:$acraVersion"
+    implementation "ch.acra:acra-mail:5.8.4"
+    implementation "ch.acra:acra-dialog:5.8.4"
 
-    debugImplementation 'com.facebook.stetho:stetho:1.5.0'
-    debugImplementation 'com.facebook.stetho:stetho-timber:1.5.0'
-    testImplementation 'junit:junit:4.12'
-    testImplementation 'org.robolectric:robolectric:3.5'
-    testImplementation 'org.robolectric:shadows-support-v4:3.4-rc2'
-}
+    }

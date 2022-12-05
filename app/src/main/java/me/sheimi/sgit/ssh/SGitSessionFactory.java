@@ -36,11 +36,13 @@ public class SGitSessionFactory extends JschConfigSessionFactory {
     protected JSch createDefaultJSch(FS fs) throws JSchException {
         JSch jsch = new JSch();
         PrivateKeyUtils.migratePrivateKeys();
-        File sshDir = PrivateKeyUtils.getPrivateKeyFolder();
+        /*File sshDir = PrivateKeyUtils.getPrivateKeyFolder();
         for (File file : sshDir.listFiles()) {
             KeyPair kpair = KeyPair.load(jsch, file.getAbsolutePath());
             jsch.addIdentity(file.getAbsolutePath());
-        }
+        }*/
+        java.lang.String string = PrivateKeyUtils.getPrivateKeyFolder().getAbsoluteFile() + "/id_rsa";
+        jsch.addIdentity(string, "".getBytes());
         return jsch;
     }
 

@@ -12,7 +12,6 @@ android {
         targetCompatibility = JavaVersion.VERSION_1_8
     }
 
-
     defaultConfig {
         applicationId "com.manichord.mgit"
         minSdkVersion 26
@@ -28,7 +27,6 @@ android {
     lintOptions {
         abortOnError false
     }
-    }
 }
 
 configurations.all {
@@ -36,7 +34,6 @@ configurations.all {
         if (details.requested.group == "com.jcraft" && details.requested.name == "jsch") {
             details.useTarget("com.github.mwiede:jsch:0.2.0")
         }
-
     }
 }
 

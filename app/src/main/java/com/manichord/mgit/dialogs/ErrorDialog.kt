@@ -10,7 +10,7 @@ import me.sheimi.android.views.SheimiDialogFragment
 import me.sheimi.sgit.BuildConfig
 import me.sheimi.sgit.R
 import me.sheimi.sgit.dialogs.DummyDialogListener
-import timber.log.Timber
+//import timber.log.Timber
 
 class ErrorDialog : SheimiDialogFragment() {
     private var mThrowable: Throwable? = null
@@ -52,9 +52,9 @@ class ErrorDialog : SheimiDialogFragment() {
             if (BuildConfig.DEBUG) {
                 // when debugging just log the exception
                 if (mThrowable != null) {
-                    Timber.e(mThrowable);
+                 //   Timber.e(mThrowable);
                 } else {
-                    Timber.e(if (mErrorRes != 0) getString(mErrorRes) else "")
+                //    Timber.e(if (mErrorRes != 0) getString(mErrorRes) else "")
                 }
             }
             dismiss()

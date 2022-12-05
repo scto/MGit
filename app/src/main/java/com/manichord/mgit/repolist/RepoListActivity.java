@@ -46,7 +46,7 @@ import me.sheimi.sgit.dialogs.DummyDialogListener;
 import me.sheimi.sgit.dialogs.ImportLocalRepoDialog;
 import me.sheimi.sgit.repo.tasks.repo.CloneTask;
 import me.sheimi.sgit.ssh.PrivateKeyUtils;
-import timber.log.Timber;
+//import timber.log.Timber;
 
 public class RepoListActivity extends SheimiFragmentActivity {
 
@@ -103,7 +103,7 @@ public class RepoListActivity extends SheimiFragmentActivity {
                 mRemoteRepoUrl = new URL(uri.getScheme(), uri.getHost(), uri.getPort(), uri.getPath());
             } catch (MalformedURLException e) {
                 Toast.makeText(mContext, R.string.invalid_url, Toast.LENGTH_LONG).show();
-                Timber.e(e);
+           //     Timber.e(e);
             }
 
             if (mRemoteRepoUrl != null) {
@@ -266,7 +266,7 @@ public class RepoListActivity extends SheimiFragmentActivity {
 
     private void initUpdatedSSL() {
        // MGitHttpConnectionFactory.install();
-        Timber.i("Installed custom HTTPS factory");
+      //  Timber.i("Installed custom HTTPS factory");
     }
 
     private void cloneRepo() {

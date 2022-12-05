@@ -14,7 +14,7 @@ import me.sheimi.android.views.SheimiDialogFragment;
 import me.sheimi.sgit.MGitApplication;
 import me.sheimi.sgit.R;
 import me.sheimi.sgit.activities.explorer.PrivateKeyManageActivity;
-import timber.log.Timber;
+//import timber.log.Timber;
 
 /**
  * Allowing editing password for a stored private key
@@ -78,7 +78,7 @@ public class EditKeyPasswordDialog extends SheimiDialogFragment implements
             ((MGitApplication)getActivity().getApplicationContext()).getSecurePrefsHelper().
                 set(mKeyFile.getName(), newPassword);
         } catch (Exception e) {
-            Timber.e(e);
+            //Timber.e(e);
         }
         mActivity.refreshList();
         dismiss();

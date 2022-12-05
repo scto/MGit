@@ -35,7 +35,7 @@ import me.sheimi.sgit.database.RepoDbManager;
 import me.sheimi.sgit.exception.StopTaskException;
 import me.sheimi.sgit.preference.PreferenceHelper;
 import me.sheimi.sgit.repo.tasks.repo.RepoOpTask;
-import timber.log.Timber;
+//import timber.log.Timber;
 
 /**
  * Model for a local repo
@@ -334,7 +334,7 @@ public class Repo implements Comparable<Repo>, Serializable {
         try {
             return getGit().getRepository().getFullBranch();
         } catch (IOException|StopTaskException e) {
-            Timber.e(e, "error getting branch name");
+        //    Timber.e(e, "error getting branch name");
         }
         return "";
     }
@@ -359,7 +359,7 @@ public class Repo implements Comparable<Repo>, Serializable {
             }
             return branchList.toArray(new String[0]);
         } catch (GitAPIException|StopTaskException e) {
-            Timber.e(e);
+          //  Timber.e(e);
         }
         return new String[0];
     }
@@ -372,7 +372,7 @@ public class Repo implements Comparable<Repo>, Serializable {
                 return null;
             return it.next();
         } catch (GitAPIException|StopTaskException e) {
-            Timber.e(e);
+          //  Timber.e(e);
         }
         return null;
     }
@@ -384,7 +384,7 @@ public class Repo implements Comparable<Repo>, Serializable {
             RevWalk revWalk = new RevWalk(getGit().getRepository());
             return (id != null) ? revWalk.parseCommit(id) : null;
         } catch (StopTaskException | IOException e) {
-            Timber.e(e, "error parsing commit id: %s", commitRevStr);
+         //   Timber.e(e, "error parsing commit id: %s", commitRevStr);
             return null;
         }
     }
@@ -399,7 +399,7 @@ public class Repo implements Comparable<Repo>, Serializable {
             List<Ref> localRefs = getGit().branchList().call();
             return localRefs;
         } catch (GitAPIException|StopTaskException e) {
-            Timber.e(e);
+        //    Timber.e(e);
         }
         return new ArrayList<Ref>();
     }
@@ -414,7 +414,7 @@ public class Repo implements Comparable<Repo>, Serializable {
             }
             return tags;
         } catch (GitAPIException|StopTaskException e) {
-            Timber.e(e);
+        //    Timber.e(e);
         }
         return new String[0];
     }
@@ -504,11 +504,11 @@ public class Repo implements Comparable<Repo>, Serializable {
         File repoDir = preferenceHelper.getRepoRoot();
         if (repoDir == null) {
             repoDir = FsUtils.getExternalDir(REPO_DIR, true);
-            Timber.d("PRESET repo path:"+new File(repoDir, localpath).getAbsolutePath());
+         //   Timber.d("PRESET repo path:"+new File(repoDir, localpath).getAbsolutePath());
             return new File(repoDir, localpath);
         } else {
             repoDir = new File(preferenceHelper.getRepoRoot(), localpath);
-            Timber.d("CUSTOM repo path:"+repoDir);
+          //  Timber.d("CUSTOM repo path:"+repoDir);
             return repoDir;
         }
     }
@@ -541,7 +541,7 @@ public class Repo implements Comparable<Repo>, Serializable {
             mGit = Git.open(repoFile);
             return mGit;
         } catch (IOException e) {
-            Timber.e(e);
+         //   Timber.e(e);
             throw new StopTaskException();
         }
     }

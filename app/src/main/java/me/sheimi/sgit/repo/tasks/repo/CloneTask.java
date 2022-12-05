@@ -19,7 +19,7 @@ import me.sheimi.sgit.R;
 import me.sheimi.sgit.database.RepoContract;
 import me.sheimi.sgit.database.models.Repo;
 import me.sheimi.sgit.ssh.SgitTransportCallback;
-import timber.log.Timber;
+//import timber.log.Timber;
 
 public class CloneTask extends RepoRemoteOpTask {
 
@@ -38,7 +38,7 @@ public class CloneTask extends RepoRemoteOpTask {
     protected Boolean doInBackground(Void... v) {
         boolean result = cloneRepo();
         if (!result) {
-            Timber.e("del repo. clone failed");
+         //   Timber.e("del repo. clone failed");
             mRepo.deleteRepoSync();
         } else if (mCallback != null) {
             result = mCallback.doInBackground(v) & result;

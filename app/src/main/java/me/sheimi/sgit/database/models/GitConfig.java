@@ -5,7 +5,7 @@ import org.eclipse.jgit.lib.StoredConfig;
 import java.io.IOException;
 
 import me.sheimi.sgit.exception.StopTaskException;
-import timber.log.Timber;
+//import timber.log.Timber;
 
 /**
  * Model for Git configuration
@@ -55,7 +55,7 @@ public class GitConfig {
         try {
             mConfig.save();
         } catch (IOException e) {
-            Timber.e(e);
+         //   Timber.e(e);
         }
     }
 

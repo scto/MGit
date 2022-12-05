@@ -9,7 +9,7 @@ import me.sheimi.android.utils.BasicFunctions;
 import me.sheimi.sgit.R;
 import me.sheimi.sgit.database.models.Repo;
 import me.sheimi.sgit.repo.tasks.SheimiAsyncTask;
-import timber.log.Timber;
+//import timber.log.Timber;
 
 public abstract class RepoOpTask extends SheimiAsyncTask<Void, String, Boolean> {
 
@@ -60,14 +60,14 @@ public abstract class RepoOpTask extends SheimiAsyncTask<Void, String, Boolean> 
                 username, password);
             command.setCredentialsProvider(auth);
         } else {
-            Timber.d("no CredentialsProvider when no username/password provided");
+         //   Timber.d("no CredentialsProvider when no username/password provided");
         }
 
     }
 
     protected void handleAuthError(OnPasswordEntered onPassEntered) {
         String msg = mException.getMessage();
-        Timber.w("clone Auth error: %s", msg);
+      //  Timber.w("clone Auth error: %s", msg);
 
         if (msg == null || ((!msg.contains("Auth fail"))
                 && (!msg.toLowerCase().contains("auth")))) {

@@ -29,7 +29,7 @@ import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
 import com.nostra13.universalimageloader.utils.StorageUtils;
 
-import me.sheimi.android.avatar.AvatarDownloader;
+//import me.sheimi.android.avatar.AvatarDownloader;
 import me.sheimi.android.utils.BasicFunctions;
 import me.sheimi.android.utils.Profile;
 import me.sheimi.sgit.MGitApplication;
@@ -323,7 +323,7 @@ public class SheimiFragmentActivity extends AppCompatActivity {
                 .defaultDisplayImageOptions(mDisplayOptions)
                 .diskCache(new UnlimitedDiskCache(cacheDir))
                 .diskCacheSize(SIZE)
-                .imageDownloader(new AvatarDownloader(this))
+             //   .imageDownloader(new AvatarDownloader(this))
                 .build();
 
         mImageLoader = ImageLoader.getInstance();

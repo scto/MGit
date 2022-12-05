@@ -13,7 +13,7 @@ import me.sheimi.sgit.preference.PreferenceHelper
 //import org.bouncycastle.jce.provider.BouncyCastleProvider
 //import org.conscrypt.Conscrypt
 import org.eclipse.jgit.transport.CredentialsProvider
-import timber.log.Timber
+//import timber.log.Timber
 import java.security.Security
 
 /**
@@ -48,7 +48,7 @@ open class MGitApplication : Application() {
     override fun onCreate() {
         super.onCreate()
         mContext = applicationContext
-        setAppVersionPref()
+      //  setAppVersionPref()
         prefenceHelper = PreferenceHelper(this)
         try {
             securePrefsHelper = SecurePrefsHelper(this)

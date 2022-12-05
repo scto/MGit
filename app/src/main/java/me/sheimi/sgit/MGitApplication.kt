@@ -2,7 +2,7 @@ package me.sheimi.sgit
 
 import android.app.Application
 import android.content.Context
-import com.manichord.mgit.transport.MGitHttpConnectionFactory
+//import com.manichord.mgit.transport.MGitHttpConnectionFactory
 import me.sheimi.android.utils.SecurePrefsException
 import me.sheimi.android.utils.SecurePrefsHelper
 import me.sheimi.sgit.preference.PreferenceHelper
@@ -39,7 +39,7 @@ open class MGitApplication : Application() {
         }
 
         init {
-            MGitHttpConnectionFactory.install()
+          //  MGitHttpConnectionFactory.install()
             Security.addProvider(BouncyCastleProvider())
             Security.addProvider(Conscrypt.newProvider())
         }

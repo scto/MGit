@@ -88,9 +88,10 @@ dependencies {
     kapt 'androidx.lifecycle:lifecycle-compiler:2.4.0'
 
     implementation 'com.jakewharton.timber:timber:4.5.1'
-    implementation 'com.github.mwiede:jsch:0.2.0'
+    implementation 'com.github.mwiede:jsch:0.2.4'
     implementation 'commons-io:commons-io:2.5'
-    implementation 'org.eclipse.jgit:org.eclipse.jgit:3.7.1.201504261725-r'
+    //implementation 'org.eclipse.jgit:org.eclipse.jgit:3.7.1.201504261725-r'
+    implementation 'org.eclipse.jgit:org.eclipse.jgit:6.4.0.202211300538-r'
     implementation 'com.nostra13.universalimageloader:universal-image-loader:1.9.5'
     implementation 'com.scottyab:secure-preferences-lib:0.1.4'
     implementation 'org.conscrypt:conscrypt-android:2.5.2'

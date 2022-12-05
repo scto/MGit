@@ -10,8 +10,8 @@ import org.acra.config.dialog
 import org.acra.config.mailSender
 import org.acra.data.StringFormat
 import org.acra.ktx.initAcra
-import org.bouncycastle.jce.provider.BouncyCastleProvider
-import org.conscrypt.Conscrypt
+//import org.bouncycastle.jce.provider.BouncyCastleProvider
+//import org.conscrypt.Conscrypt
 import org.eclipse.jgit.transport.CredentialsProvider
 import timber.log.Timber
 import java.security.Security
@@ -40,8 +40,8 @@ open class MGitApplication : Application() {
 
         init {
           //  MGitHttpConnectionFactory.install()
-            Security.addProvider(BouncyCastleProvider())
-            Security.addProvider(Conscrypt.newProvider())
+           // Security.addProvider(BouncyCastleProvider())
+          //  Security.addProvider(Conscrypt.newProvider())
         }
     }
 

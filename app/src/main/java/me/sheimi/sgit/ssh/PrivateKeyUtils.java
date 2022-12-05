@@ -34,7 +34,7 @@ public class PrivateKeyUtils {
 		KeyPair kpair=KeyPair.load(jsch, privateKey.getAbsolutePath());
 		kpair.writePublicKey(new FileOutputStream(publicKey), "mgit");
 		kpair.dispose();
-	    } catch (IOException e) {
+	    } catch (Exception e) {
 		//TODO 
 		e.printStackTrace();
 	    }

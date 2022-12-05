@@ -26,7 +26,7 @@ public class PrivateKeyUtils {
 			privateKey.getName());
     }
 
-  /*  public static File getPublicKeyEnsure(File privateKey) {
+    public static File getPublicKeyEnsure(File privateKey) {
 	File publicKey = getPublicKey(privateKey);
 	if (!publicKey.exists()) {
 	    try {
@@ -34,13 +34,13 @@ public class PrivateKeyUtils {
 		KeyPair kpair=KeyPair.load(jsch, privateKey.getAbsolutePath());
 		kpair.writePublicKey(new FileOutputStream(publicKey), "mgit");
 		kpair.dispose();
-	    } catch (Exception e) {
+	    } catch (IOException e) {
 		//TODO 
 		e.printStackTrace();
 	    }
 	}
 	return publicKey;
-    }*/
+    }
 
     public static void migratePrivateKeys() {
         File oldDir = FsUtils.getExternalDir("ssh");

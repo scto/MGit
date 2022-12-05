@@ -90,7 +90,7 @@ dependencies {
     implementation 'com.jakewharton.timber:timber:4.5.1'
     implementation 'com.github.mwiede:jsch:0.2.4'
     implementation 'commons-io:commons-io:2.5'
-    implementation 'org.eclipse.jgit:org.eclipse.jgit:3.7.1.201504261725-r'
+    implementation 'org.eclipse.jgit:org.eclipse.jgit:4.5.0.201609210915-r'
     implementation 'com.nostra13.universalimageloader:universal-image-loader:1.9.5'
     implementation 'com.scottyab:secure-preferences-lib:0.1.4'
     implementation 'org.conscrypt:conscrypt-android:2.5.2'
@@ -99,9 +99,4 @@ dependencies {
     implementation "ch.acra:acra-mail:$acraVersion"
     implementation "ch.acra:acra-dialog:$acraVersion"
 
-    debugImplementation 'com.facebook.stetho:stetho:1.5.0'
-    debugImplementation 'com.facebook.stetho:stetho-timber:1.5.0'
-    testImplementation 'junit:junit:4.12'
-    testImplementation 'org.robolectric:robolectric:3.5'
-    testImplementation 'org.robolectric:shadows-support-v4:3.4-rc2'
-}
+    }

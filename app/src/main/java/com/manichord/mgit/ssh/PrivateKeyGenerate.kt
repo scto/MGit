@@ -12,8 +12,8 @@ import me.sheimi.android.views.SheimiDialogFragment
 import me.sheimi.sgit.R
 import me.sheimi.sgit.activities.explorer.PrivateKeyManageActivity
 import me.sheimi.sgit.ssh.PrivateKeyUtils
-import org.acra.ktx.sendWithAcra
-import timber.log.Timber
+//import org.acra.ktx.sendWithAcra
+//import timber.log.Timber
 import java.io.File
 import java.io.FileOutputStream
 
@@ -82,8 +82,8 @@ class PrivateKeyGenerate : SheimiDialogFragment() {
             kpair.writePublicKey(FileOutputStream(newPubKey), "mgit")
             kpair.dispose()
         } catch (e: Exception) {
-            Timber.e(e, "Failed to generate SSH key")
-            RuntimeException("Failed to generate SSH key", e).sendWithAcra()
+           // Timber.e(e, "Failed to generate SSH key")
+            RuntimeException("Failed to generate SSH key", e)
             // Delete any leftover files
             newKey.delete()
             newPubKey.delete()

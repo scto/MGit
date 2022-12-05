@@ -27,8 +27,6 @@ android {
     lintOptions {
         abortOnError false
     }
-}
-
 configurations.all {
     resolutionStrategy.eachDependency { DependencyResolveDetails details ->
         if (details.requested.group == "com.jcraft" && details.requested.name == "jsch") {
@@ -36,7 +34,6 @@ configurations.all {
         }
     }
 }
-
 
 dependencies {
   

@@ -7,8 +7,10 @@ import com.jcraft.jsch.Session;
 import com.jcraft.jsch.UserInfo;
 
 import org.eclipse.jgit.transport.CredentialsProviderUserInfo;
-import org.eclipse.jgit.transport.JschConfigSessionFactory;
-import org.eclipse.jgit.transport.OpenSshConfig.Host;
+import org.eclipse.jgit.transport.ssh.jsch.JschConfigSessionFactory;
+//import org.eclipse.jgit.transport.JschConfigSessionFactory;
+import org.eclipse.jgit.transport.ssh.jsch.OpenSshConfig.Host;
+//import org.eclipse.jgit.transport.OpenSshConfig.Host;
 import org.eclipse.jgit.util.FS;
 
 import java.io.File;

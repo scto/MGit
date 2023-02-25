@@ -114,3 +114,10 @@ dependencies {
     implementation 'com.jakewharton.timber:timber:4.5.1'
     implementation 'com.scottyab:secure-preferences-lib:0.1.4'
 }
+
+tasks.withType(org.jetbrains.kotlin.gradle.tasks.KotlinCompile).all {
+    kotlinOptions {
+        jvmTarget = '8'
+        freeCompilerArgs += '-Xjvm-default=enable'
+    }
+}

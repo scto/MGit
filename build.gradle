@@ -23,9 +23,10 @@ plugins {
 }
 
 tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile>().configureEach {
-    kotlinOptions.jvmTarget = '1.8' //JavaVersion.VERSION_1_8.toString()
+    kotlinOptions.jvmTarget = JavaVersion.VERSION_1_8.toString()
   }
 }
+
 task clean(type: Delete) {
     delete rootProject.buildDir
 }

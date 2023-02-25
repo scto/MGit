@@ -20,8 +20,10 @@ android {
         vectorDrawables.useSupportLibrary = true
     }
 	
-  	buildFeatures {
-        viewBinding true
+    buildFeatures {
+        //viewBinding true
+        dataBinding true
+
     }
     
     lintOptions {

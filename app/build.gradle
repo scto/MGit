@@ -23,7 +23,6 @@ android {
     buildFeatures {
         //viewBinding true
         dataBinding true
-
     }
     
     lintOptions {
@@ -60,14 +59,14 @@ android {
     }
 
     kotlinOptions {
-        jvmTarget = JavaVersion.VERSION_1_8.toString()
+        jvmTarget = JavaVersion.VERSION_1_8
     }
 }
 
 configurations.all {
     resolutionStrategy.eachDependency { DependencyResolveDetails details ->
         if (details.requested.group == "com.jcraft" && details.requested.name == "jsch") {
-            details.useTarget("com.github.mwiede:jsch:0.2.4")
+            details.useTarget("com.github.mwiede:jsch:0.2.7")
         }
     }
     exclude module: 'httpclient'
@@ -111,21 +110,7 @@ dependencies {
     // https://mvnrepository.com/artifact/org.eclipse.jgit/org.eclipse.jgit.ssh.jsch
     implementation 'org.eclipse.jgit:org.eclipse.jgit.ssh.jsch:6.4.0.202211300538-r'
 
-
     implementation 'com.nostra13.universalimageloader:universal-image-loader:1.9.5'
     implementation 'com.jakewharton.timber:timber:4.5.1'
-    
-
-    
-    
-    
-    
-    
-
-    
-
-
-
-
-  implementation 'com.scottyab:secure-preferences-lib:0.1.4'
+    implementation 'com.scottyab:secure-preferences-lib:0.1.4'
 }

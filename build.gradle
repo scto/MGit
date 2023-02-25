@@ -22,12 +22,6 @@ plugins {
     id 'org.jetbrains.kotlin.plugin.parcelize' version '1.8.0' apply false
 }
 
-tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile> {
-    kotlinOptions {
-        jvmTarget = JavaVersion.VERSION_1_8.toString()
-    }
-}
-
 task clean(type: Delete) {
     delete rootProject.buildDir
 }

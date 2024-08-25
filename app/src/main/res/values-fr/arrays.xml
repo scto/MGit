@@ -19,6 +19,7 @@
         <item>Nouveau Branche</item>
         <item>Tirer</item>
         <item>Pousser</item>
+        <item>Quick Push(Add,Commit,Push)</item>
         <item>Ajouter tout au stage</item>
         <item>Commit</item>
         <item>Undo Last Commit</item>

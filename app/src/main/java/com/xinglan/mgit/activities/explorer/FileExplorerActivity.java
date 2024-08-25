@@ -1,6 +1,8 @@
 package com.xinglan.mgit.activities.explorer;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.os.Environment;
 import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -9,6 +11,8 @@ import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
+
+import androidx.annotation.Nullable;
 
 import com.xinglan.android.activities.SheimiFragmentActivity;
 import com.xinglan.android.utils.Profile;
@@ -21,6 +25,7 @@ import java.io.FileFilter;
 public abstract class FileExplorerActivity extends SheimiFragmentActivity {
 
     public static final String RESULT_PATH = "result_path";
+    private static final int RC_ACCESS_ALL_FILES = 123;
 
     private File mRootFolder;
     private File mCurrentDir;
@@ -70,7 +75,17 @@ public abstract class FileExplorerActivity extends SheimiFragmentActivity {
 
         mFileList.setOnItemClickListener(getOnListItemClickListener());
         mFileList.setOnItemLongClickListener(getOnListItemLongClickListener());
+        if (Environment.getExternalStorageDirectory().equals(mRootFolder)) {
+            checkAndRequestAccessAllFilesPermission(RC_ACCESS_ALL_FILES);
+        }
+    }
 
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == RC_ACCESS_ALL_FILES) {
+            mFilesListAdapter.setDir(mRootFolder);
+        }
     }
 
     @Override

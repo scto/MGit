@@ -8,7 +8,7 @@ import com.xinglan.mgit.R;
 
 import timber.log.Timber;
 
-public abstract class SheimiAsyncTask<A, B, C> extends AsyncTask<A, B, C> {
+public abstract class SheimiAsyncTask<Params, Progress, Result> extends AsyncTask<Params, Progress, Result> {
 
     protected Throwable mException;
     protected int mErrorRes = 0;

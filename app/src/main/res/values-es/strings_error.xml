@@ -46,5 +46,5 @@
     <string name="alert_save_failed">Save failed</string>
     <string name="alert_file_creation_failure">Couldn\'t create file</string>
     <string name="error_no_repository">No repository found</string>
-
+    <string name="alert_uncommitted_changes">No changes</string>
 </resources>

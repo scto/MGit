@@ -11,7 +11,6 @@ import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
-import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.EditText;
 import android.widget.Filter;
 import android.widget.Filterable;
@@ -23,7 +22,7 @@ import com.xinglan.mgit.activities.RepoDetailActivity;
 import com.xinglan.mgit.database.models.Repo;
 import com.xinglan.mgit.dialogs.DummyDialogListener;
 import com.xinglan.mgit.exceptions.StopTaskException;
-import com.xinglan.mgit.tasks.SheimiAsyncTask.AsyncTaskPostCallback;
+import com.xinglan.mgit.tasks.SheimiAsyncTask;
 import com.xinglan.mgit.tasks.repo.CommitChangesTask;
 
 import org.eclipse.jgit.api.Status;
@@ -36,14 +35,27 @@ import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 
-public class CommitAction extends RepoAction {
 
-    public CommitAction(Repo repo, RepoDetailActivity activity) {
+public class CommitPushAction extends RepoAction {
+    public CommitPushAction(Repo repo, RepoDetailActivity activity) {
         super(repo, activity);
     }
 
     @Override
     public void execute() {
+        /*
+         * index.lock的作用：防止在当前运行的git过程以外去更改本地存储库的资源。
+         * 避免了多个git进程同时进行操作更改导致问题！
+         *
+         * 每当你运行一个git进程时，git就会在.git目录创建一个index.lock文件。
+         * 例如，在当前的git仓库里运行git add .来stage本地的修改点，git就会在git add执行的时候创建index.lock文件，
+         * 命令执行结束后，删除该文件。
+         *
+         * 如果某个进程退出/结束的时候除了问题，可能会导致index.lock文件没有被清除掉，此时，你需要将index.lock文件
+         * 手动移除
+         *
+         * https://blog.csdn.net/u010682774/article/details/115725354
+         */
         try {
             // 获取当前仓库的状态
             Status status = mRepo.getGit().status().call();
@@ -56,24 +68,21 @@ public class CommitAction extends RepoAction {
         } catch (StopTaskException | GitAPIException e) {
             throw new RuntimeException(e);
         }
-
         mActivity.closeOperationDrawer();
     }
 
-    private void commit(String commitMsg, boolean isAmend, boolean stageAll, String authorName,
-                        String authorEmail) {
+    private void commit_and_push(String commitMsg, boolean isAmend, boolean stageAll, String authorName,
+                                 String authorEmail) {
         CommitChangesTask commitTask = new CommitChangesTask(mRepo, commitMsg,
-            isAmend, stageAll, authorName, authorEmail, new AsyncTaskPostCallback() {
-
-            @Override
-            public void onPostExecute(Boolean isSuccess) {
+            isAmend, stageAll, authorName, authorEmail, isSuccess -> {
+                RepoAction push = new PushAction(mRepo, mActivity);
+                push.execute();
                 mActivity.reset();
-            }
-        });
+            });
         commitTask.executeTask();
     }
 
-    private class Author implements Comparable<Author> {
+    private class Author implements Comparable<CommitPushAction.Author> {
         private final String mName;
         private final String mEmail;
         private final ArrayList<String> mKeywords;
@@ -105,10 +114,10 @@ public class CommitAction extends RepoAction {
 
         @Override
         public boolean equals(Object o) {
-            if (!(o instanceof Author)) {
+            if (!(o instanceof CommitPushAction.Author)) {
                 return false;
             }
-            return mName.equals(((Author) o).mName) && mEmail.equals(((Author) o).mEmail);
+            return mName.equals(((CommitPushAction.Author) o).mName) && mEmail.equals(((CommitPushAction.Author) o).mEmail);
         }
 
         @Override
@@ -117,7 +126,7 @@ public class CommitAction extends RepoAction {
         }
 
         @Override
-        public int compareTo(Author another) {
+        public int compareTo(CommitPushAction.Author another) {
             int c1;
             c1 = mName.compareTo(another.mName);
             if (c1 != 0)
@@ -151,11 +160,11 @@ public class CommitAction extends RepoAction {
     }
 
     private class AuthorsAdapter extends BaseAdapter implements Filterable {
-        List<Author> arrayList;
-        List<Author> mOriginalValues;
+        List<CommitPushAction.Author> arrayList;
+        List<CommitPushAction.Author> mOriginalValues;
         LayoutInflater inflater;
 
-        public AuthorsAdapter(Context context, List<Author> arrayList) {
+        public AuthorsAdapter(Context context, List<CommitPushAction.Author> arrayList) {
             this.arrayList = arrayList;
             inflater = LayoutInflater.from(context);
         }
@@ -182,16 +191,16 @@ public class CommitAction extends RepoAction {
         @Override
         public View getView(int position, View convertView, ViewGroup parent) {
 
-            ViewHolder holder = null;
+            CommitPushAction.AuthorsAdapter.ViewHolder holder = null;
 
             if (convertView == null) {
 
-                holder = new ViewHolder();
+                holder = new CommitPushAction.AuthorsAdapter.ViewHolder();
                 convertView = inflater.inflate(android.R.layout.simple_dropdown_item_1line, null);
                 holder.textView = (TextView) convertView;
                 convertView.setTag(holder);
             } else {
-                holder = (ViewHolder) convertView.getTag();
+                holder = (CommitPushAction.AuthorsAdapter.ViewHolder) convertView.getTag();
             }
             holder.textView.setText(arrayList.get(position).displayString());
             return convertView;
@@ -204,17 +213,17 @@ public class CommitAction extends RepoAction {
                 @SuppressWarnings("unchecked")
                 @Override
                 protected void publishResults(CharSequence constraint, FilterResults results) {
-                    arrayList = (List<Author>) results.values; // has the filtered values
+                    arrayList = (List<CommitPushAction.Author>) results.values; // has the filtered values
                     notifyDataSetChanged();  // notifies the data with new filtered values
                 }
 
                 @Override
                 protected FilterResults performFiltering(CharSequence constraint) {
                     FilterResults results = new FilterResults();        // Holds the results of a filtering operation in values
-                    List<Author> FilteredArrList = new ArrayList<Author>();
+                    List<CommitPushAction.Author> FilteredArrList = new ArrayList<CommitPushAction.Author>();
 
                     if (mOriginalValues == null) {
-                        mOriginalValues = new ArrayList<Author>(arrayList); // saves the original data in mOriginalValues
+                        mOriginalValues = new ArrayList<CommitPushAction.Author>(arrayList); // saves the original data in mOriginalValues
                     }
 
                     if (constraint == null || constraint.length() == 0) {
@@ -222,7 +231,7 @@ public class CommitAction extends RepoAction {
                         results.values = mOriginalValues;
                     } else {
                         for (int i = 0; i < mOriginalValues.size(); i++) {
-                            Author data = mOriginalValues.get(i);
+                            CommitPushAction.Author data = mOriginalValues.get(i);
                             if (data.matches(constraint.toString())) {
                                 FilteredArrList.add(data);
                             }
@@ -249,25 +258,25 @@ public class CommitAction extends RepoAction {
         final CheckBox isAmend = layout.findViewById(R.id.isAmend);
         final CheckBox autoStage = layout
             .findViewById(R.id.autoStage);
-        HashSet<Author> authors = new HashSet<Author>();
+        HashSet<CommitPushAction.Author> authors = new HashSet<CommitPushAction.Author>();
         try {
             Iterable<RevCommit> commits = mRepo.getGit().log().setMaxCount(500).call();
             for (RevCommit commit : commits) {
-                authors.add(new Author(commit.getAuthorIdent()));
+                authors.add(new CommitPushAction.Author(commit.getAuthorIdent()));
             }
-        } catch (Exception ignored) {
+        } catch (Exception e) {
         }
         String profileUsername = Profile.getUsername(mActivity.getApplicationContext());
         String profileEmail = Profile.getEmail(mActivity.getApplicationContext());
-        if (profileUsername != null && !profileUsername.isEmpty()
-            && profileEmail != null && !profileEmail.isEmpty()) {
-            authors.add(new Author(profileUsername, profileEmail));
+        if (profileUsername != null && !profileUsername.equals("")
+            && profileEmail != null && !profileEmail.equals("")) {
+            authors.add(new CommitPushAction.Author(profileUsername, profileEmail));
         }
-        ArrayList<Author> authorList = new ArrayList<Author>(authors);
+        ArrayList<CommitPushAction.Author> authorList = new ArrayList<CommitPushAction.Author>(authors);
         Collections.sort(authorList);
-        AuthorsAdapter adapter = new AuthorsAdapter(mActivity, authorList);
+        CommitPushAction.AuthorsAdapter adapter = new CommitPushAction.AuthorsAdapter(mActivity, authorList);
         commitAuthor.setAdapter(adapter);
-        isAmend.setOnCheckedChangeListener(new OnCheckedChangeListener() {
+        isAmend.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
 
             @Override
             public void onCheckedChanged(CompoundButton buttonView,
@@ -315,7 +324,7 @@ public class CommitAction extends RepoAction {
                                                                  boolean amend = isAmend.isChecked();
                                                                  boolean stage = autoStage.isChecked();
 
-                                                                 commit(msg, amend, stage, authorName, authorEmail);
+                                                                 commit_and_push(msg, amend, stage, authorName, authorEmail);
 
                                                                  d.dismiss();
                                                              }
@@ -327,4 +336,9 @@ public class CommitAction extends RepoAction {
         );
         d.show();
     }
+
 }
+
+
+
+

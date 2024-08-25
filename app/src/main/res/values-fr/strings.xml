@@ -130,7 +130,7 @@
     <string name="dialog_open_remote_title">Choisir l\'app pour ouvrir %s</string>
     <string name="dialog_open_remote_no_app_available">Aucune App disponible pour ouvrir l\'URL</string>
     <string name="dialog_permission_not_granted">MGit requires that you grant it write access to be able to write local git repos to your storage, until you do this MGit will NOT work properly.</string>
-
+    <string name="dialog_stage_changes">Stage changes</string>
 
     <!-- Others -->
     <string name="pull_msg_init">Pull en cours ...</string>
@@ -168,8 +168,6 @@
     <string name="preference_use_gravatar_summary">Charger des images d\'avatar de gravatar.com</string>
     <string name="pref_category_title_security">Securité</string>
     <string name="preference_use_theme">Selectionner le thème de couleur</string>
-    <string name="preference_quick_push_commit_msg">Set commit msg for quick push</string>
-    <string name="alert_plese_set_commit_msg_for_quick_push">Before Quick Push, You must set commit msg for it on Settings</string>
     <string name="action_git_profile">Profil Git</string>
     <string name="action_open_in_other_app">Ouvrir dans d\'autres apps</string>
     <string name="action_add_private_key">Ajouter une clé privée</string>

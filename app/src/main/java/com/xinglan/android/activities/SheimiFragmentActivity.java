@@ -1,6 +1,6 @@
 package com.xinglan.android.activities;
 
-import android.app.AlertDialog;
+import android.app.Dialog;
 import android.content.ActivityNotFoundException;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -22,6 +22,7 @@ import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
@@ -181,6 +182,16 @@ public class SheimiFragmentActivity extends AppCompatActivity {
 
     public void showToastMessage(int resId) {
         showToastMessage(getString(resId));
+    }
+
+    public Dialog showProgressDialog() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        AlertDialog dialog = builder.setTitle(R.string.dialog_stage_changes)
+            .setCancelable(false)
+            .setView(R.layout.dialog_stage_and_commit)
+            .create();
+        dialog.show();
+        return dialog;
     }
 
     public void showMessageDialog(int title, int msg) {

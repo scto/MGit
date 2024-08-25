@@ -46,5 +46,5 @@
     <string name="alert_save_failed">保存失败</string>
     <string name="alert_file_creation_failure">无法创建文件</string>
     <string name="error_no_repository">未找到仓库</string>
-
+    <string name="alert_uncommitted_changes">没有更改</string>
 </resources>

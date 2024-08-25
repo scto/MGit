@@ -1,8 +1,5 @@
 package com.xinglan.mgit.dialogs;
 
-import com.xinglan.android.views.SheimiDialogFragment;
-import com.xinglan.mgit.R;
-
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.DialogInterface;
@@ -11,15 +8,17 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 
-import com.xinglan.mgit.database.models.Repo;
+import com.xinglan.android.views.SheimiDialogFragment;
+import com.xinglan.mgit.R;
 import com.xinglan.mgit.activities.RepoDetailActivity;
+import com.xinglan.mgit.database.models.Repo;
 
 /**
  * Created by sheimi on 8/24/13.
  */
 
 public class CheckoutDialog extends SheimiDialogFragment implements
-        View.OnClickListener, DialogInterface.OnClickListener {
+    View.OnClickListener, DialogInterface.OnClickListener {
 
     private String mCommit;
     private EditText mBranchName;
@@ -36,28 +35,28 @@ public class CheckoutDialog extends SheimiDialogFragment implements
         if (args != null && args.containsKey(BASE_COMMIT)) {
             mCommit = args.getString(BASE_COMMIT);
         } else {
-	    mCommit = "";
-	}
+            mCommit = "";
+        }
 
-	mRepo = (Repo) args.getSerializable(Repo.TAG);
+        mRepo = (Repo) args.getSerializable(Repo.TAG);
 
-	String message = getString(R.string.dialog_comfirm_checkout_commit_msg)
-	    + " "
-	    + Repo.getCommitDisplayName(mCommit);
+        String message = getString(R.string.dialog_comfirm_checkout_commit_msg)
+            + " "
+            + Repo.getCommitDisplayName(mCommit);
 
         builder.setTitle(getString(R.string.dialog_comfirm_checkout_commit_title));
         View view = mActivity.getLayoutInflater().inflate(
-                R.layout.dialog_checkout, null);
+            R.layout.dialog_checkout, null);
 
         builder.setView(view);
         mBranchName = (EditText) view.findViewById(R.id.newBranchName);
 
         // set button listener
         builder.setNegativeButton(R.string.label_cancel,
-                new DummyDialogListener());
-	builder.setNeutralButton(R.string.label_anonymous_checkout, this);
+            new DummyDialogListener());
+        builder.setNeutralButton(R.string.label_anonymous_checkout, this);
         builder.setPositiveButton(R.string.label_checkout,
-                new DummyDialogListener());
+            new DummyDialogListener());
 
         return builder.create();
     }
@@ -74,21 +73,21 @@ public class CheckoutDialog extends SheimiDialogFragment implements
         AlertDialog dialog = (AlertDialog) getDialog();
         if (dialog == null)
             return;
-	Button positiveButton = (Button) dialog
-	    .getButton(Dialog.BUTTON_POSITIVE);
+        Button positiveButton = (Button) dialog
+            .getButton(Dialog.BUTTON_POSITIVE);
         positiveButton.setOnClickListener(this);
     }
 
     @Override
     public void onClick(View view) {
-	String newBranch = mBranchName.getText().toString().trim();
-	mActivity.getRepoDelegate().checkoutCommit(mCommit, newBranch);	
+        String newBranch = mBranchName.getText().toString().trim();
+        mActivity.getRepoDelegate().checkoutCommit(mCommit, newBranch);
         dismiss();
     }
 
     @Override
     public void onClick(DialogInterface dialogInterface, int i) {
-	mActivity.getRepoDelegate().checkoutCommit(mCommit);	
+        mActivity.getRepoDelegate().checkoutCommit(mCommit);
         dismiss();
     }
 }

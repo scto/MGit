@@ -3,18 +3,20 @@ package com.xinglan.mgit.dialogs
 import android.app.AlertDialog
 import android.app.Dialog
 import android.os.Bundle
-import androidx.annotation.StringRes
 import android.widget.Button
-import kotlinx.android.synthetic.main.dialog_error.view.*
+import androidx.annotation.StringRes
 import com.xinglan.android.views.SheimiDialogFragment
 import com.xinglan.mgit.BuildConfig
 import com.xinglan.mgit.R
+import kotlinx.android.synthetic.main.dialog_error.view.error_message
 import timber.log.Timber
 
 class ErrorDialog : SheimiDialogFragment() {
     private var mThrowable: Throwable? = null
+
     @StringRes
     private var mErrorRes: Int = 0
+
     @StringRes
     var errorTitleRes: Int = 0
         get() = if (field != 0) field else R.string.dialog_error_title
@@ -29,6 +31,7 @@ class ErrorDialog : SheimiDialogFragment() {
             is Exception -> {
                 (mThrowable as Exception).message
             }
+
             else -> ""
         }
         layout.error_message.setText(getString(mErrorRes) + "\n" + details)

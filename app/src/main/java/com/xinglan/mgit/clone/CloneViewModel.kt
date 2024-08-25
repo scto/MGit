@@ -12,27 +12,27 @@ import timber.log.Timber
 
 class CloneViewModel(application: Application) : AndroidViewModel(application) {
 
-    var remoteUrl : String = ""
+    var remoteUrl: String = ""
         set(value) {
             field = value
             localRepoName.value = stripGitExtension(stripUrlFromRepo(remoteUrl))
         }
 
-    val localRepoName : MutableLiveData<String> = MutableLiveData()
-    var cloneRecursively : Boolean = false
-    val initLocal : MutableLiveData<Boolean> = MutableLiveData()
+    val localRepoName: MutableLiveData<String> = MutableLiveData()
+    var cloneRecursively: Boolean = false
+    val initLocal: MutableLiveData<Boolean> = MutableLiveData()
 
-    var remoteUrlError : MutableLiveData<String?> = MutableLiveData()
-    var localRepoNameError : MutableLiveData<String?> = MutableLiveData()
+    var remoteUrlError: MutableLiveData<String?> = MutableLiveData()
+    var localRepoNameError: MutableLiveData<String?> = MutableLiveData()
 
-    val visible : MutableLiveData<Boolean> = MutableLiveData()
+    val visible: MutableLiveData<Boolean> = MutableLiveData()
 
     init {
         visible.value = false
         initLocal.value = false
     }
 
-    fun show(show : Boolean) {
+    fun show(show: Boolean) {
         visible.value = show
     }
 
@@ -58,7 +58,7 @@ class CloneViewModel(application: Application) : AndroidViewModel(application) {
         }
     }
 
-    fun validate() : Boolean {
+    fun validate(): Boolean {
         return if (initLocal.value as Boolean) {
             validateLocalName(localRepoName.value as String)
         } else validateRemoteUrl(remoteUrl) && validateLocalName(localRepoName.value as String)
@@ -90,7 +90,8 @@ class CloneViewModel(application: Application) : AndroidViewModel(application) {
     private fun validateRemoteUrl(remoteUrl: String): Boolean {
         remoteUrlError.value = null
         if (remoteUrl.isBlank()) {
-            remoteUrlError.value = getApplication<MGitApplication>().getString(R.string.alert_remoteurl_required)
+            remoteUrlError.value =
+                getApplication<MGitApplication>().getString(R.string.alert_remoteurl_required)
             return false
         }
         return true
@@ -99,18 +100,21 @@ class CloneViewModel(application: Application) : AndroidViewModel(application) {
     private fun validateLocalName(localName: String): Boolean {
         localRepoNameError.value = null
         if (localName.isBlank()) {
-           localRepoNameError.value = getApplication<MGitApplication>().getString((R.string.alert_localpath_required))
-           return false
+            localRepoNameError.value =
+                getApplication<MGitApplication>().getString((R.string.alert_localpath_required))
+            return false
         }
         if (localName.contains("/")) {
-            localRepoNameError.value = getApplication<MGitApplication>().getString((R.string.alert_localpath_format))
+            localRepoNameError.value =
+                getApplication<MGitApplication>().getString((R.string.alert_localpath_format))
             return false
         }
 
         val prefsHelper = (getApplication<MGitApplication>()).prefenceHelper
         val file = Repo.getDir(prefsHelper, localName)
         if (file.exists()) {
-            localRepoNameError.value = getApplication<MGitApplication>().getString((R.string.alert_localpath_repo_exists))
+            localRepoNameError.value =
+                getApplication<MGitApplication>().getString((R.string.alert_localpath_repo_exists))
             return false
         }
         return true

@@ -1,13 +1,13 @@
 package com.xinglan.mgit.activities.explorer;
 
-import java.io.File;
-import java.io.FileFilter;
-
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Environment;
 import android.view.View;
 import android.widget.AdapterView;
+
+import java.io.File;
+import java.io.FileFilter;
 
 public class ExploreFileActivity extends FileExplorerActivity {
 
@@ -32,7 +32,7 @@ public class ExploreFileActivity extends FileExplorerActivity {
         return new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view,
-                    int position, long id) {
+                                    int position, long id) {
                 File file = mFilesListAdapter.getItem(position);
                 if (file.isDirectory()) {
                     setCurrentDir(file);

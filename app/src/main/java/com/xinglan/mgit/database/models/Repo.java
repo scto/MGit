@@ -6,6 +6,14 @@ import android.database.Cursor;
 import android.os.Bundle;
 import android.util.SparseArray;
 
+import com.xinglan.android.utils.FsUtils;
+import com.xinglan.mgit.MGitApplication;
+import com.xinglan.mgit.database.RepoContract;
+import com.xinglan.mgit.database.RepoDbManager;
+import com.xinglan.mgit.exceptions.StopTaskException;
+import com.xinglan.mgit.preference.PreferenceHelper;
+import com.xinglan.mgit.tasks.repo.RepoOpTask;
+
 import org.eclipse.jgit.api.Git;
 import org.eclipse.jgit.api.ListBranchCommand;
 import org.eclipse.jgit.api.errors.GitAPIException;
@@ -27,14 +35,6 @@ import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
-
-import com.xinglan.android.utils.FsUtils;
-import com.xinglan.mgit.database.RepoDbManager;
-import com.xinglan.mgit.MGitApplication;
-import com.xinglan.mgit.database.RepoContract;
-import com.xinglan.mgit.exceptions.StopTaskException;
-import com.xinglan.mgit.tasks.repo.RepoOpTask;
-import com.xinglan.mgit.preference.PreferenceHelper;
 
 import timber.log.Timber;
 
@@ -168,11 +168,11 @@ public class Repo implements Comparable<Repo>, Serializable {
     }
 
     public String getLastCommitFullMsg() {
-	RevCommit commit = getLatestCommit();
-	if (commit == null) {
-	    return getLastCommitMsg();
-	}
-	return commit.getFullMessage();
+        RevCommit commit = getLatestCommit();
+        if (commit == null) {
+            return getLastCommitMsg();
+        }
+        return commit.getFullMessage();
     }
 
     public Date getLastCommitDate() {
@@ -227,7 +227,7 @@ public class Repo implements Comparable<Repo>, Serializable {
     public void updateRemote() {
         ContentValues values = new ContentValues();
         values.put(RepoContract.RepoEntry.COLUMN_NAME_REMOTE_URL,
-                getRemoteOriginURL());
+            getRemoteOriginURL());
         RepoDbManager.updateRepo(mID, values);
     }
 
@@ -245,7 +245,7 @@ public class Repo implements Comparable<Repo>, Serializable {
     }
 
     private void readObject(java.io.ObjectInputStream in) throws IOException,
-            ClassNotFoundException {
+        ClassNotFoundException {
         mID = in.readInt();
         mRemoteURL = (String) in.readObject();
         mLocalPath = (String) in.readObject();
@@ -311,23 +311,23 @@ public class Repo implements Comparable<Repo>, Serializable {
             PersonIdent committer = commit.getCommitterIdent();
             if (committer != null) {
                 email = committer.getEmailAddress() != null ? committer
-                        .getEmailAddress() : email;
+                    .getEmailAddress() : email;
                 uname = committer.getName() != null ? committer.getName()
-                        : uname;
+                    : uname;
             }
             msg = commit.getShortMessage() != null ? commit.getShortMessage()
-                    : msg;
+                : msg;
             long date = committer.getWhen().getTime();
             commitDateStr = Long.toString(date);
 
         }
         values.put(RepoContract.RepoEntry.COLUMN_NAME_LATEST_COMMIT_DATE,
-                commitDateStr);
+            commitDateStr);
         values.put(RepoContract.RepoEntry.COLUMN_NAME_LATEST_COMMIT_MSG, msg);
         values.put(RepoContract.RepoEntry.COLUMN_NAME_LATEST_COMMITTER_EMAIL,
-                email);
+            email);
         values.put(RepoContract.RepoEntry.COLUMN_NAME_LATEST_COMMITTER_UNAME,
-                uname);
+            uname);
         RepoDbManager.updateRepo(getID(), values);
     }
 
@@ -350,7 +350,7 @@ public class Repo implements Comparable<Repo>, Serializable {
                 branchList.add(ref.getName());
             }
             List<Ref> remoteRefs = getGit().branchList()
-                    .setListMode(ListBranchCommand.ListMode.REMOTE).call();
+                .setListMode(ListBranchCommand.ListMode.REMOTE).call();
             for (Ref ref : remoteRefs) {
                 String name = ref.getName();
                 String localName = convertRemoteName(name);
@@ -359,7 +359,7 @@ public class Repo implements Comparable<Repo>, Serializable {
                 branchList.add(name);
             }
             return branchList.toArray(new String[0]);
-        } catch (GitAPIException|StopTaskException e) {
+        } catch (GitAPIException | StopTaskException e) {
             Timber.e(e);
         }
         return new String[0];
@@ -372,7 +372,7 @@ public class Repo implements Comparable<Repo>, Serializable {
             if (!it.hasNext())
                 return null;
             return it.next();
-        } catch (GitAPIException|StopTaskException e) {
+        } catch (GitAPIException | StopTaskException e) {
             Timber.e(e);
         }
         return null;
@@ -399,7 +399,7 @@ public class Repo implements Comparable<Repo>, Serializable {
         try {
             List<Ref> localRefs = getGit().branchList().call();
             return localRefs;
-        } catch (GitAPIException|StopTaskException e) {
+        } catch (GitAPIException | StopTaskException e) {
             Timber.e(e);
         }
         return new ArrayList<Ref>();
@@ -414,7 +414,7 @@ public class Repo implements Comparable<Repo>, Serializable {
                 tags[i] = refs.get(i).getName();
             }
             return tags;
-        } catch (GitAPIException|StopTaskException e) {
+        } catch (GitAPIException | StopTaskException e) {
             Timber.e(e);
         }
         return new String[0];
@@ -437,6 +437,7 @@ public class Repo implements Comparable<Repo>, Serializable {
 
     /**
      * Returns the type of ref based on the refs full path within .git/
+     *
      * @param fullRefName
      * @return
      */
@@ -447,7 +448,7 @@ public class Repo implements Comparable<Repo>, Serializable {
             } else if (fullRefName.startsWith(Constants.R_TAGS)) {
                 return COMMIT_TYPE_TAG;
             } else if (fullRefName.startsWith(Constants.R_REMOTES)) {
-                return  COMMIT_TYPE_REMOTE;
+                return COMMIT_TYPE_REMOTE;
             }
         }
         return COMMIT_TYPE_UNKNOWN;
@@ -455,6 +456,7 @@ public class Repo implements Comparable<Repo>, Serializable {
 
     /**
      * Return just the name of the ref, with any prefixes like "heads", "remotes", "tags" etc.
+     *
      * @param name
      * @return
      */
@@ -473,9 +475,8 @@ public class Repo implements Comparable<Repo>, Serializable {
     }
 
     /**
-     *
      * @param ref
-     * @return  Shortened version of full ref path, suitable for display in UI
+     * @return Shortened version of full ref path, suitable for display in UI
      */
     public static String getCommitDisplayName(String ref) {
         if (getCommitType(ref) == COMMIT_TYPE_REMOTE) {
@@ -485,7 +486,6 @@ public class Repo implements Comparable<Repo>, Serializable {
     }
 
     /**
-     *
      * @param remote
      * @return null if remote is not found to be a remote ref in this repo
      */
@@ -505,11 +505,11 @@ public class Repo implements Comparable<Repo>, Serializable {
         File repoDir = preferenceHelper.getRepoRoot();
         if (repoDir == null) {
             repoDir = FsUtils.getExternalDir(REPO_DIR, true);
-            Timber.d("PRESET repo path:"+new File(repoDir, localpath).getAbsolutePath());
+            Timber.d("PRESET repo path:" + new File(repoDir, localpath).getAbsolutePath());
             return new File(repoDir, localpath);
         } else {
             repoDir = new File(preferenceHelper.getRepoRoot(), localpath);
-            Timber.d("CUSTOM repo path:"+repoDir);
+            Timber.d("CUSTOM repo path:" + repoDir);
             return repoDir;
         }
     }
@@ -520,8 +520,8 @@ public class Repo implements Comparable<Repo>, Serializable {
         prefs.setRepoRoot(repoRoot.getAbsolutePath());
 
         // need to make any existing "internal" repos "external" so that their paths are still correct
-        List<Repo> allRepos = Repo.getRepoList(context,  RepoDbManager.queryAllRepo());
-        for (Repo repo:allRepos) {
+        List<Repo> allRepos = Repo.getRepoList(context, RepoDbManager.queryAllRepo());
+        for (Repo repo : allRepos) {
             if (!repo.isExternal()) {
                 repo.mLocalPath = EXTERNAL_PREFIX + oldRoot.getAbsolutePath() + "/" + repo.mLocalPath;
                 RepoDbManager.setLocalPath(repo.getID(), repo.mLocalPath);
@@ -564,7 +564,7 @@ public class Repo implements Comparable<Repo>, Serializable {
             if (remoteNames.size() == 0)
                 return "";
             String url = config.getString("remote", remoteNames.iterator()
-                    .next(), "url");
+                .next(), "url");
             return url;
         } catch (StopTaskException e) {
         }
@@ -590,11 +590,11 @@ public class Repo implements Comparable<Repo>, Serializable {
             Set<String> remoteNames = config.getSubsections("remote");
             if (remoteNames.contains(remote)) {
                 throw new IOException(String.format(
-                        "Remote %s already exists.", remote));
+                    "Remote %s already exists.", remote));
             }
             config.setString("remote", remote, "url", url);
             String fetch = String.format("+refs/heads/*:refs/remotes/%s/*",
-                    remote);
+                remote);
             config.setString("remote", remote, "fetch", fetch);
             config.save();
             mRemotes.add(remote);

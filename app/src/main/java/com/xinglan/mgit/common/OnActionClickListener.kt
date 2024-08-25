@@ -5,5 +5,5 @@ package com.xinglan.mgit.common;
  *
  */
 interface OnActionClickListener {
-    fun onActionClick(action : String)
+    fun onActionClick(action: String)
 }

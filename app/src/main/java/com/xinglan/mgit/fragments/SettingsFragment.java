@@ -6,6 +6,7 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceFragment;
 import android.preference.PreferenceManager;
+
 import androidx.core.app.TaskStackBuilder;
 
 import com.xinglan.android.utils.BasicFunctions;
@@ -38,11 +39,10 @@ public class SettingsFragment extends PreferenceFragment {
                     // nice trick to recreate the back stack, to ensure existing activities onCreate() are
                     // called to set new theme, courtesy of: http://stackoverflow.com/a/28799124/85472
                     TaskStackBuilder.create(getActivity())
-                            .addNextIntent(new Intent(getActivity(), RepoListActivity.class))
-                            .addNextIntent(getActivity().getIntent())
-                            .startActivities();
-                }
-                else if (gravatarPrefKey.equals(key)) {
+                        .addNextIntent(new Intent(getActivity(), RepoListActivity.class))
+                        .addNextIntent(getActivity().getIntent())
+                        .startActivities();
+                } else if (gravatarPrefKey.equals(key)) {
                     BasicFunctions.getImageLoader().clearMemoryCache();
                     BasicFunctions.getImageLoader().clearDiskCache();
                 }

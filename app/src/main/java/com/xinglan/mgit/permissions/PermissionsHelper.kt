@@ -20,7 +20,10 @@ class PermissionsHelper {
 
         fun canReadStorage(context: Context): Boolean {
             return Build.VERSION.SDK_INT <= Build.VERSION_CODES.M ||
-                    ContextCompat.checkSelfPermission(context, Manifest.permission.READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED || isExternalStorageManager()
+                    ContextCompat.checkSelfPermission(
+                        context,
+                        Manifest.permission.READ_EXTERNAL_STORAGE
+                    ) == PackageManager.PERMISSION_GRANTED || isExternalStorageManager()
         }
     }
 }

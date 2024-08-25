@@ -15,17 +15,17 @@ import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.widget.ProgressBar;
 
+import com.xinglan.android.activities.SheimiFragmentActivity;
+import com.xinglan.android.utils.CodeGuesser;
+import com.xinglan.android.utils.Profile;
+import com.xinglan.mgit.R;
+import com.xinglan.mgit.activities.ViewFileActivity;
+
 import org.apache.commons.io.FileUtils;
 
 import java.io.File;
 import java.io.IOException;
 
-import com.xinglan.android.activities.SheimiFragmentActivity;
-import com.xinglan.android.utils.CodeGuesser;
-import com.xinglan.android.utils.Profile;
-import com.xinglan.mgit.activities.ViewFileActivity;
-
-import com.xinglan.mgit.R;
 import timber.log.Timber;
 
 /**
@@ -65,7 +65,7 @@ public class ViewFileFragment extends BaseFragment {
             public void onConsoleMessage(String message, int lineNumber,
                                          String sourceID) {
                 Log.d("MyApplication", message + " -- From line " + lineNumber
-                        + " of " + sourceID);
+                    + " of " + sourceID);
             }
 
             public boolean shouldOverrideUrlLoading(WebView view, String url) {
@@ -151,7 +151,7 @@ public class ViewFileFragment extends BaseFragment {
                     mFileContent.loadUrl(CodeGuesser.wrapUrlScript(js));
                     mLoading.setVisibility(View.INVISIBLE);
                     mFileContent.loadUrl(CodeGuesser
-                            .wrapUrlScript("display();"));
+                        .wrapUrlScript("display();"));
                 }
             });
         }
@@ -177,7 +177,7 @@ public class ViewFileFragment extends BaseFragment {
         getActivity().runOnUiThread(new Runnable() {
             @Override
             public void run() {
-                ((SheimiFragmentActivity)getActivity()).
+                ((SheimiFragmentActivity) getActivity()).
                     showMessageDialog(R.string.dialog_error_title, getString(errorMessageId));
             }
         });

@@ -1,28 +1,27 @@
 package com.xinglan.mgit.activities;
 
 import android.os.Bundle;
-import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentPagerAdapter;
-import androidx.core.view.MenuItemCompat;
-import androidx.viewpager.widget.PagerTitleStrip;
-import androidx.viewpager.widget.ViewPager;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.SearchView;
 
-import java.io.File;
+import androidx.core.view.MenuItemCompat;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentPagerAdapter;
+import androidx.viewpager.widget.PagerTitleStrip;
+import androidx.viewpager.widget.ViewPager;
 
 import com.xinglan.android.activities.SheimiFragmentActivity;
 import com.xinglan.android.utils.FsUtils;
+import com.xinglan.mgit.R;
 import com.xinglan.mgit.database.models.Repo;
 import com.xinglan.mgit.dialogs.ChooseLanguageDialog;
 import com.xinglan.mgit.fragments.BaseFragment;
 import com.xinglan.mgit.fragments.CommitsFragment;
-
-import com.xinglan.mgit.R;
-
 import com.xinglan.mgit.fragments.ViewFileFragment;
+
+import java.io.File;
 
 public class ViewFileActivity extends SheimiFragmentActivity {
 
@@ -52,7 +51,7 @@ public class ViewFileActivity extends SheimiFragmentActivity {
         Bundle b = new Bundle();
         Bundle extras = getIntent().getExtras();
         String fileName = extras.getString(TAG_FILE_NAME);
-	    mActivityMode = extras.getShort(TAG_MODE, TAG_MODE_NORMAL);
+        mActivityMode = extras.getShort(TAG_MODE, TAG_MODE_NORMAL);
         b.putString(TAG_FILE_NAME, fileName);
         if (mRepo != null) {
             b.putSerializable(Repo.TAG, mRepo);
@@ -73,7 +72,7 @@ public class ViewFileActivity extends SheimiFragmentActivity {
 
     class TabItemPagerAdapter extends FragmentPagerAdapter implements ViewPager.OnPageChangeListener, SearchView.OnQueryTextListener, MenuItemCompat.OnActionExpandListener {
 
-        private final int[] PAGE_TITLE = { R.string.tab_file_label, R.string.tab_commits_label };
+        private final int[] PAGE_TITLE = {R.string.tab_file_label, R.string.tab_commits_label};
 
         public TabItemPagerAdapter(FragmentManager fm) {
             super(fm);

@@ -1,18 +1,18 @@
 package com.xinglan.mgit.dialogs;
 
+import static com.xinglan.mgit.tasks.repo.DeleteFileFromRepoTask.DeleteOperationType;
+
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.DialogInterface;
 import android.os.Bundle;
-import androidx.annotation.NonNull;
 
-import com.xinglan.mgit.tasks.repo.UpdateIndexTask;
+import androidx.annotation.NonNull;
 
 import com.xinglan.android.views.SheimiDialogFragment;
 import com.xinglan.mgit.R;
 import com.xinglan.mgit.activities.RepoDetailActivity;
-
-import static com.xinglan.mgit.tasks.repo.DeleteFileFromRepoTask.DeleteOperationType;
+import com.xinglan.mgit.tasks.repo.UpdateIndexTask;
 
 /**
  * Created by sheimi on 8/16/13.
@@ -86,18 +86,18 @@ public class RepoFileOperationDialog extends SheimiDialogFragment {
 
     private void showRemoveFileMessageDialog(int dialog_title, int dialog_msg, int dialog_positive_button, final DeleteOperationType deleteOperationType) {
         showMessageDialog(dialog_title,
-                dialog_msg,
-                dialog_positive_button,
-                new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(
-                            DialogInterface dialogInterface,
-                            int i) {
+            dialog_msg,
+            dialog_positive_button,
+            new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(
+                    DialogInterface dialogInterface,
+                    int i) {
 
-                        mActivity.getRepoDelegate()
-                                .deleteFileFromRepo(
-                                        mFilePath, deleteOperationType);
-                    }
-                });
+                    mActivity.getRepoDelegate()
+                        .deleteFileFromRepo(
+                            mFilePath, deleteOperationType);
+                }
+            });
     }
 }

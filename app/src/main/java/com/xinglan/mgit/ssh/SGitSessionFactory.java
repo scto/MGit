@@ -5,6 +5,7 @@ import com.jcraft.jsch.JSchException;
 import com.jcraft.jsch.KeyPair;
 import com.jcraft.jsch.Session;
 import com.jcraft.jsch.UserInfo;
+import com.xinglan.mgit.MGitApplication;
 
 import org.eclipse.jgit.transport.CredentialsProviderUserInfo;
 import org.eclipse.jgit.transport.JschConfigSessionFactory;
@@ -12,8 +13,6 @@ import org.eclipse.jgit.transport.OpenSshConfig.Host;
 import org.eclipse.jgit.util.FS;
 
 import java.io.File;
-
-import com.xinglan.mgit.MGitApplication;
 
 /**
  * Custom config for Jsch, including using user-provided private keys

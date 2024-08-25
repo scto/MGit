@@ -10,13 +10,12 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 
+import com.xinglan.mgit.R;
+import com.xinglan.mgit.database.models.Repo;
 import com.xinglan.mgit.tasks.repo.InitLocalTask;
 
 import java.io.File;
 import java.io.FileFilter;
-
-import com.xinglan.mgit.R;
-import com.xinglan.mgit.database.models.Repo;
 
 public class ImportRepositoryActivity extends FileExplorerActivity {
 
@@ -52,16 +51,16 @@ public class ImportRepositoryActivity extends FileExplorerActivity {
                     return true;
                 }
                 showMessageDialog(R.string.dialog_create_external_title,
-                        R.string.dialog_create_external_msg,
-                        R.string.dialog_create_external_positive_label,
-                        new OnClickListener() {
+                    R.string.dialog_create_external_msg,
+                    R.string.dialog_create_external_positive_label,
+                    new OnClickListener() {
 
-                            @Override
-                            public void onClick(DialogInterface dialog,
-                                    int which) {
-                                createExternalGitRepo();
-                            }
-                        });
+                        @Override
+                        public void onClick(DialogInterface dialog,
+                                            int which) {
+                            createExternalGitRepo();
+                        }
+                    });
                 return true;
             case R.id.action_import_external:
                 Intent intent = new Intent();
@@ -78,7 +77,7 @@ public class ImportRepositoryActivity extends FileExplorerActivity {
         return new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view,
-                    int position, long id) {
+                                    int position, long id) {
                 File file = mFilesListAdapter.getItem(position);
                 if (file.isDirectory()) {
                     setCurrentDir(file);

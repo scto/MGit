@@ -9,16 +9,14 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
-import java.io.IOException;
-import java.util.Set;
-
 import com.xinglan.android.views.SheimiDialogFragment;
+import com.xinglan.mgit.R;
 import com.xinglan.mgit.activities.RepoDetailActivity;
+import com.xinglan.mgit.database.models.Repo;
 import com.xinglan.mgit.dialogs.DummyDialogListener;
 
-import com.xinglan.mgit.R;
-
-import com.xinglan.mgit.database.models.Repo;
+import java.io.IOException;
+import java.util.Set;
 
 import timber.log.Timber;
 
@@ -69,7 +67,7 @@ public class RemoveRemoteAction extends RepoAction {
             mRemoteList = (ListView) layout.findViewById(R.id.remoteList);
 
             mAdapter = new ArrayAdapter<String>(mActivity,
-                    android.R.layout.simple_list_item_1);
+                android.R.layout.simple_list_item_1);
             Set<String> remotes = mRepo.getRemotes();
             mAdapter.addAll(remotes);
             mRemoteList.setAdapter(mAdapter);
@@ -90,8 +88,8 @@ public class RemoveRemoteAction extends RepoAction {
             });
 
             builder.setTitle(R.string.dialog_remove_remote_title)
-                    .setView(layout)
-                    .setNegativeButton(R.string.label_cancel, new DummyDialogListener());
+                .setView(layout)
+                .setNegativeButton(R.string.label_cancel, new DummyDialogListener());
             return builder.create();
         }
     }

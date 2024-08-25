@@ -1,9 +1,8 @@
 package com.xinglan.mgit.tasks.repo;
 
-import com.xinglan.mgit.exceptions.StopTaskException;
-
 import com.xinglan.mgit.R;
 import com.xinglan.mgit.database.models.Repo;
+import com.xinglan.mgit.exceptions.StopTaskException;
 
 public class CheckoutFileTask extends RepoOpTask {
 
@@ -11,7 +10,7 @@ public class CheckoutFileTask extends RepoOpTask {
     private String mPath;
 
     public CheckoutFileTask(Repo repo, String path,
-            AsyncTaskPostCallback callback) {
+                            AsyncTaskPostCallback callback) {
         super(repo);
         mCallback = callback;
         mPath = path;

@@ -1,18 +1,19 @@
 package com.xinglan.mgit.tasks.repo
 
-import com.xinglan.mgit.common.get
-import com.xinglan.mgit.exceptions.NoSuchIndexPathException
 import com.xinglan.mgit.R
+import com.xinglan.mgit.common.get
 import com.xinglan.mgit.database.models.Repo
+import com.xinglan.mgit.exceptions.NoSuchIndexPathException
 import org.eclipse.jgit.dircache.DirCache
 import org.eclipse.jgit.errors.CorruptObjectException
 import org.eclipse.jgit.errors.NoWorkTreeException
 import org.eclipse.jgit.lib.FileMode
 
-class UpdateIndexTask(repo: Repo, private val path: String, private val newMode: Int) : RepoOpTask(repo) {
+class UpdateIndexTask(repo: Repo, private val path: String, private val newMode: Int) :
+    RepoOpTask(repo) {
     companion object {
         fun calculateNewMode(executable: Boolean): Int =
-                if (executable) 0b111101101 else 0b110100100 // no octal literals in Kotlin, 0o755 and 0o644
+            if (executable) 0b111101101 else 0b110100100 // no octal literals in Kotlin, 0o755 and 0o644
     }
 
 
@@ -37,7 +38,8 @@ class UpdateIndexTask(repo: Repo, private val path: String, private val newMode:
                 return false
             }
             val oldMode = entry.fileMode
-            entry.fileMode = FileMode.fromBits(newMode or (oldMode.bits or 0b111111111 xor 0b111111111))
+            entry.fileMode =
+                FileMode.fromBits(newMode or (oldMode.bits or 0b111111111 xor 0b111111111))
 
         } finally {
             dircache.unlock()

@@ -45,6 +45,8 @@
 
 package com.xinglan.mgit.transport;
 
+import org.eclipse.jgit.transport.http.HttpConnection;
+
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
@@ -67,8 +69,6 @@ import javax.net.ssl.SSLContext;
 import javax.net.ssl.SSLSocketFactory;
 import javax.net.ssl.TrustManager;
 
-import org.eclipse.jgit.transport.http.HttpConnection;
-
 /**
  * A {@link HttpConnection} which simply delegates every call to a
  * {@link HttpURLConnection}. This is the default implementation used by MGit
@@ -84,8 +84,8 @@ public class MGitHttpConnection implements HttpConnection {
      * @throws IOException
      */
     protected MGitHttpConnection(URL url)
-            throws MalformedURLException,
-            IOException {
+        throws MalformedURLException,
+        IOException {
         this.wrappedUrlConnection = (HttpURLConnection) url.openConnection();
     }
 
@@ -96,9 +96,9 @@ public class MGitHttpConnection implements HttpConnection {
      * @throws IOException
      */
     protected MGitHttpConnection(URL url, Proxy proxy)
-            throws MalformedURLException, IOException {
+        throws MalformedURLException, IOException {
         this.wrappedUrlConnection = (HttpURLConnection) url
-                .openConnection(proxy);
+            .openConnection(proxy);
     }
 
     public int getResponseCode() throws IOException {
@@ -191,17 +191,16 @@ public class MGitHttpConnection implements HttpConnection {
 
     public void setHostnameVerifier(HostnameVerifier hostnameverifier) {
         ((HttpsURLConnection) wrappedUrlConnection)
-                .setHostnameVerifier(hostnameverifier);
+            .setHostnameVerifier(hostnameverifier);
     }
 
     public void configure(KeyManager[] km, TrustManager[] tm,
-            SecureRandom random) throws NoSuchAlgorithmException,
-            KeyManagementException {
+                          SecureRandom random) throws NoSuchAlgorithmException,
+        KeyManagementException {
         SSLContext ctx = SSLContext.getInstance("TLS"); //$NON-NLS-1$
         ctx.init(km, tm, random);
         SSLSocketFactory factory = ctx.getSocketFactory();
-        if(! (factory instanceof MGitSSLSocketFactory))
-        {
+        if (!(factory instanceof MGitSSLSocketFactory)) {
             factory = new MGitSSLSocketFactory(factory);
         }
         ((HttpsURLConnection) wrappedUrlConnection).setSSLSocketFactory(factory);

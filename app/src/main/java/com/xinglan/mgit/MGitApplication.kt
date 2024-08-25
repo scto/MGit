@@ -2,12 +2,10 @@ package com.xinglan.mgit
 
 import android.app.Application
 import android.content.Context
-import com.xinglan.mgit.transport.MGitHttpConnectionFactory
 import com.xinglan.android.utils.SecurePrefsException
 import com.xinglan.android.utils.SecurePrefsHelper
 import com.xinglan.mgit.preference.PreferenceHelper
-import com.xinglan.mgit.BuildConfig
-import com.xinglan.mgit.R
+import com.xinglan.mgit.transport.MGitHttpConnectionFactory
 import org.acra.config.dialog
 import org.acra.config.mailSender
 import org.acra.data.StringFormat
@@ -32,11 +30,13 @@ open class MGitApplication : Application() {
         val context: Context
             get() = mContext
 
-        @JvmStatic fun getContext(): MGitApplication {
+        @JvmStatic
+        fun getContext(): MGitApplication {
             return mContext as MGitApplication
         }
 
-        @JvmStatic fun getJschCredentialsProvider(): CredentialsProvider {
+        @JvmStatic
+        fun getJschCredentialsProvider(): CredentialsProvider {
             return mCredentialsProvider
         }
 
@@ -62,7 +62,7 @@ open class MGitApplication : Application() {
         }
     }
 
-    override fun attachBaseContext(base:Context) {
+    override fun attachBaseContext(base: Context) {
         super.attachBaseContext(base)
 
         initAcra {
@@ -83,7 +83,8 @@ open class MGitApplication : Application() {
     private fun setAppVersionPref() {
         val sharedPreference = getSharedPreferences(
             getString(R.string.preference_file_key),
-            Context.MODE_PRIVATE)
+            Context.MODE_PRIVATE
+        )
         val version = BuildConfig.VERSION_NAME
         sharedPreference
             .edit()

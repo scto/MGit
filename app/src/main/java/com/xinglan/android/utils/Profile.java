@@ -21,8 +21,8 @@ public class Profile {
     private static SharedPreferences getProfileSharedPreference(Context context) {
         if (sSharedPreference == null) {
             sSharedPreference = context.getSharedPreferences(
-                                    context.getString(R.string.preference_file_key),
-                                    Context.MODE_PRIVATE);
+                context.getString(R.string.preference_file_key),
+                Context.MODE_PRIVATE);
         }
         return sSharedPreference;
     }
@@ -65,7 +65,7 @@ public class Profile {
     }
 
     public static int getThemeResource(Context context) {
-        final int[] themes = { R.style.AppTheme, R.style.DarkAppTheme };
+        final int[] themes = {R.style.AppTheme, R.style.DarkAppTheme};
         return themes[getTheme(context)];
     }
 
@@ -75,7 +75,7 @@ public class Profile {
     }
 
     public static int getStyledResource(Context context, int unstyled) {
-        TypedArray a = context.getTheme().obtainStyledAttributes(getThemeResource(context), new int[] {unstyled});
+        TypedArray a = context.getTheme().obtainStyledAttributes(getThemeResource(context), new int[]{unstyled});
         int styled = a.getResourceId(0, 0);
         a.recycle();
         return styled;

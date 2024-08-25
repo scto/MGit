@@ -1,9 +1,8 @@
 package com.xinglan.mgit.tasks.repo;
 
-import com.xinglan.mgit.exceptions.StopTaskException;
-
 import com.xinglan.mgit.R;
 import com.xinglan.mgit.database.models.Repo;
+import com.xinglan.mgit.exceptions.StopTaskException;
 
 import org.eclipse.jgit.lib.ObjectId;
 
@@ -13,7 +12,7 @@ public class CherryPickTask extends RepoOpTask {
     private AsyncTaskPostCallback mCallback;
 
     public CherryPickTask(Repo repo, String commit,
-            AsyncTaskPostCallback callback) {
+                          AsyncTaskPostCallback callback) {
         super(repo);
         mCommitStr = commit;
         mCallback = callback;
@@ -35,7 +34,7 @@ public class CherryPickTask extends RepoOpTask {
     public boolean cherrypick() {
         try {
             ObjectId commit = mRepo.getGit().getRepository()
-                    .resolve(mCommitStr);
+                .resolve(mCommitStr);
             mRepo.getGit().cherryPick().include(commit).call();
         } catch (StopTaskException e) {
             return false;

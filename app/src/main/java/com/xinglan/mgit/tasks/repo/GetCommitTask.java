@@ -1,15 +1,14 @@
 package com.xinglan.mgit.tasks.repo;
 
-import com.xinglan.mgit.exceptions.StopTaskException;
-
-import java.util.ArrayList;
-import java.util.List;
-
 import com.xinglan.mgit.database.models.Repo;
+import com.xinglan.mgit.exceptions.StopTaskException;
 
 import org.eclipse.jgit.api.LogCommand;
 import org.eclipse.jgit.api.errors.GitAPIException;
 import org.eclipse.jgit.revwalk.RevCommit;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class GetCommitTask extends RepoOpTask {
 

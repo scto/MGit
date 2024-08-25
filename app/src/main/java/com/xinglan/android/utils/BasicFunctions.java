@@ -1,18 +1,19 @@
 package com.xinglan.android.utils;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.StringRes;
 import android.widget.ImageView;
 
-import com.xinglan.mgit.dialogs.ErrorDialog;
+import androidx.annotation.NonNull;
+import androidx.annotation.StringRes;
+
 import com.nostra13.universalimageloader.core.ImageLoader;
+import com.xinglan.android.activities.SheimiFragmentActivity;
+import com.xinglan.mgit.dialogs.ErrorDialog;
 
 import org.jetbrains.annotations.NotNull;
 
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
-import com.xinglan.android.activities.SheimiFragmentActivity;
 import timber.log.Timber;
 
 /**
@@ -24,7 +25,7 @@ public class BasicFunctions {
         try {
             // Create MD5 Hash
             MessageDigest digest = java.security.MessageDigest
-                    .getInstance("MD5");
+                .getInstance("MD5");
             digest.update(s.getBytes());
             byte messageDigest[] = digest.digest();
 

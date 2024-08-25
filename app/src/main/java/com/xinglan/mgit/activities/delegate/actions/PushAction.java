@@ -11,16 +11,14 @@ import android.widget.ArrayAdapter;
 import android.widget.CheckBox;
 import android.widget.ListView;
 
-import java.util.Set;
-
 import com.xinglan.android.views.SheimiDialogFragment;
-import com.xinglan.mgit.activities.RepoDetailActivity;
-import com.xinglan.mgit.dialogs.DummyDialogListener;
-
 import com.xinglan.mgit.R;
-
+import com.xinglan.mgit.activities.RepoDetailActivity;
 import com.xinglan.mgit.database.models.Repo;
+import com.xinglan.mgit.dialogs.DummyDialogListener;
 import com.xinglan.mgit.tasks.repo.PushTask;
+
+import java.util.Set;
 
 public class PushAction extends RepoAction {
 
@@ -42,9 +40,9 @@ public class PushAction extends RepoAction {
     }
 
     public static void push(Repo repo, RepoDetailActivity activity,
-            String remote, boolean pushAll, boolean forcePush) {
+                            String remote, boolean pushAll, boolean forcePush) {
         PushTask pushTask = new PushTask(repo, remote, pushAll, forcePush,
-                activity.new ProgressCallback(R.string.push_msg_init));
+            activity.new ProgressCallback(R.string.push_msg_init));
         pushTask.executeTask();
     }
 
@@ -75,7 +73,7 @@ public class PushAction extends RepoAction {
             mRemoteList = (ListView) layout.findViewById(R.id.remoteList);
 
             mAdapter = new ArrayAdapter<String>(mActivity,
-                    android.R.layout.simple_list_item_1);
+                android.R.layout.simple_list_item_1);
             Set<String> remotes = mRepo.getRemotes();
             mAdapter.addAll(remotes);
             mRemoteList.setAdapter(mAdapter);
@@ -84,7 +82,7 @@ public class PushAction extends RepoAction {
 
                 @Override
                 public void onItemClick(AdapterView<?> parent, View view,
-                        int position, long id) {
+                                        int position, long id) {
                     String remote = mAdapter.getItem(position);
                     boolean isPushAll = mPushAll.isChecked();
                     boolean isForcePush = mForcePush.isChecked();
@@ -94,9 +92,9 @@ public class PushAction extends RepoAction {
             });
 
             builder.setTitle(R.string.dialog_push_repo_title)
-                    .setView(layout)
-                    .setNegativeButton(R.string.label_cancel,
-                            new DummyDialogListener());
+                .setView(layout)
+                .setNegativeButton(R.string.label_cancel,
+                    new DummyDialogListener());
             return builder.create();
         }
     }

@@ -4,8 +4,6 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
-import androidx.core.view.MenuItemCompat;
-import androidx.appcompat.widget.ShareActionProvider;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -16,6 +14,17 @@ import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.widget.ProgressBar;
 
+import androidx.appcompat.widget.ShareActionProvider;
+import androidx.core.view.MenuItemCompat;
+
+import com.xinglan.android.activities.SheimiFragmentActivity;
+import com.xinglan.android.utils.CodeGuesser;
+import com.xinglan.android.utils.FsUtils;
+import com.xinglan.android.utils.Profile;
+import com.xinglan.mgit.R;
+import com.xinglan.mgit.database.models.Repo;
+import com.xinglan.mgit.tasks.repo.CommitDiffTask;
+
 import org.eclipse.jgit.diff.DiffEntry;
 import org.eclipse.jgit.lib.PersonIdent;
 import org.eclipse.jgit.revwalk.RevCommit;
@@ -25,15 +34,6 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.util.List;
-
-import com.xinglan.android.activities.SheimiFragmentActivity;
-import com.xinglan.android.utils.CodeGuesser;
-import com.xinglan.android.utils.FsUtils;
-import com.xinglan.android.utils.Profile;
-import com.xinglan.mgit.database.models.Repo;
-import com.xinglan.mgit.tasks.repo.CommitDiffTask;
-
-import com.xinglan.mgit.R;
 
 public class CommitDiffActivity extends SheimiFragmentActivity {
 
@@ -77,14 +77,14 @@ public class CommitDiffActivity extends SheimiFragmentActivity {
     private void loadFileContent() {
         mDiffContent.addJavascriptInterface(new CodeLoader(), JS_INF);
         mDiffContent.loadDataWithBaseURL("file:///android_asset/", HTML_TMPL,
-                "text/html", "utf-8", null);
+            "text/html", "utf-8", null);
         WebSettings webSettings = mDiffContent.getSettings();
         webSettings.setJavaScriptEnabled(true);
         mDiffContent.setWebChromeClient(new WebChromeClient() {
             public void onConsoleMessage(String message, int lineNumber,
                                          String sourceID) {
                 Log.d("MyApplication", message + " -- From line " + lineNumber
-                        + " of " + sourceID);
+                    + " of " + sourceID);
             }
 
             public boolean shouldOverrideUrlLoading(WebView view, String url) {
@@ -111,7 +111,7 @@ public class CommitDiffActivity extends SheimiFragmentActivity {
         shareIntent.setData(futurePathName);
         shareIntent.setType("text/x-patch");
 
-        shareActionProvider.setOnShareTargetSelectedListener(new ShareActionProvider.OnShareTargetSelectedListener () {
+        shareActionProvider.setOnShareTargetSelectedListener(new ShareActionProvider.OnShareTargetSelectedListener() {
             public boolean onShareTargetSelected(ShareActionProvider source, Intent intent) {
                 try {
                     File diff = sharedDiffPathName();
@@ -132,14 +132,14 @@ public class CommitDiffActivity extends SheimiFragmentActivity {
         committer = mCommit.getCommitterIdent();
         author = mCommit.getAuthorIdent();
         return "commit " + mNewCommit + "\n"
-                + "Author:     " + author.getName() + " <" + author.getEmailAddress() + ">\n"
-                + "AuthorDate: " + author.getWhen() + "\n"
-                + "Commit:     " + committer.getName() + " <" + committer.getEmailAddress() + ">\n"
-                + "CommitDate: " + committer.getWhen() + "\n";
+            + "Author:     " + author.getName() + " <" + author.getEmailAddress() + ">\n"
+            + "AuthorDate: " + author.getWhen() + "\n"
+            + "Commit:     " + committer.getName() + " <" + committer.getEmailAddress() + ">\n"
+            + "CommitDate: " + committer.getWhen() + "\n";
     }
 
     private void saveDiff(OutputStream fos) throws IOException {
-	    /* FIXME: LOCK!!! */
+        /* FIXME: LOCK!!! */
         if (mCommit != null) {
             String message;
             fos.write(formatCommitInfo().getBytes());
@@ -183,8 +183,8 @@ public class CommitDiffActivity extends SheimiFragmentActivity {
                 return true;
             case R.id.action_save_diff:
                 Intent intent = new Intent(Intent.ACTION_CREATE_DOCUMENT)
-                        .setType("text/x-patch")
-                        .putExtra(Intent.EXTRA_TITLE, Repo.getCommitDisplayName(mNewCommit) + ".diff");
+                    .setType("text/x-patch")
+                    .putExtra(Intent.EXTRA_TITLE, Repo.getCommitDisplayName(mNewCommit) + ".diff");
 
                 startActivityForResult(intent, REQUEST_SAVE_DIFF);
                 return true;
@@ -245,7 +245,7 @@ public class CommitDiffActivity extends SheimiFragmentActivity {
         public void getDiffEntries() {
             String oldCommit = mOldCommit != null ? mOldCommit : (mNewCommit + "^");
             CommitDiffTask diffTask = new CommitDiffTask(mRepo, oldCommit,
-                    mNewCommit, new CommitDiffTask.CommitDiffResult() {
+                mNewCommit, new CommitDiffTask.CommitDiffResult() {
                 @Override
                 public void pushResult(List<DiffEntry> diffEntries,
                                        List<String> diffStrs, RevCommit commit) {
@@ -271,12 +271,12 @@ public class CommitDiffActivity extends SheimiFragmentActivity {
     }
 
     private static final String HTML_TMPL = "<!doctype html>"
-            + "<head>"
-            + " <script src=\"js/jquery.js\"></script>"
-            + " <script src=\"js/highlight.pack.js\"></script>"
-            + " <script src=\"js/local_commits_diff.js\"></script>"
-            + " <link type=\"text/css\" rel=\"stylesheet\" href=\"css/rainbow.css\" />"
-            + " <link type=\"text/css\" rel=\"stylesheet\" href=\"css/local_commits_diff.css\" />"
-            + "</head><body></body>";
+        + "<head>"
+        + " <script src=\"js/jquery.js\"></script>"
+        + " <script src=\"js/highlight.pack.js\"></script>"
+        + " <script src=\"js/local_commits_diff.js\"></script>"
+        + " <link type=\"text/css\" rel=\"stylesheet\" href=\"css/rainbow.css\" />"
+        + " <link type=\"text/css\" rel=\"stylesheet\" href=\"css/local_commits_diff.css\" />"
+        + "</head><body></body>";
 
 }

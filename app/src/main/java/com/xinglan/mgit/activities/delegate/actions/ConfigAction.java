@@ -1,17 +1,17 @@
 package com.xinglan.mgit.activities.delegate.actions;
 
 import android.app.AlertDialog;
-import androidx.databinding.DataBindingUtil;
 import android.view.LayoutInflater;
 
-import com.xinglan.mgit.exceptions.StopTaskException;
+import androidx.databinding.DataBindingUtil;
 
 import com.xinglan.mgit.R;
 import com.xinglan.mgit.activities.RepoDetailActivity;
 import com.xinglan.mgit.database.models.GitConfig;
 import com.xinglan.mgit.database.models.Repo;
-
 import com.xinglan.mgit.databinding.DialogRepoConfigBinding;
+import com.xinglan.mgit.exceptions.StopTaskException;
+
 import timber.log.Timber;
 
 /**

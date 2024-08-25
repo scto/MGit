@@ -1,10 +1,9 @@
 package com.xinglan.mgit.tasks.repo;
 
 import com.xinglan.android.utils.BasicFunctions;
-import com.xinglan.mgit.exceptions.StopTaskException;
-
 import com.xinglan.mgit.R;
 import com.xinglan.mgit.database.models.Repo;
+import com.xinglan.mgit.exceptions.StopTaskException;
 
 import org.eclipse.jgit.api.MergeCommand;
 import org.eclipse.jgit.api.errors.GitAPIException;
@@ -18,7 +17,7 @@ public class MergeTask extends RepoOpTask {
     private boolean mAutoCommit;
 
     public MergeTask(Repo repo, Ref commit, String ffModeStr,
-            boolean autoCommit, AsyncTaskPostCallback callback) {
+                     boolean autoCommit, AsyncTaskPostCallback callback) {
         super(repo);
         mCallback = callback;
         mCommit = commit;
@@ -41,7 +40,7 @@ public class MergeTask extends RepoOpTask {
 
     public boolean mergeBranch() {
         String[] stringArray = BasicFunctions.getActiveActivity()
-                .getResources().getStringArray(R.array.merge_ff_type);
+            .getResources().getStringArray(R.array.merge_ff_type);
         MergeCommand.FastForwardMode ffMode = MergeCommand.FastForwardMode.FF;
         if (mFFModeStr.equals(stringArray[1])) {
             // FF Only
@@ -52,7 +51,7 @@ public class MergeTask extends RepoOpTask {
         }
         try {
             mRepo.getGit().merge().include(mCommit).setFastForward(ffMode)
-                    .call();
+                .call();
         } catch (GitAPIException e) {
             setException(e);
             return false;
@@ -68,11 +67,11 @@ public class MergeTask extends RepoOpTask {
             String msg = null;
             if (b1 == null) {
                 msg = String.format("Merge branch '%s'",
-                        Repo.getCommitDisplayName(b2));
+                    Repo.getCommitDisplayName(b2));
             } else {
                 msg = String.format("Merge branch '%s' into %s",
-                        Repo.getCommitDisplayName(b2),
-                        Repo.getCommitDisplayName(b1));
+                    Repo.getCommitDisplayName(b2),
+                    Repo.getCommitDisplayName(b1));
             }
             try {
                 CommitChangesTask.commit(mRepo, false, false, msg, null, null);

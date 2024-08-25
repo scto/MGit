@@ -1,14 +1,13 @@
 package com.xinglan.mgit.tasks.repo;
 
+import com.xinglan.mgit.R;
+import com.xinglan.mgit.database.models.Repo;
 import com.xinglan.mgit.exceptions.StopTaskException;
 import com.xinglan.mgit.ssh.SgitTransportCallback;
 
 import org.eclipse.jgit.api.FetchCommand;
 import org.eclipse.jgit.api.Git;
 import org.eclipse.jgit.api.errors.TransportException;
-
-import com.xinglan.mgit.R;
-import com.xinglan.mgit.database.models.Repo;
 
 public class FetchTask extends RepoRemoteOpTask {
 
@@ -65,9 +64,9 @@ public class FetchTask extends RepoRemoteOpTask {
         }
 
         final FetchCommand fetchCommand = git.fetch()
-                .setProgressMonitor(new BasicProgressMonitor())
-                .setTransportConfigCallback(new SgitTransportCallback())
-                .setRemote(remote);
+            .setProgressMonitor(new BasicProgressMonitor())
+            .setTransportConfigCallback(new SgitTransportCallback())
+            .setRemote(remote);
 
         setCredentials(fetchCommand);
 

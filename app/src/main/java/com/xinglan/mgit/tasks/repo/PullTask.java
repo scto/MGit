@@ -1,5 +1,7 @@
 package com.xinglan.mgit.tasks.repo;
 
+import com.xinglan.mgit.R;
+import com.xinglan.mgit.database.models.Repo;
 import com.xinglan.mgit.exceptions.StopTaskException;
 import com.xinglan.mgit.ssh.SgitTransportCallback;
 
@@ -9,9 +11,6 @@ import org.eclipse.jgit.api.RebaseCommand;
 import org.eclipse.jgit.api.ResetCommand;
 import org.eclipse.jgit.api.errors.GitAPIException;
 import org.eclipse.jgit.api.errors.TransportException;
-
-import com.xinglan.mgit.R;
-import com.xinglan.mgit.database.models.Repo;
 
 public class PullTask extends RepoRemoteOpTask {
 
@@ -66,9 +65,9 @@ public class PullTask extends RepoRemoteOpTask {
             return false;
         }
         PullCommand pullCommand = git.pull()
-                .setRemote(mRemote)
-                .setProgressMonitor(new BasicProgressMonitor())
-                .setTransportConfigCallback(new SgitTransportCallback());
+            .setRemote(mRemote)
+            .setProgressMonitor(new BasicProgressMonitor())
+            .setTransportConfigCallback(new SgitTransportCallback());
 
         setCredentials(pullCommand);
 
@@ -77,8 +76,9 @@ public class PullTask extends RepoRemoteOpTask {
             if (mForcePull) {
                 branch = git.getRepository().getFullBranch();
                 if (!branch.startsWith("refs/heads/")) {
-                    setException(new GitAPIException("not on branch") {},
-                            R.string.error_pull_failed_not_on_branch);
+                    setException(new GitAPIException("not on branch") {
+                                 },
+                        R.string.error_pull_failed_not_on_branch);
                     return false;
                 }
                 branch = branch.substring(11);
@@ -94,7 +94,7 @@ public class PullTask extends RepoRemoteOpTask {
                 }
                 bpm.update(2);
                 git.reset().setMode(ResetCommand.ResetType.HARD)
-                        .setRef("HEAD").call();
+                    .setRef("HEAD").call();
                 bpm.endTask();
             }
             pullCommand.call();
@@ -102,7 +102,7 @@ public class PullTask extends RepoRemoteOpTask {
                 BasicProgressMonitor bpm = new BasicProgressMonitor();
                 bpm.beginTask("resetting to " + mRemote + "/" + branch, 1);
                 git.reset().setMode(ResetCommand.ResetType.HARD)
-                        .setRef(mRemote + "/" + branch).call();
+                    .setRef(mRemote + "/" + branch).call();
                 bpm.endTask();
             }
         } catch (TransportException e) {

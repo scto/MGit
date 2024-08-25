@@ -26,7 +26,7 @@ This is a continuation of [the SGit project](https://github.com/sheimi/SGit).
 
 As of version 1.5.7, MGit no longer provides an internal texteditor, instead if you wish to edit files, you will need to have an editor app installed. 
 
-An open source editor that has been tested to work with MGit is ["Turbo Editor"]( https://play.google.com/store/apps/details?id=com.maskyn.fileeditorpro)
+An open source editor that has been tested to work with MGit is ["Viper Exit, nee Turbo Editor"](https://github.com/maks/viper-edit)
 
 but others that support File Providers should also work.
 

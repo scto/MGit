@@ -26,29 +26,27 @@ import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.vectordrawable.graphics.drawable.VectorDrawableCompat;
 
-import com.xinglan.android.utils.BasicFunctions;
-import com.xinglan.android.utils.Profile;
-import com.xinglan.mgit.permissions.PermissionsHelper;
 import com.nostra13.universalimageloader.cache.disc.impl.UnlimitedDiskCache;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
 import com.nostra13.universalimageloader.utils.StorageUtils;
+import com.xinglan.android.avatar.AvatarDownloader;
+import com.xinglan.android.utils.BasicFunctions;
+import com.xinglan.android.utils.Profile;
+import com.xinglan.mgit.R;
+import com.xinglan.mgit.dialogs.DummyDialogListener;
+import com.xinglan.mgit.permissions.PermissionsHelper;
 
 import java.io.File;
 import java.util.Locale;
-
-import com.xinglan.android.avatar.AvatarDownloader;
-
-import com.xinglan.mgit.R;
-import com.xinglan.mgit.dialogs.DummyDialogListener;
 
 public class SheimiFragmentActivity extends AppCompatActivity {
 
     private static final int MGIT_PERMISSIONS_REQUEST = 123;
 
-    public static interface OnBackClickListener {
-        public boolean onClick();
+    public interface OnBackClickListener {
+        boolean onClick();
     }
 
     @Override
@@ -99,7 +97,7 @@ public class SheimiFragmentActivity extends AppCompatActivity {
     }
 
     @Override
-    public void onRequestPermissionsResult(int requestCode, String permissions[], int[] grantResults) {
+    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
         switch (requestCode) {
             case MGIT_PERMISSIONS_REQUEST: {
@@ -111,14 +109,13 @@ public class SheimiFragmentActivity extends AppCompatActivity {
                     // permission denied
                     showMessageDialog(R.string.dialog_not_supported, getString(R.string.dialog_permission_not_granted));
                 }
-                return;
             }
         }
     }
 
     protected void checkAndRequestRequiredPermissions(Context context, String legacyPermission) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
-            if (PermissionsHelper.Companion.canReadStorage(context) != true) {
+            if (!PermissionsHelper.Companion.canReadStorage(context)) {
                 showMessageDialog(
                     R.string.dialog_access_all_files_title,
                     getString(R.string.dialog_access_all_files_msg),
@@ -162,6 +159,12 @@ public class SheimiFragmentActivity extends AppCompatActivity {
 
     public void showToastMessage(int resId) {
         showToastMessage(getString(resId));
+    }
+
+    public void showMessageDialog(int title, int msg) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle(title).setMessage(getString(msg))
+            .setPositiveButton(R.string.label_ok, new DummyDialogListener()).show();
     }
 
     public void showMessageDialog(int title, int msg, int positiveBtn,
@@ -215,7 +218,7 @@ public class SheimiFragmentActivity extends AppCompatActivity {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         LayoutInflater inflater = getLayoutInflater();
         View layout = inflater.inflate(R.layout.dialog_edit_text, null);
-        final EditText editText = (EditText) layout.findViewById(R.id.editText);
+        final EditText editText = layout.findViewById(R.id.editText);
         editText.setHint(hint);
         builder.setTitle(title)
             .setView(layout)
@@ -257,9 +260,9 @@ public class SheimiFragmentActivity extends AppCompatActivity {
         LayoutInflater inflater = getLayoutInflater();
         View layout = inflater.inflate(R.layout.dialog_prompt_for_password,
             null);
-        final EditText username = (EditText) layout.findViewById(R.id.username);
-        final EditText password = (EditText) layout.findViewById(R.id.password);
-        final CheckBox checkBox = (CheckBox) layout
+        final EditText username = layout.findViewById(R.id.username);
+        final EditText password = layout.findViewById(R.id.password);
+        final CheckBox checkBox = layout
             .findViewById(R.id.savePassword);
         if (errorInfo == null) {
             errorInfo = getString(R.string.dialog_prompt_for_password_title);
@@ -286,11 +289,11 @@ public class SheimiFragmentActivity extends AppCompatActivity {
                 }).show();
     }
 
-    public static interface onOptionDialogClicked {
+    public interface onOptionDialogClicked {
         void onClicked();
     }
 
-    public static interface OnEditTextDialogClicked {
+    public interface OnEditTextDialogClicked {
         void onClicked(String text);
     }
 
@@ -298,7 +301,7 @@ public class SheimiFragmentActivity extends AppCompatActivity {
      * Callback interface to receive credentials entered via UI by the user after being prompted
      * in the UI in order to connect to a remote repo
      */
-    public static interface OnPasswordEntered {
+    public interface OnPasswordEntered {
 
         /**
          * Handle retrying a Remote Repo task after user supplies requested credentials

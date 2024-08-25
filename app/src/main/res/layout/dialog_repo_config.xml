@@ -1,11 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout>
 
-   <data>
-       <variable
-           name="viewModel"
-           type="com.xinglan.mgit.database.models.GitConfig" />
-   </data>
+    <data>
+
+        <variable
+            name="viewModel"
+            type="com.xinglan.mgit.database.models.GitConfig" />
+    </data>
 
     <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
@@ -22,7 +23,7 @@
             android:singleLine="true"
             android:imeOptions="actionNext"
             android:inputType="textPersonName"
-            android:hint="@string/label_git_name_per_repo"/>
+            android:hint="@string/label_git_name_per_repo" />
 
         <EditText
             android:text="@={viewModel.userEmail}"
@@ -33,7 +34,7 @@
             android:singleLine="true"
             android:imeOptions="actionDone"
             android:inputType="textEmailAddress"
-            android:hint="@string/label_git_email_per_repo"/>
+            android:hint="@string/label_git_email_per_repo" />
 
     </LinearLayout>
 </layout>

@@ -46,9 +46,9 @@ public class RepoListAdapter extends ArrayAdapter<Repo> implements
     private static final int QUERY_TYPE_QUERY = 1;
 
     private int mQueryType = QUERY_TYPE_QUERY;
-    private DateFormat mCommitDateFormatter;
+    private final DateFormat mCommitDateFormatter;
     private String mSearchQueryString;
-    private RepoListActivity mActivity;
+    private final RepoListActivity mActivity;
     private static final String TAG = RepoListAdapter.class.getSimpleName();
 
     public RepoListAdapter(Context context) {
@@ -163,6 +163,9 @@ public class RepoListAdapter extends ArrayAdapter<Repo> implements
     public void onItemClick(AdapterView<?> adapterView, View view,
                             int position, long id) {
         Repo repo = getItem(position);
+        if (repo.isExternal() && mActivity.checkAndRequestAccessAllFilesPermission(0)) {
+            return;
+        }
         Intent intent = new Intent(mActivity, RepoDetailActivity.class);
         intent.putExtra(Repo.TAG, repo);
         mActivity.startActivity(intent);

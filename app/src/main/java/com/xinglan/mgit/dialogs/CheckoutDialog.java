@@ -1,7 +1,7 @@
 package com.xinglan.mgit.dialogs;
 
 import com.xinglan.android.views.SheimiDialogFragment;
-import me.xinglan.mgit.R;
+import com.xinglan.mgit.R;
 
 import android.app.AlertDialog;
 import android.app.Dialog;

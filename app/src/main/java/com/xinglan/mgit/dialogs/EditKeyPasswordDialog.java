@@ -12,7 +12,7 @@ import java.io.File;
 
 import com.xinglan.android.views.SheimiDialogFragment;
 import com.xinglan.mgit.MGitApplication;
-import me.xinglan.mgit.R;
+import com.xinglan.mgit.R;
 import com.xinglan.mgit.activities.explorer.PrivateKeyManageActivity;
 import timber.log.Timber;
 

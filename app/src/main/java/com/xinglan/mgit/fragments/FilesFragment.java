@@ -16,7 +16,7 @@ import java.io.IOException;
 import com.xinglan.android.activities.SheimiFragmentActivity;
 import com.xinglan.android.activities.SheimiFragmentActivity.OnBackClickListener;
 import com.xinglan.android.utils.FsUtils;
-import me.xinglan.mgit.R;
+import com.xinglan.mgit.R;
 import com.xinglan.mgit.activities.ViewFileActivity;
 import com.xinglan.mgit.adapters.FilesListAdapter;
 import com.xinglan.mgit.database.models.Repo;

@@ -17,7 +17,7 @@ import com.xinglan.android.activities.SheimiFragmentActivity;
 import com.xinglan.android.utils.Profile;
 import com.xinglan.mgit.adapters.FilesListAdapter;
 
-import me.xinglan.mgit.R;
+import com.xinglan.mgit.R;
 
 public abstract class FileExplorerActivity extends SheimiFragmentActivity {
 

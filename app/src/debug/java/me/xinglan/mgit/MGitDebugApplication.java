@@ -1,4 +1,4 @@
-package me.xinglan.mgit;
+package com.xinglan.mgit;
 
 import android.util.Log;
 

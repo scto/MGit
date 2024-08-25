@@ -9,7 +9,7 @@ import androidx.annotation.NonNull;
 import com.xinglan.mgit.tasks.repo.UpdateIndexTask;
 
 import com.xinglan.android.views.SheimiDialogFragment;
-import me.xinglan.mgit.R;
+import com.xinglan.mgit.R;
 import com.xinglan.mgit.activities.RepoDetailActivity;
 
 import static com.xinglan.mgit.tasks.repo.DeleteFileFromRepoTask.DeleteOperationType;

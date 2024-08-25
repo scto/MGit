@@ -8,7 +8,7 @@ import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.List;
 
-import me.xinglan.mgit.R;
+import com.xinglan.mgit.R;
 import com.xinglan.mgit.database.models.Repo;
 
 import org.eclipse.jgit.api.errors.GitAPIException;

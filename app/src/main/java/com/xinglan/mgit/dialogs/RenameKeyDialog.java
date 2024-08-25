@@ -3,7 +3,7 @@ package com.xinglan.mgit.dialogs;
 import java.io.File;
 
 import com.xinglan.android.views.SheimiDialogFragment;
-import me.xinglan.mgit.R;
+import com.xinglan.mgit.R;
 import com.xinglan.mgit.activities.explorer.PrivateKeyManageActivity;
 import android.app.AlertDialog;
 import android.app.Dialog;

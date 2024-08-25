@@ -8,7 +8,7 @@ import java.util.List;
 
 import com.xinglan.android.activities.SheimiFragmentActivity;
 import com.xinglan.android.utils.BasicFunctions;
-import me.xinglan.mgit.R;
+import com.xinglan.mgit.R;
 
 import com.xinglan.mgit.database.RepoDbManager;
 import com.xinglan.mgit.database.models.Repo;

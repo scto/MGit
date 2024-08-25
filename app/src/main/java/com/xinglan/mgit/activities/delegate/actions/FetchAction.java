@@ -8,7 +8,7 @@ import com.xinglan.mgit.dialogs.DummyDialogListener;
 
 import java.util.ArrayList;
 
-import me.xinglan.mgit.R;
+import com.xinglan.mgit.R;
 import com.xinglan.mgit.activities.RepoDetailActivity;
 import com.xinglan.mgit.database.models.Repo;
 import com.xinglan.mgit.tasks.repo.FetchTask;

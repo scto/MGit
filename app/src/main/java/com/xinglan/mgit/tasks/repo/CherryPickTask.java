@@ -2,7 +2,7 @@ package com.xinglan.mgit.tasks.repo;
 
 import com.xinglan.mgit.exceptions.StopTaskException;
 
-import me.xinglan.mgit.R;
+import com.xinglan.mgit.R;
 import com.xinglan.mgit.database.models.Repo;
 
 import org.eclipse.jgit.lib.ObjectId;

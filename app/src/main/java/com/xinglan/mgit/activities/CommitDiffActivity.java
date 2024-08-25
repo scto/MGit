@@ -33,7 +33,7 @@ import com.xinglan.android.utils.Profile;
 import com.xinglan.mgit.database.models.Repo;
 import com.xinglan.mgit.tasks.repo.CommitDiffTask;
 
-import me.xinglan.mgit.R;
+import com.xinglan.mgit.R;
 
 public class CommitDiffActivity extends SheimiFragmentActivity {
 

@@ -9,7 +9,7 @@ import android.preference.PreferenceManager;
 import androidx.core.app.TaskStackBuilder;
 
 import com.xinglan.android.utils.BasicFunctions;
-import me.xinglan.mgit.R;
+import com.xinglan.mgit.R;
 import com.xinglan.mgit.repolist.RepoListActivity;
 
 public class SettingsFragment extends PreferenceFragment {

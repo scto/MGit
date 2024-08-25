@@ -3,7 +3,7 @@ package com.xinglan.mgit.activities.delegate.actions;
 import java.io.IOException;
 
 import com.xinglan.android.activities.SheimiFragmentActivity.OnEditTextDialogClicked;
-import me.xinglan.mgit.R;
+import com.xinglan.mgit.R;
 import com.xinglan.mgit.activities.RepoDetailActivity;
 import com.xinglan.mgit.database.models.Repo;
 import timber.log.Timber;

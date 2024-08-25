@@ -5,7 +5,7 @@ import android.content.SharedPreferences;
 
 import java.io.File;
 
-import me.xinglan.mgit.R;
+import com.xinglan.mgit.R;
 import timber.log.Timber;
 
 /**

@@ -15,7 +15,7 @@ import java.util.Date;
 import java.util.Locale;
 
 import com.xinglan.android.activities.SheimiFragmentActivity;
-import me.xinglan.mgit.R;
+import com.xinglan.mgit.R;
 
 /**
  * Created by sheimi on 8/8/13.
@@ -25,7 +25,7 @@ public class FsUtils {
     public static final SimpleDateFormat TIMESTAMP_FORMATTER = new SimpleDateFormat(
             "yyyyMMdd_HHmmss", Locale.getDefault());
 
-    public static final String PROVIDER_AUTHORITY = "com.manichord.mgit.fileprovider";
+    public static final String PROVIDER_AUTHORITY = "com.xinglan.mgit.fileprovider";
     public static final String TEMP_DIR = "temp";
 
     private FsUtils() {

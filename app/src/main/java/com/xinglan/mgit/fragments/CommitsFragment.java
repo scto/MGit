@@ -6,7 +6,7 @@ import java.util.List;
 import java.util.Set;
 
 import com.xinglan.android.activities.SheimiFragmentActivity.OnBackClickListener;
-import me.xinglan.mgit.R;
+import com.xinglan.mgit.R;
 import com.xinglan.mgit.activities.CommitDiffActivity;
 import com.xinglan.mgit.activities.RepoDetailActivity;
 import com.xinglan.mgit.adapters.CommitsListAdapter;

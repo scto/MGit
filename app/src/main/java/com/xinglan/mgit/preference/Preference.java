@@ -4,7 +4,7 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.util.AttributeSet;
 
-import me.xinglan.mgit.R;
+import com.xinglan.mgit.R;
 
 /**
  * Customised version of EditTextPreference to display current value in the summary field

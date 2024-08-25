@@ -22,7 +22,7 @@ import java.io.FileFilter;
 
 import com.xinglan.android.utils.BasicFunctions;
 import com.xinglan.android.utils.FsUtils;
-import me.xinglan.mgit.R;
+import com.xinglan.mgit.R;
 import com.xinglan.mgit.activities.ViewFileActivity;
 
 public class PrivateKeyManageActivity extends FileExplorerActivity implements ActionMode.Callback {

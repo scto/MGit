@@ -25,7 +25,7 @@ import com.xinglan.android.utils.CodeGuesser;
 import com.xinglan.android.utils.Profile;
 import com.xinglan.mgit.activities.ViewFileActivity;
 
-import me.xinglan.mgit.R;
+import com.xinglan.mgit.R;
 import timber.log.Timber;
 
 /**

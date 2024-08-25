@@ -1,6 +1,6 @@
 package com.xinglan.mgit.adapters;
 
-import me.xinglan.mgit.R;
+import com.xinglan.mgit.R;
 import com.xinglan.mgit.activities.RepoDetailActivity;
 import com.xinglan.mgit.adapters.RepoOperationsAdapter.DrawerItem;
 import android.content.Context;

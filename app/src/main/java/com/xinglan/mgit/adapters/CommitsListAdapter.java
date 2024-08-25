@@ -8,7 +8,7 @@ import java.util.Set;
 
 import com.xinglan.android.activities.SheimiFragmentActivity;
 import com.xinglan.android.utils.BasicFunctions;
-import me.xinglan.mgit.R;
+import com.xinglan.mgit.R;
 
 import com.xinglan.mgit.database.models.Repo;
 import com.xinglan.mgit.tasks.repo.GetCommitTask;

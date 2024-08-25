@@ -15,7 +15,7 @@ import android.widget.TextView;
 
 import com.xinglan.android.utils.Profile;
 import com.xinglan.android.views.SheimiDialogFragment;
-import me.xinglan.mgit.R;
+import com.xinglan.mgit.R;
 
 import com.xinglan.mgit.activities.RepoDetailActivity;
 import com.xinglan.mgit.database.models.Repo;

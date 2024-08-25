@@ -12,7 +12,7 @@ import java.io.File;
 
 import com.xinglan.android.views.SheimiDialogFragment;
 import com.xinglan.mgit.MGitApplication;
-import me.xinglan.mgit.R;
+import com.xinglan.mgit.R;
 import com.xinglan.mgit.repolist.RepoListActivity;
 
 import com.xinglan.mgit.database.models.Repo;

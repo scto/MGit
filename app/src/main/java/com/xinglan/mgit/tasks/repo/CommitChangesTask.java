@@ -15,7 +15,7 @@ import com.xinglan.android.utils.Profile;
 import com.xinglan.mgit.MGitApplication;
 import com.xinglan.mgit.exceptions.StopTaskException;
 
-import me.xinglan.mgit.R;
+import com.xinglan.mgit.R;
 import com.xinglan.mgit.database.models.Repo;
 
 public class CommitChangesTask extends RepoOpTask {

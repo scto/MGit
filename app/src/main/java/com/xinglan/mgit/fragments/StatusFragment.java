@@ -4,7 +4,7 @@ import com.xinglan.android.activities.SheimiFragmentActivity.OnBackClickListener
 import com.xinglan.mgit.database.models.Repo;
 import com.xinglan.mgit.tasks.repo.StatusTask;
 
-import me.xinglan.mgit.R;
+import com.xinglan.mgit.R;
 import com.xinglan.mgit.activities.CommitDiffActivity;
 
 import android.content.Intent;

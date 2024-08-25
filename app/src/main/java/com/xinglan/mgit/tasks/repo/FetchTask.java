@@ -7,7 +7,7 @@ import org.eclipse.jgit.api.FetchCommand;
 import org.eclipse.jgit.api.Git;
 import org.eclipse.jgit.api.errors.TransportException;
 
-import me.xinglan.mgit.R;
+import com.xinglan.mgit.R;
 import com.xinglan.mgit.database.models.Repo;
 
 public class FetchTask extends RepoRemoteOpTask {

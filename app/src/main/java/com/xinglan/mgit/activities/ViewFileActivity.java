@@ -20,7 +20,7 @@ import com.xinglan.mgit.dialogs.ChooseLanguageDialog;
 import com.xinglan.mgit.fragments.BaseFragment;
 import com.xinglan.mgit.fragments.CommitsFragment;
 
-import me.xinglan.mgit.R;
+import com.xinglan.mgit.R;
 
 import com.xinglan.mgit.fragments.ViewFileFragment;
 

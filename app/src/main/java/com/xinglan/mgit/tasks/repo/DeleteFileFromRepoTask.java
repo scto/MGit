@@ -5,7 +5,7 @@ import java.io.File;
 import com.xinglan.android.utils.FsUtils;
 import com.xinglan.mgit.exceptions.StopTaskException;
 
-import me.xinglan.mgit.R;
+import com.xinglan.mgit.R;
 import com.xinglan.mgit.database.models.Repo;
 
 public class DeleteFileFromRepoTask extends RepoOpTask {

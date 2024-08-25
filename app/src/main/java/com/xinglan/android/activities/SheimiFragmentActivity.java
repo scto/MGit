@@ -40,7 +40,7 @@ import java.util.Locale;
 
 import com.xinglan.android.avatar.AvatarDownloader;
 
-import me.xinglan.mgit.R;
+import com.xinglan.mgit.R;
 import com.xinglan.mgit.dialogs.DummyDialogListener;
 
 public class SheimiFragmentActivity extends AppCompatActivity {

@@ -10,7 +10,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.Locale;
 
-import me.xinglan.mgit.R;
+import com.xinglan.mgit.R;
 
 /**
  * Created by cfoote on 12/06/2017.

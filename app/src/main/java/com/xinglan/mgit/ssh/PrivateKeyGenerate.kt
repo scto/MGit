@@ -9,7 +9,7 @@ import android.widget.RadioGroup
 import com.jcraft.jsch.JSch
 import com.jcraft.jsch.KeyPair
 import com.xinglan.android.views.SheimiDialogFragment
-import me.xinglan.mgit.R
+import com.xinglan.mgit.R
 import com.xinglan.mgit.activities.explorer.PrivateKeyManageActivity
 import org.acra.ktx.sendWithAcra
 import timber.log.Timber

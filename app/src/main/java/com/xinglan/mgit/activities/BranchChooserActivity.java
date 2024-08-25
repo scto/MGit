@@ -30,7 +30,7 @@ import com.xinglan.mgit.exceptions.StopTaskException;
 import com.xinglan.mgit.tasks.SheimiAsyncTask;
 import com.xinglan.mgit.tasks.repo.CheckoutTask;
 
-import me.xinglan.mgit.R;
+import com.xinglan.mgit.R;
 
 public class BranchChooserActivity extends SheimiFragmentActivity implements ActionMode.Callback {
     private static final String LOGTAG = BranchChooserActivity.class.getSimpleName();

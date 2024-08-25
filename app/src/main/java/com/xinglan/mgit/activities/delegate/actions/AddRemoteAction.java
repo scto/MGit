@@ -2,7 +2,7 @@ package com.xinglan.mgit.activities.delegate.actions;
 
 import java.io.IOException;
 
-import me.xinglan.sgit.R;
+import me.xinglan.mgit.R;
 
 import com.xinglan.mgit.dialogs.DummyDialogListener;
 import com.xinglan.mgit.activities.RepoDetailActivity;

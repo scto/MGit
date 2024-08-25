@@ -4,7 +4,7 @@ import android.app.Application
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.MutableLiveData
 import com.xinglan.mgit.MGitApplication
-import me.xinglan.sgit.R
+import me.xinglan.mgit.R
 import com.xinglan.mgit.database.models.Repo
 import com.xinglan.mgit.tasks.repo.CloneTask
 import com.xinglan.mgit.tasks.repo.InitLocalTask

@@ -1,4 +1,4 @@
-package me.xinglan.sgit.database.models;
+package me.xinglan.mgit.database.models;
 
 import org.junit.Test;
 

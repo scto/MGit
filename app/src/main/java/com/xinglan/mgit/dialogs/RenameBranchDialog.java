@@ -2,7 +2,7 @@ package com.xinglan.mgit.dialogs;
 
 import java.util.List;
 
-import me.xinglan.sgit.R;
+import me.xinglan.mgit.R;
 
 import android.app.AlertDialog;
 import android.app.Dialog;

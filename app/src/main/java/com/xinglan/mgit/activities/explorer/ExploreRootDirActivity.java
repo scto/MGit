@@ -9,7 +9,7 @@ import android.widget.AdapterView;
 import java.io.File;
 import java.io.FileFilter;
 
-import me.xinglan.sgit.R;
+import me.xinglan.mgit.R;
 import com.xinglan.mgit.database.models.Repo;
 
 public class ExploreRootDirActivity extends FileExplorerActivity {

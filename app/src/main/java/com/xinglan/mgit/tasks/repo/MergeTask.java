@@ -3,7 +3,7 @@ package com.xinglan.mgit.tasks.repo;
 import com.xinglan.android.utils.BasicFunctions;
 import com.xinglan.mgit.exceptions.StopTaskException;
 
-import me.xinglan.sgit.R;
+import me.xinglan.mgit.R;
 import com.xinglan.mgit.database.models.Repo;
 
 import org.eclipse.jgit.api.MergeCommand;

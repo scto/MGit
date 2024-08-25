@@ -14,7 +14,7 @@ import java.util.Arrays;
 import java.util.Comparator;
 
 import com.xinglan.android.utils.Profile;
-import me.xinglan.sgit.R;
+import me.xinglan.mgit.R;
 
 /**
  * Created by sheimi on 8/18/13.

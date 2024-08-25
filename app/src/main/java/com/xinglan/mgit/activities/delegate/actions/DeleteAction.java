@@ -1,7 +1,7 @@
 package com.xinglan.mgit.activities.delegate.actions;
 
 import android.content.DialogInterface;
-import me.xinglan.sgit.R;
+import me.xinglan.mgit.R;
 import com.xinglan.mgit.activities.RepoDetailActivity;
 import com.xinglan.mgit.database.models.Repo;
 

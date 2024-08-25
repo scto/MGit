@@ -18,7 +18,7 @@ import com.xinglan.android.utils.Profile;
 import com.xinglan.mgit.database.RepoContract;
 import com.xinglan.mgit.ssh.SgitTransportCallback;
 
-import me.xinglan.sgit.R;
+import me.xinglan.mgit.R;
 
 import com.xinglan.mgit.database.models.Repo;
 

@@ -6,7 +6,7 @@ import org.eclipse.jgit.api.RebaseCommand;
 import org.eclipse.jgit.api.ResetCommand;
 import org.eclipse.jgit.api.errors.WrongRepositoryStateException;
 
-import me.xinglan.sgit.R;
+import me.xinglan.mgit.R;
 import com.xinglan.mgit.database.models.Repo;
 
 import timber.log.Timber;

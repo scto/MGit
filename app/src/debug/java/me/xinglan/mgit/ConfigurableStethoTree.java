@@ -1,4 +1,4 @@
-package me.xinglan.sgit;
+package me.xinglan.mgit;
 /*
  * Copyright (c) 2014-present, Facebook, Inc.
  * All rights reserved.

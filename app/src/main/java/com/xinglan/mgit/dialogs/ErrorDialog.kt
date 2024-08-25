@@ -7,8 +7,8 @@ import androidx.annotation.StringRes
 import android.widget.Button
 import kotlinx.android.synthetic.main.dialog_error.view.*
 import com.xinglan.android.views.SheimiDialogFragment
-import me.xinglan.sgit.BuildConfig
-import me.xinglan.sgit.R
+import me.xinglan.mgit.BuildConfig
+import me.xinglan.mgit.R
 import timber.log.Timber
 
 class ErrorDialog : SheimiDialogFragment() {

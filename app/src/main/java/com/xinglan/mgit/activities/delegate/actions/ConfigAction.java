@@ -6,12 +6,12 @@ import android.view.LayoutInflater;
 
 import com.xinglan.mgit.exceptions.StopTaskException;
 
-import me.xinglan.sgit.R;
+import me.xinglan.mgit.R;
 import com.xinglan.mgit.activities.RepoDetailActivity;
 import com.xinglan.mgit.database.models.GitConfig;
 import com.xinglan.mgit.database.models.Repo;
 
-import me.xinglan.sgit.databinding.DialogRepoConfigBinding;
+import me.xinglan.mgit.databinding.DialogRepoConfigBinding;
 import timber.log.Timber;
 
 /**

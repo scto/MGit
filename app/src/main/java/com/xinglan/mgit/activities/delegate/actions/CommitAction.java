@@ -3,7 +3,7 @@ package com.xinglan.mgit.activities.delegate.actions;
 import com.xinglan.android.utils.Profile;
 import com.xinglan.mgit.dialogs.DummyDialogListener;
 
-import me.xinglan.sgit.R;
+import me.xinglan.mgit.R;
 import com.xinglan.mgit.activities.RepoDetailActivity;
 import com.xinglan.mgit.database.models.Repo;
 import com.xinglan.mgit.tasks.SheimiAsyncTask.AsyncTaskPostCallback;

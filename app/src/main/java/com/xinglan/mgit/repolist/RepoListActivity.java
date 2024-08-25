@@ -30,7 +30,7 @@ import java.util.List;
 
 import com.xinglan.android.activities.SheimiFragmentActivity;
 import com.xinglan.mgit.MGitApplication;
-import me.xinglan.sgit.R;
+import me.xinglan.mgit.R;
 import com.xinglan.mgit.activities.RepoDetailActivity;
 import com.xinglan.mgit.activities.UserSettingsActivity;
 import com.xinglan.mgit.activities.explorer.ExploreFileActivity;
@@ -38,7 +38,7 @@ import com.xinglan.mgit.activities.explorer.ImportRepositoryActivity;
 import com.xinglan.mgit.adapters.RepoListAdapter;
 import com.xinglan.mgit.database.RepoDbManager;
 import com.xinglan.mgit.database.models.Repo;
-import me.xinglan.sgit.databinding.ActivityMainBinding;
+import me.xinglan.mgit.databinding.ActivityMainBinding;
 import com.xinglan.mgit.dialogs.DummyDialogListener;
 import com.xinglan.mgit.dialogs.ImportLocalRepoDialog;
 import com.xinglan.mgit.tasks.repo.CloneTask;

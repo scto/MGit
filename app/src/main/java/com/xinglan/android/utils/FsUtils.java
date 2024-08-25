@@ -15,7 +15,7 @@ import java.util.Date;
 import java.util.Locale;
 
 import com.xinglan.android.activities.SheimiFragmentActivity;
-import me.xinglan.sgit.R;
+import me.xinglan.mgit.R;
 
 /**
  * Created by sheimi on 8/8/13.

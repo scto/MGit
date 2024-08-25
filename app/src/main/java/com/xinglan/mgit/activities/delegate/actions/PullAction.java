@@ -15,7 +15,7 @@ import java.util.Set;
 import com.xinglan.android.views.SheimiDialogFragment;
 import com.xinglan.mgit.dialogs.DummyDialogListener;
 
-import me.xinglan.sgit.R;
+import me.xinglan.mgit.R;
 import com.xinglan.mgit.activities.RepoDetailActivity;
 import com.xinglan.mgit.database.models.Repo;
 import com.xinglan.mgit.tasks.repo.PullTask;

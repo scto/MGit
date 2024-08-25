@@ -31,7 +31,7 @@ import com.xinglan.mgit.fragments.CommitsFragment;
 import com.xinglan.mgit.fragments.FilesFragment;
 import com.xinglan.mgit.tasks.SheimiAsyncTask;
 
-import me.xinglan.sgit.R;
+import me.xinglan.mgit.R;
 
 import com.xinglan.mgit.fragments.StatusFragment;
 

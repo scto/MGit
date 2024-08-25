@@ -6,8 +6,8 @@ import com.xinglan.mgit.transport.MGitHttpConnectionFactory
 import com.xinglan.android.utils.SecurePrefsException
 import com.xinglan.android.utils.SecurePrefsHelper
 import com.xinglan.mgit.preference.PreferenceHelper
-import me.xinglan.sgit.BuildConfig
-import me.xinglan.sgit.R
+import me.xinglan.mgit.BuildConfig
+import me.xinglan.mgit.R
 import org.acra.config.dialog
 import org.acra.config.mailSender
 import org.acra.data.StringFormat

@@ -15,7 +15,7 @@ import com.xinglan.mgit.tasks.repo.InitLocalTask;
 import java.io.File;
 import java.io.FileFilter;
 
-import me.xinglan.sgit.R;
+import me.xinglan.mgit.R;
 import com.xinglan.mgit.database.models.Repo;
 
 public class ImportRepositoryActivity extends FileExplorerActivity {

@@ -14,6 +14,7 @@ import com.xinglan.mgit.activities.delegate.actions.NewDirAction;
 import com.xinglan.mgit.activities.delegate.actions.NewFileAction;
 import com.xinglan.mgit.activities.delegate.actions.PullAction;
 import com.xinglan.mgit.activities.delegate.actions.PushAction;
+import com.xinglan.mgit.activities.delegate.actions.QuickPushAction;
 import com.xinglan.mgit.activities.delegate.actions.RawConfigAction;
 import com.xinglan.mgit.activities.delegate.actions.RebaseAction;
 import com.xinglan.mgit.activities.delegate.actions.RemoveRemoteAction;
@@ -52,6 +53,7 @@ public class RepoOperationDelegate {
         mActions.add(new NewBranchAction(mRepo,mActivity));
         mActions.add(new PullAction(mRepo, mActivity));
         mActions.add(new PushAction(mRepo, mActivity));
+        mActions.add(new QuickPushAction(mRepo, mActivity));
         mActions.add(new AddAllAction(mRepo, mActivity));
         mActions.add(new CommitAction(mRepo, mActivity));
         mActions.add(new UndoAction(mRepo,mActivity));

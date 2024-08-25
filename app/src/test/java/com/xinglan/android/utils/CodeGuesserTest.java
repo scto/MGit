@@ -1,4 +1,4 @@
-package me.xinglan.android.utils;
+package com.xinglan.android.utils;
 
 import static org.junit.Assert.assertEquals;
 

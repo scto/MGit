@@ -31,6 +31,7 @@
     <string name="action_share_diff">分享 diff</string>
     <string name="action_save_diff">保存 diff</string>
     <string name="action_send_report">发送报告</string>
+    <string name="action_undo">撤销</string>
 
     <!-- label msg -->
     <string name="label_ok">确定</string>

@@ -19,6 +19,7 @@ import com.xinglan.mgit.activities.delegate.actions.RebaseAction;
 import com.xinglan.mgit.activities.delegate.actions.RemoveRemoteAction;
 import com.xinglan.mgit.activities.delegate.actions.RepoAction;
 import com.xinglan.mgit.activities.delegate.actions.ResetAction;
+import com.xinglan.mgit.activities.delegate.actions.UndoAction;
 import com.xinglan.mgit.database.models.Repo;
 import com.xinglan.mgit.tasks.repo.AddToStageTask;
 import com.xinglan.mgit.tasks.repo.CheckoutFileTask;
@@ -53,6 +54,7 @@ public class RepoOperationDelegate {
         mActions.add(new PushAction(mRepo, mActivity));
         mActions.add(new AddAllAction(mRepo, mActivity));
         mActions.add(new CommitAction(mRepo, mActivity));
+        mActions.add(new UndoAction(mRepo,mActivity));
         mActions.add(new ResetAction(mRepo, mActivity));
         mActions.add(new MergeAction(mRepo, mActivity));
         mActions.add(new FetchAction(mRepo, mActivity));

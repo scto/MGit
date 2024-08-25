@@ -56,6 +56,7 @@ import java.net.URL;
 import java.security.KeyManagementException;
 import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
@@ -146,6 +147,10 @@ public class MGitHttpConnection implements HttpConnection {
 
     public String getHeaderField(String name) {
         return wrappedUrlConnection.getHeaderField(name);
+    }
+
+    public List<String> getHeaderFields(String name) {
+        return Collections.emptyList();
     }
 
     public int getContentLength() {

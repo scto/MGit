@@ -1,15 +1,16 @@
 package com.xinglan.mgit.dialogs;
 
-import java.util.List;
+import android.app.AlertDialog;
+import android.app.Dialog;
+import android.content.DialogInterface;
+import android.os.Bundle;
 
 import com.xinglan.android.utils.CodeGuesser;
 import com.xinglan.android.views.SheimiDialogFragment;
 import com.xinglan.mgit.R;
 import com.xinglan.mgit.activities.ViewFileActivity;
-import android.app.AlertDialog;
-import android.app.Dialog;
-import android.content.DialogInterface;
-import android.os.Bundle;
+
+import java.util.List;
 
 /**
  * Created by sheimi on 8/16/13.
@@ -29,15 +30,15 @@ public class ChooseLanguageDialog extends SheimiDialogFragment {
 
         builder.setTitle(R.string.dialog_choose_language_title);
         builder.setItems(langs.toArray(new String[0]),
-                new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialogInterface,
-                            int position) {
-                        String lang = langs.get(position);
-                        String tag = CodeGuesser.getLanguageTag(lang);
-                        mActivity.setLanguage(tag);
-                    }
-                });
+            new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialogInterface,
+                                    int position) {
+                    String lang = langs.get(position);
+                    String tag = CodeGuesser.getLanguageTag(lang);
+                    mActivity.setLanguage(tag);
+                }
+            });
 
         return builder.create();
     }

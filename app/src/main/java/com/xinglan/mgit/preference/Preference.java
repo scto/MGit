@@ -30,7 +30,7 @@ public class Preference extends android.preference.Preference {
         CharSequence summary = super.getSummary();
         if (summary != null) {
             SharedPreferences sharedPreference = getContext().getSharedPreferences(
-                    getContext().getString(R.string.preference_file_key), Context.MODE_PRIVATE);
+                getContext().getString(R.string.preference_file_key), Context.MODE_PRIVATE);
             String value = sharedPreference.getString(getKey(), "");
             return String.format(summary.toString(), value);
         } else {

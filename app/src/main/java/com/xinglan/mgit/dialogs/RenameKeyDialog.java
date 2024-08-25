@@ -1,10 +1,5 @@
 package com.xinglan.mgit.dialogs;
 
-import java.io.File;
-
-import com.xinglan.android.views.SheimiDialogFragment;
-import com.xinglan.mgit.R;
-import com.xinglan.mgit.activities.explorer.PrivateKeyManageActivity;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.DialogInterface;
@@ -12,14 +7,20 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+
+import com.xinglan.android.views.SheimiDialogFragment;
+import com.xinglan.mgit.R;
+import com.xinglan.mgit.activities.explorer.PrivateKeyManageActivity;
 import com.xinglan.mgit.ssh.PrivateKeyUtils;
+
+import java.io.File;
 
 /**
  * Created by sheimi on 8/24/13.
  */
 
 public class RenameKeyDialog extends SheimiDialogFragment implements
-        View.OnClickListener, DialogInterface.OnClickListener {
+    View.OnClickListener, DialogInterface.OnClickListener {
 
     private File mFromFile;
     private String mFromPath;
@@ -40,7 +41,7 @@ public class RenameKeyDialog extends SheimiDialogFragment implements
 
         builder.setTitle(getString(R.string.dialog_rename_key_title));
         View view = mActivity.getLayoutInflater().inflate(
-                R.layout.dialog_rename_key, null);
+            R.layout.dialog_rename_key, null);
 
         builder.setView(view);
         mNewFilename = (EditText) view.findViewById(R.id.newFilename);
@@ -48,9 +49,9 @@ public class RenameKeyDialog extends SheimiDialogFragment implements
 
         // set button listener
         builder.setNegativeButton(R.string.label_cancel,
-                new DummyDialogListener());
+            new DummyDialogListener());
         builder.setPositiveButton(R.string.label_rename,
-                new DummyDialogListener());
+            new DummyDialogListener());
 
         return builder.create();
     }
@@ -68,7 +69,7 @@ public class RenameKeyDialog extends SheimiDialogFragment implements
         if (dialog == null)
             return;
         Button positiveButton = (Button) dialog
-                .getButton(Dialog.BUTTON_POSITIVE);
+            .getButton(Dialog.BUTTON_POSITIVE);
         positiveButton.setOnClickListener(this);
     }
 
@@ -78,7 +79,7 @@ public class RenameKeyDialog extends SheimiDialogFragment implements
         if (newFilename.equals("")) {
             showToastMessage(R.string.alert_new_filename_required);
             mNewFilename
-                    .setError(getString(R.string.alert_new_filename_required));
+                .setError(getString(R.string.alert_new_filename_required));
             return;
         }
 
@@ -95,12 +96,12 @@ public class RenameKeyDialog extends SheimiDialogFragment implements
             return;
         }
         mFromFile.renameTo(file);
-	try {
-	    PrivateKeyUtils.getPublicKey(mFromFile).renameTo(PrivateKeyUtils.getPublicKey(file));
-	} catch (Exception e) {
-	    //TODO 
-	    e.printStackTrace();
-	}
+        try {
+            PrivateKeyUtils.getPublicKey(mFromFile).renameTo(PrivateKeyUtils.getPublicKey(file));
+        } catch (Exception e) {
+            //TODO
+            e.printStackTrace();
+        }
         mActivity.refreshList();
         dismiss();
     }

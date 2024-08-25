@@ -3,24 +3,38 @@ package com.xinglan.mgit.repolist;
 import android.Manifest;
 import android.app.Activity;
 import android.app.AlertDialog;
-import androidx.lifecycle.ViewModelProviders;
-
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import androidx.databinding.DataBindingUtil;
 import android.net.Uri;
 import android.os.Bundle;
-
-import androidx.core.view.MenuItemCompat;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.SearchView;
 import android.widget.Toast;
 
+import androidx.core.view.MenuItemCompat;
+import androidx.databinding.DataBindingUtil;
+import androidx.lifecycle.ViewModelProviders;
+
+import com.xinglan.android.activities.SheimiFragmentActivity;
+import com.xinglan.mgit.MGitApplication;
+import com.xinglan.mgit.R;
 import com.xinglan.mgit.ViewHelperKt;
+import com.xinglan.mgit.activities.RepoDetailActivity;
+import com.xinglan.mgit.activities.UserSettingsActivity;
+import com.xinglan.mgit.activities.explorer.ExploreFileActivity;
+import com.xinglan.mgit.activities.explorer.ImportRepositoryActivity;
+import com.xinglan.mgit.adapters.RepoListAdapter;
 import com.xinglan.mgit.clone.CloneViewModel;
 import com.xinglan.mgit.common.OnActionClickListener;
+import com.xinglan.mgit.database.RepoDbManager;
+import com.xinglan.mgit.database.models.Repo;
+import com.xinglan.mgit.databinding.ActivityMainBinding;
+import com.xinglan.mgit.dialogs.DummyDialogListener;
+import com.xinglan.mgit.dialogs.ImportLocalRepoDialog;
+import com.xinglan.mgit.ssh.PrivateKeyUtils;
+import com.xinglan.mgit.tasks.repo.CloneTask;
 import com.xinglan.mgit.transport.MGitHttpConnectionFactory;
 
 import java.io.File;
@@ -28,21 +42,6 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.List;
 
-import com.xinglan.android.activities.SheimiFragmentActivity;
-import com.xinglan.mgit.MGitApplication;
-import com.xinglan.mgit.R;
-import com.xinglan.mgit.activities.RepoDetailActivity;
-import com.xinglan.mgit.activities.UserSettingsActivity;
-import com.xinglan.mgit.activities.explorer.ExploreFileActivity;
-import com.xinglan.mgit.activities.explorer.ImportRepositoryActivity;
-import com.xinglan.mgit.adapters.RepoListAdapter;
-import com.xinglan.mgit.database.RepoDbManager;
-import com.xinglan.mgit.database.models.Repo;
-import com.xinglan.mgit.databinding.ActivityMainBinding;
-import com.xinglan.mgit.dialogs.DummyDialogListener;
-import com.xinglan.mgit.dialogs.ImportLocalRepoDialog;
-import com.xinglan.mgit.tasks.repo.CloneTask;
-import com.xinglan.mgit.ssh.PrivateKeyUtils;
 import timber.log.Timber;
 
 public class RepoListActivity extends SheimiFragmentActivity {
@@ -190,7 +189,7 @@ public class RepoListActivity extends SheimiFragmentActivity {
         switch (requestCode) {
             case REQUEST_IMPORT_REPO:
                 final String path = data.getExtras().getString(
-                        ExploreFileActivity.RESULT_PATH);
+                    ExploreFileActivity.RESULT_PATH);
                 File file = new File(path);
                 File dotGit = new File(file, Repo.DOT_GIT_DIR);
                 if (!dotGit.exists()) {
@@ -198,30 +197,30 @@ public class RepoListActivity extends SheimiFragmentActivity {
                     return;
                 }
                 AlertDialog.Builder builder = new AlertDialog.Builder(
-                        this);
+                    this);
                 builder.setTitle(R.string.dialog_comfirm_import_repo_title);
                 builder.setMessage(R.string.dialog_comfirm_import_repo_msg);
                 builder.setNegativeButton(R.string.label_cancel,
-                        new DummyDialogListener());
+                    new DummyDialogListener());
                 builder.setPositiveButton(R.string.label_import,
-                        new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(
-                                    DialogInterface dialogInterface, int i) {
-                                Bundle args = new Bundle();
-                                args.putString(ImportLocalRepoDialog.FROM_PATH, path);
-                                ImportLocalRepoDialog rld = new ImportLocalRepoDialog();
-                                rld.setArguments(args);
-                                rld.show(getSupportFragmentManager(), "import-local-dialog");
-                            }
-                        });
+                    new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(
+                            DialogInterface dialogInterface, int i) {
+                            Bundle args = new Bundle();
+                            args.putString(ImportLocalRepoDialog.FROM_PATH, path);
+                            ImportLocalRepoDialog rld = new ImportLocalRepoDialog();
+                            rld.setArguments(args);
+                            rld.show(getSupportFragmentManager(), "import-local-dialog");
+                        }
+                    });
                 builder.show();
                 break;
         }
     }
 
     public class SearchListener implements SearchView.OnQueryTextListener,
-            MenuItemCompat.OnActionExpandListener {
+        MenuItemCompat.OnActionExpandListener {
 
         @Override
         public boolean onQueryTextSubmit(String s) {

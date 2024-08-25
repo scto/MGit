@@ -45,13 +45,13 @@
 
 package com.xinglan.mgit.transport;
 
-import java.io.IOException;
-import java.net.Proxy;
-import java.net.URL;
-
 import org.eclipse.jgit.transport.HttpTransport;
 import org.eclipse.jgit.transport.http.HttpConnection;
 import org.eclipse.jgit.transport.http.HttpConnectionFactory;
+
+import java.io.IOException;
+import java.net.Proxy;
+import java.net.URL;
 
 /**
  * A factory returning instances of {@link MGitHttpConnection}
@@ -64,13 +64,12 @@ public class MGitHttpConnectionFactory implements HttpConnectionFactory {
     }
 
     public HttpConnection create(URL url, Proxy proxy)
-            throws IOException {
+        throws IOException {
         return new MGitHttpConnection(url, proxy);
     }
 
     public static void install() {
-        if(HttpTransport.getConnectionFactory() instanceof MGitHttpConnectionFactory)
-        {
+        if (HttpTransport.getConnectionFactory() instanceof MGitHttpConnectionFactory) {
             return;
         }
         HttpTransport.setConnectionFactory(new MGitHttpConnectionFactory());

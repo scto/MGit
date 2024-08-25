@@ -1,15 +1,8 @@
 package com.xinglan.mgit.tasks.repo;
 
-import com.xinglan.mgit.exceptions.StopTaskException;
-
-import java.io.ByteArrayOutputStream;
-import java.io.IOException;
-import java.io.UnsupportedEncodingException;
-import java.util.ArrayList;
-import java.util.List;
-
 import com.xinglan.mgit.R;
 import com.xinglan.mgit.database.models.Repo;
+import com.xinglan.mgit.exceptions.StopTaskException;
 
 import org.eclipse.jgit.api.errors.GitAPIException;
 import org.eclipse.jgit.diff.DiffEntry;
@@ -25,6 +18,12 @@ import org.eclipse.jgit.treewalk.AbstractTreeIterator;
 import org.eclipse.jgit.treewalk.CanonicalTreeParser;
 import org.eclipse.jgit.treewalk.EmptyTreeIterator;
 import org.eclipse.jgit.treewalk.FileTreeIterator;
+
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.io.UnsupportedEncodingException;
+import java.util.ArrayList;
+import java.util.List;
 
 public class CommitDiffTask extends RepoOpTask {
 
@@ -113,7 +112,7 @@ public class CommitDiffTask extends RepoOpTask {
             mDiffFormatter.setRepository(repo);
 
             AbstractTreeIterator mOldCommitTreeIterator = mRepo.isInitialCommit(mNewCommit) ?
-                    new EmptyTreeIterator() : getTreeIterator(repo, mOldCommit);
+                new EmptyTreeIterator() : getTreeIterator(repo, mOldCommit);
 
             AbstractTreeIterator mNewCommitTreeIterator = getTreeIterator(repo, mNewCommit);
             mDiffEntries = mDiffFormatter.scan(mOldCommitTreeIterator, mNewCommitTreeIterator);

@@ -2,6 +2,12 @@ package com.xinglan.mgit.tasks.repo;
 
 import androidx.annotation.StringRes;
 
+import com.xinglan.android.utils.Profile;
+import com.xinglan.mgit.R;
+import com.xinglan.mgit.database.RepoContract;
+import com.xinglan.mgit.database.models.Repo;
+import com.xinglan.mgit.ssh.SgitTransportCallback;
+
 import org.eclipse.jgit.api.CloneCommand;
 import org.eclipse.jgit.api.Git;
 import org.eclipse.jgit.api.errors.GitAPIException;
@@ -13,14 +19,6 @@ import org.eclipse.jgit.lib.ProgressMonitor;
 
 import java.io.File;
 import java.util.Locale;
-
-import com.xinglan.android.utils.Profile;
-import com.xinglan.mgit.database.RepoContract;
-import com.xinglan.mgit.ssh.SgitTransportCallback;
-
-import com.xinglan.mgit.R;
-
-import com.xinglan.mgit.database.models.Repo;
 
 import timber.log.Timber;
 
@@ -63,11 +61,11 @@ public class CloneTask extends RepoRemoteOpTask {
     public boolean cloneRepo() {
         File localRepo = mRepo.getDir();
         CloneCommand cloneCommand = Git.cloneRepository()
-                .setURI(mRepo.getRemoteURL()).setCloneAllBranches(true)
-                .setProgressMonitor(new RepoCloneMonitor())
-                .setTransportConfigCallback(new SgitTransportCallback())
-                .setDirectory(localRepo)
-                .setCloneSubmodules(mCloneRecursive);
+            .setURI(mRepo.getRemoteURL()).setCloneAllBranches(true)
+            .setProgressMonitor(new RepoCloneMonitor())
+            .setTransportConfigCallback(new SgitTransportCallback())
+            .setDirectory(localRepo)
+            .setCloneSubmodules(mCloneRecursive);
 
         setCredentials(cloneCommand);
 
@@ -86,8 +84,7 @@ public class CloneTask extends RepoRemoteOpTask {
         } catch (GitAPIException e) {
             setException(e, R.string.error_clone_failed);
             return false;
-        }
-        catch (JGitInternalException e) {
+        } catch (JGitInternalException e) {
             // not supported when unsupported git remotehttp://asdgfkas URI
             if (e.getCause() instanceof NotSupportedException) {
                 setError(R.string.error_invalid_remote);

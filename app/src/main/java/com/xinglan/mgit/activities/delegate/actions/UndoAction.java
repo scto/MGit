@@ -1,10 +1,6 @@
 package com.xinglan.mgit.activities.delegate.actions;
+
 import android.content.DialogInterface;
-
-import org.eclipse.jgit.api.errors.GitAPIException;
-import org.eclipse.jgit.revwalk.RevCommit;
-
-import java.util.Iterator;
 
 import com.xinglan.mgit.R;
 import com.xinglan.mgit.activities.RepoDetailActivity;
@@ -12,6 +8,11 @@ import com.xinglan.mgit.database.models.Repo;
 import com.xinglan.mgit.exceptions.StopTaskException;
 import com.xinglan.mgit.tasks.SheimiAsyncTask.AsyncTaskPostCallback;
 import com.xinglan.mgit.tasks.repo.UndoCommitTask;
+
+import org.eclipse.jgit.api.errors.GitAPIException;
+import org.eclipse.jgit.revwalk.RevCommit;
+
+import java.util.Iterator;
 
 public class UndoAction extends RepoAction {
     public UndoAction(Repo repo, RepoDetailActivity activity) {

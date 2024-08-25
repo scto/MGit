@@ -2,6 +2,7 @@ package com.xinglan.mgit.fragments;
 
 import android.content.Context;
 import android.content.DialogInterface;
+
 import androidx.fragment.app.Fragment;
 
 import com.xinglan.android.activities.SheimiFragmentActivity;
@@ -29,15 +30,15 @@ public abstract class BaseFragment extends Fragment {
     }
 
     public void showMessageDialog(int title, int msg, int positiveBtn,
-            DialogInterface.OnClickListener positiveListener) {
+                                  DialogInterface.OnClickListener positiveListener) {
         getRawActivity().showMessageDialog(title, msg, positiveBtn,
-                positiveListener);
+            positiveListener);
     }
 
     public void showMessageDialog(int title, String msg, int positiveBtn,
-            DialogInterface.OnClickListener positiveListener) {
+                                  DialogInterface.OnClickListener positiveListener) {
         getRawActivity().showMessageDialog(title, msg, positiveBtn,
-                positiveListener);
+            positiveListener);
     }
 
     public void showToastMessage(int resId) {

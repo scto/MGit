@@ -8,23 +8,22 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 
-import java.io.File;
-
 import com.xinglan.android.views.SheimiDialogFragment;
 import com.xinglan.mgit.MGitApplication;
 import com.xinglan.mgit.R;
-import com.xinglan.mgit.repolist.RepoListActivity;
-
 import com.xinglan.mgit.database.models.Repo;
 import com.xinglan.mgit.preference.PreferenceHelper;
+import com.xinglan.mgit.repolist.RepoListActivity;
 import com.xinglan.mgit.tasks.repo.InitLocalTask;
+
+import java.io.File;
 
 /**
  * Created by sheimi on 8/24/13.
  */
 
 public class InitDialog extends SheimiDialogFragment implements
-        View.OnClickListener {
+    View.OnClickListener {
 
     private EditText mLocalPath;
     private RepoListActivity mActivity;
@@ -36,7 +35,7 @@ public class InitDialog extends SheimiDialogFragment implements
         super.onCreateDialog(savedInstanceState);
         mActivity = (RepoListActivity) getActivity();
 
-        mPrefsHelper = ((MGitApplication)mActivity.getApplicationContext()).getPrefenceHelper();
+        mPrefsHelper = ((MGitApplication) mActivity.getApplicationContext()).getPrefenceHelper();
 
         AlertDialog.Builder builder = new AlertDialog.Builder(mActivity);
         LayoutInflater inflater = mActivity.getLayoutInflater();
@@ -48,10 +47,10 @@ public class InitDialog extends SheimiDialogFragment implements
         // set button listener
         builder.setTitle(R.string.dialog_init_repo_title);
         builder.setNegativeButton(getString(R.string.label_cancel),
-                new DummyDialogListener());
+            new DummyDialogListener());
         builder.setPositiveButton(
-                getString(R.string.dialog_init_repo_positive_label),
-                new DummyDialogListener());
+            getString(R.string.dialog_init_repo_positive_label),
+            new DummyDialogListener());
 
         return builder.create();
     }
@@ -63,7 +62,7 @@ public class InitDialog extends SheimiDialogFragment implements
         if (dialog == null)
             return;
         Button positiveButton = (Button) dialog
-                .getButton(Dialog.BUTTON_POSITIVE);
+            .getButton(Dialog.BUTTON_POSITIVE);
         positiveButton.setOnClickListener(this);
     }
 
@@ -88,7 +87,7 @@ public class InitDialog extends SheimiDialogFragment implements
         if (file.exists()) {
             showToastMessage(R.string.alert_localpath_repo_exists);
             mLocalPath
-                    .setError(getString(R.string.alert_localpath_repo_exists));
+                .setError(getString(R.string.alert_localpath_repo_exists));
             mLocalPath.requestFocus();
             return;
         }

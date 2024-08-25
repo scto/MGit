@@ -1,16 +1,18 @@
 package com.xinglan.mgit.ssh;
 
+import com.jcraft.jsch.JSch;
+import com.jcraft.jsch.KeyPair;
 import com.xinglan.android.utils.FsUtils;
+
 import org.apache.commons.io.FileUtils;
 
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import com.jcraft.jsch.JSch;
-import com.jcraft.jsch.KeyPair;
 
 public class PrivateKeyUtils {
-    private PrivateKeyUtils() {}
+    private PrivateKeyUtils() {
+    }
 
     public static File getPrivateKeyFolder() {
         return FsUtils.getInternalDir("ssh");
@@ -21,24 +23,24 @@ public class PrivateKeyUtils {
     }
 
     public static File getPublicKey(File privateKey) {
-	return new File(PrivateKeyUtils.getPublicKeyFolder(),
-			privateKey.getName());
+        return new File(PrivateKeyUtils.getPublicKeyFolder(),
+            privateKey.getName());
     }
 
     public static File getPublicKeyEnsure(File privateKey) {
-	File publicKey = getPublicKey(privateKey);
-	if (!publicKey.exists()) {
-	    try {
-		JSch jsch=new JSch();
-		KeyPair kpair=KeyPair.load(jsch, privateKey.getAbsolutePath());
-		kpair.writePublicKey(new FileOutputStream(publicKey), "mgit");
-		kpair.dispose();
-	    } catch (Exception e) {
-		//TODO 
-		e.printStackTrace();
-	    }
-	}
-	return publicKey;
+        File publicKey = getPublicKey(privateKey);
+        if (!publicKey.exists()) {
+            try {
+                JSch jsch = new JSch();
+                KeyPair kpair = KeyPair.load(jsch, privateKey.getAbsolutePath());
+                kpair.writePublicKey(new FileOutputStream(publicKey), "mgit");
+                kpair.dispose();
+            } catch (Exception e) {
+                //TODO
+                e.printStackTrace();
+            }
+        }
+        return publicKey;
     }
 
     public static void migratePrivateKeys() {

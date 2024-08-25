@@ -1,13 +1,12 @@
 package com.xinglan.mgit.tasks.repo;
 
-import com.xinglan.mgit.exceptions.StopTaskException;
-
-import java.util.Set;
-
 import com.xinglan.mgit.database.models.Repo;
+import com.xinglan.mgit.exceptions.StopTaskException;
 
 import org.eclipse.jgit.api.errors.GitAPIException;
 import org.eclipse.jgit.errors.NoWorkTreeException;
+
+import java.util.Set;
 
 public class StatusTask extends RepoOpTask {
 

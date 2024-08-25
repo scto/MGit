@@ -1,13 +1,12 @@
 package com.xinglan.mgit.tasks.repo;
 
+import com.xinglan.mgit.R;
+import com.xinglan.mgit.database.models.Repo;
 import com.xinglan.mgit.exceptions.StopTaskException;
 
 import org.eclipse.jgit.api.RebaseCommand;
 import org.eclipse.jgit.api.ResetCommand;
 import org.eclipse.jgit.api.errors.WrongRepositoryStateException;
-
-import com.xinglan.mgit.R;
-import com.xinglan.mgit.database.models.Repo;
 
 import timber.log.Timber;
 

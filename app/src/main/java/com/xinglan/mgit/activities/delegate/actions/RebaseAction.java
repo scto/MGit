@@ -16,7 +16,6 @@ import android.widget.TextView;
 import com.xinglan.android.utils.Profile;
 import com.xinglan.android.views.SheimiDialogFragment;
 import com.xinglan.mgit.R;
-
 import com.xinglan.mgit.activities.RepoDetailActivity;
 import com.xinglan.mgit.database.models.Repo;
 import com.xinglan.mgit.tasks.SheimiAsyncTask.AsyncTaskPostCallback;
@@ -37,14 +36,14 @@ public class RebaseAction extends RepoAction {
     }
 
     private static void rebase(Repo repo, String branch,
-            final RepoDetailActivity activity) {
+                               final RepoDetailActivity activity) {
         RebaseTask rebaseTask = new RebaseTask(repo, branch,
-                new AsyncTaskPostCallback() {
-                    @Override
-                    public void onPostExecute(Boolean isSuccess) {
-                        activity.reset();
-                    }
-                });
+            new AsyncTaskPostCallback() {
+                @Override
+                public void onPostExecute(Boolean isSuccess) {
+                    activity.reset();
+                }
+            });
         rebaseTask.executeTask();
     }
 
@@ -82,15 +81,15 @@ public class RebaseAction extends RepoAction {
 
             builder.setTitle(R.string.dialog_rebase_title);
             mBranchTagList
-                    .setOnItemClickListener(new AdapterView.OnItemClickListener() {
-                        @Override
-                        public void onItemClick(AdapterView<?> adapterView,
-                                View view, int position, long id) {
-                            String commit = mAdapter.getItem(position);
-                            rebase(mRepo, commit, mActivity);
-                            getDialog().cancel();
-                        }
-                    });
+                .setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                    @Override
+                    public void onItemClick(AdapterView<?> adapterView,
+                                            View view, int position, long id) {
+                        String commit = mAdapter.getItem(position);
+                        rebase(mRepo, commit, mActivity);
+                        getDialog().cancel();
+                    }
+                });
 
             return builder.create();
         }
@@ -107,13 +106,13 @@ public class RebaseAction extends RepoAction {
                 ListItemHolder holder;
                 if (convertView == null) {
                     convertView = inflater.inflate(
-                            R.layout.listitem_dialog_choose_commit, parent,
-                            false);
+                        R.layout.listitem_dialog_choose_commit, parent,
+                        false);
                     holder = new ListItemHolder();
                     holder.commitTitle = (TextView) convertView
-                            .findViewById(R.id.commitTitle);
+                        .findViewById(R.id.commitTitle);
                     holder.commitIcon = (ImageView) convertView
-                            .findViewById(R.id.commitIcon);
+                        .findViewById(R.id.commitIcon);
                     convertView.setTag(holder);
                 } else {
                     holder = (ListItemHolder) convertView.getTag();
@@ -124,7 +123,7 @@ public class RebaseAction extends RepoAction {
                 switch (commitType) {
                     case Repo.COMMIT_TYPE_HEAD:
                         holder.commitIcon
-                                .setImageResource(Profile.getStyledResource(getContext(), R.attr.ic_branch_l));
+                            .setImageResource(Profile.getStyledResource(getContext(), R.attr.ic_branch_l));
                         break;
                     case Repo.COMMIT_TYPE_TAG:
                         holder.commitIcon.setImageResource(Profile.getStyledResource(getContext(), R.attr.ic_tag_l));

@@ -1,14 +1,15 @@
 package com.xinglan.mgit.tasks.repo;
 
-import org.eclipse.jgit.api.TransportCommand;
-import org.eclipse.jgit.lib.ProgressMonitor;
-import org.eclipse.jgit.transport.UsernamePasswordCredentialsProvider;
-
 import com.xinglan.android.activities.SheimiFragmentActivity.OnPasswordEntered;
 import com.xinglan.android.utils.BasicFunctions;
 import com.xinglan.mgit.R;
 import com.xinglan.mgit.database.models.Repo;
 import com.xinglan.mgit.tasks.SheimiAsyncTask;
+
+import org.eclipse.jgit.api.TransportCommand;
+import org.eclipse.jgit.lib.ProgressMonitor;
+import org.eclipse.jgit.transport.UsernamePasswordCredentialsProvider;
+
 import timber.log.Timber;
 
 public abstract class RepoOpTask extends SheimiAsyncTask<Void, String, Boolean> {
@@ -47,7 +48,7 @@ public abstract class RepoOpTask extends SheimiAsyncTask<Void, String, Boolean> 
             return;
         }
         BasicFunctions.getActiveActivity().showToastMessage(
-                R.string.error_task_running);
+            R.string.error_task_running);
     }
 
     protected void setCredentials(TransportCommand command) {
@@ -70,17 +71,17 @@ public abstract class RepoOpTask extends SheimiAsyncTask<Void, String, Boolean> 
         Timber.w("clone Auth error: %s", msg);
 
         if (msg == null || ((!msg.contains("Auth fail"))
-                && (!msg.toLowerCase().contains("auth")))) {
+            && (!msg.toLowerCase().contains("auth")))) {
             return;
         }
 
         String errorInfo = null;
         if (msg.contains("Auth fail")) {
             errorInfo = BasicFunctions.getActiveActivity().getString(
-                    R.string.dialog_prompt_for_password_title_auth_fail);
+                R.string.dialog_prompt_for_password_title_auth_fail);
         }
         BasicFunctions.getActiveActivity().promptForPassword(onPassEntered,
-                errorInfo);
+            errorInfo);
     }
 
     class BasicProgressMonitor implements ProgressMonitor {
@@ -135,7 +136,7 @@ public abstract class RepoOpTask extends SheimiAsyncTask<Void, String, Boolean> 
                 leftHint = progress + "%";
             }
             publishProgress(msg, leftHint, rightHint,
-                    Integer.toString(progress));
+                Integer.toString(progress));
         }
 
     }

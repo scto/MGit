@@ -1,9 +1,11 @@
 package com.xinglan.mgit.tasks;
 
 import android.os.AsyncTask;
+
 import androidx.annotation.StringRes;
 
 import com.xinglan.mgit.R;
+
 import timber.log.Timber;
 
 public abstract class SheimiAsyncTask<A, B, C> extends AsyncTask<A, B, C> {

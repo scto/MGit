@@ -32,9 +32,9 @@ class PrivateKeyGenerate : SheimiDialogFragment() {
         mKeyLength.setText("4096")
         mRadioGroup = view.findViewById(R.id.radio_keygen_type)
         builder.setMessage(R.string.label_dialog_generate_key)
-                .setView(view)
-                .setPositiveButton(R.string.label_generate_key) { _, _ -> generateKey() }
-                .setNegativeButton(R.string.label_cancel) { _, _ -> }
+            .setView(view)
+            .setPositiveButton(R.string.label_generate_key) { _, _ -> generateKey() }
+            .setNegativeButton(R.string.label_cancel) { _, _ -> }
         return builder.create()
     }
 

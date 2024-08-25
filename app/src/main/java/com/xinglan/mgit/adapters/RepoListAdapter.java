@@ -1,21 +1,5 @@
 package com.xinglan.mgit.adapters;
 
-import java.text.DateFormat;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.List;
-
-import com.xinglan.android.activities.SheimiFragmentActivity;
-import com.xinglan.android.utils.BasicFunctions;
-import com.xinglan.mgit.R;
-
-import com.xinglan.mgit.database.RepoDbManager;
-import com.xinglan.mgit.database.models.Repo;
-import com.xinglan.mgit.repolist.RepoListActivity;
-import com.xinglan.mgit.activities.RepoDetailActivity;
-import com.xinglan.mgit.database.RepoContract;
-
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -36,12 +20,27 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.xinglan.android.activities.SheimiFragmentActivity;
+import com.xinglan.android.utils.BasicFunctions;
+import com.xinglan.mgit.R;
+import com.xinglan.mgit.activities.RepoDetailActivity;
+import com.xinglan.mgit.database.RepoContract;
+import com.xinglan.mgit.database.RepoDbManager;
+import com.xinglan.mgit.database.models.Repo;
+import com.xinglan.mgit.repolist.RepoListActivity;
+
+import java.text.DateFormat;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
+
 /**
  * Created by sheimi on 8/6/13.
  */
 public class RepoListAdapter extends ArrayAdapter<Repo> implements
     RepoDbManager.RepoDbObserver, AdapterView.OnItemClickListener,
-        AdapterView.OnItemLongClickListener {
+    AdapterView.OnItemLongClickListener {
 
     private static final int QUERY_TYPE_SEARCH = 0;
     private static final int QUERY_TYPE_QUERY = 1;
@@ -55,7 +54,7 @@ public class RepoListAdapter extends ArrayAdapter<Repo> implements
     public RepoListAdapter(Context context) {
         super(context, 0);
         RepoDbManager.registerDbObserver(RepoContract.RepoEntry.TABLE_NAME,
-                this);
+            this);
         mActivity = (RepoListActivity) context;
         mCommitDateFormatter = android.text.format.DateFormat.getDateFormat(context);
     }
@@ -162,7 +161,7 @@ public class RepoListAdapter extends ArrayAdapter<Repo> implements
 
     @Override
     public void onItemClick(AdapterView<?> adapterView, View view,
-            int position, long id) {
+                            int position, long id) {
         Repo repo = getItem(position);
         Intent intent = new Intent(mActivity, RepoDetailActivity.class);
         intent.putExtra(Repo.TAG, repo);
@@ -171,7 +170,7 @@ public class RepoListAdapter extends ArrayAdapter<Repo> implements
 
     @Override
     public boolean onItemLongClick(AdapterView<?> adapterView, View view,
-            int position, long id) {
+                                   int position, long id) {
         final Repo repo = getItem(position);
         if (!repo.getRepoStatus().equals(RepoContract.REPO_STATUS_NULL))
             return false;
@@ -184,7 +183,7 @@ public class RepoListAdapter extends ArrayAdapter<Repo> implements
 
     private void showRepoOptionsDialog(final SheimiFragmentActivity context, final Repo repo) {
 
-        SheimiFragmentActivity.onOptionDialogClicked[] dialog = new SheimiFragmentActivity.onOptionDialogClicked[] {
+        SheimiFragmentActivity.onOptionDialogClicked[] dialog = new SheimiFragmentActivity.onOptionDialogClicked[]{
             new SheimiFragmentActivity.onOptionDialogClicked() {
                 @Override
                 public void onClicked() {
@@ -204,7 +203,7 @@ public class RepoListAdapter extends ArrayAdapter<Repo> implements
 
         boolean repoHasHttpRemote = (remoteRaw != null && !remoteRaw.equals("local repository") && remoteRaw.contains("http"));
 
-        if(repoHasHttpRemote){
+        if (repoHasHttpRemote) {
             //TODO : Transform ssh uri in http?
             dialog[2] = new SheimiFragmentActivity.onOptionDialogClicked() {
                 @Override
@@ -246,17 +245,16 @@ public class RepoListAdapter extends ArrayAdapter<Repo> implements
                             Intent chooserIntent = Intent.createChooser(intentList.remove(0), title);
                             chooserIntent.putExtra(Intent.EXTRA_INITIAL_INTENTS, intentList.toArray(new Parcelable[intentList.size()]));
                             context.startActivity(chooserIntent);
-                        } else
-                        {
+                        } else {
                             Log.i(TAG, context.getString(R.string.dialog_open_remote_no_app_available));
-                            Toast.makeText(context,R.string.dialog_open_remote_no_app_available, Toast.LENGTH_LONG).show();
+                            Toast.makeText(context, R.string.dialog_open_remote_no_app_available, Toast.LENGTH_LONG).show();
                         }
                     }
                 }
             };
         }
 
-        if(repoHasHttpRemote){
+        if (repoHasHttpRemote) {
             List<String> stringList = new ArrayList<>(3);
             stringList.addAll(Arrays.asList(context.getResources().getStringArray(R.array.dialog_choose_repo_action_items)));
             stringList.add(context.getString(R.string.dialog_open_remote));
@@ -267,7 +265,7 @@ public class RepoListAdapter extends ArrayAdapter<Repo> implements
                 options_values,
                 dialog
             );
-        }else{
+        } else {
             context.showOptionsDialog(
                 R.string.dialog_choose_option,
                 R.array.dialog_choose_repo_action_items,
@@ -299,7 +297,7 @@ public class RepoListAdapter extends ArrayAdapter<Repo> implements
             new SheimiFragmentActivity.OnEditTextDialogClicked() {
                 @Override
                 public void onClicked(String newRepoName) {
-                    if (!repo.renameRepo(newRepoName)){
+                    if (!repo.renameRepo(newRepoName)) {
                         context.showToastMessage(R.string.error_rename_repo_fail);
                     }
                 }

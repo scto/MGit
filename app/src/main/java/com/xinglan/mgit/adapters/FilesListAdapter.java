@@ -8,13 +8,13 @@ import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.xinglan.android.utils.Profile;
+import com.xinglan.mgit.R;
+
 import java.io.File;
 import java.io.FileFilter;
 import java.util.Arrays;
 import java.util.Comparator;
-
-import com.xinglan.android.utils.Profile;
-import com.xinglan.mgit.R;
 
 /**
  * Created by sheimi on 8/18/13.
@@ -36,12 +36,12 @@ public class FilesListAdapter extends ArrayAdapter<File> {
         FilesListItemHolder holder;
         if (convertView == null) {
             convertView = inflater.inflate(R.layout.listitem_files, parent,
-                    false);
+                false);
             holder = new FilesListItemHolder();
             holder.fileTitle = (TextView) convertView
-                    .findViewById(R.id.fileTitle);
+                .findViewById(R.id.fileTitle);
             holder.fileIcon = (ImageView) convertView
-                    .findViewById(R.id.fileIcon);
+                .findViewById(R.id.fileIcon);
             convertView.setTag(holder);
         } else {
             holder = (FilesListItemHolder) convertView.getTag();
@@ -80,7 +80,7 @@ public class FilesListAdapter extends ArrayAdapter<File> {
             public int compare(File file1, File file2) {
                 // if file1 and file2 are the same type (dir or file)
                 if ((!file1.isDirectory() && !file2.isDirectory() || (file1
-                        .isDirectory() && file2.isDirectory()))) {
+                    .isDirectory() && file2.isDirectory()))) {
                     return file1.toString().compareTo(file2.toString());
                 }
                 return file1.isDirectory() ? -1 : 1;

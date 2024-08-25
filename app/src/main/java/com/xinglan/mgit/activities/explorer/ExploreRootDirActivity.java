@@ -6,14 +6,13 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 
-import java.io.File;
-import java.io.FileFilter;
-
 import com.xinglan.mgit.R;
 import com.xinglan.mgit.database.models.Repo;
 
-public class ExploreRootDirActivity extends FileExplorerActivity {
+import java.io.File;
+import java.io.FileFilter;
 
+public class ExploreRootDirActivity extends FileExplorerActivity {
 
 
     @Override
@@ -37,7 +36,7 @@ public class ExploreRootDirActivity extends FileExplorerActivity {
         return new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view,
-                    int position, long id) {
+                                    int position, long id) {
                 File file = mFilesListAdapter.getItem(position);
                 if (file.isDirectory()) {
                     setCurrentDir(file);

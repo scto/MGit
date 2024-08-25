@@ -5,12 +5,11 @@ import android.content.SharedPreferences;
 
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.download.BaseImageDownloader;
+import com.xinglan.mgit.R;
 
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Locale;
-
-import com.xinglan.mgit.R;
 
 /**
  * Created by cfoote on 12/06/2017.
@@ -36,6 +35,7 @@ public class AvatarDownloader extends BaseImageDownloader {
 
     /**
      * Checks if the use of Gravatar is enabled in the preferences.
+     *
      * @return true if the use of Gravatar to retrieve Avatar images is enabled, false otherwise
      */
     protected boolean isGravatarEnabled() {

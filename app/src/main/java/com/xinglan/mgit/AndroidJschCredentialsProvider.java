@@ -1,14 +1,14 @@
 package com.xinglan.mgit;
 
+import com.xinglan.android.utils.SecurePrefsHelper;
+
 import org.eclipse.jgit.errors.UnsupportedCredentialItem;
 import org.eclipse.jgit.transport.CredentialItem;
 import org.eclipse.jgit.transport.URIish;
 
-import com.xinglan.android.utils.SecurePrefsHelper;
 import timber.log.Timber;
 
 /**
- *
  * ref: http://stackoverflow.com/a/15290861/85472
  */
 
@@ -55,7 +55,7 @@ public class AndroidJschCredentialsProvider extends org.eclipse.jgit.transport.C
                 Timber.w("need credential for: %s ", item.getPromptText());
                 // the getPromptText() will be "Passphrase for /.../files/ssh/key_file_name_rsa"
                 String prompt = item.getPromptText();
-                String keyfileName = prompt.substring(prompt.lastIndexOf("/")+1, prompt.length());
+                String keyfileName = prompt.substring(prompt.lastIndexOf("/") + 1, prompt.length());
                 String password = mSecPrefsHelper.get(keyfileName);
                 if (password != null) {
                     ((CredentialItem.StringType) item).setValue(password);

@@ -3,9 +3,10 @@ package com.xinglan.mgit.preference;
 import android.content.Context;
 import android.content.SharedPreferences;
 
+import com.xinglan.mgit.R;
+
 import java.io.File;
 
-import com.xinglan.mgit.R;
 import timber.log.Timber;
 
 /**
@@ -43,12 +44,12 @@ public class PreferenceHelper {
 
     public void setRepoRoot(String repoRootPath) {
         edit(mContext.getString(R.string.pref_key_repo_root_location), repoRootPath);
-        Timber.d("set root:"+repoRootPath);
+        Timber.d("set root:" + repoRootPath);
     }
 
     public void setPrivacyAccepted() {
         edit(PRIVACY_ACCEPTED_KEY, PRIVACY_ACCEPTED_VERSION);
-        Timber.d("Privacy policy accepted version:"+PRIVACY_ACCEPTED_VERSION);
+        Timber.d("Privacy policy accepted version:" + PRIVACY_ACCEPTED_VERSION);
     }
 
 
@@ -65,13 +66,13 @@ public class PreferenceHelper {
     }
 
     private void edit(String name, int value) {
-        SharedPreferences.Editor editor =  getSharedPrefs().edit();
+        SharedPreferences.Editor editor = getSharedPrefs().edit();
         editor.putInt(name, value);
         editor.apply();
     }
 
     private void edit(String name, boolean value) {
-        SharedPreferences.Editor editor =  getSharedPrefs().edit();
+        SharedPreferences.Editor editor = getSharedPrefs().edit();
         editor.putBoolean(name, value);
         editor.apply();
     }
@@ -81,11 +82,11 @@ public class PreferenceHelper {
     }
 
     private int getInt(String name) {
-        return  getSharedPrefs().getInt(name, DEFAULT_INT);
+        return getSharedPrefs().getInt(name, DEFAULT_INT);
     }
 
     private boolean getBoolean(String name) {
-        return  getSharedPrefs().getBoolean(name, DEFAULT_BOOLEAN);
+        return getSharedPrefs().getBoolean(name, DEFAULT_BOOLEAN);
     }
 
     public boolean isPrivacyAccepted() {

@@ -1,20 +1,19 @@
 package com.xinglan.mgit.activities.delegate.actions;
 
-import java.io.IOException;
-
-import com.xinglan.mgit.R;
-
-import com.xinglan.mgit.dialogs.DummyDialogListener;
-import com.xinglan.mgit.activities.RepoDetailActivity;
-import com.xinglan.mgit.database.models.Repo;
-
-import timber.log.Timber;
-
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.EditText;
+
+import com.xinglan.mgit.R;
+import com.xinglan.mgit.activities.RepoDetailActivity;
+import com.xinglan.mgit.database.models.Repo;
+import com.xinglan.mgit.dialogs.DummyDialogListener;
+
+import java.io.IOException;
+
+import timber.log.Timber;
 
 public class AddRemoteAction extends RepoAction {
 
@@ -40,30 +39,30 @@ public class AddRemoteAction extends RepoAction {
         LayoutInflater inflater = mActivity.getLayoutInflater();
         View layout = inflater.inflate(R.layout.dialog_add_remote, null);
         final EditText remoteName = (EditText) layout
-                .findViewById(R.id.remoteName);
+            .findViewById(R.id.remoteName);
         final EditText remoteUrl = (EditText) layout
-                .findViewById(R.id.remoteUrl);
+            .findViewById(R.id.remoteUrl);
 
         builder.setTitle(R.string.dialog_add_remote_title)
-                .setView(layout)
-                .setPositiveButton(R.string.dialog_add_remote_positive_label,
-                        new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(
-                                    DialogInterface dialogInterface, int i) {
-                                String name = remoteName.getText().toString();
-                                String url = remoteUrl.getText().toString();
-                                try {
-                                    addToRemote(name, url);
-                                } catch (IOException e) {
-                                    Timber.e(e);
-                                    mActivity.showMessageDialog(R.string.dialog_error_title,
-                                        mActivity.getString(R.string.error_something_wrong));
-                                }
-                            }
-                        })
-                .setNegativeButton(R.string.label_cancel,
-                        new DummyDialogListener()).show();
+            .setView(layout)
+            .setPositiveButton(R.string.dialog_add_remote_positive_label,
+                new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(
+                        DialogInterface dialogInterface, int i) {
+                        String name = remoteName.getText().toString();
+                        String url = remoteUrl.getText().toString();
+                        try {
+                            addToRemote(name, url);
+                        } catch (IOException e) {
+                            Timber.e(e);
+                            mActivity.showMessageDialog(R.string.dialog_error_title,
+                                mActivity.getString(R.string.error_something_wrong));
+                        }
+                    }
+                })
+            .setNegativeButton(R.string.label_cancel,
+                new DummyDialogListener()).show();
     }
 
 }

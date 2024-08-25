@@ -10,14 +10,13 @@ import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 
-import java.io.File;
-import java.io.FileFilter;
-
 import com.xinglan.android.activities.SheimiFragmentActivity;
 import com.xinglan.android.utils.Profile;
+import com.xinglan.mgit.R;
 import com.xinglan.mgit.adapters.FilesListAdapter;
 
-import com.xinglan.mgit.R;
+import java.io.File;
+import java.io.FileFilter;
 
 public abstract class FileExplorerActivity extends SheimiFragmentActivity {
 
@@ -90,7 +89,7 @@ public abstract class FileExplorerActivity extends SheimiFragmentActivity {
         }
         return super.onOptionsItemSelected(item);
     }
-    
+
     @Override
     public boolean onKeyUp(int keyCode, KeyEvent event) {
         if (keyCode == KeyEvent.KEYCODE_BACK) {
@@ -119,7 +118,7 @@ public abstract class FileExplorerActivity extends SheimiFragmentActivity {
         }
 
     }
-    
+
     protected File getCurrentDir() {
         return mCurrentDir;
     }

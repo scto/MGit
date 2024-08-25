@@ -1,12 +1,5 @@
 package com.xinglan.mgit.fragments;
 
-import com.xinglan.android.activities.SheimiFragmentActivity.OnBackClickListener;
-import com.xinglan.mgit.database.models.Repo;
-import com.xinglan.mgit.tasks.repo.StatusTask;
-
-import com.xinglan.mgit.R;
-import com.xinglan.mgit.activities.CommitDiffActivity;
-
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -15,6 +8,12 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+
+import com.xinglan.android.activities.SheimiFragmentActivity.OnBackClickListener;
+import com.xinglan.mgit.R;
+import com.xinglan.mgit.activities.CommitDiffActivity;
+import com.xinglan.mgit.database.models.Repo;
+import com.xinglan.mgit.tasks.repo.StatusTask;
 
 /**
  * Created by sheimi on 8/5/13.
@@ -37,7 +36,7 @@ public class StatusFragment extends RepoDetailFragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
-            Bundle savedInstanceState) {
+                             Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_status, container, false);
         getRawActivity().setStatusFragment(this);
 
@@ -71,7 +70,7 @@ public class StatusFragment extends RepoDetailFragment {
 
     private void showDiff(String oldCommit, String newCommit) {
         Intent intent = new Intent(getRawActivity(),
-                CommitDiffActivity.class);
+            CommitDiffActivity.class);
         intent.putExtra(CommitDiffActivity.OLD_COMMIT, oldCommit);
         intent.putExtra(CommitDiffActivity.NEW_COMMIT, newCommit);
         intent.putExtra(CommitDiffActivity.SHOW_DESCRIPTION, false);

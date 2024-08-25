@@ -2,6 +2,7 @@ package com.xinglan.android.views;
 
 import android.content.Context;
 import android.content.DialogInterface;
+
 import androidx.annotation.NonNull;
 import androidx.fragment.app.DialogFragment;
 
@@ -9,7 +10,8 @@ import com.xinglan.android.activities.SheimiFragmentActivity;
 
 public class SheimiDialogFragment extends DialogFragment {
 
-    @SuppressWarnings("NullableProblems") // It's safe to assume onAttach is called before other code.
+    @SuppressWarnings("NullableProblems")
+    // It's safe to assume onAttach is called before other code.
     @NonNull
     private SheimiFragmentActivity mActivity;
 
@@ -25,15 +27,15 @@ public class SheimiDialogFragment extends DialogFragment {
     }
 
     public void showMessageDialog(int title, int msg, int positiveBtn,
-            DialogInterface.OnClickListener positiveListener) {
+                                  DialogInterface.OnClickListener positiveListener) {
         getRawActivity().showMessageDialog(title, msg, positiveBtn,
-                positiveListener);
+            positiveListener);
     }
 
     public void showMessageDialog(int title, String msg, int positiveBtn,
-            DialogInterface.OnClickListener positiveListener) {
+                                  DialogInterface.OnClickListener positiveListener) {
         getRawActivity().showMessageDialog(title, msg, positiveBtn,
-                positiveListener);
+            positiveListener);
     }
 
     public void showToastMessage(int resId) {

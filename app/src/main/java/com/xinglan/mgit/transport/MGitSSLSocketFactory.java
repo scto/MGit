@@ -12,7 +12,7 @@ import javax.net.ssl.SSLSocketFactory;
 public class MGitSSLSocketFactory extends SSLSocketFactory {
 
     private final SSLSocketFactory wrappedSSLSocketFactory;
-    private static final String[] enabledProtocols = new String[] {"TLSv1.3", "TLSv1.2"};
+    private static final String[] enabledProtocols = new String[]{"TLSv1.3", "TLSv1.2"};
 
     public MGitSSLSocketFactory(SSLSocketFactory wrapped) {
         wrappedSSLSocketFactory = wrapped;
@@ -60,8 +60,8 @@ public class MGitSSLSocketFactory extends SSLSocketFactory {
 
 
     private Socket modifySocket(Socket socket) {
-        if(socket instanceof SSLSocket) {
-            SSLSocket sslSocket = (SSLSocket)socket;
+        if (socket instanceof SSLSocket) {
+            SSLSocket sslSocket = (SSLSocket) socket;
             sslSocket.setEnabledProtocols(enabledProtocols);
         }
         return socket;

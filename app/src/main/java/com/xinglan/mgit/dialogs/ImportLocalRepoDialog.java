@@ -11,23 +11,22 @@ import android.widget.CompoundButton;
 import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.EditText;
 
-import java.io.File;
-
 import com.xinglan.android.utils.FsUtils;
 import com.xinglan.android.views.SheimiDialogFragment;
-import com.xinglan.mgit.database.RepoContract;
 import com.xinglan.mgit.MGitApplication;
 import com.xinglan.mgit.R;
-
+import com.xinglan.mgit.database.RepoContract;
 import com.xinglan.mgit.database.models.Repo;
 import com.xinglan.mgit.preference.PreferenceHelper;
+
+import java.io.File;
 
 /**
  * Created by sheimi on 8/24/13.
  */
 
 public class ImportLocalRepoDialog extends SheimiDialogFragment implements
-        View.OnClickListener {
+    View.OnClickListener {
 
     private File mFile;
     private String mFromPath;
@@ -43,7 +42,7 @@ public class ImportLocalRepoDialog extends SheimiDialogFragment implements
 
         mActivity = getActivity();
 
-        mPrefsHelper = ((MGitApplication)mActivity.getApplicationContext()).getPrefenceHelper();
+        mPrefsHelper = ((MGitApplication) mActivity.getApplicationContext()).getPrefenceHelper();
 
         Bundle args = getArguments();
         if (args != null && args.containsKey(FROM_PATH)) {
@@ -54,32 +53,32 @@ public class ImportLocalRepoDialog extends SheimiDialogFragment implements
 
         builder.setTitle(getString(R.string.dialog_import_set_local_repo_title));
         View view = getActivity().getLayoutInflater().inflate(
-                R.layout.dialog_import_repo, null);
+            R.layout.dialog_import_repo, null);
 
         builder.setView(view);
         mLocalPath = (EditText) view.findViewById(R.id.localPath);
         mLocalPath.setText(mFile.getName());
         mImportAsExternal = (CheckBox) view.findViewById(R.id.importAsExternal);
         mImportAsExternal
-                .setOnCheckedChangeListener(new OnCheckedChangeListener() {
-                    @Override
-                    public void onCheckedChanged(CompoundButton buttonView,
-                            boolean isChecked) {
-                        if (isChecked) {
-                            mLocalPath.setText(Repo.EXTERNAL_PREFIX
-                                    + mFile.getAbsolutePath());
-                        } else {
-                            mLocalPath.setText(mFile.getName());
-                        }
-                        mLocalPath.setEnabled(isChecked);
+            .setOnCheckedChangeListener(new OnCheckedChangeListener() {
+                @Override
+                public void onCheckedChanged(CompoundButton buttonView,
+                                             boolean isChecked) {
+                    if (isChecked) {
+                        mLocalPath.setText(Repo.EXTERNAL_PREFIX
+                            + mFile.getAbsolutePath());
+                    } else {
+                        mLocalPath.setText(mFile.getName());
                     }
-                });
+                    mLocalPath.setEnabled(isChecked);
+                }
+            });
 
         // set button listener
         builder.setNegativeButton(R.string.label_cancel,
-                new DummyDialogListener());
+            new DummyDialogListener());
         builder.setPositiveButton(R.string.label_import,
-                new DummyDialogListener());
+            new DummyDialogListener());
 
         return builder.create();
     }
@@ -91,7 +90,7 @@ public class ImportLocalRepoDialog extends SheimiDialogFragment implements
         if (dialog == null)
             return;
         Button positiveButton = (Button) dialog
-                .getButton(Dialog.BUTTON_POSITIVE);
+            .getButton(Dialog.BUTTON_POSITIVE);
         positiveButton.setOnClickListener(this);
     }
 

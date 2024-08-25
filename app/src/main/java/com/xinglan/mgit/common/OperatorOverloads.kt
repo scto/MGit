@@ -1,4 +1,5 @@
 @file:Suppress("NOTHING_TO_INLINE")
+
 package com.xinglan.mgit.common
 
 import org.eclipse.jgit.dircache.DirCache

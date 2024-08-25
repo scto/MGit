@@ -19,7 +19,7 @@
         <item>新的分支</item>
         <item>拉取</item>
         <item>推送</item>
-        <item>提交</item>
+        <item>暂存并提交</item>
         <item>撤销提交</item>
         <item>重置（HARD）</item>
         <item>合并</item>

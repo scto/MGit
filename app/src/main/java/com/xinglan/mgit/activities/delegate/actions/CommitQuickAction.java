@@ -11,7 +11,10 @@ public class CommitQuickAction extends RepoAction {
 
     @Override
     public void execute() {
-
+        RepoAction stageAll = new AddAllAction(mRepo,mActivity);
+        stageAll.execute();
+        RepoAction commit = new CommitAction(mRepo,mActivity);
+        commit.execute();
     }
 
 }

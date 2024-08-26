@@ -1,16 +1,15 @@
 package com.xinglan.mgit.activities.delegate.actions;
 
+import android.content.Context;
+
 import com.xinglan.mgit.activities.RepoDetailActivity;
 import com.xinglan.mgit.database.models.Repo;
-import com.xinglan.mgit.tasks.SheimiAsyncTask;
 import com.xinglan.mgit.tasks.repo.AddToStageTask;
 
 
 public class CommitQuickAction extends RepoAction {
-
     public CommitQuickAction(Repo repo, RepoDetailActivity activity) {
         super(repo, activity);
-
     }
 
     @Override
@@ -25,8 +24,10 @@ public class CommitQuickAction extends RepoAction {
          *
          * 如果某个进程退出/结束的时候除了问题，可能会导致index.lock文件没有被清除掉，此时，你需要将index.lock文件
          * 手动移除
+         *
+         * https://blog.csdn.net/u010682774/article/details/115725354
          */
-        AddToStageTask stageAndCommit = new AddToStageTask(mRepo, ".", isSuccess -> {
+        AddToStageTask stageAndCommit = new AddToStageTask(mRepo, ".",mActivity, isSuccess -> {
             RepoAction commit = new CommitAction(mRepo, mActivity);
             commit.execute();
         });

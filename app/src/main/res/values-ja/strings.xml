@@ -79,6 +79,7 @@
     <string name="dialog_prompt_for_password_title_auth_fail">認証エラー</string>
     <string name="dialog_prompt_for_password_checkbox">ユーザー名とパスワードを保存する。</string>
     <string name="dialog_title_you_want_to">行いたいことは …</string>
+    <string name="dialog_stage_changes">Stage changes</string>
 
     <!-- Others -->
     <string name="pull_msg_init">プルしています …</string>

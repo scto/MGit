@@ -115,7 +115,7 @@
     <string name="dialog_clone_recursive">Clone recursively</string>
     <string name="dialog_show_unstaged_diff">Unstaged diff</string>
     <string name="dialog_show_staged_diff">Staged diff</string>
-
+    <string name="dialog_stage_changes">Stage changes</string>
 
     <!-- Others -->
     <string name="pull_msg_init">Pulling ??</string>

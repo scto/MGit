@@ -180,4 +180,5 @@
     <string name="error_file_not_found">File not found!</string>
     <string name="dialog_access_all_files_title">גישה לכל הקבצים</string>
     <string name="dialog_access_all_files_msg">אנא אפשר גישה לכל הקבצים כדי לקרוא/לכתוב מאגרים מאחסון חיצוני.</string>
+    <string name="dialog_stage_changes">Stage changes</string>
 </resources>

@@ -140,6 +140,7 @@
     <string name="dialog_rename_branch_title">Umbenennen</string>
     <string name="dialog_show_staged_diff">Vorgemerkte Änderungen</string>
     <string name="dialog_show_unstaged_diff">Nicht vorgemerkte Änderungen</string>
+    <string name="dialog_stage_changes">Stage changes</string>
     <string name="error_invalid_author"><![CDATA[Autor ist nicht in der Form "Name <E-Mail>" angegeben]]></string>
     <string name="error_no_commit_msg">Keine Commit Nachricht angegeben</string>
     <string name="error_no_repository">Keine Repositories gefunden</string>

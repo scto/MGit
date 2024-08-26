@@ -130,7 +130,7 @@
     <string name="dialog_open_remote_title">Choisir l\'app pour ouvrir %s</string>
     <string name="dialog_open_remote_no_app_available">Aucune App disponible pour ouvrir l\'URL</string>
     <string name="dialog_permission_not_granted">MGit requires that you grant it write access to be able to write local git repos to your storage, until you do this MGit will NOT work properly.</string>
-
+    <string name="dialog_stage_changes">Stage changes</string>
 
     <!-- Others -->
     <string name="pull_msg_init">Pull en cours ...</string>

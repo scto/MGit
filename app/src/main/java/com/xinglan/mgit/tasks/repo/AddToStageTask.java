@@ -7,10 +7,18 @@ import com.xinglan.mgit.exceptions.StopTaskException;
 public class AddToStageTask extends RepoOpTask {
 
     public String mFilePattern;
+    private AsyncTaskPostCallback mCallback;
 
     public AddToStageTask(Repo repo, String filepattern) {
         super(repo);
         mFilePattern = filepattern;
+        setSuccessMsg(R.string.success_add_to_stage);
+    }
+
+    public AddToStageTask(Repo repo, String filepattern,AsyncTaskPostCallback callback) {
+        super(repo);
+        mFilePattern = filepattern;
+        mCallback = callback;
         setSuccessMsg(R.string.success_add_to_stage);
     }
 
@@ -21,6 +29,9 @@ public class AddToStageTask extends RepoOpTask {
 
     protected void onPostExecute(Boolean isSuccess) {
         super.onPostExecute(isSuccess);
+        if (mCallback != null) {
+            mCallback.onPostExecute(isSuccess);
+        }
     }
 
     public boolean addToStage() {

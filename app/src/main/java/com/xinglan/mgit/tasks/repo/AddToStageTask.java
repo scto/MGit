@@ -13,16 +13,9 @@ public class AddToStageTask extends RepoOpTask {
     private AsyncTaskPostCallback mCallback;
     private Dialog mDialog;
 
-    public AddToStageTask(Repo repo, String filepattern) {
+    public AddToStageTask(Repo repo, String filePattern, RepoDetailActivity activity) {
         super(repo);
-        mFilePattern = filepattern;
-        setSuccessMsg(R.string.success_add_to_stage);
-    }
-
-    public AddToStageTask(Repo repo, String filepattern, RepoDetailActivity activity, AsyncTaskPostCallback callback) {
-        super(repo);
-        mFilePattern = filepattern;
-        mCallback = callback;
+        mFilePattern = filePattern;
         mDialog = activity.showProgressDialog();
         setSuccessMsg(R.string.success_add_to_stage);
     }

@@ -2,8 +2,10 @@ package com.xinglan.mgit.activities.delegate;
 
 import com.xinglan.android.utils.FsUtils;
 import com.xinglan.mgit.activities.RepoDetailActivity;
+import com.xinglan.mgit.activities.delegate.actions.AddAllAction;
 import com.xinglan.mgit.activities.delegate.actions.AddRemoteAction;
 import com.xinglan.mgit.activities.delegate.actions.CherryPickAction;
+import com.xinglan.mgit.activities.delegate.actions.CommitAction;
 import com.xinglan.mgit.activities.delegate.actions.ConfigAction;
 import com.xinglan.mgit.activities.delegate.actions.DeleteAction;
 import com.xinglan.mgit.activities.delegate.actions.DiffAction;
@@ -14,7 +16,7 @@ import com.xinglan.mgit.activities.delegate.actions.NewDirAction;
 import com.xinglan.mgit.activities.delegate.actions.NewFileAction;
 import com.xinglan.mgit.activities.delegate.actions.PullAction;
 import com.xinglan.mgit.activities.delegate.actions.PushAction;
-import com.xinglan.mgit.activities.delegate.actions.CommitQuickAction;
+import com.xinglan.mgit.activities.delegate.actions.CommitPushAction;
 import com.xinglan.mgit.activities.delegate.actions.RawConfigAction;
 import com.xinglan.mgit.activities.delegate.actions.RebaseAction;
 import com.xinglan.mgit.activities.delegate.actions.RemoveRemoteAction;
@@ -50,7 +52,9 @@ public class RepoOperationDelegate {
         mActions.add(new NewBranchAction(mRepo, mActivity));
         mActions.add(new PullAction(mRepo, mActivity));
         mActions.add(new PushAction(mRepo, mActivity));
-        mActions.add(new CommitQuickAction(mRepo, mActivity));
+        mActions.add(new AddAllAction(mRepo,mActivity));
+        mActions.add(new CommitAction(mRepo, mActivity));
+        mActions.add(new CommitPushAction(mRepo, mActivity));
         mActions.add(new UndoAction(mRepo, mActivity));
         mActions.add(new ResetAction(mRepo, mActivity));
         mActions.add(new MergeAction(mRepo, mActivity));
@@ -110,7 +114,7 @@ public class RepoOperationDelegate {
 
     public void addToStage(String filepath) {
         String relative = getRelativePath(filepath);
-        AddToStageTask addToStageTask = new AddToStageTask(mRepo, relative);
+        AddToStageTask addToStageTask = new AddToStageTask(mRepo, relative, mActivity);
         addToStageTask.executeTask();
     }
 

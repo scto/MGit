@@ -16,13 +16,10 @@
     <string name="error_task_running">A task for this repo is already running</string>
     <string name="error_something_wrong">Something wrong happened</string>
     <string name="error_repository_not_found">Repository not found (there may be something wrong with this repo)</string>
-
     <string name="error_rename_repo_fail">Renaming repository failed</string>
     <string name="error_invalid_author"><![CDATA[Author is not of the form Name <Email>]]></string>
     <string name="error_no_commit_msg">No commit message specified</string>
-
     <string name="error_rebase_abort_failed_in_reset">Could not abort rebase while resetting repo</string>
-
     <string name="error_couldnt_display_all_files_permission">Could not display All Files permission.</string>
 
     <!-- alerts -->
@@ -49,5 +46,6 @@
     <string name="alert_save_failed">Save failed</string>
     <string name="alert_file_creation_failure">Couldn\'t create file</string>
     <string name="error_no_repository">No repository found</string>
+    <string name="alert_uncommitted_changes">No changes</string>
 
 </resources>

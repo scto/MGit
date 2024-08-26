@@ -12,7 +12,7 @@ public class AddAllAction extends RepoAction {
 
     @Override
     public void execute() {
-        AddToStageTask addTask = new AddToStageTask(mRepo, ".");
+        AddToStageTask addTask = new AddToStageTask(mRepo, ".", mActivity);
         addTask.executeTask();
         mActivity.closeOperationDrawer();
     }

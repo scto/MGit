@@ -45,5 +45,5 @@
     <string name="alert_save_failed">Ошибка сохранения</string>
     <string name="alert_file_creation_failure">Невозможно создать файл</string>
     <string name="error_no_repository">Репозиторий не найден</string>
-
+    <string name="alert_uncommitted_changes">No changes</string>
 </resources>

@@ -19,7 +19,9 @@
         <item>New Branch</item>
         <item>Pull</item>
         <item>Push</item>
-        <item>Stage and Commit</item>
+        <item>Stage changes</item>
+        <item>Commit</item>
+        <item>CommitPush</item>
         <item>Undo Commit</item>
         <item>Reset (HARD)</item>
         <item>Merge</item>

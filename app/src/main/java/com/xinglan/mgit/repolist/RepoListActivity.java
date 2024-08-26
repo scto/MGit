@@ -16,7 +16,6 @@ import android.widget.Toast;
 import androidx.core.view.MenuItemCompat;
 import androidx.databinding.DataBindingUtil;
 import androidx.lifecycle.ViewModelProvider;
-import androidx.lifecycle.ViewModelProviders;
 
 import com.xinglan.android.activities.SheimiFragmentActivity;
 import com.xinglan.mgit.MGitApplication;

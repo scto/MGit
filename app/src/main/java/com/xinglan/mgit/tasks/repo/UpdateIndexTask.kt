@@ -17,6 +17,7 @@ class UpdateIndexTask(repo: Repo, private val path: String, private val newMode:
     }
 
 
+    @Deprecated("Deprecated in Java")
     override fun doInBackground(vararg params: Void?) = updateIndex()
 
     private fun updateIndex(): Boolean {

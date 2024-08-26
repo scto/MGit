@@ -8,11 +8,12 @@ import androidx.annotation.StringRes
 import com.xinglan.android.views.SheimiDialogFragment
 import com.xinglan.mgit.BuildConfig
 import com.xinglan.mgit.R
-import kotlinx.android.synthetic.main.dialog_error.view.error_message
+import com.xinglan.mgit.databinding.DialogErrorBinding
 import timber.log.Timber
 
 class ErrorDialog : SheimiDialogFragment() {
     private var mThrowable: Throwable? = null
+    private lateinit var layout: DialogErrorBinding
 
     @StringRes
     private var mErrorRes: Int = 0
@@ -26,7 +27,11 @@ class ErrorDialog : SheimiDialogFragment() {
 
         val builder = AlertDialog.Builder(rawActivity)
         val inflater = rawActivity.layoutInflater
-        val layout = inflater.inflate(R.layout.dialog_error, null)
+        /*
+        * 绑定类的名称是通过将 XML 文件的名称转换为驼峰式大小写，并在结尾处添加 Binding 一词来生成的。
+        * 例如，假设某个布局文件的名称为 dialog_error.xml，所生成的绑定类的名称就为 DialogErrorBinding
+        */
+        layout = DialogErrorBinding.inflate(inflater)
         val details = when (mThrowable) {
             is Exception -> {
                 (mThrowable as Exception).message
@@ -34,9 +39,9 @@ class ErrorDialog : SheimiDialogFragment() {
 
             else -> ""
         }
-        layout.error_message.setText(getString(mErrorRes) + "\n" + details)
+        layout.errorMessage.setText(getString(mErrorRes) + "\n" + details)
 
-        builder.setView(layout)
+        builder.setView(layout.root)
 
         // set button listener
         builder.setTitle(errorTitleRes)

@@ -15,7 +15,7 @@ import android.widget.Toast;
 
 import androidx.core.view.MenuItemCompat;
 import androidx.databinding.DataBindingUtil;
-import androidx.lifecycle.ViewModelProviders;
+import androidx.lifecycle.ViewModelProvider;
 
 import com.xinglan.android.activities.SheimiFragmentActivity;
 import com.xinglan.mgit.MGitApplication;
@@ -51,7 +51,7 @@ public class RepoListActivity extends SheimiFragmentActivity {
 
     private static final int REQUEST_IMPORT_REPO = 0;
 
-    private ActivityMainBinding binding;
+    private ActivityMainBinding activityMainBinding;
 
     public enum ClickActions {
         CLONE, CANCEL
@@ -61,14 +61,14 @@ public class RepoListActivity extends SheimiFragmentActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        RepoListViewModel viewModel = ViewModelProviders.of(this).get(RepoListViewModel.class);
-        CloneViewModel cloneViewModel = ViewModelProviders.of(this).get(CloneViewModel.class);
+        RepoListViewModel viewModel = new ViewModelProvider(this).get(RepoListViewModel.class);
+        CloneViewModel cloneViewModel = new ViewModelProvider(this).get(CloneViewModel.class);
 
-        binding = DataBindingUtil.setContentView(this, R.layout.activity_main);
-        binding.setLifecycleOwner(this);
-        binding.setCloneViewModel(cloneViewModel);
-        binding.setViewModel(viewModel);
-        binding.setClickHandler(new OnActionClickListener() {
+        activityMainBinding = DataBindingUtil.setContentView(this, R.layout.activity_main);
+        activityMainBinding.setLifecycleOwner(this);
+        activityMainBinding.setCloneViewModel(cloneViewModel);
+        activityMainBinding.setViewModel(viewModel);
+        activityMainBinding.setClickHandler(new OnActionClickListener() {
             @Override
             public void onActionClick(String action) {
                 if (ClickActions.CLONE.name().equals(action)) {
@@ -84,10 +84,10 @@ public class RepoListActivity extends SheimiFragmentActivity {
         initUpdatedSSL();
 
         mRepoListAdapter = new RepoListAdapter(this);
-        binding.repoList.setAdapter(mRepoListAdapter);
+        activityMainBinding.repoList.setAdapter(mRepoListAdapter);
         mRepoListAdapter.queryAllRepo();
-        binding.repoList.setOnItemClickListener(mRepoListAdapter);
-        binding.repoList.setOnItemLongClickListener(mRepoListAdapter);
+        activityMainBinding.repoList.setOnItemClickListener(mRepoListAdapter);
+        activityMainBinding.repoList.setOnItemLongClickListener(mRepoListAdapter);
         mContext = getApplicationContext();
 
         Uri uri = this.getIntent().getData();
@@ -256,18 +256,18 @@ public class RepoListActivity extends SheimiFragmentActivity {
     }
 
     private void cloneRepo() {
-        if (binding.getCloneViewModel().validate()) {
+        if (activityMainBinding.getCloneViewModel().validate()) {
             hideCloneView();
-            binding.getCloneViewModel().cloneRepo();
+            activityMainBinding.getCloneViewModel().cloneRepo();
         }
     }
 
     private void showCloneView() {
-        binding.getCloneViewModel().show(true);
+        activityMainBinding.getCloneViewModel().show(true);
     }
 
     private void hideCloneView() {
-        binding.getCloneViewModel().show(false);
+        activityMainBinding.getCloneViewModel().show(false);
         ViewHelperKt.hideKeyboard(this);
     }
 }

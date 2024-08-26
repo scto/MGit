@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.xinglan.mgit"
     android:versionCode="1"
     android:versionName="1">
 
@@ -13,16 +12,16 @@
     <application
         android:name="com.xinglan.mgit.MGitApplication"
         android:allowBackup="true"
-        android:largeHeap="true"
         android:icon="@mipmap/ic_launcher"
-        android:logo="@drawable/ic_launcher"
         android:label="@string/app_name"
-        android:theme="@style/AppTheme"
-        android:requestLegacyExternalStorage="true">
+        android:largeHeap="true"
+        android:logo="@drawable/ic_launcher"
+        android:requestLegacyExternalStorage="true"
+        android:theme="@style/AppTheme">
         <activity
             android:name="com.xinglan.mgit.repolist.RepoListActivity"
-            android:label="@string/app_name"
-            android:exported="true">
+            android:exported="true"
+            android:label="@string/app_name">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

@@ -179,6 +179,10 @@ public class CloneTask extends RepoRemoteOpTask {
             return isTaskCanceled();
         }
 
+        @Override
+        public void showDuration(boolean enabled) {
+        }
+
     }
 
 }

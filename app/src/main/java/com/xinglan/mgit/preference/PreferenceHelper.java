@@ -47,6 +47,34 @@ public class PreferenceHelper {
         Timber.d("set root:" + repoRootPath);
     }
 
+    public String getTokenAccount(){
+        String tokenAccount = getString(mContext.getString(R.string.pref_key_personal_access_tokens_account));
+        if (tokenAccount != null && !tokenAccount.isEmpty()) {
+            return tokenAccount;
+        } else {
+            return null;
+        }
+    }
+
+    public void setTokenAccount(String tokenAccount){
+        edit(mContext.getString(R.string.pref_key_personal_access_tokens_account), tokenAccount);
+        Timber.d("set tokenAccount:" + tokenAccount);
+    }
+
+    public String getTokenSecretKey(){
+        String tokenSecretKey = getString(mContext.getString(R.string.pref_key_personal_access_tokens_secret_key));
+        if (tokenSecretKey != null && !tokenSecretKey.isEmpty()) {
+            return tokenSecretKey;
+        } else {
+            return null;
+        }
+    }
+
+    public void setTokenSecretKey(String tokenSecretKey){
+        edit(mContext.getString(R.string.pref_key_personal_access_tokens_secret_key), tokenSecretKey);
+        Timber.d("set tokenSecretKey:" + tokenSecretKey);
+    }
+
     public void setPrivacyAccepted() {
         edit(PRIVACY_ACCEPTED_KEY, PRIVACY_ACCEPTED_VERSION);
         Timber.d("Privacy policy accepted version:" + PRIVACY_ACCEPTED_VERSION);

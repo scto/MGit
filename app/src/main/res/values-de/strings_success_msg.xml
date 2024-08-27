@@ -11,5 +11,6 @@
     <string name="success_save">Speichern erfolgreich</string>
     <string name="msg_now_you_can_edit">Bearbeiten ist jetzt möglich</string>
     <string name="msg_commit_str_has_copied">Commit-Hash wurde kopiert</string>
+    <string name="success_undo">Last commit have been undone</string>
 
 </resources>

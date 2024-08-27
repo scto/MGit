@@ -59,5 +59,7 @@
     <string name="dialog_fetch_title">Обновить в ветку</string>
     <string name="dialog_fetch_positive_button">Обновить в ветку</string>
     <string name="dialog_fetch_all_button">Обновить все</string>
+    <string name="dialog_undo_commit_title">Undo Last Commit</string>
+    <string name="dialog_undo_commit_msg">Are you sure you want to undo last commit?</string>
 
 </resources>

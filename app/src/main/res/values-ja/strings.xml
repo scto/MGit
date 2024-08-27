@@ -22,6 +22,7 @@
     <string name="action_create_external_repo">外部リポジトリを作成</string>
 
     <!-- label msg -->
+    <string name="action_undo">Undo</string>
     <string name="label_ok">OK</string>
     <string name="label_remote_url">リモートURL</string>
     <string name="label_cancel">キャンセル</string>
@@ -192,4 +193,6 @@
     <string name="error_file_not_found">File not found!</string>
     <string name="dialog_access_all_files_title">すべてのファイルへのアクセス</string>
     <string name="dialog_access_all_files_msg">外部ストレージからリポジトリを読み書きするには、すべてのファイルへのアクセスを許可してください。</string>
+    <string name="preference_personal_access_tokens_account">Token Name</string>
+    <string name="preference_personal_access_tokens_secret_key">Token Secret</string>
 </resources>

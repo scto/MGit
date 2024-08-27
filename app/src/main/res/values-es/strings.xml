@@ -34,6 +34,7 @@
     <string name="action_send_report">Send report</string>
 
     <!-- label msg -->
+    <string name="action_undo">Undo</string>
     <string name="label_ok">OK</string>
     <string name="label_remote_url">Remote URL</string>
     <string name="label_cancel">Romper</string>
@@ -191,4 +192,6 @@
     <string name="error_file_not_found">File not found!</string>
     <string name="dialog_access_all_files_title">Acceso a todos los archivos</string>
     <string name="dialog_access_all_files_msg">Permita el acceso a todos los archivos para leer/escribir repositorios desde almacenamiento externo.</string>
+    <string name="preference_personal_access_tokens_account">Token Name</string>
+    <string name="preference_personal_access_tokens_secret_key">Token Secret</string>
 </resources>

@@ -24,7 +24,10 @@
     <string name="error_rebase_abort_failed_in_reset">Нельзя прервать сброс</string>
 
     <!-- alerts -->
+    <string name="error_couldnt_display_all_files_permission">Could not display All Files permission.</string>
+    <string name="alert_too_short_key_size">Keylength is too small (at least 1024 bits for RSA and DSA)</string>
     <string name="alert_too_long_key_size">Длина ключа слишком большая</string>
+    <string name="alert_key_exists">Key already exists</string>
     <string name="alert_field_not_empty">Поле не должно быть пустым</string>
     <string name="alert_remoteurl_required">Нужно ввести URL сервера</string>
     <string name="alert_localpath_required">Введите имя репозитория</string>

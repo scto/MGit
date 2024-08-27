@@ -11,5 +11,6 @@
     <string name="success_save">ファイルの保存に成功</string>
     <string name="msg_now_you_can_edit">編集可能です。</string>
     <string name="msg_commit_str_has_copied">コミットハッシュはコピーされました。</string>
+    <string name="success_undo">Last commit have been undone</string>
 
 </resources>

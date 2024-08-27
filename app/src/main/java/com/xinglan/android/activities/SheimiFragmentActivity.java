@@ -277,28 +277,22 @@ public class SheimiFragmentActivity extends AppCompatActivity {
                                         String errorInfo) {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         LayoutInflater inflater = getLayoutInflater();
-        DialogPromptForPasswordBinding layout = DialogPromptForPasswordBinding.inflate(inflater);
-//        View layout = inflater.inflate(R.layout.dialog_prompt_for_password, null);
-        final EditText username = layout.username;
-        final EditText password = layout.password;
-        final CheckBox checkBox = layout.savePassword;
+        // DataBinding不是很稳定。checkBox的选中状态用它搞不来。
+        View layout = inflater.inflate(R.layout.dialog_prompt_for_password, null);
+        final EditText username = layout.findViewById(R.id.username);
+        final EditText password = layout.findViewById(R.id.password);
+        final CheckBox checkBox = layout.findViewById(R.id.savePassword);
         if (errorInfo == null) {
             errorInfo = getString(R.string.dialog_prompt_for_password_title);
         }
-        builder.setTitle(errorInfo).setView(layout.getRoot()).setPositiveButton(R.string.label_done,
-            new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialogInterface, int i) {
-                onPasswordEntered.onClicked(username.getText().toString(),
-                    password.getText().toString(), checkBox.isChecked());
-
-            }
-        }).setNegativeButton(R.string.label_cancel, new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialogInterface, int i) {
-                onPasswordEntered.onCanceled();
-            }
-        }).show();
+        builder.setTitle(errorInfo).setView(layout).setPositiveButton(
+            R.string.label_done,
+            (dialogInterface, i) -> onPasswordEntered.onClicked(username.getText().toString(),
+            password.getText().toString(), checkBox.isChecked())
+        ).setNegativeButton(
+            R.string.label_cancel,
+            (dialogInterface, i) -> onPasswordEntered.onCanceled()
+        ).show();
     }
 
     /* Switch Activity Animation Start */

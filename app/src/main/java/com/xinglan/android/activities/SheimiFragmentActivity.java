@@ -14,7 +14,6 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.provider.Settings;
 import android.util.DisplayMetrics;
-import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -43,6 +42,8 @@ import com.xinglan.mgit.permissions.PermissionsHelper;
 
 import java.io.File;
 import java.util.Locale;
+
+import timber.log.Timber;
 
 public class SheimiFragmentActivity extends AppCompatActivity {
 
@@ -146,8 +147,8 @@ public class SheimiFragmentActivity extends AppCompatActivity {
                             new Intent(Settings.ACTION_MANAGE_APP_ALL_FILES_ACCESS_PERMISSION, uri);
                         startActivity(permissionAllowIntent);
                     } catch (ActivityNotFoundException e) {
-                        Log.e("SheimiFragmentActivity", "could not start activity to request all " +
-                            "files permission");
+                        Timber.tag("SheimiFragmentActivity")
+                            .e("could not start activity to request all " + "files permission");
                         showMessageDialog(R.string.dialog_error_title,
                             getString(R.string.error_couldnt_display_all_files_permission));
                     }

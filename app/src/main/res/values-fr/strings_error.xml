@@ -24,8 +24,10 @@
     <string name="error_rebase_abort_failed_in_reset">Impossible d\'abandonner un rebase lors  d\'un reset du dépôt</string>
 
     <!-- alerts -->
+    <string name="error_couldnt_display_all_files_permission">Could not display All Files permission.</string>
     <string name="alert_too_short_key_size">La clé est trop petite (au moins 1024 bits pour RSA et DSA)</string>
     <string name="alert_too_long_key_size">La clé est trop grande</string>
+    <string name="alert_key_exists">Key already exists</string>
     <string name="alert_field_not_empty">Le champ ne doit pas être vide</string>
     <string name="alert_remoteurl_required">URL distante requise</string>
     <string name="alert_localpath_required">Nom du dépôt requis</string>

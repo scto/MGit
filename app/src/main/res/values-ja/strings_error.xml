@@ -17,6 +17,7 @@
     <string name="error_repository_not_found">リポジトリが見つかりません。 (このリポジトリに何か起こったかもしれません。).</string>
 
     <!-- alerts -->
+    <string name="alert_key_exists">Key already exists</string>
     <string name="alert_field_not_empty">フィールドを空欄にしないでください。</string>
     <string name="alert_remoteurl_required">リモート URLが必要です。</string>
     <string name="alert_localpath_required">リポジトリ名が必要です。</string>
@@ -35,4 +36,5 @@
     <string name="alert_is_already_a_git_repo">このディレクトリには既にGitリポジトリが作成されています。</string>
     <string name="alert_save_failed">保存に失敗</string>
     <string name="alert_uncommitted_changes">No changes</string>
+    <string name="error_couldnt_display_all_files_permission">Could not display All Files permission.</string>
 </resources>

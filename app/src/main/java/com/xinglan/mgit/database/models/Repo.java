@@ -4,9 +4,11 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.os.Bundle;
+import android.util.Log;
 import android.util.SparseArray;
 
 import com.xinglan.android.utils.FsUtils;
+import com.xinglan.android.utils.Profile;
 import com.xinglan.mgit.MGitApplication;
 import com.xinglan.mgit.database.RepoContract;
 import com.xinglan.mgit.database.RepoDbManager;
@@ -397,8 +399,7 @@ public class Repo implements Comparable<Repo>, Serializable {
 
     public List<Ref> getLocalBranches() {
         try {
-            List<Ref> localRefs = getGit().branchList().call();
-            return localRefs;
+            return getGit().branchList().call();
         } catch (GitAPIException | StopTaskException e) {
             Timber.e(e);
         }
@@ -437,9 +438,6 @@ public class Repo implements Comparable<Repo>, Serializable {
 
     /**
      * Returns the type of ref based on the refs full path within .git/
-     *
-     * @param fullRefName
-     * @return
      */
     public static int getCommitType(String fullRefName) {
         if (fullRefName != null && fullRefName.startsWith(Constants.R_REFS)) {
@@ -456,9 +454,6 @@ public class Repo implements Comparable<Repo>, Serializable {
 
     /**
      * Return just the name of the ref, with any prefixes like "heads", "remotes", "tags" etc.
-     *
-     * @param name
-     * @return
      */
     public static String getCommitName(String name) {
         String[] splits = name.split("/");
@@ -475,7 +470,6 @@ public class Repo implements Comparable<Repo>, Serializable {
     }
 
     /**
-     * @param ref
      * @return Shortened version of full ref path, suitable for display in UI
      */
     public static String getCommitDisplayName(String ref) {
@@ -486,7 +480,6 @@ public class Repo implements Comparable<Repo>, Serializable {
     }
 
     /**
-     * @param remote
      * @return null if remote is not found to be a remote ref in this repo
      */
     public static String convertRemoteName(String remote) {
@@ -505,11 +498,11 @@ public class Repo implements Comparable<Repo>, Serializable {
         File repoDir = preferenceHelper.getRepoRoot();
         if (repoDir == null) {
             repoDir = FsUtils.getExternalDir(REPO_DIR, true);
-            Timber.d("PRESET repo path:" + new File(repoDir, localpath).getAbsolutePath());
+            Timber.d("PRESET repo path:%s", new File(repoDir, localpath).getAbsolutePath());
             return new File(repoDir, localpath);
         } else {
             repoDir = new File(preferenceHelper.getRepoRoot(), localpath);
-            Timber.d("CUSTOM repo path:" + repoDir);
+            Timber.d("CUSTOM repo path:%s", repoDir);
             return repoDir;
         }
     }
@@ -526,6 +519,16 @@ public class Repo implements Comparable<Repo>, Serializable {
                 repo.mLocalPath = EXTERNAL_PREFIX + oldRoot.getAbsolutePath() + "/" + repo.mLocalPath;
                 RepoDbManager.setLocalPath(repo.getID(), repo.mLocalPath);
             }
+        }
+    }
+
+    public void setToken(Context context){
+        String tokenAccount = Profile.getTokenAccount(context);
+        String tokenSecretKey = Profile.getTokenSecretKey(context);
+        if(tokenAccount != null && !tokenAccount.isEmpty() && tokenSecretKey != null && !tokenSecretKey.isEmpty()){
+            setUsername(tokenAccount);
+            setPassword(tokenSecretKey);
+            Timber.tag("Repo").log(Log.INFO, "Set token: " + tokenAccount);
         }
     }
 
@@ -561,12 +564,11 @@ public class Repo implements Comparable<Repo>, Serializable {
             if (origin != null && !origin.isEmpty())
                 return origin;
             Set<String> remoteNames = config.getSubsections("remote");
-            if (remoteNames.size() == 0)
+            if (remoteNames.isEmpty())
                 return "";
-            String url = config.getString("remote", remoteNames.iterator()
+            return config.getString("remote", remoteNames.iterator()
                 .next(), "url");
-            return url;
-        } catch (StopTaskException e) {
+        } catch (StopTaskException ignored) {
         }
         return "";
     }
@@ -579,7 +581,7 @@ public class Repo implements Comparable<Repo>, Serializable {
             Set<String> remotes = config.getSubsections("remote");
             mRemotes = new HashSet<String>(remotes);
             return mRemotes;
-        } catch (StopTaskException e) {
+        } catch (StopTaskException ignored) {
         }
         return new HashSet<String>();
     }
@@ -598,7 +600,7 @@ public class Repo implements Comparable<Repo>, Serializable {
             config.setString("remote", remote, "fetch", fetch);
             config.save();
             mRemotes.add(remote);
-        } catch (StopTaskException e) {
+        } catch (StopTaskException ignored) {
         }
     }
 
@@ -612,7 +614,7 @@ public class Repo implements Comparable<Repo>, Serializable {
             config.unsetSection("remote", remote);
             config.save();
             mRemotes.remove(remote);
-        } catch (StopTaskException e) {
+        } catch (StopTaskException ignored) {
         }
     }
 

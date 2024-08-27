@@ -13,5 +13,6 @@
     <string name="success_save">Файл сохранен</string>
     <string name="msg_now_you_can_edit">Теперь файл может быть изменен</string>
     <string name="msg_commit_str_has_copied">Хэш коммита скопирован</string>
+    <string name="success_undo">Last commit have been undone</string>
 
 </resources>

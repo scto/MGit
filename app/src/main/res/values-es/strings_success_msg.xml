@@ -13,5 +13,6 @@
     <string name="success_save">Fichero almacenado con Éxito</string>
     <string name="msg_now_you_can_edit">Se puede modificar este fichero</string>
     <string name="msg_commit_str_has_copied">Commit hash está copiado</string>
+    <string name="success_undo">Last commit have been undone</string>
 
 </resources>

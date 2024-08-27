@@ -44,14 +44,23 @@ public class PreferenceHelper {
 
     public void setRepoRoot(String repoRootPath) {
         edit(mContext.getString(R.string.pref_key_repo_root_location), repoRootPath);
-        Timber.d("set root:" + repoRootPath);
+        Timber.d("set root:%s", repoRootPath);
     }
 
     public void setPrivacyAccepted() {
         edit(PRIVACY_ACCEPTED_KEY, PRIVACY_ACCEPTED_VERSION);
-        Timber.d("Privacy policy accepted version:" + PRIVACY_ACCEPTED_VERSION);
+        Timber.d("Privacy policy accepted version:%s", PRIVACY_ACCEPTED_VERSION);
     }
 
+    public void setTokenAccount(String tokenAccount) {
+        edit(mContext.getString(R.string.pref_key_personal_access_tokens_account), tokenAccount);
+        Timber.d("set root:%s", tokenAccount);
+    }
+
+    public void setTokenSecretKey(String tokenSecretKey) {
+        edit(mContext.getString(R.string.pref_key_personal_access_tokens_secret_key), tokenSecretKey);
+        Timber.d("set tokenSecretKey:%s", tokenSecretKey);
+    }
 
     protected SharedPreferences getSharedPrefs() {
         return mContext.getSharedPreferences(

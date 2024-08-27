@@ -10,4 +10,5 @@
     <string name="success_save">שמירת קובץ הצליחה</string>
     <string name="msg_now_you_can_edit">כעת ניתן לערוך</string>
     <string name="msg_commit_str_has_copied">Commit hash הועתק</string>
+    <string name="success_undo">Last commit have been undone</string>
 </resources>

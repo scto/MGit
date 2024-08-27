@@ -22,6 +22,7 @@
     <string name="action_create_external_repo">Remote Repository erstellen</string>
 
     <!-- label msg -->
+    <string name="action_undo">Undo</string>
     <string name="label_ok">OK</string>
     <string name="label_remote_url">Entfernte Adresse</string>
     <string name="label_cancel">Abbrechen</string>
@@ -193,4 +194,6 @@
     <string name="error_file_not_found">File not found!</string>
     <string name="dialog_access_all_files_title">Zugriff auf alle Dateien</string>
     <string name="dialog_access_all_files_msg">Bitte erlauben Sie den Zugriff auf alle Dateien, um Repositories von einem externen Speicher lesen/schreiben zu können.</string>
+    <string name="preference_personal_access_tokens_account">Token Name</string>
+    <string name="preference_personal_access_tokens_secret_key">Token Secret</string>
 </resources>

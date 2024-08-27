@@ -31,6 +31,7 @@
     <string name="action_save_diff">Diff 저장</string>
 
     <!-- label msg -->
+    <string name="action_undo">Undo</string>
     <string name="label_ok">확인</string>
     <string name="label_remote_url">원격 URL</string>
     <string name="label_cancel">취소</string>
@@ -174,4 +175,6 @@
     <string name="error_file_not_found">File not found!</string>
     <string name="dialog_access_all_files_title">모든 파일에 대한 액세스</string>
     <string name="dialog_access_all_files_msg">외부 저장소에서 리포지토리를 읽고 쓰려면 모든 파일에 대한 액세스를 허용하세요.</string>
+    <string name="preference_personal_access_tokens_account">Token Name</string>
+    <string name="preference_personal_access_tokens_secret_key">Token Secret</string>
 </resources>

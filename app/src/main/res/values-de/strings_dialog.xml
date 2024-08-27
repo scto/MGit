@@ -56,5 +56,7 @@
     <string name="dialog_create_external_title">Externes Repository erzeugen</string>
     <string name="dialog_create_external_msg">Wirklich ein externes Repository in diesem Ordner erzeugen?</string>
     <string name="dialog_create_external_positive_label">Erzeugen</string>
+    <string name="dialog_undo_commit_title">Undo Last Commit</string>
+    <string name="dialog_undo_commit_msg">Are you sure you want to undo last commit?</string>
 
 </resources>

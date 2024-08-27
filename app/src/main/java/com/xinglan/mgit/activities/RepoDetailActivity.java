@@ -70,6 +70,7 @@ public class RepoDetailActivity extends SheimiFragmentActivity {
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
         switch (requestCode) {
             case BRANCH_CHOOSE_ACTIVITY:
                 String branchName = mRepo.getBranchName();
@@ -93,6 +94,7 @@ public class RepoDetailActivity extends SheimiFragmentActivity {
             return;
         }
         repoInit();
+        mRepo.setToken(this);
         setTitle(mRepo.getDiaplayName());
         setContentView(R.layout.activity_repo_detail);
         setupActionBar();

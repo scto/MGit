@@ -1,4 +1,4 @@
-package com.xinglan.mgit.repolist
+package com.xinglan.mgit.activities.repolist
 
 import com.xinglan.mgit.common.BaseViewModel
 

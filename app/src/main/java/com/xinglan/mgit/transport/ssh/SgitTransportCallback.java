@@ -1,4 +1,4 @@
-package com.xinglan.mgit.ssh;
+package com.xinglan.mgit.transport.ssh;
 
 import org.eclipse.jgit.api.TransportConfigCallback;
 import org.eclipse.jgit.transport.SshTransport;

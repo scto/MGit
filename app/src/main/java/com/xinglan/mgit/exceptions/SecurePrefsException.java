@@ -1,4 +1,4 @@
-package com.xinglan.android.utils;
+package com.xinglan.mgit.exceptions;
 
 /**
  * Exception in SecurePrefs processing.

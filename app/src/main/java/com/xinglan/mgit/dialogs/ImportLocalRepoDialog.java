@@ -11,13 +11,13 @@ import android.widget.CompoundButton;
 import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.EditText;
 
+import com.xinglan.android.fragments.SheimiDialogFragment;
+import com.xinglan.android.preference.PreferenceHelper;
 import com.xinglan.android.utils.FsUtils;
-import com.xinglan.android.views.SheimiDialogFragment;
 import com.xinglan.mgit.MGitApplication;
 import com.xinglan.mgit.R;
 import com.xinglan.mgit.database.RepoContract;
 import com.xinglan.mgit.database.models.Repo;
-import com.xinglan.mgit.preference.PreferenceHelper;
 
 import java.io.File;
 

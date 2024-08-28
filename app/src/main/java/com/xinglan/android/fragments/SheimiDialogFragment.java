@@ -1,4 +1,4 @@
-package com.xinglan.android.views;
+package com.xinglan.android.fragments;
 
 import android.content.Context;
 import android.content.DialogInterface;

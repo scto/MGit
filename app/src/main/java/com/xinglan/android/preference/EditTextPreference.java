@@ -1,4 +1,4 @@
-package com.xinglan.mgit.preference;
+package com.xinglan.android.preference;
 
 import android.content.Context;
 import android.util.AttributeSet;

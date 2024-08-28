@@ -1,4 +1,4 @@
-package com.xinglan.mgit.ssh
+package com.xinglan.mgit.transport.ssh
 
 import android.annotation.SuppressLint
 import android.app.AlertDialog
@@ -8,7 +8,7 @@ import android.widget.EditText
 import android.widget.RadioGroup
 import com.jcraft.jsch.JSch
 import com.jcraft.jsch.KeyPair
-import com.xinglan.android.views.SheimiDialogFragment
+import com.xinglan.android.fragments.SheimiDialogFragment
 import com.xinglan.mgit.R
 import com.xinglan.mgit.activities.explorer.PrivateKeyManageActivity
 import org.acra.ktx.sendWithAcra

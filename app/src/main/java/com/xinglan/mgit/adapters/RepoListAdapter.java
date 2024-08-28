@@ -24,10 +24,10 @@ import com.xinglan.android.activities.SheimiFragmentActivity;
 import com.xinglan.android.utils.BasicFunctions;
 import com.xinglan.mgit.R;
 import com.xinglan.mgit.activities.RepoDetailActivity;
+import com.xinglan.mgit.activities.repolist.RepoListActivity;
 import com.xinglan.mgit.database.RepoContract;
 import com.xinglan.mgit.database.RepoDbManager;
 import com.xinglan.mgit.database.models.Repo;
-import com.xinglan.mgit.repolist.RepoListActivity;
 
 import java.text.DateFormat;
 import java.util.ArrayList;

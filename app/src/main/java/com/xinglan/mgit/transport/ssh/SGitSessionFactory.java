@@ -1,4 +1,4 @@
-package com.xinglan.mgit.ssh;
+package com.xinglan.mgit.transport.ssh;
 
 import com.jcraft.jsch.JSch;
 import com.jcraft.jsch.JSchException;

@@ -8,12 +8,12 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 
-import com.xinglan.android.views.SheimiDialogFragment;
+import com.xinglan.android.fragments.SheimiDialogFragment;
+import com.xinglan.android.preference.PreferenceHelper;
 import com.xinglan.mgit.MGitApplication;
 import com.xinglan.mgit.R;
+import com.xinglan.mgit.activities.repolist.RepoListActivity;
 import com.xinglan.mgit.database.models.Repo;
-import com.xinglan.mgit.preference.PreferenceHelper;
-import com.xinglan.mgit.repolist.RepoListActivity;
 import com.xinglan.mgit.tasks.repo.InitLocalTask;
 
 import java.io.File;

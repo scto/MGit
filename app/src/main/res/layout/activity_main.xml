@@ -4,7 +4,7 @@
 
         <variable
             name="viewModel"
-            type="com.xinglan.mgit.repolist.RepoListViewModel" />
+            type="com.xinglan.mgit.activities.repolist.RepoListViewModel" />
 
         <variable
             name="cloneViewModel"
@@ -21,7 +21,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
-        tools:context="com.xinglan.mgit.repolist.RepoListActivity">
+        tools:context="com.xinglan.mgit.activities.repolist.RepoListActivity">
 
         <include
             android:id="@+id/cloneViewInclude"

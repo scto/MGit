@@ -18,8 +18,8 @@ import com.xinglan.mgit.R;
 import com.xinglan.mgit.activities.ViewFileActivity;
 import com.xinglan.mgit.dialogs.EditKeyPasswordDialog;
 import com.xinglan.mgit.dialogs.RenameKeyDialog;
-import com.xinglan.mgit.ssh.PrivateKeyGenerate;
-import com.xinglan.mgit.ssh.PrivateKeyUtils;
+import com.xinglan.mgit.transport.ssh.PrivateKeyGenerate;
+import com.xinglan.mgit.transport.ssh.PrivateKeyUtils;
 
 import java.io.File;
 import java.io.FileFilter;

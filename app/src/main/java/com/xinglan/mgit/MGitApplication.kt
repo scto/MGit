@@ -2,9 +2,9 @@ package com.xinglan.mgit
 
 import android.app.Application
 import android.content.Context
-import com.xinglan.android.utils.SecurePrefsException
+import com.xinglan.android.preference.PreferenceHelper
 import com.xinglan.android.utils.SecurePrefsHelper
-import com.xinglan.mgit.preference.PreferenceHelper
+import com.xinglan.mgit.exceptions.SecurePrefsException
 import com.xinglan.mgit.transport.MGitHttpConnectionFactory
 import org.acra.config.dialog
 import org.acra.config.mailSender

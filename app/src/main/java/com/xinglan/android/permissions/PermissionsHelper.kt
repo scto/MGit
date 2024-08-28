@@ -1,4 +1,4 @@
-package com.xinglan.mgit.permissions
+package com.xinglan.android.permissions
 
 import android.Manifest
 import android.content.Context

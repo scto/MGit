@@ -9,7 +9,7 @@ import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 
-import com.xinglan.android.views.SheimiDialogFragment;
+import com.xinglan.android.fragments.SheimiDialogFragment;
 import com.xinglan.mgit.R;
 import com.xinglan.mgit.activities.RepoDetailActivity;
 import com.xinglan.mgit.tasks.repo.UpdateIndexTask;

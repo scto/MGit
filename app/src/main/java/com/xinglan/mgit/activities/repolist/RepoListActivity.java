@@ -1,4 +1,4 @@
-package com.xinglan.mgit.repolist;
+package com.xinglan.mgit.activities.repolist;
 
 import android.Manifest;
 import android.app.Activity;
@@ -33,9 +33,9 @@ import com.xinglan.mgit.database.models.Repo;
 import com.xinglan.mgit.databinding.ActivityMainBinding;
 import com.xinglan.mgit.dialogs.DummyDialogListener;
 import com.xinglan.mgit.dialogs.ImportLocalRepoDialog;
-import com.xinglan.mgit.ssh.PrivateKeyUtils;
 import com.xinglan.mgit.tasks.repo.CloneTask;
 import com.xinglan.mgit.transport.MGitHttpConnectionFactory;
+import com.xinglan.mgit.transport.ssh.PrivateKeyUtils;
 
 import java.io.File;
 import java.net.MalformedURLException;

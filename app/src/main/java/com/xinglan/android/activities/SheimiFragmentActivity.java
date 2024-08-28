@@ -32,13 +32,12 @@ import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
 import com.nostra13.universalimageloader.utils.StorageUtils;
-import com.xinglan.android.avatar.AvatarDownloader;
+import com.xinglan.android.permissions.PermissionsHelper;
+import com.xinglan.android.utils.AvatarDownloader;
 import com.xinglan.android.utils.BasicFunctions;
 import com.xinglan.android.utils.Profile;
 import com.xinglan.mgit.R;
-import com.xinglan.mgit.databinding.DialogPromptForPasswordBinding;
 import com.xinglan.mgit.dialogs.DummyDialogListener;
-import com.xinglan.mgit.permissions.PermissionsHelper;
 
 import java.io.File;
 import java.util.Locale;

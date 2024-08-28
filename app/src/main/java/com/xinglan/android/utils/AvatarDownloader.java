@@ -1,4 +1,4 @@
-package com.xinglan.android.avatar;
+package com.xinglan.android.utils;
 
 import android.content.Context;
 import android.content.SharedPreferences;

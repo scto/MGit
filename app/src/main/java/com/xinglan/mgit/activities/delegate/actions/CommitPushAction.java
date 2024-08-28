@@ -22,7 +22,6 @@ import com.xinglan.mgit.activities.RepoDetailActivity;
 import com.xinglan.mgit.database.models.Repo;
 import com.xinglan.mgit.dialogs.DummyDialogListener;
 import com.xinglan.mgit.exceptions.StopTaskException;
-import com.xinglan.mgit.tasks.SheimiAsyncTask;
 import com.xinglan.mgit.tasks.repo.CommitChangesTask;
 
 import org.eclipse.jgit.api.Status;

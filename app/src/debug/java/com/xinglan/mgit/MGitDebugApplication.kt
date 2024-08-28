@@ -2,6 +2,7 @@ package com.xinglan.mgit
 
 import android.util.Log
 import com.facebook.stetho.Stetho
+import com.xinglan.android.MGitApplication
 import timber.log.Timber
 
 

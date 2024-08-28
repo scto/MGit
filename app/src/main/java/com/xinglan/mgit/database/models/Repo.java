@@ -7,13 +7,13 @@ import android.os.Bundle;
 import android.util.Log;
 import android.util.SparseArray;
 
+import com.xinglan.android.preference.PreferenceHelper;
 import com.xinglan.android.utils.FsUtils;
 import com.xinglan.android.utils.Profile;
-import com.xinglan.mgit.MGitApplication;
+import com.xinglan.android.MGitApplication;
 import com.xinglan.mgit.database.RepoContract;
 import com.xinglan.mgit.database.RepoDbManager;
-import com.xinglan.mgit.exceptions.StopTaskException;
-import com.xinglan.mgit.preference.PreferenceHelper;
+import com.xinglan.mgit.common.exceptions.StopTaskException;
 import com.xinglan.mgit.tasks.repo.RepoOpTask;
 
 import org.eclipse.jgit.api.Git;
@@ -45,19 +45,20 @@ import timber.log.Timber;
  */
 public class Repo implements Comparable<Repo>, Serializable {
 
-    /**
-     * Generated serialVersionID
-     */
-    private static final long serialVersionUID = -4921633809823078219L;
-
     public static final String TAG = Repo.class.getSimpleName();
-
     public static final int COMMIT_TYPE_HEAD = 0;
     public static final int COMMIT_TYPE_TAG = 1;
     public static final int COMMIT_TYPE_TEMP = 2;
     public static final int COMMIT_TYPE_REMOTE = 3;
     public static final int COMMIT_TYPE_UNKNOWN = -1;
-
+    public static final String DOT_GIT_DIR = ".git";
+    public static final String EXTERNAL_PREFIX = "external://";
+    public static final String REPO_DIR = "repo";
+    /**
+     * Generated serialVersionID
+     */
+    private static final long serialVersionUID = -4921633809823078219L;
+    private static final SparseArray<RepoOpTask> mRepoTasks = new SparseArray<RepoOpTask>();
     private int mID;
     private String mLocalPath;
     private String mRemoteURL;
@@ -69,17 +70,10 @@ public class Repo implements Comparable<Repo>, Serializable {
     private Date mLastCommitDate;
     private String mLastCommitMsg;
     private boolean isDeleted = false;
-
     // lazy load
     private Set<String> mRemotes;
     private Git mGit;
     private StoredConfig mStoredConfig;
-
-    public static final String DOT_GIT_DIR = ".git";
-    public static final String EXTERNAL_PREFIX = "external://";
-    public static final String REPO_DIR = "repo";
-
-    private static SparseArray<RepoOpTask> mRepoTasks = new SparseArray<RepoOpTask>();
 
     public Repo(Cursor cursor) {
         mID = RepoContract.getRepoID(cursor);
@@ -92,12 +86,6 @@ public class Repo implements Comparable<Repo>, Serializable {
         mLastCommitterEmail = RepoContract.getLatestCommitterEmail(cursor);
         mLastCommitDate = RepoContract.getLatestCommitDate(cursor);
         mLastCommitMsg = RepoContract.getLatestCommitMsg(cursor);
-    }
-
-    public Bundle getBundle() {
-        Bundle bundle = new Bundle();
-        bundle.putSerializable(TAG, this);
-        return bundle;
     }
 
     public static Repo createRepo(String localPath, String remoteURL, String status) {
@@ -126,6 +114,113 @@ public class Repo implements Comparable<Repo>, Serializable {
         return repos;
     }
 
+    public static boolean isExternal(String path) {
+        return path.startsWith(EXTERNAL_PREFIX);
+    }
+
+    public static int getCommitType(String[] splits) {
+        if (splits.length == 4)
+            return COMMIT_TYPE_REMOTE;
+        if (splits.length != 3)
+            return COMMIT_TYPE_TEMP;
+        String type = splits[1];
+        if ("tags".equals(type))
+            return COMMIT_TYPE_TAG;
+        return COMMIT_TYPE_HEAD;
+    }
+
+    /**
+     * Returns the type of ref based on the refs full path within .git/
+     */
+    public static int getCommitType(String fullRefName) {
+        if (fullRefName != null && fullRefName.startsWith(Constants.R_REFS)) {
+            if (fullRefName.startsWith(Constants.R_HEADS)) {
+                return COMMIT_TYPE_HEAD;
+            } else if (fullRefName.startsWith(Constants.R_TAGS)) {
+                return COMMIT_TYPE_TAG;
+            } else if (fullRefName.startsWith(Constants.R_REMOTES)) {
+                return COMMIT_TYPE_REMOTE;
+            }
+        }
+        return COMMIT_TYPE_UNKNOWN;
+    }
+
+    /**
+     * Return just the name of the ref, with any prefixes like "heads", "remotes", "tags" etc.
+     */
+    public static String getCommitName(String name) {
+        String[] splits = name.split("/");
+        int type = getCommitType(splits);
+        switch (type) {
+            case COMMIT_TYPE_TEMP:
+            case COMMIT_TYPE_TAG:
+            case COMMIT_TYPE_HEAD:
+                return getCommitDisplayName(name);
+            case COMMIT_TYPE_REMOTE:
+                return splits[3];
+        }
+        return null;
+    }
+
+    /**
+     * @return Shortened version of full ref path, suitable for display in UI
+     */
+    public static String getCommitDisplayName(String ref) {
+        if (getCommitType(ref) == COMMIT_TYPE_REMOTE) {
+            return (ref != null && ref.length() > Constants.R_REFS.length()) ? ref.substring(Constants.R_REFS.length()) : "";
+        }
+        return Repository.shortenRefName(ref);
+    }
+
+    /**
+     * @return null if remote is not found to be a remote ref in this repo
+     */
+    public static String convertRemoteName(String remote) {
+        if (getCommitType(remote) != COMMIT_TYPE_REMOTE) {
+            return null;
+        } else {
+            String[] splits = remote.split("/");
+            return String.format("refs/heads/%s", splits[3]);
+        }
+    }
+
+    public static File getDir(PreferenceHelper preferenceHelper, String localpath) {
+        if (Repo.isExternal(localpath)) {
+            return new File(localpath.substring(Repo.EXTERNAL_PREFIX.length()));
+        }
+        File repoDir = preferenceHelper.getRepoRoot();
+        if (repoDir == null) {
+            repoDir = FsUtils.getExternalDir(REPO_DIR, true);
+            Timber.d("PRESET repo path:%s", new File(repoDir, localpath).getAbsolutePath());
+            return new File(repoDir, localpath);
+        } else {
+            repoDir = new File(preferenceHelper.getRepoRoot(), localpath);
+            Timber.d("CUSTOM repo path:%s", repoDir);
+            return repoDir;
+        }
+    }
+
+    public static void setLocalRepoRoot(Context context, File repoRoot) {
+        PreferenceHelper prefs = ((MGitApplication) context.getApplicationContext()).getPrefenceHelper();
+        File oldRoot = prefs.getRepoRoot();
+        prefs.setRepoRoot(repoRoot.getAbsolutePath());
+
+        // need to make any existing "internal" repos "external" so that their paths are still correct
+        List<Repo> allRepos = Repo.getRepoList(context, RepoDbManager.queryAllRepo());
+        for (Repo repo : allRepos) {
+            if (!repo.isExternal()) {
+                repo.mLocalPath = EXTERNAL_PREFIX + oldRoot.getAbsolutePath() + "/" + repo.mLocalPath;
+                RepoDbManager.setLocalPath(repo.getID(), repo.mLocalPath);
+            }
+        }
+    }
+
+    public Bundle getBundle() {
+        Bundle bundle = new Bundle();
+        bundle.putSerializable(TAG, this);
+        return bundle;
+    }
+
     public int getID() {
         return mID;
     }
@@ -139,10 +234,6 @@ public class Repo implements Comparable<Repo>, Serializable {
             return mLocalPath;
         String[] strs = mLocalPath.split("/");
         return strs[strs.length - 1] + " (external)";
-    }
-
-    public static boolean isExternal(String path) {
-        return path.startsWith(EXTERNAL_PREFIX);
     }
 
     public boolean isExternal() {
@@ -185,16 +276,16 @@ public class Repo implements Comparable<Repo>, Serializable {
         return mPassword;
     }
 
+    public void setPassword(String password) {
+        mPassword = password;
+    }
+
     public String getUsername() {
         return mUsername;
     }
 
     public void setUsername(String username) {
         mUsername = username;
-    }
-
-    public void setPassword(String password) {
-        mPassword = password;
     }
 
     public void cancelTask() {
@@ -425,107 +516,10 @@ public class Repo implements Comparable<Repo>, Serializable {
         return getCommitDisplayName(getBranchName());
     }
 
-    public static int getCommitType(String[] splits) {
-        if (splits.length == 4)
-            return COMMIT_TYPE_REMOTE;
-        if (splits.length != 3)
-            return COMMIT_TYPE_TEMP;
-        String type = splits[1];
-        if ("tags".equals(type))
-            return COMMIT_TYPE_TAG;
-        return COMMIT_TYPE_HEAD;
-    }
-
-    /**
-     * Returns the type of ref based on the refs full path within .git/
-     */
-    public static int getCommitType(String fullRefName) {
-        if (fullRefName != null && fullRefName.startsWith(Constants.R_REFS)) {
-            if (fullRefName.startsWith(Constants.R_HEADS)) {
-                return COMMIT_TYPE_HEAD;
-            } else if (fullRefName.startsWith(Constants.R_TAGS)) {
-                return COMMIT_TYPE_TAG;
-            } else if (fullRefName.startsWith(Constants.R_REMOTES)) {
-                return COMMIT_TYPE_REMOTE;
-            }
-        }
-        return COMMIT_TYPE_UNKNOWN;
-    }
-
-    /**
-     * Return just the name of the ref, with any prefixes like "heads", "remotes", "tags" etc.
-     */
-    public static String getCommitName(String name) {
-        String[] splits = name.split("/");
-        int type = getCommitType(splits);
-        switch (type) {
-            case COMMIT_TYPE_TEMP:
-            case COMMIT_TYPE_TAG:
-            case COMMIT_TYPE_HEAD:
-                return getCommitDisplayName(name);
-            case COMMIT_TYPE_REMOTE:
-                return splits[3];
-        }
-        return null;
-    }
-
-    /**
-     * @return Shortened version of full ref path, suitable for display in UI
-     */
-    public static String getCommitDisplayName(String ref) {
-        if (getCommitType(ref) == COMMIT_TYPE_REMOTE) {
-            return (ref != null && ref.length() > Constants.R_REFS.length()) ? ref.substring(Constants.R_REFS.length()) : "";
-        }
-        return Repository.shortenRefName(ref);
-    }
-
-    /**
-     * @return null if remote is not found to be a remote ref in this repo
-     */
-    public static String convertRemoteName(String remote) {
-        if (getCommitType(remote) != COMMIT_TYPE_REMOTE) {
-            return null;
-        } else {
-            String[] splits = remote.split("/");
-            return String.format("refs/heads/%s", splits[3]);
-        }
-    }
-
-    public static File getDir(PreferenceHelper preferenceHelper, String localpath) {
-        if (Repo.isExternal(localpath)) {
-            return new File(localpath.substring(Repo.EXTERNAL_PREFIX.length()));
-        }
-        File repoDir = preferenceHelper.getRepoRoot();
-        if (repoDir == null) {
-            repoDir = FsUtils.getExternalDir(REPO_DIR, true);
-            Timber.d("PRESET repo path:%s", new File(repoDir, localpath).getAbsolutePath());
-            return new File(repoDir, localpath);
-        } else {
-            repoDir = new File(preferenceHelper.getRepoRoot(), localpath);
-            Timber.d("CUSTOM repo path:%s", repoDir);
-            return repoDir;
-        }
-    }
-
-    public static void setLocalRepoRoot(Context context, File repoRoot) {
-        PreferenceHelper prefs = ((MGitApplication) context.getApplicationContext()).getPrefenceHelper();
-        File oldRoot = prefs.getRepoRoot();
-        prefs.setRepoRoot(repoRoot.getAbsolutePath());
-
-        // need to make any existing "internal" repos "external" so that their paths are still correct
-        List<Repo> allRepos = Repo.getRepoList(context, RepoDbManager.queryAllRepo());
-        for (Repo repo : allRepos) {
-            if (!repo.isExternal()) {
-                repo.mLocalPath = EXTERNAL_PREFIX + oldRoot.getAbsolutePath() + "/" + repo.mLocalPath;
-                RepoDbManager.setLocalPath(repo.getID(), repo.mLocalPath);
-            }
-        }
-    }
-
-    public void setToken(Context context){
+    public void setToken(Context context) {
         String tokenAccount = Profile.getTokenAccount(context);
         String tokenSecretKey = Profile.getTokenSecretKey(context);
-        if(tokenAccount != null && !tokenAccount.isEmpty() && tokenSecretKey != null && !tokenSecretKey.isEmpty()){
+        if (tokenAccount != null && !tokenAccount.isEmpty() && tokenSecretKey != null && !tokenSecretKey.isEmpty()) {
             setUsername(tokenAccount);
             setPassword(tokenSecretKey);
             Timber.tag("Repo").log(Log.INFO, "Set token: " + tokenAccount);
@@ -533,7 +527,7 @@ public class Repo implements Comparable<Repo>, Serializable {
     }
 
     public File getDir() {
-        PreferenceHelper prefHelper = ((MGitApplication) MGitApplication.getContext()).getPrefenceHelper();
+        PreferenceHelper prefHelper = MGitApplication.getContext().getPrefenceHelper();
         return Repo.getDir(prefHelper, getLocalPath());
     }
 

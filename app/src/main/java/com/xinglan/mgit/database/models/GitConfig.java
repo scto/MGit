@@ -1,6 +1,6 @@
 package com.xinglan.mgit.database.models;
 
-import com.xinglan.mgit.exceptions.StopTaskException;
+import com.xinglan.mgit.common.exceptions.StopTaskException;
 
 import org.eclipse.jgit.lib.StoredConfig;
 

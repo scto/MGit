@@ -5,6 +5,7 @@ import android.os.AsyncTask;
 import androidx.annotation.StringRes;
 
 import com.xinglan.mgit.R;
+import com.xinglan.mgit.ui.dialogs.ErrorDialog;
 
 import timber.log.Timber;
 
@@ -12,6 +13,7 @@ public abstract class SheimiAsyncTask<Params, Progress, Result> extends AsyncTas
 
     protected Throwable mException;
     protected int mErrorRes = 0;
+    private boolean mIsCanceled = false;
 
     protected void setException(Throwable e) {
         Timber.e(e, "set exception");
@@ -29,8 +31,6 @@ public abstract class SheimiAsyncTask<Params, Progress, Result> extends AsyncTas
         mErrorRes = errorRes;
     }
 
-    private boolean mIsCanceled = false;
-
     public void cancelTask() {
         mIsCanceled = true;
     }
@@ -38,7 +38,7 @@ public abstract class SheimiAsyncTask<Params, Progress, Result> extends AsyncTas
     /**
      * This method is to be overridden and should return the resource that
      * is used as the title as the
-     * {@link com.xinglan.mgit.dialogs.ErrorDialog} title when the
+     * {@link ErrorDialog} title when the
      * task fails with an exception.
      */
     @StringRes
@@ -50,17 +50,17 @@ public abstract class SheimiAsyncTask<Params, Progress, Result> extends AsyncTas
         return mIsCanceled;
     }
 
-    public static interface AsyncTaskPostCallback {
-        public void onPostExecute(Boolean isSuccess);
+    public interface AsyncTaskPostCallback {
+        void onPostExecute(Boolean isSuccess);
     }
 
-    public static interface AsyncTaskCallback {
-        public boolean doInBackground(Void... params);
+    public interface AsyncTaskCallback {
+        boolean doInBackground(Void... params);
 
-        public void onPreExecute();
+        void onPreExecute();
 
-        public void onProgressUpdate(String... progress);
+        void onProgressUpdate(String... progress);
 
-        public void onPostExecute(Boolean isSuccess);
+        void onPostExecute(Boolean isSuccess);
     }
 }

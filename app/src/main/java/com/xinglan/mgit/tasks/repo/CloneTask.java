@@ -6,7 +6,7 @@ import com.xinglan.android.utils.Profile;
 import com.xinglan.mgit.R;
 import com.xinglan.mgit.database.RepoContract;
 import com.xinglan.mgit.database.models.Repo;
-import com.xinglan.mgit.ssh.SgitTransportCallback;
+import com.xinglan.mgit.transport.ssh.SgitTransportCallback;
 
 import org.eclipse.jgit.api.CloneCommand;
 import org.eclipse.jgit.api.Git;

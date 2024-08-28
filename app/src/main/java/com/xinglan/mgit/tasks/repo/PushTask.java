@@ -3,8 +3,8 @@ package com.xinglan.mgit.tasks.repo;
 import com.xinglan.android.utils.BasicFunctions;
 import com.xinglan.mgit.R;
 import com.xinglan.mgit.database.models.Repo;
-import com.xinglan.mgit.exceptions.StopTaskException;
-import com.xinglan.mgit.ssh.SgitTransportCallback;
+import com.xinglan.mgit.common.exceptions.StopTaskException;
+import com.xinglan.mgit.transport.ssh.SgitTransportCallback;
 
 import org.eclipse.jgit.api.Git;
 import org.eclipse.jgit.api.PushCommand;
@@ -17,11 +17,11 @@ import java.util.Collection;
 
 public class PushTask extends RepoRemoteOpTask {
 
-    private AsyncTaskCallback mCallback;
-    private boolean mPushAll;
-    private boolean mForcePush;
-    private String mRemote;
-    private StringBuffer resultMsg = new StringBuffer();
+    private final AsyncTaskCallback mCallback;
+    private final boolean mPushAll;
+    private final boolean mForcePush;
+    private final String mRemote;
+    private final StringBuffer resultMsg = new StringBuffer();
 
     public PushTask(Repo repo, String remote, boolean pushAll, boolean forcePush,
                     AsyncTaskCallback callback) {

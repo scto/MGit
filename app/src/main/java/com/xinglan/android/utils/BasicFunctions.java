@@ -6,8 +6,8 @@ import androidx.annotation.NonNull;
 import androidx.annotation.StringRes;
 
 import com.nostra13.universalimageloader.core.ImageLoader;
-import com.xinglan.android.activities.SheimiFragmentActivity;
-import com.xinglan.mgit.dialogs.ErrorDialog;
+import com.xinglan.mgit.ui.SheimiFragmentActivity;
+import com.xinglan.mgit.ui.dialogs.ErrorDialog;
 
 import org.jetbrains.annotations.NotNull;
 
@@ -21,13 +21,15 @@ import timber.log.Timber;
  */
 public class BasicFunctions {
 
+    private static SheimiFragmentActivity mActiveActivity;
+
     public static String md5(final String s) {
         try {
             // Create MD5 Hash
             MessageDigest digest = java.security.MessageDigest
                 .getInstance("MD5");
             digest.update(s.getBytes());
-            byte messageDigest[] = digest.digest();
+            byte[] messageDigest = digest.digest();
 
             // Create Hex String
             StringBuffer hexString = new StringBuffer();
@@ -53,8 +55,6 @@ public class BasicFunctions {
         ImageLoader im = BasicFunctions.getImageLoader();
         im.displayImage(avatarUri, imageView);
     }
-
-    private static SheimiFragmentActivity mActiveActivity;
 
     public static SheimiFragmentActivity getActiveActivity() {
         return mActiveActivity;

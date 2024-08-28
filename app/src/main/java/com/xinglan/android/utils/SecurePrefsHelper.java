@@ -7,6 +7,7 @@ import android.os.Build;
 import android.security.KeyPairGeneratorSpec;
 
 import com.securepreferences.SecurePreferences;
+import com.xinglan.mgit.common.exceptions.SecurePrefsException;
 
 import java.io.IOException;
 import java.math.BigInteger;
@@ -27,13 +28,13 @@ import timber.log.Timber;
 /**
  * Securely store sensitive data in prefs, encrypting with a key pair that is stored in
  * the Android KeyStore, thus min of API 18 (4.3) is required.
- *
+ * <p>
  * The basic idea came from:
  * Ref: https://medium.com/@ali.muzaffar/securing-sharedpreferences-in-android-a21883a9cbf8
- *
+ * <p>
  * while the actual code comes from:
  * Ref: https://medium.com/@ericfu/securely-storing-secrets-in-an-android-application-501f030ae5a3
- *
+ * <p>
  * But in this class, all we do is use the generated RSA cert as the "password" used for AES encryption
  * by the SecurePreferences library, by taking the md5 of the RSA keys certificates toString()
  */
@@ -46,7 +47,7 @@ public class SecurePrefsHelper {
     private static final String KEY_ALGORITHM_RSA = "RSA"; //KeyProperties.KEY_ALGORITHM_RSA is only available in API 23, so need to define it here
 
     SharedPreferences mSecurePrefs;
-    private KeyStore mKeyStore;
+    private final KeyStore mKeyStore;
 
     public SecurePrefsHelper(Context context) throws SecurePrefsException {
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.JELLY_BEAN_MR2) {

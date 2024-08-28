@@ -5,15 +5,15 @@
         android:key="pref_key_storage_root_location"
         android:title="@string/pref_category_title_general">
 
-        <com.xinglan.mgit.preference.Preference
+        <com.xinglan.android.preference.Preference
             android:title="@string/preference_repo_location"
             android:key="@string/pref_key_repo_root_location"
             android:summary="%s"
             android:persistent="true">
             <intent
-                android:targetClass="com.xinglan.mgit.activities.explorer.ExploreRootDirActivity"
+                android:targetClass="com.xinglan.mgit.ui.explorer.ExploreRootDirActivity"
                 android:targetPackage="com.xinglan.mgit" />
-        </com.xinglan.mgit.preference.Preference>
+        </com.xinglan.android.preference.Preference>
         <ListPreference
             android:title="@string/preference_use_theme"
             android:key="@string/pref_key_use_theme_id"
@@ -37,44 +37,44 @@
         android:key="pref_key_storage_root_location"
         android:title="@string/pref_category_title_git_profile">
 
-        <com.xinglan.mgit.preference.EditTextPreference
+        <com.xinglan.android.preference.EditTextPreference
             android:title="@string/preference_git_user_name"
             android:key="@string/pref_key_git_user_name"
             android:summary="%s"
             android:persistent="true">
-        </com.xinglan.mgit.preference.EditTextPreference>
+        </com.xinglan.android.preference.EditTextPreference>
 
-        <com.xinglan.mgit.preference.EditTextPreference
+        <com.xinglan.android.preference.EditTextPreference
             android:title="@string/preference_git_user_email"
             android:key="@string/pref_key_git_user_email"
             android:summary="%s"
             android:persistent="true"
             android:inputType="textEmailAddress">
-        </com.xinglan.mgit.preference.EditTextPreference>
+        </com.xinglan.android.preference.EditTextPreference>
     </PreferenceCategory>
 
     <PreferenceCategory android:title="@string/pref_category_title_security">
         <!-- TODO: personal_access_tokens-->
-        <com.xinglan.mgit.preference.EditTextPreference
+        <com.xinglan.android.preference.EditTextPreference
             android:title="@string/preference_personal_access_tokens_account"
             android:key="@string/pref_key_personal_access_tokens_account"
             android:summary="%s"
             android:persistent="true">
-        </com.xinglan.mgit.preference.EditTextPreference>
+        </com.xinglan.android.preference.EditTextPreference>
 
-        <com.xinglan.mgit.preference.EditTextPreference
+        <com.xinglan.android.preference.EditTextPreference
             android:title="@string/preference_personal_access_tokens_secret_key"
             android:key="@string/pref_key_personal_access_tokens_secret_key"
             android:summary="%s"
             android:persistent="true">
-        </com.xinglan.mgit.preference.EditTextPreference>
+        </com.xinglan.android.preference.EditTextPreference>
 
         <Preference
             android:title="@string/preference_manage_ssh_keys"
             android:summary="@string/preference_manage_ssh_keys_summary"
             android:persistent="true">
             <intent
-                android:targetClass="com.xinglan.mgit.activities.explorer.PrivateKeyManageActivity"
+                android:targetClass="com.xinglan.mgit.ui.explorer.PrivateKeyManageActivity"
                 android:targetPackage="com.xinglan.mgit" />
         </Preference>
 
@@ -89,15 +89,15 @@
 
     <PreferenceCategory android:title="@string/pref_category_title_about">
 
-        <com.xinglan.mgit.preference.Preference
+        <com.xinglan.android.preference.Preference
             android:title="@string/preference_send_feedback"
             android:summary="@string/preference_send_feedback_summary">
             <intent
                 android:action="android.intent.action.VIEW"
                 android:data="@string/feedback_url" />
-        </com.xinglan.mgit.preference.Preference>
+        </com.xinglan.android.preference.Preference>
 
-        <com.xinglan.mgit.preference.Preference
+        <com.xinglan.android.preference.Preference
             android:key="@string/preference_key_app_version"
             android:title="@string/preference_app_version"
             android:selectable="false"

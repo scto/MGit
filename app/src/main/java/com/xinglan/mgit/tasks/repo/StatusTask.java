@@ -1,7 +1,7 @@
 package com.xinglan.mgit.tasks.repo;
 
 import com.xinglan.mgit.database.models.Repo;
-import com.xinglan.mgit.exceptions.StopTaskException;
+import com.xinglan.mgit.common.exceptions.StopTaskException;
 
 import org.eclipse.jgit.api.errors.GitAPIException;
 import org.eclipse.jgit.errors.NoWorkTreeException;
@@ -10,13 +10,8 @@ import java.util.Set;
 
 public class StatusTask extends RepoOpTask {
 
-    public interface GetStatusCallback {
-        public void postStatus(String result);
-    }
-
-    private GetStatusCallback mCallback;
-    private StringBuffer mResult = new StringBuffer();
-
+    private final GetStatusCallback mCallback;
+    private final StringBuffer mResult = new StringBuffer();
     public StatusTask(Repo repo, GetStatusCallback callback) {
         super(repo);
         mCallback = callback;
@@ -84,6 +79,10 @@ public class StatusTask extends RepoOpTask {
             mResult.append('\n');
         }
         mResult.append("\n");
+    }
+
+    public interface GetStatusCallback {
+        void postStatus(String result);
     }
 
 }

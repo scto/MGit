@@ -2,8 +2,8 @@ package com.xinglan.mgit.tasks.repo;
 
 import com.xinglan.mgit.R;
 import com.xinglan.mgit.database.models.Repo;
-import com.xinglan.mgit.exceptions.StopTaskException;
-import com.xinglan.mgit.ssh.SgitTransportCallback;
+import com.xinglan.mgit.common.exceptions.StopTaskException;
+import com.xinglan.mgit.transport.ssh.SgitTransportCallback;
 
 import org.eclipse.jgit.api.Git;
 import org.eclipse.jgit.api.PullCommand;
@@ -14,9 +14,9 @@ import org.eclipse.jgit.api.errors.TransportException;
 
 public class PullTask extends RepoRemoteOpTask {
 
-    private AsyncTaskCallback mCallback;
-    private String mRemote;
-    private boolean mForcePull;
+    private final AsyncTaskCallback mCallback;
+    private final String mRemote;
+    private final boolean mForcePull;
 
     public PullTask(Repo repo, String remote, boolean forcePull, AsyncTaskCallback callback) {
         super(repo);

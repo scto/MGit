@@ -8,11 +8,11 @@
 
         <import type="android.view.View" />
 
-        <import type="com.xinglan.mgit.repolist.RepoListActivity.ClickActions" />
-
+        <import type="com.xinglan.mgit.ui.repolist.RepoListActivity" />
+        <import type="com.xinglan.mgit.ui.repolist.RepoListActivity.ClickActions" />
         <variable
             name="viewModel"
-            type="com.xinglan.mgit.clone.CloneViewModel" />
+            type="com.xinglan.mgit.tasks.clone.CloneViewModel" />
 
         <variable
             name="clickHandler"

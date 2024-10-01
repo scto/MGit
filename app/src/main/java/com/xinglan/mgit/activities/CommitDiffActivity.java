@@ -42,6 +42,14 @@ public class CommitDiffActivity extends SheimiFragmentActivity {
     public final static String SHOW_DESCRIPTION = "show_description";
     private final static int REQUEST_SAVE_DIFF = 1;
     private static final String JS_INF = "CodeLoader";
+    private static final String HTML_TMPL = "<!doctype html>"
+        + "<head>"
+        + " <script src=\"js/jquery.js\"></script>"
+        + " <script src=\"js/highlight.pack.js\"></script>"
+        + " <script src=\"js/local_commits_diff.js\"></script>"
+        + " <link type=\"text/css\" rel=\"stylesheet\" href=\"css/rainbow.css\" />"
+        + " <link type=\"text/css\" rel=\"stylesheet\" href=\"css/local_commits_diff.css\" />"
+        + "</head><body></body>";
     private WebView mDiffContent;
     private ProgressBar mLoading;
     private String mOldCommit;
@@ -57,8 +65,8 @@ public class CommitDiffActivity extends SheimiFragmentActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_view_diff);
         setupActionBar();
-        mDiffContent = (WebView) findViewById(R.id.fileContent);
-        mLoading = (ProgressBar) findViewById(R.id.loading);
+        mDiffContent = findViewById(R.id.fileContent);
+        mLoading = findViewById(R.id.loading);
 
         Bundle extras = getIntent().getExtras();
         mOldCommit = extras.getString(OLD_COMMIT);
@@ -165,6 +173,7 @@ public class CommitDiffActivity extends SheimiFragmentActivity {
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == REQUEST_SAVE_DIFF && resultCode == RESULT_OK) {
             Uri diffUri = data.getData();
             try {
@@ -177,17 +186,15 @@ public class CommitDiffActivity extends SheimiFragmentActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case android.R.id.home:
-                finish();
-                return true;
-            case R.id.action_save_diff:
-                Intent intent = new Intent(Intent.ACTION_CREATE_DOCUMENT)
-                    .setType("text/x-patch")
-                    .putExtra(Intent.EXTRA_TITLE, Repo.getCommitDisplayName(mNewCommit) + ".diff");
-
-                startActivityForResult(intent, REQUEST_SAVE_DIFF);
-                return true;
+        if (item.getItemId() == android.R.id.home) {
+            finish();
+            return true;
+        } else if (item.getItemId() == R.id.action_save_diff) {
+            Intent intent = new Intent(Intent.ACTION_CREATE_DOCUMENT)
+                .setType("text/x-patch")
+                .putExtra(Intent.EXTRA_TITLE, Repo.getCommitDisplayName(mNewCommit) + ".diff");
+            startActivityForResult(intent, REQUEST_SAVE_DIFF);
+            return true;
         }
         return super.onOptionsItemSelected(item);
     }
@@ -269,14 +276,5 @@ public class CommitDiffActivity extends SheimiFragmentActivity {
             return Profile.getCodeMirrorTheme(getApplicationContext());
         }
     }
-
-    private static final String HTML_TMPL = "<!doctype html>"
-        + "<head>"
-        + " <script src=\"js/jquery.js\"></script>"
-        + " <script src=\"js/highlight.pack.js\"></script>"
-        + " <script src=\"js/local_commits_diff.js\"></script>"
-        + " <link type=\"text/css\" rel=\"stylesheet\" href=\"css/rainbow.css\" />"
-        + " <link type=\"text/css\" rel=\"stylesheet\" href=\"css/local_commits_diff.css\" />"
-        + "</head><body></body>";
 
 }

@@ -38,16 +38,13 @@ public class CommitsFragment extends BaseFragment implements
 
     private final static String IS_ACTION_MODE = "is action mode";
     private final static String CHOSEN_ITEM = "chosen item";
-
+    private static final String FILE = "commit_file";
+    private final Set<Integer> mChosenItem = new HashSet<Integer>();
     private ListView mCommitsList;
     private CommitsListAdapter mCommitsListAdapter;
-
     private ActionMode mActionMode;
-    private Set<Integer> mChosenItem = new HashSet<Integer>();
     private Repo mRepo;
     private String mFile;
-    private static final String FILE = "commit_file";
-
     private ClipboardManager mClipboard;
 
     public static CommitsFragment newInstance(Repo mRepo, String file) {
@@ -81,7 +78,7 @@ public class CommitsFragment extends BaseFragment implements
         mFile = bundle.getString(FILE);
         mClipboard = (ClipboardManager) getRawActivity().getSystemService(
             Activity.CLIPBOARD_SERVICE);
-        mCommitsList = (ListView) v.findViewById(R.id.commitsList);
+        mCommitsList = v.findViewById(R.id.commitsList);
         mCommitsListAdapter = new CommitsListAdapter(getRawActivity(),
             mChosenItem, mRepo, mFile);
         mCommitsListAdapter.resetCommit();
@@ -187,61 +184,56 @@ public class CommitsFragment extends BaseFragment implements
 
     @Override
     public boolean onActionItemClicked(ActionMode actionMode, MenuItem menuItem) {
-        switch (menuItem.getItemId()) {
-            case R.id.action_mode_diff:
-                Integer[] items = mChosenItem.toArray(new Integer[0]);
-                if (items.length == 0) {
-                    showToastMessage(R.string.alert_no_items_selected);
-                    return true;
-                }
-                int item1,
-                    item2;
-                item1 = items[0];
-                if (items.length == 1) {
-                    item2 = item1 + 1;
-                    if (item2 == mCommitsListAdapter.getCount()) {
-                        showToastMessage(R.string.alert_no_older_commits);
-                        return true;
-                    }
-                } else {
-                    item2 = items[1];
-                }
+        if (menuItem.getItemId() == R.id.action_mode_diff) {
 
-                int smaller = Math.min(item1, item2);
-                int larger = Math.max(item1, item2);
-                String oldCommit = mCommitsListAdapter.getItem(larger)
-                    .getName();
-                String newCommit = mCommitsListAdapter.getItem(smaller)
-                    .getName();
-                showDiff(actionMode, oldCommit, newCommit, false);
-                return true;
-            case R.id.action_mode_copy_commit: {
-                if (mChosenItem.size() != 1) {
-                    showToastMessage(R.string.alert_you_must_choose_one_commit_to_copy);
-                    return true;
-                }
-                int item = mChosenItem.iterator().next();
-                String commit = mCommitsListAdapter.getItem(item).getName();
-                ClipData clip = ClipData.newPlainText("commit_to_copy", commit);
-                mClipboard.setPrimaryClip(clip);
-                showToastMessage(R.string.msg_commit_str_has_copied);
-                actionMode.finish();
+            Integer[] items = mChosenItem.toArray(new Integer[0]);
+            if (items.length == 0) {
+                showToastMessage(R.string.alert_no_items_selected);
                 return true;
             }
-            case R.id.action_mode_checkout: {
-                int item = mChosenItem.iterator().next();
-                String commit = mCommitsListAdapter.getItem(item).getName();
-                Bundle pathArg = new Bundle();
-                pathArg.putString(CheckoutDialog.BASE_COMMIT, commit);
-                pathArg.putSerializable(Repo.TAG, mRepo);
-                actionMode.finish();
-                CheckoutDialog ckd = new CheckoutDialog();
-                ckd.setArguments(pathArg);
-                ckd.show(getFragmentManager(), "rename-dialog");
-
-                break;
+            int item1,
+                item2;
+            item1 = items[0];
+            if (items.length == 1) {
+                item2 = item1 + 1;
+                if (item2 == mCommitsListAdapter.getCount()) {
+                    showToastMessage(R.string.alert_no_older_commits);
+                    return true;
+                }
+            } else {
+                item2 = items[1];
             }
 
+            int smaller = Math.min(item1, item2);
+            int larger = Math.max(item1, item2);
+            String oldCommit = mCommitsListAdapter.getItem(larger)
+                .getName();
+            String newCommit = mCommitsListAdapter.getItem(smaller)
+                .getName();
+            showDiff(actionMode, oldCommit, newCommit, false);
+            return true;
+        } else if (menuItem.getItemId() == R.id.action_mode_copy_commit) {
+            if (mChosenItem.size() != 1) {
+                showToastMessage(R.string.alert_you_must_choose_one_commit_to_copy);
+                return true;
+            }
+            int item = mChosenItem.iterator().next();
+            String commit = mCommitsListAdapter.getItem(item).getName();
+            ClipData clip = ClipData.newPlainText("commit_to_copy", commit);
+            mClipboard.setPrimaryClip(clip);
+            showToastMessage(R.string.msg_commit_str_has_copied);
+            actionMode.finish();
+            return true;
+        } else if (menuItem.getItemId() == R.id.action_mode_checkout) {
+            int item = mChosenItem.iterator().next();
+            String commit = mCommitsListAdapter.getItem(item).getName();
+            Bundle pathArg = new Bundle();
+            pathArg.putString(CheckoutDialog.BASE_COMMIT, commit);
+            pathArg.putSerializable(Repo.TAG, mRepo);
+            actionMode.finish();
+            CheckoutDialog ckd = new CheckoutDialog();
+            ckd.setArguments(pathArg);
+            ckd.show(getFragmentManager(), "rename-dialog");
         }
         return false;
     }

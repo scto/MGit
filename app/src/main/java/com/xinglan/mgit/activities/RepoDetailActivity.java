@@ -36,12 +36,14 @@ import com.xinglan.mgit.tasks.SheimiAsyncTask;
 
 public class RepoDetailActivity extends SheimiFragmentActivity {
 
+    private static final int FILES_FRAGMENT_INDEX = 0;
+    private static final int COMMITS_FRAGMENT_INDEX = 1;
+    private static final int STATUS_FRAGMENT_INDEX = 2;
+    private static final int BRANCH_CHOOSE_ACTIVITY = 0;
     private ActionBar mActionBar;
-
     private FilesFragment mFilesFragment;
     private CommitsFragment mCommitsFragment;
     private StatusFragment mStatusFragment;
-
     private RelativeLayout mRightDrawer;
     private ListView mRepoOperationList;
     private DrawerLayout mDrawerLayout;
@@ -51,21 +53,13 @@ public class RepoDetailActivity extends SheimiFragmentActivity {
     private Button mCommitNameButton;
     private ImageView mCommitType;
     private MenuItem mSearchItem;
-
     private Repo mRepo;
-
     private View mPullProgressContainer;
     private ProgressBar mPullProgressBar;
     private TextView mPullMsg;
     private TextView mPullLeftHint;
     private TextView mPullRightHint;
-
     private RepoOperationDelegate mRepoDelegate;
-
-    private static final int FILES_FRAGMENT_INDEX = 0;
-    private static final int COMMITS_FRAGMENT_INDEX = 1;
-    private static final int STATUS_FRAGMENT_INDEX = 2;
-    private static final int BRANCH_CHOOSE_ACTIVITY = 0;
     private int mSelectedTab;
 
     @Override
@@ -102,8 +96,8 @@ public class RepoDetailActivity extends SheimiFragmentActivity {
         setupViewPager();
         setupPullProgressView();
         setupDrawer();
-        mCommitNameButton = (Button) findViewById(R.id.commitName);
-        mCommitType = (ImageView) findViewById(R.id.commitType);
+        mCommitNameButton = findViewById(R.id.commitName);
+        mCommitType = findViewById(R.id.commitType);
         mCommitNameButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -128,16 +122,16 @@ public class RepoDetailActivity extends SheimiFragmentActivity {
     }
 
     private void setupViewPager() {
-        mViewPager = (ViewPager) findViewById(R.id.pager);
+        mViewPager = findViewById(R.id.pager);
         mTabItemPagerAdapter = new TabItemPagerAdapter(getSupportFragmentManager());
         mViewPager.setAdapter(mTabItemPagerAdapter);
         mViewPager.setOnPageChangeListener(mTabItemPagerAdapter);
     }
 
     private void setupDrawer() {
-        mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
-        mRightDrawer = (RelativeLayout) findViewById(R.id.right_drawer);
-        mRepoOperationList = (ListView) findViewById(R.id.repoOperationList);
+        mDrawerLayout = findViewById(R.id.drawer_layout);
+        mRightDrawer = findViewById(R.id.right_drawer);
+        mRepoOperationList = findViewById(R.id.repoOperationList);
         mDrawerAdapter = new RepoOperationsAdapter(this);
         mRepoOperationList.setAdapter(mDrawerAdapter);
         mRepoOperationList.setOnItemClickListener(mDrawerAdapter);
@@ -146,12 +140,12 @@ public class RepoDetailActivity extends SheimiFragmentActivity {
     private void setupPullProgressView() {
         mPullProgressContainer = findViewById(R.id.pullProgressContainer);
         mPullProgressContainer.setVisibility(View.GONE);
-        mPullProgressBar = (ProgressBar) mPullProgressContainer
+        mPullProgressBar = mPullProgressContainer
             .findViewById(R.id.pullProgress);
-        mPullMsg = (TextView) mPullProgressContainer.findViewById(R.id.pullMsg);
-        mPullLeftHint = (TextView) mPullProgressContainer
+        mPullMsg = mPullProgressContainer.findViewById(R.id.pullMsg);
+        mPullLeftHint = mPullProgressContainer
             .findViewById(R.id.leftHint);
-        mPullRightHint = (TextView) mPullProgressContainer
+        mPullRightHint = mPullProgressContainer
             .findViewById(R.id.rightHint);
     }
 
@@ -200,12 +194,12 @@ public class RepoDetailActivity extends SheimiFragmentActivity {
         mStatusFragment.reset();
     }
 
-    public void setFilesFragment(FilesFragment filesFragment) {
-        mFilesFragment = filesFragment;
-    }
-
     public FilesFragment getFilesFragment() {
         return mFilesFragment;
+    }
+
+    public void setFilesFragment(FilesFragment filesFragment) {
+        mFilesFragment = filesFragment;
     }
 
     public void setCommitsFragment(CommitsFragment commitsFragment) {
@@ -273,9 +267,39 @@ public class RepoDetailActivity extends SheimiFragmentActivity {
         showToastMessage(R.string.error_unknown);
     }
 
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if (item.getItemId() == android.R.id.home) {
+            finish();
+            return true;
+        } else if (item.getItemId() == R.id.action_toggle_drawer) {
+            if (mDrawerLayout.isDrawerOpen(mRightDrawer)) {
+                mDrawerLayout.closeDrawer(mRightDrawer);
+            } else {
+                mDrawerLayout.openDrawer(mRightDrawer);
+            }
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
+    public void closeOperationDrawer() {
+        mDrawerLayout.closeDrawer(mRightDrawer);
+    }
+
+    public void enterDiffActionMode() {
+        mViewPager.setCurrentItem(COMMITS_FRAGMENT_INDEX);
+        mCommitsFragment.enterDiffActionMode();
+    }
+
+    private void repoInit() {
+        mRepo.updateLatestCommitInfo();
+        mRepo.getRemotes();
+    }
+
     public class ProgressCallback implements SheimiAsyncTask.AsyncTaskCallback {
 
-        private int mInitMsg;
+        private final int mInitMsg;
 
         public ProgressCallback(int initMsg) {
             mInitMsg = initMsg;
@@ -319,37 +343,6 @@ public class RepoDetailActivity extends SheimiFragmentActivity {
             return true;
         }
 
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case android.R.id.home:
-                finish();
-                return true;
-            case R.id.action_toggle_drawer:
-                if (mDrawerLayout.isDrawerOpen(mRightDrawer)) {
-                    mDrawerLayout.closeDrawer(mRightDrawer);
-                } else {
-                    mDrawerLayout.openDrawer(mRightDrawer);
-                }
-                return true;
-        }
-        return super.onOptionsItemSelected(item);
-    }
-
-    public void closeOperationDrawer() {
-        mDrawerLayout.closeDrawer(mRightDrawer);
-    }
-
-    public void enterDiffActionMode() {
-        mViewPager.setCurrentItem(COMMITS_FRAGMENT_INDEX);
-        mCommitsFragment.enterDiffActionMode();
-    }
-
-    private void repoInit() {
-        mRepo.updateLatestCommitInfo();
-        mRepo.getRemotes();
     }
 
     class TabItemPagerAdapter extends FragmentPagerAdapter implements ViewPager.OnPageChangeListener, SearchView.OnQueryTextListener, MenuItemCompat.OnActionExpandListener {

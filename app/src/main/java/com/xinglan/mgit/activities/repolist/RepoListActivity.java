@@ -46,16 +46,10 @@ import timber.log.Timber;
 
 public class RepoListActivity extends SheimiFragmentActivity {
 
+    private static final int REQUEST_IMPORT_REPO = 0;
     private Context mContext;
     private RepoListAdapter mRepoListAdapter;
-
-    private static final int REQUEST_IMPORT_REPO = 0;
-
     private ActivityMainBinding activityMainBinding;
-
-    public enum ClickActions {
-        CLONE, CANCEL
-    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -154,19 +148,19 @@ public class RepoListActivity extends SheimiFragmentActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         Intent intent;
-        switch (item.getItemId()) {
-            case R.id.action_new:
-                showCloneView();
-                return true;
-            case R.id.action_import_repo:
-                intent = new Intent(this, ImportRepositoryActivity.class);
-                startActivityForResult(intent, REQUEST_IMPORT_REPO);
-                forwardTransition();
-                return true;
-            case R.id.action_settings:
-                intent = new Intent(this, UserSettingsActivity.class);
-                startActivity(intent);
-                return true;
+        if (item.getItemId() == R.id.action_new) {
+
+            showCloneView();
+            return true;
+        } else if (item.getItemId() == R.id.action_import_repo) {
+            intent = new Intent(this, ImportRepositoryActivity.class);
+            startActivityForResult(intent, REQUEST_IMPORT_REPO);
+            forwardTransition();
+            return true;
+        } else if (item.getItemId() == R.id.action_settings) {
+            intent = new Intent(this, UserSettingsActivity.class);
+            startActivity(intent);
+            return true;
         }
         return super.onOptionsItemSelected(item);
     }
@@ -219,6 +213,35 @@ public class RepoListActivity extends SheimiFragmentActivity {
         }
     }
 
+    public void finish() {
+        rawfinish();
+    }
+
+    private void initUpdatedSSL() {
+        MGitHttpConnectionFactory.install();
+        Timber.i("Installed custom HTTPS factory");
+    }
+
+    private void cloneRepo() {
+        if (activityMainBinding.getCloneViewModel().validate()) {
+            hideCloneView();
+            activityMainBinding.getCloneViewModel().cloneRepo();
+        }
+    }
+
+    private void showCloneView() {
+        activityMainBinding.getCloneViewModel().show(true);
+    }
+
+    private void hideCloneView() {
+        activityMainBinding.getCloneViewModel().show(false);
+        ViewHelperKt.hideKeyboard(this);
+    }
+
+    public enum ClickActions {
+        CLONE, CANCEL
+    }
+
     public class SearchListener implements SearchView.OnQueryTextListener,
         MenuItemCompat.OnActionExpandListener {
 
@@ -244,30 +267,5 @@ public class RepoListActivity extends SheimiFragmentActivity {
             return true;
         }
 
-    }
-
-    public void finish() {
-        rawfinish();
-    }
-
-    private void initUpdatedSSL() {
-        MGitHttpConnectionFactory.install();
-        Timber.i("Installed custom HTTPS factory");
-    }
-
-    private void cloneRepo() {
-        if (activityMainBinding.getCloneViewModel().validate()) {
-            hideCloneView();
-            activityMainBinding.getCloneViewModel().cloneRepo();
-        }
-    }
-
-    private void showCloneView() {
-        activityMainBinding.getCloneViewModel().show(true);
-    }
-
-    private void hideCloneView() {
-        activityMainBinding.getCloneViewModel().show(false);
-        ViewHelperKt.hideKeyboard(this);
     }
 }

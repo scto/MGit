@@ -2,7 +2,6 @@ package com.xinglan.mgit.activities;
 
 import android.app.AlertDialog;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.ActionMode;
@@ -49,80 +48,58 @@ public class BranchChooserActivity extends SheimiFragmentActivity implements Act
 
     @Override
     public boolean onActionItemClicked(ActionMode mode, MenuItem item) {
-        switch (item.getItemId()) {
-            case R.id.action_mode_rename_branch:
-                Bundle pathArg = new Bundle();
-                pathArg.putString(RenameBranchDialog.FROM_COMMIT,
-                    mChosenCommit);
-                pathArg.putSerializable(Repo.TAG,
-                    mRepo);
-                mode.finish();
-                RenameBranchDialog rbd = new RenameBranchDialog();
-                rbd.setArguments(pathArg);
-                rbd.show(getFragmentManager(), "rename-dialog");
-
-                return true;
-            case R.id.action_mode_delete:
-                AlertDialog.Builder alert = new AlertDialog.Builder(this)
-                    .setIcon(android.R.drawable.ic_dialog_alert)
-                    .setTitle(getString(R.string.dialog_branch_delete) + " " + mChosenCommit)
-                    .setMessage(R.string.dialog_branch_delete_msg)
-                    .setPositiveButton(R.string.label_delete, new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            int commitType = Repo.getCommitType(mChosenCommit);
-                            try {
-                                switch (commitType) {
-                                    case Repo.COMMIT_TYPE_HEAD:
-                                        mRepo.getGit().branchDelete()
-                                            .setBranchNames(mChosenCommit)
-                                            .setForce(true)
-                                            .call();
-                                        break;
-                                    case Repo.COMMIT_TYPE_TAG:
-                                        mRepo.getGit().tagDelete()
-                                            .setTags(mChosenCommit)
-                                            .call();
-                                        break;
-                                }
-                            } catch (StopTaskException e) {
-                                Log.e(LOGTAG, "can't delete " + mChosenCommit, e);
-                                runOnUiThread(new Runnable() {
-                                    @Override
-                                    public void run() {
-                                        Toast.makeText(BranchChooserActivity.this, getString(R.string.cannot_delete_branch, mChosenCommit),
-                                            Toast.LENGTH_LONG).show();
-                                    }
-                                });
-                            } catch (CannotDeleteCurrentBranchException e) {
-                                Log.e(LOGTAG, "can't delete " + mChosenCommit, e);
-                                runOnUiThread(new Runnable() {
-                                    @Override
-                                    public void run() {
-                                        Toast.makeText(BranchChooserActivity.this, getString(R.string.cannot_delete_current_branch, mChosenCommit),
-                                            Toast.LENGTH_LONG).show();
-                                    }
-                                });
-                            } catch (GitAPIException e) {
-                                Log.e(LOGTAG, "can't delete " + mChosenCommit, e);
-                                runOnUiThread(new Runnable() {
-                                    @Override
-                                    public void run() {
-                                        Toast.makeText(BranchChooserActivity.this, getString(R.string.cannot_delete_branch, mChosenCommit),
-                                            Toast.LENGTH_LONG).show();
-                                    }
-                                });
-                            }
-                            refreshList();
+        if (item.getItemId() == R.id.action_mode_rename_branch) {
+            Bundle pathArg = new Bundle();
+            pathArg.putString(RenameBranchDialog.FROM_COMMIT, mChosenCommit);
+            pathArg.putSerializable(Repo.TAG, mRepo);
+            mode.finish();
+            RenameBranchDialog rbd = new RenameBranchDialog();
+            rbd.setArguments(pathArg);
+            rbd.show(getFragmentManager(), "rename-dialog");
+            return true;
+        } else if (item.getItemId() == R.id.action_mode_delete) {
+            AlertDialog.Builder alert = new AlertDialog.Builder(this)
+                .setIcon(android.R.drawable.ic_dialog_alert)
+                .setTitle(getString(R.string.dialog_branch_delete) + " " + mChosenCommit)
+                .setMessage(R.string.dialog_branch_delete_msg)
+                .setPositiveButton(R.string.label_delete, (dialog, which) -> {
+                    int commitType = Repo.getCommitType(mChosenCommit);
+                    try {
+                        switch (commitType) {
+                            case Repo.COMMIT_TYPE_HEAD:
+                                mRepo.getGit().branchDelete()
+                                    .setBranchNames(mChosenCommit)
+                                    .setForce(true)
+                                    .call();
+                                break;
+                            case Repo.COMMIT_TYPE_TAG:
+                                mRepo.getGit().tagDelete()
+                                    .setTags(mChosenCommit)
+                                    .call();
+                                break;
                         }
-
-                    })
-                    .setNegativeButton(R.string.label_cancel, null);
-                mode.finish();
-                alert.show();
-                return true;
-            default:
-                return false;
+                    } catch (CannotDeleteCurrentBranchException e) {
+                        Log.e(LOGTAG, "can't delete " + mChosenCommit, e);
+                        runOnUiThread(() -> Toast.makeText(BranchChooserActivity.this, getString(R.string.cannot_delete_current_branch, mChosenCommit),
+                            Toast.LENGTH_LONG).show());
+                    } catch (StopTaskException | GitAPIException e) {
+                        Log.e(LOGTAG, "can't delete " + mChosenCommit, e);
+                        runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                Toast.makeText(BranchChooserActivity.this, getString(R.string.cannot_delete_branch, mChosenCommit),
+                                    Toast.LENGTH_LONG).show();
+                            }
+                        });
+                    }
+                    refreshList();
+                })
+                .setNegativeButton(R.string.label_cancel, null);
+            mode.finish();
+            alert.show();
+            return true;
+        } else {
+            return false;
         }
     }
 
@@ -153,8 +130,8 @@ public class BranchChooserActivity extends SheimiFragmentActivity implements Act
 
         View v = getLayoutInflater().inflate(R.layout.fragment_branches, null);
         mRepo = (Repo) getIntent().getSerializableExtra(Repo.TAG);
-        mBranchTagList = (ListView) v.findViewById(R.id.branches);
-        mLoadding = (ProgressBar) v.findViewById(R.id.loading);
+        mBranchTagList = v.findViewById(R.id.branches);
+        mLoadding = v.findViewById(R.id.loading);
         mAdapter = new BranchTagListAdapter(this);
         mBranchTagList.setAdapter(mAdapter);
         mBranchTagList.setChoiceMode(ListView.CHOICE_MODE_SINGLE);
@@ -182,25 +159,24 @@ public class BranchChooserActivity extends SheimiFragmentActivity implements Act
             });
 
         mBranchTagList
-            .setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
-                @Override
-                public boolean onItemLongClick(AdapterView<?> adapterView,
-                                               View view, int position, long id) {
-
-                    if (mInActionMode) {
-                        return true;
-                    }
-
-                    mInActionMode = true;
-                    mChosenCommit = mAdapter.getItem(position);
-                    BranchChooserActivity.this.startActionMode(BranchChooserActivity.this);
-                    view.setSelected(true);
-                    mAdapter.notifyDataSetChanged();
+            .setOnItemLongClickListener((adapterView, view, position, id) -> {
+                if (mInActionMode) {
                     return true;
                 }
+                mInActionMode = true;
+                mChosenCommit = mAdapter.getItem(position);
+                BranchChooserActivity.this.startActionMode(BranchChooserActivity.this);
+                view.setSelected(true);
+                mAdapter.notifyDataSetChanged();
+                return true;
             });
 
         setContentView(v);
+    }
+
+    private static class ListItemHolder {
+        public TextView commitTitle;
+        public ImageView commitIcon;
     }
 
     private class BranchTagListAdapter extends ArrayAdapter<String> {
@@ -217,9 +193,9 @@ public class BranchChooserActivity extends SheimiFragmentActivity implements Act
                 convertView = inflater.inflate(
                     R.layout.listitem_dialog_choose_commit, parent, false);
                 holder = new ListItemHolder();
-                holder.commitTitle = (TextView) convertView
+                holder.commitTitle = convertView
                     .findViewById(R.id.commitTitle);
-                holder.commitIcon = (ImageView) convertView
+                holder.commitIcon = convertView
                     .findViewById(R.id.commitIcon);
                 convertView.setTag(holder);
             } else {
@@ -247,10 +223,5 @@ public class BranchChooserActivity extends SheimiFragmentActivity implements Act
             return convertView;
         }
 
-    }
-
-    private static class ListItemHolder {
-        public TextView commitTitle;
-        public ImageView commitIcon;
     }
 }

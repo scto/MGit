@@ -25,14 +25,14 @@ import java.io.File;
 
 public class ViewFileActivity extends SheimiFragmentActivity {
 
+    private static final int FILE_FRAGMENT_INDEX = 0;
+    private static final int COMMITS_FRAGMENT_INDEX = 1;
     public static String TAG_FILE_NAME = "file_name";
     public static String TAG_MODE = "mode";
     public static short TAG_MODE_NORMAL = 0;
     public static short TAG_MODE_SSH_KEY = 1;
     private CommitsFragment mCommitsFragment;
     private short mActivityMode = TAG_MODE_NORMAL;
-    private static final int FILE_FRAGMENT_INDEX = 0;
-    private static final int COMMITS_FRAGMENT_INDEX = 1;
     private ViewPager mViewPager;
     private Repo mRepo;
     private TabItemPagerAdapter mTabItemPagerAdapter;
@@ -44,7 +44,7 @@ public class ViewFileActivity extends SheimiFragmentActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_view_file);
         mRepo = (Repo) getIntent().getSerializableExtra(Repo.TAG);
-        mViewPager = (ViewPager) findViewById(R.id.pager);
+        mViewPager = findViewById(R.id.pager);
         mTabItemPagerAdapter = new TabItemPagerAdapter(getSupportFragmentManager());
         mViewPager.setAdapter(mTabItemPagerAdapter);
         mViewPager.setOnPageChangeListener(mTabItemPagerAdapter);
@@ -58,7 +58,7 @@ public class ViewFileActivity extends SheimiFragmentActivity {
             mCommitsFragment = CommitsFragment.newInstance(mRepo, FsUtils.getRelativePath(new File(fileName), mRepo.getDir()));
         }
         if (mRepo == null) {
-            PagerTitleStrip strip = (PagerTitleStrip) findViewById(R.id.pager_title_strip);
+            PagerTitleStrip strip = findViewById(R.id.pager_title_strip);
             strip.setVisibility(View.GONE);
         }
         mFileFragment = new ViewFileFragment();
@@ -69,6 +69,64 @@ public class ViewFileActivity extends SheimiFragmentActivity {
         setTitle(new File(fileName).getName());
     }
 
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.view_file, menu);
+        if (mActivityMode == TAG_MODE_SSH_KEY) {
+            menu.removeItem(R.id.action_edit_in_other_app);
+            menu.removeItem(R.id.action_choose_language);
+        } else {
+            menu.removeItem(R.id.action_copy_all);
+        }
+        if (mActivityMode != TAG_MODE_SSH_KEY) {
+            MenuItem mi = menu.findItem(R.id.action_edit_in_other_app);
+            mi.setVisible(mCurrentTab == FILE_FRAGMENT_INDEX);
+            mi = menu.findItem(R.id.action_choose_language);
+            mi.setVisible(mCurrentTab == FILE_FRAGMENT_INDEX);
+        }
+        if (mRepo != null) {
+            MenuItem searchItem = menu.findItem(R.id.action_search);
+            MenuItemCompat.setOnActionExpandListener(searchItem, mTabItemPagerAdapter);
+            SearchView searchView = (SearchView) searchItem.getActionView();
+            if (searchView != null) {
+                searchView.setIconifiedByDefault(true);
+                searchView.setOnQueryTextListener(mTabItemPagerAdapter);
+            }
+            searchItem.setVisible(mCurrentTab == COMMITS_FRAGMENT_INDEX);
+        } else {
+            menu.removeItem(R.id.action_search);
+        }
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if (item.getItemId() == android.R.id.home) {
+            finish();
+            return true;
+        } else if (item.getItemId() == R.id.action_edit_in_other_app) {
+            if (mActivityMode == TAG_MODE_SSH_KEY) {
+                return true;
+            }
+            FsUtils.openFile(this, mFileFragment.getFile());
+        } else if (item.getItemId() == R.id.action_choose_language) {
+            if (mActivityMode == TAG_MODE_SSH_KEY) {
+                return true;
+            }
+            ChooseLanguageDialog cld = new ChooseLanguageDialog();
+            cld.show(getSupportFragmentManager(), "choose language");
+            return true;
+        } else if (item.getItemId() == R.id.action_copy_all) {
+            mFileFragment.copyAll();
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
+    public void setLanguage(String lang) {
+        mFileFragment.setLanguage(lang);
+    }
 
     class TabItemPagerAdapter extends FragmentPagerAdapter implements ViewPager.OnPageChangeListener, SearchView.OnQueryTextListener, MenuItemCompat.OnActionExpandListener {
 
@@ -153,67 +211,5 @@ public class ViewFileActivity extends SheimiFragmentActivity {
             return true;
         }
 
-    }
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.view_file, menu);
-        if (mActivityMode == TAG_MODE_SSH_KEY) {
-            menu.removeItem(R.id.action_edit_in_other_app);
-            menu.removeItem(R.id.action_choose_language);
-        } else {
-            menu.removeItem(R.id.action_copy_all);
-        }
-        if (mActivityMode != TAG_MODE_SSH_KEY) {
-            MenuItem mi = menu.findItem(R.id.action_edit_in_other_app);
-            mi.setVisible(mCurrentTab == FILE_FRAGMENT_INDEX);
-            mi = menu.findItem(R.id.action_choose_language);
-            mi.setVisible(mCurrentTab == FILE_FRAGMENT_INDEX);
-        }
-        if (mRepo != null) {
-            MenuItem searchItem = menu.findItem(R.id.action_search);
-            MenuItemCompat.setOnActionExpandListener(searchItem, mTabItemPagerAdapter);
-            SearchView searchView = (SearchView) searchItem.getActionView();
-            if (searchView != null) {
-                searchView.setIconifiedByDefault(true);
-                searchView.setOnQueryTextListener(mTabItemPagerAdapter);
-            }
-            searchItem.setVisible(mCurrentTab == COMMITS_FRAGMENT_INDEX);
-        } else {
-            menu.removeItem(R.id.action_search);
-        }
-        return true;
-    }
-
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case android.R.id.home:
-                finish();
-                return true;
-            case R.id.action_edit_in_other_app:
-                if (mActivityMode == TAG_MODE_SSH_KEY) {
-                    return true;
-                }
-                FsUtils.openFile(this, mFileFragment.getFile());
-                break;
-            case R.id.action_choose_language:
-                if (mActivityMode == TAG_MODE_SSH_KEY) {
-                    return true;
-                }
-                ChooseLanguageDialog cld = new ChooseLanguageDialog();
-                cld.show(getSupportFragmentManager(), "choose language");
-                return true;
-            case R.id.action_copy_all:
-                mFileFragment.copyAll();
-                return true;
-        }
-        return super.onOptionsItemSelected(item);
-    }
-
-    public void setLanguage(String lang) {
-        mFileFragment.setLanguage(lang);
     }
 }

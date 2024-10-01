@@ -16,7 +16,7 @@ public class Profile {
 
     private static boolean sHasLastCloneFail = false;
     private static Repo sLastFailRepo;
-    private static int sTheme = -1;
+    private static final int sTheme = -1;
 
     private static SharedPreferences getProfileSharedPreference(Context context) {
         if (sSharedPreference == null) {
@@ -37,12 +37,12 @@ public class Profile {
         return getProfileSharedPreference(context).getString(userEmailPrefKey, "");
     }
 
-    public static String getTokenAccount(Context context){
+    public static String getTokenAccount(Context context) {
         String tokenAccount = context.getString(R.string.pref_key_personal_access_tokens_account);
         return getProfileSharedPreference(context).getString(tokenAccount, "");
     }
 
-    public static String getTokenSecretKey(Context context){
+    public static String getTokenSecretKey(Context context) {
         String tokenSecretKey = context.getString(R.string.pref_key_personal_access_tokens_secret_key);
         return getProfileSharedPreference(context).getString(tokenSecretKey, "");
     }

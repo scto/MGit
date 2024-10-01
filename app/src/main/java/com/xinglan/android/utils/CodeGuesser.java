@@ -11,6 +11,7 @@ import java.util.Map;
  */
 public class CodeGuesser {
 
+    public final static String URL_SCRIPT_WRAPPER = "javascript:(function(){%s;})()";
     private final static String[][] FILENAME_EXTENSION_ARRAY = {
         {"APL", "text/apl", "apl"},
         {"Asterisk dialplan", "text/x-asterisk", "conf"},
@@ -79,11 +80,9 @@ public class CodeGuesser {
         {"XML", "application/xml", "xml"},
         {"Kotlin", "text/x-kotlin", "kt", "kts"},
         {"YAML", "text/x-yaml", "yml", "yaml"},};
-
-    private static Map<String, String> mFilenameExtensionMap = new HashMap<String, String>();
-    private static List<String> mSupportLanguageList = new ArrayList<String>();
-
-    private static Map<String, String> mDisplayTagMap = new HashMap<String, String>();
+    private static final Map<String, String> mFilenameExtensionMap = new HashMap<String, String>();
+    private static final List<String> mSupportLanguageList = new ArrayList<String>();
+    private static final Map<String, String> mDisplayTagMap = new HashMap<String, String>();
 
     static {
         for (int i = 0; i < FILENAME_EXTENSION_ARRAY.length; ++i) {
@@ -118,7 +117,5 @@ public class CodeGuesser {
     public static String wrapUrlScript(String script) {
         return String.format(URL_SCRIPT_WRAPPER, script);
     }
-
-    public final static String URL_SCRIPT_WRAPPER = "javascript:(function(){%s;})()";
 
 }

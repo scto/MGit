@@ -10,36 +10,14 @@ import java.util.Date;
  */
 public final class RepoContract {
 
+    public static final String REPO_STATUS_NULL = "";
+    public static final String REPO_ENTRY_DROP = "DROP TABLE IF EXISTS "
+        + RepoEntry.TABLE_NAME;
     private static final String TEXT_TYPE = " TEXT ";
     private static final String INT_TYPE = " INTEGER ";
     private static final String PRIMARY_KEY_TYPE = INT_TYPE + "PRIMARY KEY "
         + "AUTOINCREMENT ";
     private static final String COMMA_SEP = ",";
-    public static final String REPO_STATUS_NULL = "";
-
-    public RepoContract() {
-    }
-
-    public static abstract class RepoEntry implements BaseColumns {
-        public static final String TABLE_NAME = "repo";
-        public static final String COLUMN_NAME_LOCAL_PATH = "local_path";
-        public static final String COLUMN_NAME_REMOTE_URL = "remote_url";
-        public static final String COLUMN_NAME_REPO_STATUS = "repo_status";
-        public static final String COLUMN_NAME_USERNAME = "username";
-        public static final String COLUMN_NAME_PASSWORD = "password";
-        // latest commit's committer name
-        public static final String COLUMN_NAME_LATEST_COMMITTER_UNAME = "latest_committer_uname";
-        public static final String COLUMN_NAME_LATEST_COMMITTER_EMAIL = "latest_committer_email";
-        public static final String COLUMN_NAME_LATEST_COMMIT_DATE = "latest_commit_date";
-        public static final String COLUMN_NAME_LATEST_COMMIT_MSG = "latest_commit_msg";
-        public static final String[] ALL_COLUMNS = {_ID,
-            COLUMN_NAME_LOCAL_PATH, COLUMN_NAME_REMOTE_URL,
-            COLUMN_NAME_REPO_STATUS, COLUMN_NAME_LATEST_COMMITTER_UNAME,
-            COLUMN_NAME_LATEST_COMMITTER_EMAIL,
-            COLUMN_NAME_LATEST_COMMIT_DATE, COLUMN_NAME_LATEST_COMMIT_MSG,
-            COLUMN_NAME_USERNAME, COLUMN_NAME_PASSWORD};
-    }
-
     public static final String REPO_ENTRY_CREATE = "CREATE TABLE "
         + RepoEntry.TABLE_NAME + " (" + RepoEntry._ID + PRIMARY_KEY_TYPE
         + COMMA_SEP + RepoEntry.COLUMN_NAME_LOCAL_PATH + TEXT_TYPE
@@ -54,8 +32,8 @@ public final class RepoContract {
         + COMMA_SEP + RepoEntry.COLUMN_NAME_LATEST_COMMIT_MSG + TEXT_TYPE
         + " )";
 
-    public static final String REPO_ENTRY_DROP = "DROP TABLE IF EXISTS "
-        + RepoEntry.TABLE_NAME;
+    public RepoContract() {
+    }
 
     public static int getRepoID(Cursor cursor) {
         return cursor.getInt(0);
@@ -100,6 +78,26 @@ public final class RepoContract {
 
     public static String getPassword(Cursor cursor) {
         return cursor.getString(9);
+    }
+
+    public static abstract class RepoEntry implements BaseColumns {
+        public static final String TABLE_NAME = "repo";
+        public static final String COLUMN_NAME_LOCAL_PATH = "local_path";
+        public static final String COLUMN_NAME_REMOTE_URL = "remote_url";
+        public static final String COLUMN_NAME_REPO_STATUS = "repo_status";
+        public static final String COLUMN_NAME_USERNAME = "username";
+        public static final String COLUMN_NAME_PASSWORD = "password";
+        // latest commit's committer name
+        public static final String COLUMN_NAME_LATEST_COMMITTER_UNAME = "latest_committer_uname";
+        public static final String COLUMN_NAME_LATEST_COMMITTER_EMAIL = "latest_committer_email";
+        public static final String COLUMN_NAME_LATEST_COMMIT_DATE = "latest_commit_date";
+        public static final String COLUMN_NAME_LATEST_COMMIT_MSG = "latest_commit_msg";
+        public static final String[] ALL_COLUMNS = {_ID,
+            COLUMN_NAME_LOCAL_PATH, COLUMN_NAME_REMOTE_URL,
+            COLUMN_NAME_REPO_STATUS, COLUMN_NAME_LATEST_COMMITTER_UNAME,
+            COLUMN_NAME_LATEST_COMMITTER_EMAIL,
+            COLUMN_NAME_LATEST_COMMIT_DATE, COLUMN_NAME_LATEST_COMMIT_MSG,
+            COLUMN_NAME_USERNAME, COLUMN_NAME_PASSWORD};
     }
 
 }

@@ -19,7 +19,7 @@ import com.xinglan.mgit.tasks.repo.UpdateIndexTask;
  */
 public class RepoFileOperationDialog extends SheimiDialogFragment {
 
-    private RepoDetailActivity mActivity;
+    public static final String FILE_PATH = "file path";
     private static final int ADD_TO_STAGE = 0;
     private static final int CHECKOUT_FILE = 1;
     private static final int DELETE = 2;
@@ -27,8 +27,8 @@ public class RepoFileOperationDialog extends SheimiDialogFragment {
     private static final int REMOVE_FORCE = 4;
     private static final int MAKE_EXECUTABLE = 5;
     private static final int MAKE_NOT_EXECUTABLE = 6;
-    public static final String FILE_PATH = "file path";
     private static String mFilePath;
+    private RepoDetailActivity mActivity;
 
     @NonNull
     @Override

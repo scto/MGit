@@ -38,9 +38,9 @@ import java.io.File;
 import java.util.ArrayList;
 
 public class RepoOperationDelegate {
-    private Repo mRepo;
-    private RepoDetailActivity mActivity;
-    private ArrayList<RepoAction> mActions = new ArrayList<>();
+    private final Repo mRepo;
+    private final RepoDetailActivity mActivity;
+    private final ArrayList<RepoAction> mActions = new ArrayList<>();
 
     public RepoOperationDelegate(Repo repo, RepoDetailActivity activity) {
         mRepo = repo;
@@ -52,7 +52,7 @@ public class RepoOperationDelegate {
         mActions.add(new NewBranchAction(mRepo, mActivity));
         mActions.add(new PullAction(mRepo, mActivity));
         mActions.add(new PushAction(mRepo, mActivity));
-        mActions.add(new AddAllAction(mRepo,mActivity));
+        mActions.add(new AddAllAction(mRepo, mActivity));
         mActions.add(new CommitAction(mRepo, mActivity));
         mActions.add(new CommitPushAction(mRepo, mActivity));
         mActions.add(new UndoAction(mRepo, mActivity));

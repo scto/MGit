@@ -12,22 +12,18 @@ import java.util.List;
 
 public class GetCommitTask extends RepoOpTask {
 
-    private GetCommitCallback mCallback;
+    private final GetCommitCallback mCallback;
     private List<RevCommit> mResult;
-    private String mFile;
-
-    public static interface GetCommitCallback {
-        public void postCommits(List<RevCommit> commits);
-    }
-
-    public void executeTask() {
-        execute();
-    }
+    private final String mFile;
 
     public GetCommitTask(Repo repo, String file, GetCommitCallback callback) {
         super(repo);
         mFile = file;
         mCallback = callback;
+    }
+
+    public void executeTask() {
+        execute();
     }
 
     @Override
@@ -62,6 +58,10 @@ public class GetCommitTask extends RepoOpTask {
             return false;
         }
         return true;
+    }
+
+    public interface GetCommitCallback {
+        void postCommits(List<RevCommit> commits);
     }
 
 }

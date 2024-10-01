@@ -121,10 +121,6 @@ public class MGitHttpConnection implements HttpConnection {
         wrappedUrlConnection.setRequestProperty(key, value);
     }
 
-    public void setRequestMethod(String method) throws ProtocolException {
-        wrappedUrlConnection.setRequestMethod(method);
-    }
-
     public void setUseCaches(boolean usecaches) {
         wrappedUrlConnection.setUseCaches(usecaches);
     }
@@ -179,6 +175,10 @@ public class MGitHttpConnection implements HttpConnection {
 
     public String getRequestMethod() {
         return wrappedUrlConnection.getRequestMethod();
+    }
+
+    public void setRequestMethod(String method) throws ProtocolException {
+        wrappedUrlConnection.setRequestMethod(method);
     }
 
     public boolean usingProxy() {

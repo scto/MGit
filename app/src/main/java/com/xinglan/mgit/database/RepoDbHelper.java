@@ -18,17 +18,6 @@ public class RepoDbHelper extends SQLiteOpenHelper {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
     }
 
-    @Override
-    public void onCreate(SQLiteDatabase sqLiteDatabase) {
-        sqLiteDatabase.execSQL(RepoContract.REPO_ENTRY_CREATE);
-    }
-
-    @Override
-    public void onUpgrade(SQLiteDatabase sqLiteDatabase, int i, int i2) {
-        sqLiteDatabase.execSQL(RepoContract.REPO_ENTRY_DROP);
-        onCreate(sqLiteDatabase);
-    }
-
     public static String addSlashes(String text) {
         final StringBuffer sb = new StringBuffer(text.length() * 2);
         final StringCharacterIterator iterator = new StringCharacterIterator(
@@ -40,7 +29,7 @@ public class RepoDbHelper extends SQLiteOpenHelper {
             if (character == '"')
                 sb.append("\\\"");
             else if (character == '\'')
-                sb.append("\'\'");
+                sb.append("''");
             else if (character == '\\')
                 sb.append("\\\\");
             else if (character == '\n')
@@ -56,5 +45,16 @@ public class RepoDbHelper extends SQLiteOpenHelper {
         }
 
         return sb.toString();
+    }
+
+    @Override
+    public void onCreate(SQLiteDatabase sqLiteDatabase) {
+        sqLiteDatabase.execSQL(RepoContract.REPO_ENTRY_CREATE);
+    }
+
+    @Override
+    public void onUpgrade(SQLiteDatabase sqLiteDatabase, int i, int i2) {
+        sqLiteDatabase.execSQL(RepoContract.REPO_ENTRY_DROP);
+        onCreate(sqLiteDatabase);
     }
 }

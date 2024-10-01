@@ -1,4 +1,4 @@
-package com.xinglan.mgit.common;
+package com.xinglan.mgit.common
 
 interface OnClickListener {
     fun onClick()

@@ -29,7 +29,7 @@ import timber.log.Timber;
  */
 public class FilesFragment extends RepoDetailFragment {
 
-    private static String CURRENT_DIR = "current_dir";
+    private static final String CURRENT_DIR = "current_dir";
 
     private ListView mFilesList;
     private FilesListAdapter mFilesListAdapter;
@@ -63,16 +63,14 @@ public class FilesFragment extends RepoDetailFragment {
         }
         mRootDir = mRepo.getDir();
 
-        mFilesList = (ListView) v.findViewById(R.id.filesList);
+        mFilesList = v.findViewById(R.id.filesList);
 
         mFilesListAdapter = new FilesListAdapter(getActivity(),
             new FileFilter() {
                 @Override
                 public boolean accept(File file) {
                     String name = file.getName();
-                    if (name.equals(".git"))
-                        return false;
-                    return true;
+                    return !name.equals(".git");
                 }
             });
         mFilesList.setAdapter(mFilesListAdapter);

@@ -32,63 +32,20 @@ import java.util.Set;
  */
 public class CommitsListAdapter extends BaseAdapter {
 
-    private Repo mRepo;
-    private DateFormat mCommitDateFormatter;
-    private Set<Integer> mChosenItems;
+    private final Repo mRepo;
+    private final DateFormat mCommitDateFormatter;
+    private final Set<Integer> mChosenItems;
     private String mFilter;
     private ArrayList<RevCommit> mAll;
     private ArrayList<Integer> mFiltered;
-    private Context mContext;
-    private String mFile;
+    private final Context mContext;
+    private final String mFile;
     private BackgroundUpdate mUpdate;
     private int mPosted;
-    private Object mProgressLock = new Object();
+    private final Object mProgressLock = new Object();
     private boolean mIsIncomplete;
     private int mProgressCursor;
     private long mPostAtTime;
-
-    private class BackgroundUpdate extends AsyncTask<Void, Void, Void> {
-        @Override
-        protected Void doInBackground(Void... params) {
-            int i;
-            for (i = mProgressCursor; i < mAll.size(); i++) {
-                if (mFiltered.size() != mPosted && System.nanoTime() > mPostAtTime) {
-                    synchronized (mProgressLock) {
-                        mProgressCursor = i;
-                        mPosted = mFiltered.size();
-                        return null;
-                    }
-                }
-                if (isCancelled()) {
-                    return null;
-                }
-                if (isAccepted(mAll.get(i)))
-                    mFiltered.add(i);
-            }
-            synchronized (mProgressLock) {
-                mPosted = mFiltered.size();
-                mIsIncomplete = false;
-            }
-            return null;
-        }
-
-        @Override
-        protected void onPostExecute(Void aVoid) {
-            super.onPostExecute(aVoid);
-            if (isCancelled()) {
-                return;
-            }
-            synchronized (mProgressLock) {
-                notifyDataSetChanged();
-                if (mIsIncomplete) {
-                    // Updates after 1 s
-                    mPostAtTime = System.nanoTime() + 1000000000;
-                    mUpdate = new BackgroundUpdate();
-                    mUpdate.execute();
-                }
-            }
-        }
-    }
 
     public CommitsListAdapter(Context context, Set<Integer> chosenItems,
                               Repo repo, String file) {
@@ -220,15 +177,15 @@ public class CommitsListAdapter extends BaseAdapter {
             convertView = inflater.inflate(R.layout.listitem_commits, parent,
                 false);
             holder = new CommitsListItemHolder();
-            holder.commitsTitle = (TextView) convertView
+            holder.commitsTitle = convertView
                 .findViewById(R.id.commitTitle);
-            holder.commitsIcon = (ImageView) convertView
+            holder.commitsIcon = convertView
                 .findViewById(R.id.commitIcon);
-            holder.commitAuthor = (TextView) convertView
+            holder.commitAuthor = convertView
                 .findViewById(R.id.commitAuthor);
-            holder.commitsMsg = (TextView) convertView
+            holder.commitsMsg = convertView
                 .findViewById(R.id.commitMsg);
-            holder.commitTime = (TextView) convertView
+            holder.commitTime = convertView
                 .findViewById(R.id.commitTime);
             convertView.setTag(holder);
         }
@@ -296,5 +253,48 @@ public class CommitsListAdapter extends BaseAdapter {
         public TextView commitsMsg;
         public TextView commitAuthor;
         public TextView commitTime;
+    }
+
+    private class BackgroundUpdate extends AsyncTask<Void, Void, Void> {
+        @Override
+        protected Void doInBackground(Void... params) {
+            int i;
+            for (i = mProgressCursor; i < mAll.size(); i++) {
+                if (mFiltered.size() != mPosted && System.nanoTime() > mPostAtTime) {
+                    synchronized (mProgressLock) {
+                        mProgressCursor = i;
+                        mPosted = mFiltered.size();
+                        return null;
+                    }
+                }
+                if (isCancelled()) {
+                    return null;
+                }
+                if (isAccepted(mAll.get(i)))
+                    mFiltered.add(i);
+            }
+            synchronized (mProgressLock) {
+                mPosted = mFiltered.size();
+                mIsIncomplete = false;
+            }
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(Void aVoid) {
+            super.onPostExecute(aVoid);
+            if (isCancelled()) {
+                return;
+            }
+            synchronized (mProgressLock) {
+                notifyDataSetChanged();
+                if (mIsIncomplete) {
+                    // Updates after 1 s
+                    mPostAtTime = System.nanoTime() + 1000000000;
+                    mUpdate = new BackgroundUpdate();
+                    mUpdate.execute();
+                }
+            }
+        }
     }
 }

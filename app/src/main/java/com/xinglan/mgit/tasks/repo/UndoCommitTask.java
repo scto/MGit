@@ -8,7 +8,7 @@ import org.eclipse.jgit.api.ResetCommand;
 
 public class UndoCommitTask extends RepoOpTask {
 
-    private AsyncTaskPostCallback mCallback;
+    private final AsyncTaskPostCallback mCallback;
 
     public UndoCommitTask(Repo repo, AsyncTaskPostCallback callback) {
         super(repo);

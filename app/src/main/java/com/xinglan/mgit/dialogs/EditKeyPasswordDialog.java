@@ -24,9 +24,9 @@ import timber.log.Timber;
 public class EditKeyPasswordDialog extends SheimiDialogFragment implements
     View.OnClickListener, DialogInterface.OnClickListener {
 
+    public static final String KEY_FILE_EXTRA = "extra_key_file";
     private File mKeyFile;
     private PrivateKeyManageActivity mActivity;
-    public static final String KEY_FILE_EXTRA = "extra_key_file";
     private EditText mPassword;
 
     @Override
@@ -44,7 +44,7 @@ public class EditKeyPasswordDialog extends SheimiDialogFragment implements
             R.layout.dialog_prompt_for_password_only, null);
 
         builder.setView(view);
-        mPassword = (EditText) view.findViewById(R.id.password);
+        mPassword = view.findViewById(R.id.password);
 
         // set button listener
         builder.setNegativeButton(R.string.label_cancel,

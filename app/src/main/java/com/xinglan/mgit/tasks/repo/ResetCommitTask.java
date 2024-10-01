@@ -12,7 +12,7 @@ import timber.log.Timber;
 
 public class ResetCommitTask extends RepoOpTask {
 
-    private AsyncTaskPostCallback mCallback;
+    private final AsyncTaskPostCallback mCallback;
 
     public ResetCommitTask(Repo repo, AsyncTaskPostCallback callback) {
         super(repo);

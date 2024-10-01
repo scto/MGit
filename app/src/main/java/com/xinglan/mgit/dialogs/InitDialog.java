@@ -42,7 +42,7 @@ public class InitDialog extends SheimiDialogFragment implements
         View layout = inflater.inflate(R.layout.dialog_init_repo, null);
         builder.setView(layout);
 
-        mLocalPath = (EditText) layout.findViewById(R.id.localPath);
+        mLocalPath = layout.findViewById(R.id.localPath);
 
         // set button listener
         builder.setTitle(R.string.dialog_init_repo_title);
@@ -61,7 +61,7 @@ public class InitDialog extends SheimiDialogFragment implements
         AlertDialog dialog = (AlertDialog) getDialog();
         if (dialog == null)
             return;
-        Button positiveButton = (Button) dialog
+        Button positiveButton = dialog
             .getButton(Dialog.BUTTON_POSITIVE);
         positiveButton.setOnClickListener(this);
     }

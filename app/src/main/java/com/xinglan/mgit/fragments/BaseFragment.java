@@ -13,9 +13,9 @@ import com.xinglan.android.activities.SheimiFragmentActivity.OnBackClickListener
  */
 public abstract class BaseFragment extends Fragment {
 
-    public abstract OnBackClickListener getOnBackClickListener();
-
     private SheimiFragmentActivity mActivity;
+
+    public abstract OnBackClickListener getOnBackClickListener();
 
     public abstract void reset();
 

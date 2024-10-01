@@ -22,7 +22,7 @@ import java.util.Comparator;
 public class FilesListAdapter extends ArrayAdapter<File> {
 
     private File mDir;
-    private FileFilter mFileFilter;
+    private final FileFilter mFileFilter;
 
     public FilesListAdapter(Context context, FileFilter fileFilter) {
         super(context, 0);
@@ -38,9 +38,9 @@ public class FilesListAdapter extends ArrayAdapter<File> {
             convertView = inflater.inflate(R.layout.listitem_files, parent,
                 false);
             holder = new FilesListItemHolder();
-            holder.fileTitle = (TextView) convertView
+            holder.fileTitle = convertView
                 .findViewById(R.id.fileTitle);
-            holder.fileIcon = (ImageView) convertView
+            holder.fileIcon = convertView
                 .findViewById(R.id.fileIcon);
             convertView.setTag(holder);
         } else {

@@ -20,10 +20,10 @@ import com.xinglan.mgit.database.models.Repo;
 public class CheckoutDialog extends SheimiDialogFragment implements
     View.OnClickListener, DialogInterface.OnClickListener {
 
+    public static final String BASE_COMMIT = "base commit";
     private String mCommit;
     private EditText mBranchName;
     private RepoDetailActivity mActivity;
-    public static final String BASE_COMMIT = "base commit";
     private Repo mRepo;
 
     @Override
@@ -49,7 +49,7 @@ public class CheckoutDialog extends SheimiDialogFragment implements
             R.layout.dialog_checkout, null);
 
         builder.setView(view);
-        mBranchName = (EditText) view.findViewById(R.id.newBranchName);
+        mBranchName = view.findViewById(R.id.newBranchName);
 
         // set button listener
         builder.setNegativeButton(R.string.label_cancel,
@@ -73,7 +73,7 @@ public class CheckoutDialog extends SheimiDialogFragment implements
         AlertDialog dialog = (AlertDialog) getDialog();
         if (dialog == null)
             return;
-        Button positiveButton = (Button) dialog
+        Button positiveButton = dialog
             .getButton(Dialog.BUTTON_POSITIVE);
         positiveButton.setOnClickListener(this);
     }

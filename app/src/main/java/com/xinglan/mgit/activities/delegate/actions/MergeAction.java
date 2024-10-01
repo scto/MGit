@@ -61,9 +61,9 @@ public class MergeAction extends RepoAction {
             View layout = inflater.inflate(R.layout.dialog_merge, null);
             AlertDialog.Builder builder = new AlertDialog.Builder(mActivity);
 
-            mBranchTagList = (ListView) layout.findViewById(R.id.branchList);
-            mSpinner = (Spinner) layout.findViewById(R.id.ffSpinner);
-            mCheckbox = (CheckBox) layout.findViewById(R.id.autoCommit);
+            mBranchTagList = layout.findViewById(R.id.branchList);
+            mSpinner = layout.findViewById(R.id.ffSpinner);
+            mCheckbox = layout.findViewById(R.id.autoCommit);
             mAdapter = new BranchTagListAdapter(mActivity);
             mBranchTagList.setAdapter(mAdapter);
             builder.setView(layout);
@@ -110,9 +110,9 @@ public class MergeAction extends RepoAction {
                         R.layout.listitem_dialog_choose_commit, parent,
                         false);
                     holder = new ListItemHolder();
-                    holder.commitTitle = (TextView) convertView
+                    holder.commitTitle = convertView
                         .findViewById(R.id.commitTitle);
-                    holder.commitIcon = (ImageView) convertView
+                    holder.commitIcon = convertView
                         .findViewById(R.id.commitIcon);
                     convertView.setTag(holder);
                 } else {

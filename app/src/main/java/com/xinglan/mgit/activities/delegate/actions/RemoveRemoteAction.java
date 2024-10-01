@@ -26,6 +26,11 @@ public class RemoveRemoteAction extends RepoAction {
         super(repo, activity);
     }
 
+    public static void removeRemote(Repo repo, RepoDetailActivity activity, String remote) throws IOException {
+        repo.removeRemote(remote);
+        activity.showToastMessage(R.string.success_remote_removed);
+    }
+
     @Override
     public void execute() {
         Set<String> remotes = mRepo.getRemotes();
@@ -38,11 +43,6 @@ public class RemoveRemoteAction extends RepoAction {
         dialog.setArguments(mRepo.getBundle());
         dialog.show(mActivity.getSupportFragmentManager(), "remove-remote-dialog");
         mActivity.closeOperationDrawer();
-    }
-
-    public static void removeRemote(Repo repo, RepoDetailActivity activity, String remote) throws IOException {
-        repo.removeRemote(remote);
-        activity.showToastMessage(R.string.success_remote_removed);
     }
 
     public static class RemoveRemoteDialog extends SheimiDialogFragment {
@@ -64,7 +64,7 @@ public class RemoveRemoteAction extends RepoAction {
             LayoutInflater inflater = mActivity.getLayoutInflater();
 
             View layout = inflater.inflate(R.layout.dialog_remove_remote, null);
-            mRemoteList = (ListView) layout.findViewById(R.id.remoteList);
+            mRemoteList = layout.findViewById(R.id.remoteList);
 
             mAdapter = new ArrayAdapter<String>(mActivity,
                 android.R.layout.simple_list_item_1);

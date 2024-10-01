@@ -29,11 +29,11 @@ import java.util.List;
 public class RenameBranchDialog extends DialogFragment implements
     View.OnClickListener, DialogInterface.OnClickListener {
 
+    public static final String FROM_COMMIT = "from path";
     private String mFromCommit;
     private EditText mNewBranchname;
     private BranchChooserActivity mActivity;
     private Repo mRepo;
-    public static final String FROM_COMMIT = "from path";
 
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
@@ -53,7 +53,7 @@ public class RenameBranchDialog extends DialogFragment implements
             R.layout.dialog_rename_branch, null);
 
         builder.setView(view);
-        mNewBranchname = (EditText) view.findViewById(R.id.newBranchname);
+        mNewBranchname = view.findViewById(R.id.newBranchname);
         mNewBranchname.setText(Repo.getCommitDisplayName(mFromCommit));
 
         // set button listener
@@ -77,7 +77,7 @@ public class RenameBranchDialog extends DialogFragment implements
         AlertDialog dialog = (AlertDialog) getDialog();
         if (dialog == null)
             return;
-        Button positiveButton = (Button) dialog
+        Button positiveButton = dialog
             .getButton(Dialog.BUTTON_POSITIVE);
         positiveButton.setOnClickListener(this);
     }

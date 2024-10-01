@@ -22,25 +22,21 @@ import org.eclipse.jgit.treewalk.FileTreeIterator;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
 
 public class CommitDiffTask extends RepoOpTask {
 
-    private String mOldCommit;
-    private String mNewCommit;
+    private final String mOldCommit;
+    private final String mNewCommit;
     private List<DiffEntry> mDiffEntries;
     private List<String> mDiffStrs;
-    private CommitDiffResult mCallback;
-    private boolean mShowDescription;
+    private final CommitDiffResult mCallback;
+    private final boolean mShowDescription;
     private Iterable<RevCommit> mCommits;
     private DiffFormatter mDiffFormatter;
     private ByteArrayOutputStream mDiffOutput;
-
-    public interface CommitDiffResult {
-        public void pushResult(List<DiffEntry> diffEntries,
-                               List<String> diffStrs, RevCommit description);
-    }
 
     public CommitDiffTask(Repo repo, String oldCommit, String newCommit,
                           CommitDiffResult callback, boolean showDescription) {
@@ -147,7 +143,7 @@ public class CommitDiffTask extends RepoOpTask {
             mDiffOutput.reset();
             mDiffFormatter.format(diffEntry);
             mDiffFormatter.flush();
-            String diffText = mDiffOutput.toString("UTF-8");
+            String diffText = mDiffOutput.toString(StandardCharsets.UTF_8);
             return diffText;
         } catch (UnsupportedEncodingException e) {
             setException(e, R.string.error_diff_failed);
@@ -160,6 +156,11 @@ public class CommitDiffTask extends RepoOpTask {
 
     public void executeTask() {
         execute();
+    }
+
+    public interface CommitDiffResult {
+        void pushResult(List<DiffEntry> diffEntries,
+                        List<String> diffStrs, RevCommit description);
     }
 
 }

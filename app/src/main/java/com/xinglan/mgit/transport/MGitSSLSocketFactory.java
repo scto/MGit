@@ -11,8 +11,8 @@ import javax.net.ssl.SSLSocketFactory;
 
 public class MGitSSLSocketFactory extends SSLSocketFactory {
 
-    private final SSLSocketFactory wrappedSSLSocketFactory;
     private static final String[] enabledProtocols = new String[]{"TLSv1.3", "TLSv1.2"};
+    private final SSLSocketFactory wrappedSSLSocketFactory;
 
     public MGitSSLSocketFactory(SSLSocketFactory wrapped) {
         wrappedSSLSocketFactory = wrapped;
@@ -39,12 +39,12 @@ public class MGitSSLSocketFactory extends SSLSocketFactory {
     }
 
     @Override
-    public Socket createSocket(String host, int port) throws IOException, UnknownHostException {
+    public Socket createSocket(String host, int port) throws IOException {
         return modifySocket(wrappedSSLSocketFactory.createSocket(host, port));
     }
 
     @Override
-    public Socket createSocket(String host, int port, InetAddress localHost, int localPort) throws IOException, UnknownHostException {
+    public Socket createSocket(String host, int port, InetAddress localHost, int localPort) throws IOException {
         return modifySocket(wrappedSSLSocketFactory.createSocket(host, port, localHost, localPort));
     }
 

@@ -28,13 +28,13 @@ import java.io.File;
 public class ImportLocalRepoDialog extends SheimiDialogFragment implements
     View.OnClickListener {
 
+    public static final String FROM_PATH = "from path";
     private File mFile;
     private String mFromPath;
     private Activity mActivity;
     private EditText mLocalPath;
     private CheckBox mImportAsExternal;
     private PreferenceHelper mPrefsHelper;
-    public static final String FROM_PATH = "from path";
 
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
@@ -56,9 +56,9 @@ public class ImportLocalRepoDialog extends SheimiDialogFragment implements
             R.layout.dialog_import_repo, null);
 
         builder.setView(view);
-        mLocalPath = (EditText) view.findViewById(R.id.localPath);
+        mLocalPath = view.findViewById(R.id.localPath);
         mLocalPath.setText(mFile.getName());
-        mImportAsExternal = (CheckBox) view.findViewById(R.id.importAsExternal);
+        mImportAsExternal = view.findViewById(R.id.importAsExternal);
         mImportAsExternal
             .setOnCheckedChangeListener(new OnCheckedChangeListener() {
                 @Override
@@ -89,7 +89,7 @@ public class ImportLocalRepoDialog extends SheimiDialogFragment implements
         AlertDialog dialog = (AlertDialog) getDialog();
         if (dialog == null)
             return;
-        Button positiveButton = (Button) dialog
+        Button positiveButton = dialog
             .getButton(Dialog.BUTTON_POSITIVE);
         positiveButton.setOnClickListener(this);
     }

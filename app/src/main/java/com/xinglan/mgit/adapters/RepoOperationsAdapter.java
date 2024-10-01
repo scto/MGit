@@ -34,7 +34,7 @@ public class RepoOperationsAdapter extends ArrayAdapter<DrawerItem>
         LayoutInflater inflater = LayoutInflater.from(context);
         View view = inflater.inflate(R.layout.drawer_list_item, parent, false);
         DrawerItemHolder holder = new DrawerItemHolder();
-        holder.name = (TextView) view.findViewById(R.id.name);
+        holder.name = view.findViewById(R.id.name);
         view.setTag(holder);
         return view;
     }
@@ -43,20 +43,6 @@ public class RepoOperationsAdapter extends ArrayAdapter<DrawerItem>
         DrawerItemHolder holder = (DrawerItemHolder) view.getTag();
         DrawerItem item = getItem(position);
         holder.name.setText(item.name);
-    }
-
-    public static class DrawerItemHolder {
-        public TextView name;
-    }
-
-    public static class DrawerItem {
-        public String name;
-        public int icon;
-
-        public DrawerItem(String name, int icon) {
-            this.name = name;
-            this.icon = icon;
-        }
     }
 
     private void setupDrawerItem() {
@@ -72,6 +58,20 @@ public class RepoOperationsAdapter extends ArrayAdapter<DrawerItem>
                             long id) {
         RepoDetailActivity context = (RepoDetailActivity) getContext();
         context.getRepoDelegate().executeAction(position);
+    }
+
+    public static class DrawerItemHolder {
+        public TextView name;
+    }
+
+    public static class DrawerItem {
+        public String name;
+        public int icon;
+
+        public DrawerItem(String name, int icon) {
+            this.name = name;
+            this.icon = icon;
+        }
     }
 
 }

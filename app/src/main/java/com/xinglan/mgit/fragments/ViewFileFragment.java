@@ -32,8 +32,8 @@ import timber.log.Timber;
  * Created by phcoder on 09.12.15.
  */
 public class ViewFileFragment extends BaseFragment {
-    private WebView mFileContent;
     private static final String JS_INF = "CodeLoader";
+    private WebView mFileContent;
     private ProgressBar mLoading;
     private File mFile;
     private short mActivityMode = ViewFileActivity.TAG_MODE_NORMAL;
@@ -43,8 +43,8 @@ public class ViewFileFragment extends BaseFragment {
                              Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_view_file, container, false);
 
-        mFileContent = (WebView) v.findViewById(R.id.fileContent);
-        mLoading = (ProgressBar) v.findViewById(R.id.loading);
+        mFileContent = v.findViewById(R.id.fileContent);
+        mLoading = v.findViewById(R.id.loading);
 
         String fileName = null;
         if (savedInstanceState != null) {
@@ -98,6 +98,31 @@ public class ViewFileFragment extends BaseFragment {
     public void setLanguage(String lang) {
         String js = String.format("setLang('%s')", lang);
         mFileContent.loadUrl(CodeGuesser.wrapUrlScript(js));
+    }
+
+    @Override
+    public void reset() {
+    }
+
+    @Override
+    public SheimiFragmentActivity.OnBackClickListener getOnBackClickListener() {
+        return new SheimiFragmentActivity.OnBackClickListener() {
+            @Override
+            public boolean onClick() {
+                return false;
+            }
+        };
+    }
+
+    private void showUserError(Throwable e, final int errorMessageId) {
+        Timber.e(e);
+        getActivity().runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                ((SheimiFragmentActivity) getActivity()).
+                    showMessageDialog(R.string.dialog_error_title, getString(errorMessageId));
+            }
+        });
     }
 
     private class CodeLoader {
@@ -155,31 +180,5 @@ public class ViewFileFragment extends BaseFragment {
                 }
             });
         }
-    }
-
-    @Override
-    public void reset() {
-    }
-
-    @Override
-    public SheimiFragmentActivity.OnBackClickListener getOnBackClickListener() {
-        return new SheimiFragmentActivity.OnBackClickListener() {
-            @Override
-            public boolean onClick() {
-                return false;
-            }
-        };
-    }
-
-
-    private void showUserError(Throwable e, final int errorMessageId) {
-        Timber.e(e);
-        getActivity().runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
-                ((SheimiFragmentActivity) getActivity()).
-                    showMessageDialog(R.string.dialog_error_title, getString(errorMessageId));
-            }
-        });
     }
 }

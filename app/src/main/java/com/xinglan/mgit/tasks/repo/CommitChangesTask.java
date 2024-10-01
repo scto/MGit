@@ -19,12 +19,12 @@ import org.eclipse.jgit.lib.StoredConfig;
 
 public class CommitChangesTask extends RepoOpTask {
 
-    private AsyncTaskPostCallback mCallback;
-    private String mCommitMsg;
-    private String mAuthorName;
-    private String mAuthorEmail;
-    private boolean mIsAmend;
-    private boolean mStageAll;
+    private final AsyncTaskPostCallback mCallback;
+    private final String mCommitMsg;
+    private final String mAuthorName;
+    private final String mAuthorEmail;
+    private final boolean mIsAmend;
+    private final boolean mStageAll;
 
     public CommitChangesTask(Repo repo, String commitMsg, boolean isAmend,
                              boolean stageAll, String authorName, String authorEmail,
@@ -37,6 +37,35 @@ public class CommitChangesTask extends RepoOpTask {
         mAuthorName = authorName;
         mAuthorEmail = authorEmail;
         setSuccessMsg(R.string.success_commit);
+    }
+
+    public static void commit(Repo repo, boolean stageAll, boolean isAmend,
+                              String msg, String authorName, String authorEmail) throws Exception {
+        Context context = MGitApplication.getContext();
+        StoredConfig config = repo.getGit().getRepository().getConfig();
+        String committerEmail = config.getString("user", null, "email");
+        String committerName = config.getString("user", null, "name");
+
+        if (committerName == null || committerName.equals("")) {
+            committerName = Profile.getUsername(context);
+        }
+        if (committerEmail == null || committerEmail.equals("")) {
+            committerEmail = Profile.getEmail(context);
+        }
+        if (committerName.isEmpty() || committerEmail.isEmpty()) {
+            throw new Exception("Please set your name and email");
+        }
+        if (msg.isEmpty()) {
+            throw new Exception("Please include a commit message");
+        }
+        CommitCommand cc = repo.getGit().commit()
+            .setCommitter(committerName, committerEmail).setAll(stageAll)
+            .setAmend(isAmend).setMessage(msg);
+        if (authorName != null && authorEmail != null) {
+            cc.setAuthor(authorName, authorEmail);
+        }
+        cc.call();
+        repo.updateLatestCommitInfo();
     }
 
     @Override
@@ -65,36 +94,5 @@ public class CommitChangesTask extends RepoOpTask {
         }
         mRepo.updateLatestCommitInfo();
         return true;
-    }
-
-    public static void commit(Repo repo, boolean stageAll, boolean isAmend,
-                              String msg, String authorName, String authorEmail) throws Exception, NoHeadException, NoMessageException,
-        UnmergedPathsException, ConcurrentRefUpdateException,
-        WrongRepositoryStateException, GitAPIException, StopTaskException {
-        Context context = MGitApplication.getContext();
-        StoredConfig config = repo.getGit().getRepository().getConfig();
-        String committerEmail = config.getString("user", null, "email");
-        String committerName = config.getString("user", null, "name");
-
-        if (committerName == null || committerName.equals("")) {
-            committerName = Profile.getUsername(context);
-        }
-        if (committerEmail == null || committerEmail.equals("")) {
-            committerEmail = Profile.getEmail(context);
-        }
-        if (committerName.isEmpty() || committerEmail.isEmpty()) {
-            throw new Exception("Please set your name and email");
-        }
-        if (msg.isEmpty()) {
-            throw new Exception("Please include a commit message");
-        }
-        CommitCommand cc = repo.getGit().commit()
-            .setCommitter(committerName, committerEmail).setAll(stageAll)
-            .setAmend(isAmend).setMessage(msg);
-        if (authorName != null && authorEmail != null) {
-            cc.setAuthor(authorName, authorEmail);
-        }
-        cc.call();
-        repo.updateLatestCommitInfo();
     }
 }

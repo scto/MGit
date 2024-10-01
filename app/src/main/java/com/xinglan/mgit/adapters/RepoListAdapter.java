@@ -44,12 +44,11 @@ public class RepoListAdapter extends ArrayAdapter<Repo> implements
 
     private static final int QUERY_TYPE_SEARCH = 0;
     private static final int QUERY_TYPE_QUERY = 1;
-
-    private int mQueryType = QUERY_TYPE_QUERY;
-    private final DateFormat mCommitDateFormatter;
-    private String mSearchQueryString;
-    private final RepoListActivity mActivity;
     private static final String TAG = RepoListAdapter.class.getSimpleName();
+    private final DateFormat mCommitDateFormatter;
+    private final RepoListActivity mActivity;
+    private int mQueryType = QUERY_TYPE_QUERY;
+    private String mSearchQueryString;
 
     public RepoListAdapter(Context context) {
         super(context, 0);
@@ -101,16 +100,16 @@ public class RepoListAdapter extends ArrayAdapter<Repo> implements
         LayoutInflater inflater = LayoutInflater.from(context);
         View view = inflater.inflate(R.layout.repo_listitem, parent, false);
         RepoListItemHolder holder = new RepoListItemHolder();
-        holder.repoTitle = (TextView) view.findViewById(R.id.repoTitle);
-        holder.repoRemote = (TextView) view.findViewById(R.id.repoRemote);
-        holder.commitAuthor = (TextView) view.findViewById(R.id.commitAuthor);
-        holder.commitMsg = (TextView) view.findViewById(R.id.commitMsg);
-        holder.commitTime = (TextView) view.findViewById(R.id.commitTime);
-        holder.authorIcon = (ImageView) view.findViewById(R.id.authorIcon);
+        holder.repoTitle = view.findViewById(R.id.repoTitle);
+        holder.repoRemote = view.findViewById(R.id.repoRemote);
+        holder.commitAuthor = view.findViewById(R.id.commitAuthor);
+        holder.commitMsg = view.findViewById(R.id.commitMsg);
+        holder.commitTime = view.findViewById(R.id.commitTime);
+        holder.authorIcon = view.findViewById(R.id.authorIcon);
         holder.progressContainer = view.findViewById(R.id.progressContainer);
         holder.commitMsgContainer = view.findViewById(R.id.commitMsgContainer);
-        holder.progressMsg = (TextView) view.findViewById(R.id.progressMsg);
-        holder.cancelBtn = (ImageView) view.findViewById(R.id.cancelBtn);
+        holder.progressMsg = view.findViewById(R.id.progressMsg);
+        holder.cancelBtn = view.findViewById(R.id.cancelBtn);
         view.setTag(holder);
         return view;
     }

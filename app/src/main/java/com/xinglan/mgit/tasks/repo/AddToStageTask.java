@@ -11,7 +11,7 @@ public class AddToStageTask extends RepoOpTask {
 
     public String mFilePattern;
     private AsyncTaskPostCallback mCallback;
-    private Dialog mDialog;
+    private final Dialog mDialog;
 
     public AddToStageTask(Repo repo, String filePattern, RepoDetailActivity activity) {
         super(repo);

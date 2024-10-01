@@ -21,13 +21,15 @@ import timber.log.Timber;
  */
 public class BasicFunctions {
 
+    private static SheimiFragmentActivity mActiveActivity;
+
     public static String md5(final String s) {
         try {
             // Create MD5 Hash
             MessageDigest digest = java.security.MessageDigest
                 .getInstance("MD5");
             digest.update(s.getBytes());
-            byte messageDigest[] = digest.digest();
+            byte[] messageDigest = digest.digest();
 
             // Create Hex String
             StringBuffer hexString = new StringBuffer();
@@ -53,8 +55,6 @@ public class BasicFunctions {
         ImageLoader im = BasicFunctions.getImageLoader();
         im.displayImage(avatarUri, imageView);
     }
-
-    private static SheimiFragmentActivity mActiveActivity;
 
     public static SheimiFragmentActivity getActiveActivity() {
         return mActiveActivity;

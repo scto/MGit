@@ -22,11 +22,11 @@ import java.io.File;
 public class RenameKeyDialog extends SheimiDialogFragment implements
     View.OnClickListener, DialogInterface.OnClickListener {
 
+    public static final String FROM_PATH = "from path";
     private File mFromFile;
     private String mFromPath;
     private EditText mNewFilename;
     private PrivateKeyManageActivity mActivity;
-    public static final String FROM_PATH = "from path";
 
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
@@ -44,7 +44,7 @@ public class RenameKeyDialog extends SheimiDialogFragment implements
             R.layout.dialog_rename_key, null);
 
         builder.setView(view);
-        mNewFilename = (EditText) view.findViewById(R.id.newFilename);
+        mNewFilename = view.findViewById(R.id.newFilename);
         mNewFilename.setText(mFromFile.getName());
 
         // set button listener
@@ -68,7 +68,7 @@ public class RenameKeyDialog extends SheimiDialogFragment implements
         AlertDialog dialog = (AlertDialog) getDialog();
         if (dialog == null)
             return;
-        Button positiveButton = (Button) dialog
+        Button positiveButton = dialog
             .getButton(Dialog.BUTTON_POSITIVE);
         positiveButton.setOnClickListener(this);
     }

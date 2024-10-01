@@ -26,6 +26,13 @@ public class PushAction extends RepoAction {
         super(repo, activity);
     }
 
+    public static void push(Repo repo, RepoDetailActivity activity,
+                            String remote, boolean pushAll, boolean forcePush) {
+        PushTask pushTask = new PushTask(repo, remote, pushAll, forcePush,
+            activity.new ProgressCallback(R.string.push_msg_init));
+        pushTask.executeTask();
+    }
+
     @Override
     public void execute() {
         Set<String> remotes = mRepo.getRemotes();
@@ -37,13 +44,6 @@ public class PushAction extends RepoAction {
         pd.setArguments(mRepo.getBundle());
         pd.show(mActivity.getSupportFragmentManager(), "push-repo-dialog");
         mActivity.closeOperationDrawer();
-    }
-
-    public static void push(Repo repo, RepoDetailActivity activity,
-                            String remote, boolean pushAll, boolean forcePush) {
-        PushTask pushTask = new PushTask(repo, remote, pushAll, forcePush,
-            activity.new ProgressCallback(R.string.push_msg_init));
-        pushTask.executeTask();
     }
 
     public static class PushDialog extends SheimiDialogFragment {
@@ -68,9 +68,9 @@ public class PushAction extends RepoAction {
             LayoutInflater inflater = mActivity.getLayoutInflater();
 
             View layout = inflater.inflate(R.layout.dialog_push, null);
-            mPushAll = (CheckBox) layout.findViewById(R.id.pushAll);
-            mForcePush = (CheckBox) layout.findViewById(R.id.forcePush);
-            mRemoteList = (ListView) layout.findViewById(R.id.remoteList);
+            mPushAll = layout.findViewById(R.id.pushAll);
+            mForcePush = layout.findViewById(R.id.forcePush);
+            mRemoteList = layout.findViewById(R.id.remoteList);
 
             mAdapter = new ArrayAdapter<String>(mActivity,
                 android.R.layout.simple_list_item_1);

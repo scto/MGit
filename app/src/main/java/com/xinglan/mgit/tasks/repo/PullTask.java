@@ -14,9 +14,9 @@ import org.eclipse.jgit.api.errors.TransportException;
 
 public class PullTask extends RepoRemoteOpTask {
 
-    private AsyncTaskCallback mCallback;
-    private String mRemote;
-    private boolean mForcePull;
+    private final AsyncTaskCallback mCallback;
+    private final String mRemote;
+    private final boolean mForcePull;
 
     public PullTask(Repo repo, String remote, boolean forcePull, AsyncTaskCallback callback) {
         super(repo);

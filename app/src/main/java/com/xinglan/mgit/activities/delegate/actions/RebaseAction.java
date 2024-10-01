@@ -27,14 +27,6 @@ public class RebaseAction extends RepoAction {
         super(repo, activity);
     }
 
-    @Override
-    public void execute() {
-        RebaseDialog rd = new RebaseDialog();
-        rd.setArguments(mRepo.getBundle());
-        rd.show(mActivity.getSupportFragmentManager(), "rebase-dialog");
-        mActivity.closeOperationDrawer();
-    }
-
     private static void rebase(Repo repo, String branch,
                                final RepoDetailActivity activity) {
         RebaseTask rebaseTask = new RebaseTask(repo, branch,
@@ -45,6 +37,14 @@ public class RebaseAction extends RepoAction {
                 }
             });
         rebaseTask.executeTask();
+    }
+
+    @Override
+    public void execute() {
+        RebaseDialog rd = new RebaseDialog();
+        rd.setArguments(mRepo.getBundle());
+        rd.show(mActivity.getSupportFragmentManager(), "rebase-dialog");
+        mActivity.closeOperationDrawer();
     }
 
     public static class RebaseDialog extends SheimiDialogFragment {
@@ -109,9 +109,9 @@ public class RebaseAction extends RepoAction {
                         R.layout.listitem_dialog_choose_commit, parent,
                         false);
                     holder = new ListItemHolder();
-                    holder.commitTitle = (TextView) convertView
+                    holder.commitTitle = convertView
                         .findViewById(R.id.commitTitle);
-                    holder.commitIcon = (ImageView) convertView
+                    holder.commitIcon = convertView
                         .findViewById(R.id.commitIcon);
                     convertView.setTag(holder);
                 } else {

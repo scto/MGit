@@ -59,6 +59,13 @@ import java.net.URL;
  * @since 3.3
  */
 public class MGitHttpConnectionFactory implements HttpConnectionFactory {
+    public static void install() {
+        if (HttpTransport.getConnectionFactory() instanceof MGitHttpConnectionFactory) {
+            return;
+        }
+        HttpTransport.setConnectionFactory(new MGitHttpConnectionFactory());
+    }
+
     public HttpConnection create(URL url) throws IOException {
         return new MGitHttpConnection(url);
     }
@@ -66,12 +73,5 @@ public class MGitHttpConnectionFactory implements HttpConnectionFactory {
     public HttpConnection create(URL url, Proxy proxy)
         throws IOException {
         return new MGitHttpConnection(url, proxy);
-    }
-
-    public static void install() {
-        if (HttpTransport.getConnectionFactory() instanceof MGitHttpConnectionFactory) {
-            return;
-        }
-        HttpTransport.setConnectionFactory(new MGitHttpConnectionFactory());
     }
 }

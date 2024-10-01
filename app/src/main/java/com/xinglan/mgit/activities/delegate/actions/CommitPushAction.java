@@ -74,11 +74,101 @@ public class CommitPushAction extends RepoAction {
                                  String authorEmail) {
         CommitChangesTask commitTask = new CommitChangesTask(mRepo, commitMsg,
             isAmend, stageAll, authorName, authorEmail, isSuccess -> {
-                RepoAction push = new PushAction(mRepo, mActivity);
-                push.execute();
-                mActivity.reset();
-            });
+            RepoAction push = new PushAction(mRepo, mActivity);
+            push.execute();
+            mActivity.reset();
+        });
         commitTask.executeTask();
+    }
+
+    private void commit() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(mActivity);
+        LayoutInflater inflater = mActivity.getLayoutInflater();
+        View layout = inflater.inflate(R.layout.dialog_commit, null);
+        final EditText commitMsg = layout
+            .findViewById(R.id.commitMsg);
+        final AutoCompleteTextView commitAuthor = layout
+            .findViewById(R.id.commitAuthor);
+        final CheckBox isAmend = layout.findViewById(R.id.isAmend);
+        final CheckBox autoStage = layout
+            .findViewById(R.id.autoStage);
+        HashSet<CommitPushAction.Author> authors = new HashSet<CommitPushAction.Author>();
+        try {
+            Iterable<RevCommit> commits = mRepo.getGit().log().setMaxCount(500).call();
+            for (RevCommit commit : commits) {
+                authors.add(new CommitPushAction.Author(commit.getAuthorIdent()));
+            }
+        } catch (Exception e) {
+        }
+        String profileUsername = Profile.getUsername(mActivity.getApplicationContext());
+        String profileEmail = Profile.getEmail(mActivity.getApplicationContext());
+        if (profileUsername != null && !profileUsername.equals("")
+            && profileEmail != null && !profileEmail.equals("")) {
+            authors.add(new CommitPushAction.Author(profileUsername, profileEmail));
+        }
+        ArrayList<CommitPushAction.Author> authorList = new ArrayList<CommitPushAction.Author>(authors);
+        Collections.sort(authorList);
+        CommitPushAction.AuthorsAdapter adapter = new CommitPushAction.AuthorsAdapter(mActivity, authorList);
+        commitAuthor.setAdapter(adapter);
+        isAmend.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView,
+                                         boolean isChecked) {
+                if (isChecked) {
+                    commitMsg.setText(mRepo.getLastCommitFullMsg());
+                } else {
+                    commitMsg.setText("");
+                }
+            }
+        });
+        final AlertDialog d = builder.setTitle(R.string.dialog_commit_title)
+            .setView(layout)
+            .setPositiveButton(R.string.dialog_commit_positive_label, null)
+            .setNegativeButton(R.string.label_cancel,
+                new DummyDialogListener()).create();
+        d.setOnShowListener(new DialogInterface.OnShowListener() {
+                                @Override
+                                public void onShow(DialogInterface dialog) {
+
+                                    Button b = d.getButton(AlertDialog.BUTTON_POSITIVE);
+                                    b.setOnClickListener(new View.OnClickListener() {
+
+                                                             @Override
+                                                             public void onClick(View view) {
+                                                                 String msg = commitMsg.getText().toString();
+                                                                 String author = commitAuthor.getText().toString().trim();
+                                                                 String authorName = null, authorEmail = null;
+                                                                 int ltidx;
+                                                                 if (msg.trim().equals("")) {
+                                                                     commitMsg.setError(mActivity.getString(R.string.error_no_commit_msg));
+                                                                     return;
+                                                                 }
+                                                                 if (!author.equals("")) {
+                                                                     ltidx = author.indexOf('<');
+                                                                     if (!author.endsWith(">") || ltidx == -1) {
+                                                                         commitAuthor.setError(mActivity.getString(R.string.error_invalid_author));
+                                                                         return;
+                                                                     }
+                                                                     authorName = author.substring(0, ltidx);
+                                                                     authorEmail = author.substring(ltidx + 1, author.length() - 1);
+                                                                 }
+
+
+                                                                 boolean amend = isAmend.isChecked();
+                                                                 boolean stage = autoStage.isChecked();
+
+                                                                 commit_and_push(msg, amend, stage, authorName, authorEmail);
+
+                                                                 d.dismiss();
+                                                             }
+                                                         }
+
+                                    );
+                                }
+                            }
+        );
+        d.show();
     }
 
     private class Author implements Comparable<CommitPushAction.Author> {
@@ -183,10 +273,6 @@ public class CommitPushAction extends RepoAction {
             return position;
         }
 
-        private class ViewHolder {
-            TextView textView;
-        }
-
         @Override
         public View getView(int position, View convertView, ViewGroup parent) {
 
@@ -244,96 +330,10 @@ public class CommitPushAction extends RepoAction {
             };
             return filter;
         }
-    }
 
-    private void commit() {
-        AlertDialog.Builder builder = new AlertDialog.Builder(mActivity);
-        LayoutInflater inflater = mActivity.getLayoutInflater();
-        View layout = inflater.inflate(R.layout.dialog_commit, null);
-        final EditText commitMsg = layout
-            .findViewById(R.id.commitMsg);
-        final AutoCompleteTextView commitAuthor = layout
-            .findViewById(R.id.commitAuthor);
-        final CheckBox isAmend = layout.findViewById(R.id.isAmend);
-        final CheckBox autoStage = layout
-            .findViewById(R.id.autoStage);
-        HashSet<CommitPushAction.Author> authors = new HashSet<CommitPushAction.Author>();
-        try {
-            Iterable<RevCommit> commits = mRepo.getGit().log().setMaxCount(500).call();
-            for (RevCommit commit : commits) {
-                authors.add(new CommitPushAction.Author(commit.getAuthorIdent()));
-            }
-        } catch (Exception e) {
+        private class ViewHolder {
+            TextView textView;
         }
-        String profileUsername = Profile.getUsername(mActivity.getApplicationContext());
-        String profileEmail = Profile.getEmail(mActivity.getApplicationContext());
-        if (profileUsername != null && !profileUsername.equals("")
-            && profileEmail != null && !profileEmail.equals("")) {
-            authors.add(new CommitPushAction.Author(profileUsername, profileEmail));
-        }
-        ArrayList<CommitPushAction.Author> authorList = new ArrayList<CommitPushAction.Author>(authors);
-        Collections.sort(authorList);
-        CommitPushAction.AuthorsAdapter adapter = new CommitPushAction.AuthorsAdapter(mActivity, authorList);
-        commitAuthor.setAdapter(adapter);
-        isAmend.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-
-            @Override
-            public void onCheckedChanged(CompoundButton buttonView,
-                                         boolean isChecked) {
-                if (isChecked) {
-                    commitMsg.setText(mRepo.getLastCommitFullMsg());
-                } else {
-                    commitMsg.setText("");
-                }
-            }
-        });
-        final AlertDialog d = builder.setTitle(R.string.dialog_commit_title)
-            .setView(layout)
-            .setPositiveButton(R.string.dialog_commit_positive_label, null)
-            .setNegativeButton(R.string.label_cancel,
-                new DummyDialogListener()).create();
-        d.setOnShowListener(new DialogInterface.OnShowListener() {
-                                @Override
-                                public void onShow(DialogInterface dialog) {
-
-                                    Button b = d.getButton(AlertDialog.BUTTON_POSITIVE);
-                                    b.setOnClickListener(new View.OnClickListener() {
-
-                                                             @Override
-                                                             public void onClick(View view) {
-                                                                 String msg = commitMsg.getText().toString();
-                                                                 String author = commitAuthor.getText().toString().trim();
-                                                                 String authorName = null, authorEmail = null;
-                                                                 int ltidx;
-                                                                 if (msg.trim().equals("")) {
-                                                                     commitMsg.setError(mActivity.getString(R.string.error_no_commit_msg));
-                                                                     return;
-                                                                 }
-                                                                 if (!author.equals("")) {
-                                                                     ltidx = author.indexOf('<');
-                                                                     if (!author.endsWith(">") || ltidx == -1) {
-                                                                         commitAuthor.setError(mActivity.getString(R.string.error_invalid_author));
-                                                                         return;
-                                                                     }
-                                                                     authorName = author.substring(0, ltidx);
-                                                                     authorEmail = author.substring(ltidx + 1, author.length() - 1);
-                                                                 }
-
-
-                                                                 boolean amend = isAmend.isChecked();
-                                                                 boolean stage = autoStage.isChecked();
-
-                                                                 commit_and_push(msg, amend, stage, authorName, authorEmail);
-
-                                                                 d.dismiss();
-                                                             }
-                                                         }
-
-                                    );
-                                }
-                            }
-        );
-        d.show();
     }
 
 }

@@ -90,7 +90,7 @@ configurations.configureEach {
 //}
 
 dependencies {
-    implementation 'org.jetbrains.kotlin:kotlin-stdlib:1.9.24'
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8:1.8.20"
     implementation 'androidx.fragment:fragment:1.6.2'
     implementation 'androidx.annotation:annotation:1.8.2'
     implementation 'androidx.appcompat:appcompat:1.6.1'

@@ -39,9 +39,9 @@ public class AddToStageTask extends RepoOpTask {
             //   check it: https://stackoverflow.com/a/59434085
 
             //add modified/new files
-            mRepo.getGit().add().setUpdate(false).addFilepattern(mFilePattern).call();
+            mRepo.getGit().add().addFilepattern(mFilePattern).setRenormalize(false).call();
             //add modified/deleted files
-            mRepo.getGit().add().setUpdate(true).addFilepattern(mFilePattern).call();
+            mRepo.getGit().add().setUpdate(true).addFilepattern(mFilePattern).setRenormalize(false).call();
             mDialog.dismiss();
         } catch (StopTaskException e) {
             return false;

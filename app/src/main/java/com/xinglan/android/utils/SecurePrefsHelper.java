@@ -7,7 +7,7 @@ import android.os.Build;
 import android.security.KeyPairGeneratorSpec;
 
 import com.securepreferences.SecurePreferences;
-import com.xinglan.mgit.exceptions.SecurePrefsException;
+import com.xinglan.mgit.common.exceptions.SecurePrefsException;
 
 import java.io.IOException;
 import java.math.BigInteger;

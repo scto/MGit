@@ -3,7 +3,7 @@ package com.xinglan.mgit.tasks.repo
 import com.xinglan.mgit.R
 import com.xinglan.mgit.common.get
 import com.xinglan.mgit.database.models.Repo
-import com.xinglan.mgit.exceptions.NoSuchIndexPathException
+import com.xinglan.mgit.common.exceptions.NoSuchIndexPathException
 import org.eclipse.jgit.dircache.DirCache
 import org.eclipse.jgit.errors.CorruptObjectException
 import org.eclipse.jgit.errors.NoWorkTreeException

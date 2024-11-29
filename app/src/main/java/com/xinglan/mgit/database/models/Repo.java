@@ -10,10 +10,10 @@ import android.util.SparseArray;
 import com.xinglan.android.preference.PreferenceHelper;
 import com.xinglan.android.utils.FsUtils;
 import com.xinglan.android.utils.Profile;
-import com.xinglan.mgit.MGitApplication;
+import com.xinglan.android.MGitApplication;
 import com.xinglan.mgit.database.RepoContract;
 import com.xinglan.mgit.database.RepoDbManager;
-import com.xinglan.mgit.exceptions.StopTaskException;
+import com.xinglan.mgit.common.exceptions.StopTaskException;
 import com.xinglan.mgit.tasks.repo.RepoOpTask;
 
 import org.eclipse.jgit.api.Git;

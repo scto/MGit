@@ -1,6 +1,6 @@
 package com.xinglan.mgit.tasks.repo;
 
-import com.xinglan.android.activities.SheimiFragmentActivity.OnPasswordEntered;
+import com.xinglan.mgit.ui.SheimiFragmentActivity.OnPasswordEntered;
 import com.xinglan.android.utils.BasicFunctions;
 import com.xinglan.mgit.R;
 import com.xinglan.mgit.database.models.Repo;

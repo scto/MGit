@@ -5,7 +5,7 @@ import com.jcraft.jsch.JSchException;
 import com.jcraft.jsch.KeyPair;
 import com.jcraft.jsch.Session;
 import com.jcraft.jsch.UserInfo;
-import com.xinglan.mgit.MGitApplication;
+import com.xinglan.android.MGitApplication;
 
 import org.eclipse.jgit.internal.transport.ssh.jsch.CredentialsProviderUserInfo;
 import org.eclipse.jgit.transport.ssh.jsch.JschConfigSessionFactory;

@@ -4,11 +4,11 @@
 
         <variable
             name="viewModel"
-            type="com.xinglan.mgit.activities.repolist.RepoListViewModel" />
+            type="com.xinglan.mgit.ui.repolist.RepoListViewModel" />
 
         <variable
             name="cloneViewModel"
-            type="com.xinglan.mgit.clone.CloneViewModel" />
+            type="com.xinglan.mgit.tasks.clone.CloneViewModel" />
 
         <variable
             name="clickHandler"
@@ -21,7 +21,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
-        tools:context="com.xinglan.mgit.activities.repolist.RepoListActivity">
+        tools:context="com.xinglan.mgit.ui.repolist.RepoListActivity">
 
         <include
             android:id="@+id/cloneViewInclude"

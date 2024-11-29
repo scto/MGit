@@ -5,6 +5,7 @@ import android.os.AsyncTask;
 import androidx.annotation.StringRes;
 
 import com.xinglan.mgit.R;
+import com.xinglan.mgit.ui.dialogs.ErrorDialog;
 
 import timber.log.Timber;
 
@@ -37,7 +38,7 @@ public abstract class SheimiAsyncTask<Params, Progress, Result> extends AsyncTas
     /**
      * This method is to be overridden and should return the resource that
      * is used as the title as the
-     * {@link com.xinglan.mgit.dialogs.ErrorDialog} title when the
+     * {@link ErrorDialog} title when the
      * task fails with an exception.
      */
     @StringRes

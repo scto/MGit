@@ -1,8 +1,8 @@
 package com.xinglan.mgit.tasks.repo;
 
-import com.xinglan.android.activities.SheimiFragmentActivity;
+import com.xinglan.mgit.ui.SheimiFragmentActivity;
 import com.xinglan.android.preference.PreferenceHelper;
-import com.xinglan.mgit.MGitApplication;
+import com.xinglan.android.MGitApplication;
 import com.xinglan.mgit.database.models.Repo;
 
 /**

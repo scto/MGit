@@ -7,7 +7,7 @@ import android.webkit.MimeTypeMap;
 
 import androidx.core.content.FileProvider;
 
-import com.xinglan.android.activities.SheimiFragmentActivity;
+import com.xinglan.mgit.ui.SheimiFragmentActivity;
 import com.xinglan.mgit.R;
 
 import org.apache.commons.io.FileUtils;

@@ -3,18 +3,13 @@ package com.xinglan.mgit.tasks.repo;
 import android.content.Context;
 
 import com.xinglan.android.utils.Profile;
-import com.xinglan.mgit.MGitApplication;
+import com.xinglan.android.MGitApplication;
 import com.xinglan.mgit.R;
 import com.xinglan.mgit.database.models.Repo;
-import com.xinglan.mgit.exceptions.StopTaskException;
+import com.xinglan.mgit.common.exceptions.StopTaskException;
 
 import org.eclipse.jgit.api.CommitCommand;
-import org.eclipse.jgit.api.errors.ConcurrentRefUpdateException;
 import org.eclipse.jgit.api.errors.GitAPIException;
-import org.eclipse.jgit.api.errors.NoHeadException;
-import org.eclipse.jgit.api.errors.NoMessageException;
-import org.eclipse.jgit.api.errors.UnmergedPathsException;
-import org.eclipse.jgit.api.errors.WrongRepositoryStateException;
 import org.eclipse.jgit.lib.StoredConfig;
 
 public class CommitChangesTask extends RepoOpTask {

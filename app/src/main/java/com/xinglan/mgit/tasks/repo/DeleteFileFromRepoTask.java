@@ -3,7 +3,7 @@ package com.xinglan.mgit.tasks.repo;
 import com.xinglan.android.utils.FsUtils;
 import com.xinglan.mgit.R;
 import com.xinglan.mgit.database.models.Repo;
-import com.xinglan.mgit.exceptions.StopTaskException;
+import com.xinglan.mgit.common.exceptions.StopTaskException;
 
 import java.io.File;
 

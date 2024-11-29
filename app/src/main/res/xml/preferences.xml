@@ -11,7 +11,7 @@
             android:summary="%s"
             android:persistent="true">
             <intent
-                android:targetClass="com.xinglan.mgit.activities.explorer.ExploreRootDirActivity"
+                android:targetClass="com.xinglan.mgit.ui.explorer.ExploreRootDirActivity"
                 android:targetPackage="com.xinglan.mgit" />
         </com.xinglan.android.preference.Preference>
         <ListPreference
@@ -74,7 +74,7 @@
             android:summary="@string/preference_manage_ssh_keys_summary"
             android:persistent="true">
             <intent
-                android:targetClass="com.xinglan.mgit.activities.explorer.PrivateKeyManageActivity"
+                android:targetClass="com.xinglan.mgit.ui.explorer.PrivateKeyManageActivity"
                 android:targetPackage="com.xinglan.mgit" />
         </Preference>
 

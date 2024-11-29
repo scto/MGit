@@ -6,8 +6,8 @@ import androidx.annotation.NonNull;
 import androidx.annotation.StringRes;
 
 import com.nostra13.universalimageloader.core.ImageLoader;
-import com.xinglan.android.activities.SheimiFragmentActivity;
-import com.xinglan.mgit.dialogs.ErrorDialog;
+import com.xinglan.mgit.ui.SheimiFragmentActivity;
+import com.xinglan.mgit.ui.dialogs.ErrorDialog;
 
 import org.jetbrains.annotations.NotNull;
 

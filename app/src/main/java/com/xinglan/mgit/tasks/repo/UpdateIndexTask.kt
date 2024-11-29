@@ -1,9 +1,8 @@
 package com.xinglan.mgit.tasks.repo
 
 import com.xinglan.mgit.R
-import com.xinglan.mgit.common.get
-import com.xinglan.mgit.database.models.Repo
 import com.xinglan.mgit.common.exceptions.NoSuchIndexPathException
+import com.xinglan.mgit.database.models.Repo
 import org.eclipse.jgit.dircache.DirCache
 import org.eclipse.jgit.errors.CorruptObjectException
 import org.eclipse.jgit.errors.NoWorkTreeException
@@ -33,7 +32,7 @@ class UpdateIndexTask(repo: Repo, private val path: String, private val newMode:
         }
 
         try {
-            val dirCacheEntry = dircache[path]
+            val dirCacheEntry = dircache.getEntry(path)
             val entry = if (dirCacheEntry != null) dirCacheEntry else {
                 setException(NoSuchIndexPathException(path), R.string.error_file_not_found)
                 return false

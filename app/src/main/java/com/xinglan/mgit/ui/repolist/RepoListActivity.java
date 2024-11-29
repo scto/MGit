@@ -10,6 +10,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.SearchView;
 import android.widget.Toast;
 
@@ -17,25 +18,24 @@ import androidx.core.view.MenuItemCompat;
 import androidx.databinding.DataBindingUtil;
 import androidx.lifecycle.ViewModelProvider;
 
-import com.xinglan.mgit.common.ViewHelperKt;
-import com.xinglan.mgit.ui.SheimiFragmentActivity;
 import com.xinglan.android.MGitApplication;
 import com.xinglan.mgit.R;
-import com.xinglan.mgit.ui.RepoDetailActivity;
-import com.xinglan.mgit.ui.UserSettingsActivity;
-import com.xinglan.mgit.ui.explorer.ExploreFileActivity;
-import com.xinglan.mgit.ui.explorer.ImportRepositoryActivity;
-import com.xinglan.mgit.ui.adapters.RepoListAdapter;
-import com.xinglan.mgit.tasks.clone.CloneViewModel;
 import com.xinglan.mgit.common.OnActionClickListener;
 import com.xinglan.mgit.database.RepoDbManager;
 import com.xinglan.mgit.database.models.Repo;
 import com.xinglan.mgit.databinding.ActivityMainBinding;
-import com.xinglan.mgit.ui.dialogs.DummyDialogListener;
-import com.xinglan.mgit.ui.dialogs.ImportLocalRepoDialog;
+import com.xinglan.mgit.tasks.clone.CloneViewModel;
 import com.xinglan.mgit.tasks.repo.CloneTask;
 import com.xinglan.mgit.transport.MGitHttpConnectionFactory;
 import com.xinglan.mgit.transport.ssh.PrivateKeyUtils;
+import com.xinglan.mgit.ui.RepoDetailActivity;
+import com.xinglan.mgit.ui.SheimiFragmentActivity;
+import com.xinglan.mgit.ui.UserSettingsActivity;
+import com.xinglan.mgit.ui.adapters.RepoListAdapter;
+import com.xinglan.mgit.ui.dialogs.DummyDialogListener;
+import com.xinglan.mgit.ui.dialogs.ImportLocalRepoDialog;
+import com.xinglan.mgit.ui.explorer.ExploreFileActivity;
+import com.xinglan.mgit.ui.explorer.ImportRepositoryActivity;
 
 import java.io.File;
 import java.net.MalformedURLException;
@@ -235,7 +235,11 @@ public class RepoListActivity extends SheimiFragmentActivity {
 
     private void hideCloneView() {
         activityMainBinding.getCloneViewModel().show(false);
-        ViewHelperKt.hideKeyboard(this);
+        // hideKeyboard
+        InputMethodManager inputMethodManager = (InputMethodManager) this.getSystemService(Activity.INPUT_METHOD_SERVICE);
+        if (this.getCurrentFocus() != null) {
+            inputMethodManager.hideSoftInputFromWindow(this.getCurrentFocus().getWindowToken(), 0);
+        }
     }
 
     public enum ClickActions {

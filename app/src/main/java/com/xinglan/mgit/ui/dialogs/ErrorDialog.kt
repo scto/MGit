@@ -6,7 +6,7 @@ import android.app.Dialog
 import android.os.Bundle
 import android.widget.Button
 import androidx.annotation.StringRes
-import com.xinglan.mgit.ui.SheimiDialogFragment
+import com.xinglan.mgit.ui.fragments.SheimiDialogFragment
 import com.xinglan.mgit.R
 import com.xinglan.mgit.databinding.DialogErrorBinding
 import org.conscrypt.BuildConfig

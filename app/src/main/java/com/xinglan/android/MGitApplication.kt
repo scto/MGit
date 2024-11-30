@@ -1,5 +1,6 @@
 package com.xinglan.android
 
+import android.annotation.SuppressLint
 import android.app.Application
 import android.content.Context
 import com.xinglan.android.preference.PreferenceHelper
@@ -28,6 +29,7 @@ open class MGitApplication : Application() {
 
 
     companion object {
+        @SuppressLint("StaticFieldLeak")
         private lateinit var mContext: Context
         private lateinit var mCredentialsProvider: CredentialsProvider
         val context: Context

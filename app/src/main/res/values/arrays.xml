@@ -34,8 +34,8 @@
         <item>Add Remote</item>
         <item>Remove Remote</item>
         <item>Delete</item>
-        <item>Raw config</item>
-        <item>Config</item>
+        <item>Edit Config File</item>
+        <item>Setting Git Username</item>
     </string-array>
     <string-array name="dialog_choose_repo_action_items">
         <item>Rename</item>

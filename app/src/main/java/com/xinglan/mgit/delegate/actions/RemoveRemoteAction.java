@@ -9,7 +9,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
-import com.xinglan.mgit.ui.SheimiDialogFragment;
+import com.xinglan.mgit.ui.fragments.SheimiDialogFragment;
 import com.xinglan.mgit.R;
 import com.xinglan.mgit.ui.RepoDetailActivity;
 import com.xinglan.mgit.database.models.Repo;

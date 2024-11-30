@@ -8,7 +8,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 
-import com.xinglan.mgit.ui.SheimiDialogFragment;
+import com.xinglan.mgit.ui.fragments.SheimiDialogFragment;
 import com.xinglan.mgit.R;
 import com.xinglan.mgit.ui.explorer.PrivateKeyManageActivity;
 import com.xinglan.mgit.transport.ssh.PrivateKeyUtils;

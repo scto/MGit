@@ -5,7 +5,7 @@ import android.app.Dialog;
 import android.content.DialogInterface;
 import android.os.Bundle;
 
-import com.xinglan.mgit.ui.SheimiDialogFragment;
+import com.xinglan.mgit.ui.fragments.SheimiDialogFragment;
 import com.xinglan.android.utils.CodeGuesser;
 import com.xinglan.mgit.R;
 import com.xinglan.mgit.ui.ViewFileActivity;

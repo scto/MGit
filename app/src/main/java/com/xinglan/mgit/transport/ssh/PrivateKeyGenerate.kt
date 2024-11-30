@@ -8,7 +8,7 @@ import android.widget.EditText
 import android.widget.RadioGroup
 import com.jcraft.jsch.JSch
 import com.jcraft.jsch.KeyPair
-import com.xinglan.mgit.ui.SheimiDialogFragment
+import com.xinglan.mgit.ui.fragments.SheimiDialogFragment
 import com.xinglan.mgit.R
 import com.xinglan.mgit.ui.explorer.PrivateKeyManageActivity
 import org.acra.ktx.sendWithAcra

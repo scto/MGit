@@ -11,7 +11,7 @@ import android.widget.CompoundButton;
 import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.EditText;
 
-import com.xinglan.mgit.ui.SheimiDialogFragment;
+import com.xinglan.mgit.ui.fragments.SheimiDialogFragment;
 import com.xinglan.android.preference.PreferenceHelper;
 import com.xinglan.android.utils.FsUtils;
 import com.xinglan.android.MGitApplication;

@@ -1,4 +1,4 @@
-package com.xinglan.mgit.ui;
+package com.xinglan.mgit.ui.fragments;
 
 import android.content.Context;
 import android.content.DialogInterface;
@@ -6,9 +6,10 @@ import android.content.DialogInterface;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.DialogFragment;
 
+import com.xinglan.mgit.ui.SheimiFragmentActivity;
+
 public class SheimiDialogFragment extends DialogFragment {
 
-    @SuppressWarnings("NullableProblems")
     // It's safe to assume onAttach is called before other code.
     @NonNull
     private SheimiFragmentActivity mActivity;

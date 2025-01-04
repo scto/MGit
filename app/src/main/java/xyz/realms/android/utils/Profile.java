@@ -5,7 +5,7 @@ import android.content.SharedPreferences;
 import android.content.res.TypedArray;
 
 import xyz.realms.mgit.R;
-import xyz.realms.mgit.database.models.Repo;
+import xyz.realms.mgit.database.Repo;
 
 /**
  * Created by lee on 2015-02-01.

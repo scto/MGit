@@ -11,7 +11,7 @@ import android.view.View;
 import android.widget.AdapterView;
 
 import xyz.realms.mgit.R;
-import xyz.realms.mgit.database.models.Repo;
+import xyz.realms.mgit.database.Repo;
 import xyz.realms.mgit.tasks.repo.InitLocalTask;
 
 import java.io.File;

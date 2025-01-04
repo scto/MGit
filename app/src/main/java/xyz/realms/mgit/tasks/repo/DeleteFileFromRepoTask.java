@@ -2,8 +2,8 @@ package xyz.realms.mgit.tasks.repo;
 
 import xyz.realms.android.utils.FsUtils;
 import xyz.realms.mgit.R;
-import xyz.realms.mgit.database.models.Repo;
-import xyz.realms.mgit.common.exceptions.StopTaskException;
+import xyz.realms.mgit.database.Repo;
+import xyz.realms.mgit.errors.StopTaskException;
 
 import java.io.File;
 

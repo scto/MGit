@@ -6,7 +6,7 @@ import android.content.Context
 import xyz.realms.android.preference.PreferenceHelper
 import xyz.realms.android.utils.SecurePrefsHelper
 import xyz.realms.mgit.R
-import xyz.realms.mgit.common.exceptions.SecurePrefsException
+import xyz.realms.mgit.errors.SecurePrefsException
 import xyz.realms.mgit.transport.AndroidJschCredentialsProvider
 import xyz.realms.mgit.transport.MGitHttpConnectionFactory
 import org.acra.config.dialog

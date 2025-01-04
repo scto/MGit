@@ -8,7 +8,7 @@
 
         <variable
             name="cloneViewModel"
-            type="xyz.realms.mgit.tasks.clone.CloneViewModel" />
+            type="xyz.realms.mgit.ui.clone.CloneViewModel" />
 
         <variable
             name="clickHandler"

@@ -3,7 +3,7 @@ package xyz.realms.mgit.tasks.repo;
 import xyz.realms.mgit.ui.SheimiFragmentActivity.OnPasswordEntered;
 import xyz.realms.android.utils.BasicFunctions;
 import xyz.realms.mgit.R;
-import xyz.realms.mgit.database.models.Repo;
+import xyz.realms.mgit.database.Repo;
 import xyz.realms.mgit.tasks.SheimiAsyncTask;
 
 import org.eclipse.jgit.api.TransportCommand;

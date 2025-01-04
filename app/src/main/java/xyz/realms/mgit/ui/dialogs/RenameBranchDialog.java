@@ -12,8 +12,8 @@ import android.widget.Toast;
 
 import xyz.realms.mgit.R;
 import xyz.realms.mgit.ui.BranchChooserActivity;
-import xyz.realms.mgit.database.models.Repo;
-import xyz.realms.mgit.common.exceptions.StopTaskException;
+import xyz.realms.mgit.database.Repo;
+import xyz.realms.mgit.errors.StopTaskException;
 
 import org.eclipse.jgit.api.errors.GitAPIException;
 import org.eclipse.jgit.lib.Ref;

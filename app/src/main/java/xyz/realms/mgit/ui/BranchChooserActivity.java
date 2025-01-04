@@ -20,9 +20,9 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import xyz.realms.mgit.R;
-import xyz.realms.mgit.database.models.Repo;
+import xyz.realms.mgit.database.Repo;
 import xyz.realms.mgit.ui.dialogs.RenameBranchDialog;
-import xyz.realms.mgit.common.exceptions.StopTaskException;
+import xyz.realms.mgit.errors.StopTaskException;
 import xyz.realms.mgit.tasks.SheimiAsyncTask;
 import xyz.realms.mgit.tasks.repo.CheckoutTask;
 

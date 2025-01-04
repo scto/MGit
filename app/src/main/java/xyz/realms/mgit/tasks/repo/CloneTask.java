@@ -5,7 +5,7 @@ import androidx.annotation.StringRes;
 import xyz.realms.android.utils.Profile;
 import xyz.realms.mgit.R;
 import xyz.realms.mgit.database.RepoContract;
-import xyz.realms.mgit.database.models.Repo;
+import xyz.realms.mgit.database.Repo;
 import xyz.realms.mgit.transport.ssh.SgitTransportCallback;
 
 import org.eclipse.jgit.api.CloneCommand;

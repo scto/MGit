@@ -5,8 +5,8 @@ import android.content.Context;
 import xyz.realms.android.utils.Profile;
 import xyz.realms.android.MGitApplication;
 import xyz.realms.mgit.R;
-import xyz.realms.mgit.database.models.Repo;
-import xyz.realms.mgit.common.exceptions.StopTaskException;
+import xyz.realms.mgit.database.Repo;
+import xyz.realms.mgit.errors.StopTaskException;
 
 import org.eclipse.jgit.api.CommitCommand;
 import org.eclipse.jgit.api.errors.GitAPIException;

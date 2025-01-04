@@ -27,7 +27,7 @@ import xyz.realms.mgit.ui.RepoDetailActivity;
 import xyz.realms.mgit.ui.repolist.RepoListActivity;
 import xyz.realms.mgit.database.RepoContract;
 import xyz.realms.mgit.database.RepoDbManager;
-import xyz.realms.mgit.database.models.Repo;
+import xyz.realms.mgit.database.Repo;
 
 import java.text.DateFormat;
 import java.util.ArrayList;

@@ -4,8 +4,8 @@ import android.app.Dialog;
 
 import xyz.realms.mgit.R;
 import xyz.realms.mgit.ui.RepoDetailActivity;
-import xyz.realms.mgit.database.models.Repo;
-import xyz.realms.mgit.common.exceptions.StopTaskException;
+import xyz.realms.mgit.database.Repo;
+import xyz.realms.mgit.errors.StopTaskException;
 
 public class AddToStageTask extends RepoOpTask {
 

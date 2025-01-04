@@ -1,8 +1,8 @@
 package xyz.realms.mgit.tasks.repo
 
 import xyz.realms.mgit.R
-import xyz.realms.mgit.common.exceptions.NoSuchIndexPathException
-import xyz.realms.mgit.database.models.Repo
+import xyz.realms.mgit.errors.NoSuchIndexPathException
+import xyz.realms.mgit.database.Repo
 import org.eclipse.jgit.dircache.DirCache
 import org.eclipse.jgit.errors.CorruptObjectException
 import org.eclipse.jgit.errors.NoWorkTreeException

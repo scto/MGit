@@ -1,9 +1,5 @@
 package xyz.realms.mgit.tasks.repo;
 
-import xyz.realms.mgit.R;
-import xyz.realms.mgit.database.models.Repo;
-import xyz.realms.mgit.common.exceptions.StopTaskException;
-
 import org.eclipse.jgit.api.errors.GitAPIException;
 import org.eclipse.jgit.diff.DiffEntry;
 import org.eclipse.jgit.diff.DiffFormatter;
@@ -22,9 +18,12 @@ import org.eclipse.jgit.treewalk.FileTreeIterator;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
-import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
+
+import xyz.realms.mgit.R;
+import xyz.realms.mgit.database.Repo;
+import xyz.realms.mgit.errors.StopTaskException;
 
 public class CommitDiffTask extends RepoOpTask {
 
@@ -143,7 +142,7 @@ public class CommitDiffTask extends RepoOpTask {
             mDiffOutput.reset();
             mDiffFormatter.format(diffEntry);
             mDiffFormatter.flush();
-            String diffText = mDiffOutput.toString(StandardCharsets.UTF_8);
+            String diffText = mDiffOutput.toString("UTF-8");
             return diffText;
         } catch (UnsupportedEncodingException e) {
             setException(e, R.string.error_diff_failed);

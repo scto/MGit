@@ -1,7 +1,7 @@
 package xyz.realms.mgit.tasks.repo;
 
 import xyz.realms.mgit.database.RepoContract;
-import xyz.realms.mgit.database.models.Repo;
+import xyz.realms.mgit.database.Repo;
 
 import org.eclipse.jgit.api.Git;
 

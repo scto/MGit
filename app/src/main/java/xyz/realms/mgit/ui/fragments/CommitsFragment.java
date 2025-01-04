@@ -20,7 +20,7 @@ import xyz.realms.mgit.R;
 import xyz.realms.mgit.ui.CommitDiffActivity;
 import xyz.realms.mgit.ui.RepoDetailActivity;
 import xyz.realms.mgit.ui.adapters.CommitsListAdapter;
-import xyz.realms.mgit.database.models.Repo;
+import xyz.realms.mgit.database.Repo;
 import xyz.realms.mgit.ui.dialogs.CheckoutDialog;
 
 import org.eclipse.jgit.revwalk.RevCommit;

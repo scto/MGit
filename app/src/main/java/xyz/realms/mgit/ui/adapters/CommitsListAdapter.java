@@ -13,7 +13,7 @@ import android.widget.TextView;
 import xyz.realms.mgit.ui.SheimiFragmentActivity;
 import xyz.realms.android.utils.BasicFunctions;
 import xyz.realms.mgit.R;
-import xyz.realms.mgit.database.models.Repo;
+import xyz.realms.mgit.database.Repo;
 import xyz.realms.mgit.tasks.repo.GetCommitTask;
 import xyz.realms.mgit.tasks.repo.GetCommitTask.GetCommitCallback;
 

@@ -1,76 +1,75 @@
 # MGit
 
-MGit is a Git client Android App.
+MGit是一款Git客户端安卓应用。
 
-## Supported Features
+## 支持的功能
 
-* Create local repositories
-* Clone remote repositories
-* Pull from origin
-* Delete local repositories
-* Browse files
-* Browse commit messages (short)
-* Checkout branches and tags
-* HTTP/HTTPS/SSH are supported (including SSH with private key passphrase)
-* Username/Password authentication is supported
-* Search local repositories
-* Private key management
-* Manually choose code language
-* `git diff` between commits
-* Import existing repositories (that is, you can copy a repository from computer and import to MGit)
-* Checkout remote branches
-* Merge branches
-* Push merged content
-* Edit file via external app that can edit the given file type
-* Commit and push changed files
-* Committer information
-* Prompt for password
-* *Option* to save username/password
+* 创建本地仓库
+* 克隆远程仓库
+* 从源拉取
+* 删除本地仓库
+* 浏览文件
+* 浏览提交信息（简短）
+* 切换分支和标签
+* 支持HTTP/HTTPS/SSH（包括带私钥密码的SSH）
+* 支持用户名/密码认证
+* 搜索本地仓库
+* 私钥管理
+* 手动选择代码语言
+* 在提交之间执行`git diff`
+* 导入现有仓库（即，你可以从电脑复制一个仓库并导入到MGit）
+* 切换远程分支
+* 合并分支
+* 推送合并的内容
+* 通过可以编辑给定文件类型的外部应用编辑文件
+* 提交并推送更改的文件
+* 提交者信息
+* 提示输入密码
+* *可选* 保存用户名/密码
 * `git status`
-* Cancel when cloning
-* Add modified file to stage
-* View state of staged files (aka index)
+* 克隆时取消
+* 将修改的文件添加到暂存区
+* 查看暂存文件的状态（即索引）
 * `git rebase`
 * `git cherrypick`
-* `git checkout <file>` (reset changes of a file)
+* `git checkout <file>`（重置一个文件的更改）
 
-## Quick start
+## 快速开始
 
-### Clone a remote repository
+### 克隆远程仓库
 
-1. Click on the `+` icon to add a new repository
-2. Enter remote URL (see URL format below)
-3. Enter local repository name - note that this is **not** the full path, as MGit stores all  
-repositories in the same local directory (can be changed in MGit settings)
-4. Click the `Clone` button
-5. If required, you will be prompted for credentials to connect to the remote repo. MGit will download the repository (all branches) to your device
+1. 点击`+`图标添加新仓库
+2. 输入远程URL（见下面的URL格式）
+3. 输入本地仓库名称 - 注意这**不是**完整路径，因为MGit将所有仓库存储在同一个本地目录中（可以在MGit设置中更改）
+4. 点击`Clone`按钮
+5. 如果需要，系统会提示您输入连接到远程仓库的凭据。MGit会将仓库（所有分支）下载到您的设备上
 
-### Create a local repository
-1. Click on the `+` icon to add a new repository
-2. Click on `Init Local` to create a local repository
-3. Enter the name for this repository when prompted
-4. A local empty repo will be created
+### 创建本地仓库
+1. 点击`+`图标添加新仓库
+2. 点击`Init Local`创建本地仓库
+3. 当提示时，输入该仓库的名称
+4. 将创建一个本地的空仓库
 
-### URL format
+### URL格式
 
-#### SSH URLs
+#### SSH URL
 
-* SSH running on standard port (22): `ssh://username@server_name/path/to/repo`
-* SSH running on non-standard port: `ssh://username@server_name:port/path/to/repo`
-* `username` is needed - by default, MGit tries to connect as root.
+* 运行在标准端口（22）的SSH：`ssh://username@server_name/path/to/repo`
+* 运行在非标准端口的SSH：`ssh://username@server_name:port/path/to/repo`
+* 需要填写`username` - 默认情况下，MGit会尝试以root身份连接。
 
-#### HTTP(S) URLs
+#### HTTP(S) URL
 
-* HTTP(S) URL: `https://server_name/path/to/repo`
+* HTTP(S) URL：`https://server_name/path/to/repo`
 
-## License
+# 许可证
 
-See [GPLv3](./LICENSE)
+请参阅[GPLv3](./LICENSE)
 
-All code written by `maks@manichord.com` can at your option also be used under the [MIT license](https://en.wikipedia.org/wiki/MIT_License).
+由`maks@manichord.com`编写的所有代码，您可以选择也可以在[MIT许可证](https://en.wikipedia.org/wiki/MIT_License)下使用。
 
 
-#### Submitting a Pull Request (PR)
-Fork from this repo, create a new branch, commit your changes and then send a pull request against the **master** branch of this repo.
+#### 提交拉取请求（PR）
+从该仓库分叉，创建一个新分支，提交您的更改，然后向该仓库的**主**分支发送拉取请求。
 
-If you are working on a branch for some time, you may find that changes to master get merged in the meantime, if that happens please do **NOT** merge master into your branch! Instead rebase your branch onto the current head of master.
+如果您在某个分支上工作了一段时间，可能会发现主分支在此期间有更改被合并，如果发生这种情况，请**不要**将主分支合并到您的分支中！而是将您的分支变基到主分支的当前头部。

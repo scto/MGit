@@ -3,7 +3,7 @@ package xyz.realms.mgit.tasks.repo;
 import xyz.realms.mgit.ui.SheimiFragmentActivity;
 import xyz.realms.android.preference.PreferenceHelper;
 import xyz.realms.android.MGitApplication;
-import xyz.realms.mgit.database.models.Repo;
+import xyz.realms.mgit.database.Repo;
 
 /**
  * Super class for Tasks that operate on a git remote

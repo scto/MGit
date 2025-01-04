@@ -7,7 +7,7 @@ import android.view.View;
 import android.widget.AdapterView;
 
 import xyz.realms.mgit.R;
-import xyz.realms.mgit.database.models.Repo;
+import xyz.realms.mgit.database.Repo;
 
 import java.io.File;
 import java.io.FileFilter;

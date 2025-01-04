@@ -11,7 +11,7 @@ import android.widget.EditText;
 import xyz.realms.mgit.ui.fragments.SheimiDialogFragment;
 import xyz.realms.mgit.R;
 import xyz.realms.mgit.ui.RepoDetailActivity;
-import xyz.realms.mgit.database.models.Repo;
+import xyz.realms.mgit.database.Repo;
 
 /**
  * Created by sheimi on 8/24/13.

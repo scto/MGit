@@ -13,7 +13,7 @@ import xyz.realms.android.preference.PreferenceHelper;
 import xyz.realms.android.MGitApplication;
 import xyz.realms.mgit.R;
 import xyz.realms.mgit.ui.repolist.RepoListActivity;
-import xyz.realms.mgit.database.models.Repo;
+import xyz.realms.mgit.database.Repo;
 import xyz.realms.mgit.tasks.repo.InitLocalTask;
 
 import java.io.File;

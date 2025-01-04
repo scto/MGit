@@ -14,7 +14,7 @@ import androidx.viewpager.widget.ViewPager;
 
 import xyz.realms.android.utils.FsUtils;
 import xyz.realms.mgit.R;
-import xyz.realms.mgit.database.models.Repo;
+import xyz.realms.mgit.database.Repo;
 import xyz.realms.mgit.ui.dialogs.ChooseLanguageDialog;
 import xyz.realms.mgit.ui.fragments.BaseFragment;
 import xyz.realms.mgit.ui.fragments.CommitsFragment;

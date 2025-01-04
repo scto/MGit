@@ -4,6 +4,8 @@ import org.junit.Test;
 
 import static org.junit.Assert.*;
 
+import xyz.realms.mgit.database.Repo;
+
 public class RepoTest {
 
     @Test

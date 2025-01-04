@@ -17,7 +17,7 @@ import xyz.realms.android.utils.FsUtils;
 import xyz.realms.android.MGitApplication;
 import xyz.realms.mgit.R;
 import xyz.realms.mgit.database.RepoContract;
-import xyz.realms.mgit.database.models.Repo;
+import xyz.realms.mgit.database.Repo;
 
 import java.io.File;
 

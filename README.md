@@ -1,6 +1,6 @@
 # MGit
 
-MGit是一款Git客户端安卓应用。
+MGit是一款Git客户端安卓应用。（Version ≥ Android 12）
 
 ## 支持的功能
 

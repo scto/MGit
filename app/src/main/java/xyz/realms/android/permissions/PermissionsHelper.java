@@ -6,8 +6,6 @@ import android.os.Environment;
 
 import androidx.core.content.ContextCompat;
 
-import kotlin.jvm.internal.Intrinsics;
-
 public final class PermissionsHelper {
     public static final Companion Companion = new Companion();
 
@@ -20,8 +18,8 @@ public final class PermissionsHelper {
         }
 
         public boolean canReadStorage(Context context) {
-            Intrinsics.checkNotNullParameter(context, "context");
-            return VERSION.SDK_INT <= 23 || ContextCompat.checkSelfPermission(context, "android.permission.READ_EXTERNAL_STORAGE") == 0 || this.isExternalStorageManager();
+            return VERSION.SDK_INT <= 23 || ContextCompat.checkSelfPermission(context, "android" +
+                ".permission.READ_EXTERNAL_STORAGE") == 0 || this.isExternalStorageManager();
         }
     }
 }

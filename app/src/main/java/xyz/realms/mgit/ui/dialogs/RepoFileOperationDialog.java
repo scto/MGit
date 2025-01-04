@@ -75,7 +75,7 @@ public class RepoFileOperationDialog extends SheimiDialogFragment {
                         case MAKE_EXECUTABLE:
                         case MAKE_NOT_EXECUTABLE:
                             final boolean newExecutableState = which == MAKE_EXECUTABLE;
-                            mActivity.getRepoDelegate().updateIndex(mFilePath, UpdateIndexTask.Companion.calculateNewMode(newExecutableState));
+                            mActivity.getRepoDelegate().updateIndex(mFilePath, UpdateIndexTask.calculateNewMode(newExecutableState));
                             break;
                     }
                 }

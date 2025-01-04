@@ -3,7 +3,7 @@
     <data>
         <variable
             name="viewModel"
-            type="com.xinglan.mgit.database.models.GitConfig" />
+            type="xyz.realms.mgit.database.models.GitConfig" />
     </data>
 
     <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"

@@ -24,7 +24,7 @@ android {
     }
 
     defaultConfig {
-        applicationId "com.xinglan.mgit"
+        applicationId "xyz.realms.mgit"
         minSdkVersion 28
         targetSdkVersion 33
 
@@ -62,7 +62,7 @@ android {
             signingConfig signingConfigs.release
         }
     }
-    namespace 'com.xinglan.mgit'
+    namespace 'xyz.realms.mgit'
     lint {
         abortOnError false
     }

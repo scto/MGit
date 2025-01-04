@@ -4,15 +4,15 @@
 
         <variable
             name="viewModel"
-            type="com.xinglan.mgit.ui.repolist.RepoListViewModel" />
+            type="xyz.realms.mgit.ui.repolist.RepoListViewModel" />
 
         <variable
             name="cloneViewModel"
-            type="com.xinglan.mgit.tasks.clone.CloneViewModel" />
+            type="xyz.realms.mgit.tasks.clone.CloneViewModel" />
 
         <variable
             name="clickHandler"
-            type="com.xinglan.mgit.common.OnActionClickListener" />
+            type="xyz.realms.mgit.common.OnActionClickListener" />
     </data>
 
     <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
@@ -21,7 +21,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
-        tools:context="com.xinglan.mgit.ui.repolist.RepoListActivity">
+        tools:context="xyz.realms.mgit.ui.repolist.RepoListActivity">
 
         <include
             android:id="@+id/cloneViewInclude"

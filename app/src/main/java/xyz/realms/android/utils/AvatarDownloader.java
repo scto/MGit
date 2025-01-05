@@ -5,11 +5,12 @@ import android.content.SharedPreferences;
 
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.download.BaseImageDownloader;
-import xyz.realms.mgit.R;
 
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Locale;
+
+import xyz.realms.mgit.R;
 
 /**
  * Created by cfoote on 12/06/2017.

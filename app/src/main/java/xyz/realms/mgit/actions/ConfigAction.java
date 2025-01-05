@@ -5,14 +5,13 @@ import android.view.LayoutInflater;
 
 import androidx.databinding.DataBindingUtil;
 
+import timber.log.Timber;
 import xyz.realms.mgit.R;
-import xyz.realms.mgit.ui.RepoDetailActivity;
 import xyz.realms.mgit.database.GitConfig;
 import xyz.realms.mgit.database.Repo;
 import xyz.realms.mgit.databinding.DialogRepoConfigBinding;
 import xyz.realms.mgit.errors.StopTaskException;
-
-import timber.log.Timber;
+import xyz.realms.mgit.ui.RepoDetailActivity;
 
 /**
  * Action to display configuration for a Repo

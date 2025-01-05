@@ -17,13 +17,6 @@ import android.widget.ProgressBar;
 import androidx.appcompat.widget.ShareActionProvider;
 import androidx.core.view.MenuItemCompat;
 
-import xyz.realms.android.utils.CodeGuesser;
-import xyz.realms.android.utils.FsUtils;
-import xyz.realms.android.utils.Profile;
-import xyz.realms.mgit.R;
-import xyz.realms.mgit.database.Repo;
-import xyz.realms.mgit.tasks.repo.CommitDiffTask;
-
 import org.eclipse.jgit.diff.DiffEntry;
 import org.eclipse.jgit.lib.PersonIdent;
 import org.eclipse.jgit.revwalk.RevCommit;
@@ -33,6 +26,13 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.util.List;
+
+import xyz.realms.android.utils.CodeGuesser;
+import xyz.realms.android.utils.FsUtils;
+import xyz.realms.android.utils.Profile;
+import xyz.realms.mgit.R;
+import xyz.realms.mgit.database.Repo;
+import xyz.realms.mgit.tasks.repo.CommitDiffTask;
 
 public class CommitDiffActivity extends SheimiFragmentActivity {
 

@@ -7,13 +7,6 @@ import android.os.Bundle;
 import android.util.Log;
 import android.util.SparseArray;
 
-import xyz.realms.android.preference.PreferenceHelper;
-import xyz.realms.android.utils.FsUtils;
-import xyz.realms.android.utils.Profile;
-import xyz.realms.android.MGitApplication;
-import xyz.realms.mgit.errors.StopTaskException;
-import xyz.realms.mgit.tasks.repo.RepoOpTask;
-
 import org.eclipse.jgit.api.Git;
 import org.eclipse.jgit.api.ListBranchCommand;
 import org.eclipse.jgit.api.errors.GitAPIException;
@@ -37,6 +30,12 @@ import java.util.List;
 import java.util.Set;
 
 import timber.log.Timber;
+import xyz.realms.android.MGitApplication;
+import xyz.realms.android.preference.PreferenceHelper;
+import xyz.realms.android.utils.FsUtils;
+import xyz.realms.android.utils.Profile;
+import xyz.realms.mgit.errors.StopTaskException;
+import xyz.realms.mgit.tasks.repo.RepoOpTask;
 
 /**
  * Model for a local repo

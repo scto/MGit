@@ -1,12 +1,11 @@
 package xyz.realms.mgit.transport;
 
-import xyz.realms.android.utils.SecurePrefsHelper;
-
 import org.eclipse.jgit.errors.UnsupportedCredentialItem;
 import org.eclipse.jgit.transport.CredentialItem;
 import org.eclipse.jgit.transport.URIish;
 
 import timber.log.Timber;
+import xyz.realms.android.utils.SecurePrefsHelper;
 
 /**
  * ref: http://stackoverflow.com/a/15290861/85472

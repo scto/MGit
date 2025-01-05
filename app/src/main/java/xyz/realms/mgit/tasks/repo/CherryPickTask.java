@@ -1,10 +1,10 @@
 package xyz.realms.mgit.tasks.repo;
 
+import org.eclipse.jgit.lib.ObjectId;
+
 import xyz.realms.mgit.R;
 import xyz.realms.mgit.database.Repo;
 import xyz.realms.mgit.errors.StopTaskException;
-
-import org.eclipse.jgit.lib.ObjectId;
 
 public class CherryPickTask extends RepoOpTask {
 

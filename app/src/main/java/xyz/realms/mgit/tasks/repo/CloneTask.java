@@ -2,12 +2,6 @@ package xyz.realms.mgit.tasks.repo;
 
 import androidx.annotation.StringRes;
 
-import xyz.realms.android.utils.Profile;
-import xyz.realms.mgit.R;
-import xyz.realms.mgit.database.RepoContract;
-import xyz.realms.mgit.database.Repo;
-import xyz.realms.mgit.transport.ssh.SgitTransportCallback;
-
 import org.eclipse.jgit.api.CloneCommand;
 import org.eclipse.jgit.api.Git;
 import org.eclipse.jgit.api.errors.GitAPIException;
@@ -21,6 +15,11 @@ import java.io.File;
 import java.util.Locale;
 
 import timber.log.Timber;
+import xyz.realms.android.utils.Profile;
+import xyz.realms.mgit.R;
+import xyz.realms.mgit.database.Repo;
+import xyz.realms.mgit.database.RepoContract;
+import xyz.realms.mgit.transport.ssh.SgitTransportCallback;
 
 public class CloneTask extends RepoRemoteOpTask {
 

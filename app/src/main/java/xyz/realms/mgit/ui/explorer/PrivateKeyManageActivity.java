@@ -11,17 +11,17 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 
+import java.io.File;
+import java.io.FileFilter;
+
 import xyz.realms.android.utils.BasicFunctions;
 import xyz.realms.android.utils.FsUtils;
 import xyz.realms.mgit.R;
+import xyz.realms.mgit.transport.ssh.PrivateKeyGenerate;
+import xyz.realms.mgit.transport.ssh.PrivateKeyUtils;
 import xyz.realms.mgit.ui.ViewFileActivity;
 import xyz.realms.mgit.ui.dialogs.EditKeyPasswordDialog;
 import xyz.realms.mgit.ui.dialogs.RenameKeyDialog;
-import xyz.realms.mgit.transport.ssh.PrivateKeyGenerate;
-import xyz.realms.mgit.transport.ssh.PrivateKeyUtils;
-
-import java.io.File;
-import java.io.FileFilter;
 
 public class PrivateKeyManageActivity extends FileExplorerActivity implements ActionMode.Callback {
 

@@ -4,10 +4,9 @@ import android.os.AsyncTask;
 
 import androidx.annotation.StringRes;
 
+import timber.log.Timber;
 import xyz.realms.mgit.R;
 import xyz.realms.mgit.ui.dialogs.ErrorDialog;
-
-import timber.log.Timber;
 
 public abstract class SheimiAsyncTask<Params, Progress, Result> extends AsyncTask<Params, Progress, Result> {
 

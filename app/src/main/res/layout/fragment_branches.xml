@@ -17,7 +17,7 @@
         android:layout_height="match_parent"
         android:layout_alignParentLeft="true"
         android:layout_alignParentTop="true"
-        android:text="@string/default_text"
-        android:padding="@dimen/general_padding_larger" />
+        android:padding="@dimen/general_padding_larger"
+        android:text="@string/default_text" />
 
 </RelativeLayout>

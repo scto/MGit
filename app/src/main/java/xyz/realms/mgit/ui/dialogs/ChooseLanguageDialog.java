@@ -5,12 +5,12 @@ import android.app.Dialog;
 import android.content.DialogInterface;
 import android.os.Bundle;
 
-import xyz.realms.mgit.ui.fragments.SheimiDialogFragment;
+import java.util.List;
+
 import xyz.realms.android.utils.CodeGuesser;
 import xyz.realms.mgit.R;
 import xyz.realms.mgit.ui.ViewFileActivity;
-
-import java.util.List;
+import xyz.realms.mgit.ui.fragments.SheimiDialogFragment;
 
 /**
  * Created by sheimi on 8/16/13.

@@ -14,13 +14,13 @@ import android.widget.TextView;
 
 import androidx.annotation.Nullable;
 
-import xyz.realms.mgit.ui.SheimiFragmentActivity;
-import xyz.realms.android.utils.Profile;
-import xyz.realms.mgit.R;
-import xyz.realms.mgit.ui.adapters.FilesListAdapter;
-
 import java.io.File;
 import java.io.FileFilter;
+
+import xyz.realms.android.utils.Profile;
+import xyz.realms.mgit.R;
+import xyz.realms.mgit.ui.SheimiFragmentActivity;
+import xyz.realms.mgit.ui.adapters.FilesListAdapter;
 
 public abstract class FileExplorerActivity extends SheimiFragmentActivity {
 

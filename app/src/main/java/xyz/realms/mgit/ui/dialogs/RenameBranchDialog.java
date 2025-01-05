@@ -10,17 +10,17 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import xyz.realms.mgit.R;
-import xyz.realms.mgit.ui.BranchChooserActivity;
-import xyz.realms.mgit.database.Repo;
-import xyz.realms.mgit.errors.StopTaskException;
-
 import org.eclipse.jgit.api.errors.GitAPIException;
 import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.revwalk.RevTag;
 import org.eclipse.jgit.revwalk.RevWalk;
 
 import java.util.List;
+
+import xyz.realms.mgit.R;
+import xyz.realms.mgit.database.Repo;
+import xyz.realms.mgit.errors.StopTaskException;
+import xyz.realms.mgit.ui.BranchChooserActivity;
 
 /**
  * Created by sheimi on 8/24/13.

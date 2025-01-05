@@ -10,12 +10,12 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 
+import java.io.File;
+import java.io.FileFilter;
+
 import xyz.realms.mgit.R;
 import xyz.realms.mgit.database.Repo;
 import xyz.realms.mgit.tasks.repo.InitLocalTask;
-
-import java.io.File;
-import java.io.FileFilter;
 
 public class ImportRepositoryActivity extends FileExplorerActivity {
 

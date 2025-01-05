@@ -2,15 +2,15 @@ package xyz.realms.mgit.tasks.repo;
 
 import android.content.Context;
 
-import xyz.realms.android.utils.Profile;
-import xyz.realms.android.MGitApplication;
-import xyz.realms.mgit.R;
-import xyz.realms.mgit.database.Repo;
-import xyz.realms.mgit.errors.StopTaskException;
-
 import org.eclipse.jgit.api.CommitCommand;
 import org.eclipse.jgit.api.errors.GitAPIException;
 import org.eclipse.jgit.lib.StoredConfig;
+
+import xyz.realms.android.MGitApplication;
+import xyz.realms.android.utils.Profile;
+import xyz.realms.mgit.R;
+import xyz.realms.mgit.database.Repo;
+import xyz.realms.mgit.errors.StopTaskException;
 
 public class CommitChangesTask extends RepoOpTask {
 

@@ -1,16 +1,16 @@
 package xyz.realms.mgit.tasks.repo;
 
-import xyz.realms.mgit.R;
-import xyz.realms.mgit.database.Repo;
-import xyz.realms.mgit.errors.StopTaskException;
-import xyz.realms.mgit.transport.ssh.SgitTransportCallback;
-
 import org.eclipse.jgit.api.Git;
 import org.eclipse.jgit.api.PullCommand;
 import org.eclipse.jgit.api.RebaseCommand;
 import org.eclipse.jgit.api.ResetCommand;
 import org.eclipse.jgit.api.errors.GitAPIException;
 import org.eclipse.jgit.api.errors.TransportException;
+
+import xyz.realms.mgit.R;
+import xyz.realms.mgit.database.Repo;
+import xyz.realms.mgit.errors.StopTaskException;
+import xyz.realms.mgit.transport.ssh.SgitTransportCallback;
 
 public class PullTask extends RepoRemoteOpTask {
 

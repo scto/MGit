@@ -7,9 +7,6 @@ import android.webkit.MimeTypeMap;
 
 import androidx.core.content.FileProvider;
 
-import xyz.realms.mgit.ui.SheimiFragmentActivity;
-import xyz.realms.mgit.R;
-
 import org.apache.commons.io.FileUtils;
 
 import java.io.File;
@@ -17,6 +14,9 @@ import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
+
+import xyz.realms.mgit.R;
+import xyz.realms.mgit.ui.SheimiFragmentActivity;
 
 /**
  * Created by sheimi on 8/8/13.

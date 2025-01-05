@@ -7,7 +7,6 @@ import android.os.Build;
 import android.security.KeyPairGeneratorSpec;
 
 import com.securepreferences.SecurePreferences;
-import xyz.realms.mgit.errors.SecurePrefsException;
 
 import java.io.IOException;
 import java.math.BigInteger;
@@ -24,6 +23,7 @@ import java.util.Calendar;
 import javax.security.auth.x500.X500Principal;
 
 import timber.log.Timber;
+import xyz.realms.mgit.errors.SecurePrefsException;
 
 /**
  * Securely store sensitive data in prefs, encrypting with a key pair that is stored in

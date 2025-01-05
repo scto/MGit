@@ -1,11 +1,11 @@
 package xyz.realms.mgit.tasks.repo;
 
+import java.io.File;
+
 import xyz.realms.android.utils.FsUtils;
 import xyz.realms.mgit.R;
 import xyz.realms.mgit.database.Repo;
 import xyz.realms.mgit.errors.StopTaskException;
-
-import java.io.File;
 
 public class DeleteFileFromRepoTask extends RepoOpTask {
 

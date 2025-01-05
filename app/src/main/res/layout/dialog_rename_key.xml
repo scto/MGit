@@ -10,9 +10,9 @@
         android:id="@+id/newFilename"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textSize="@dimen/general_dialog_text_size"
-        android:hint="@string/label_new_file_name"
         android:layout_margin="@dimen/general_vertical_margin"
+        android:hint="@string/label_new_file_name"
+        android:imeOptions="actionDone"
         android:singleLine="true"
-        android:imeOptions="actionDone" />
+        android:textSize="@dimen/general_dialog_text_size" />
 </LinearLayout>

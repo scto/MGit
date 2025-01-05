@@ -10,14 +10,14 @@ import android.widget.ArrayAdapter;
 import android.widget.CheckBox;
 import android.widget.ListView;
 
-import xyz.realms.mgit.ui.fragments.SheimiDialogFragment;
-import xyz.realms.mgit.R;
-import xyz.realms.mgit.ui.RepoDetailActivity;
-import xyz.realms.mgit.database.Repo;
-import xyz.realms.mgit.ui.dialogs.DummyDialogListener;
-import xyz.realms.mgit.tasks.repo.PullTask;
-
 import java.util.Set;
+
+import xyz.realms.mgit.R;
+import xyz.realms.mgit.database.Repo;
+import xyz.realms.mgit.tasks.repo.PullTask;
+import xyz.realms.mgit.ui.RepoDetailActivity;
+import xyz.realms.mgit.ui.dialogs.DummyDialogListener;
+import xyz.realms.mgit.ui.fragments.SheimiDialogFragment;
 
 public class PullAction extends RepoAction {
 

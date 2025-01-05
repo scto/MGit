@@ -15,20 +15,20 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ListView;
 
-import xyz.realms.mgit.ui.SheimiFragmentActivity.OnBackClickListener;
-import xyz.realms.mgit.R;
-import xyz.realms.mgit.ui.CommitDiffActivity;
-import xyz.realms.mgit.ui.RepoDetailActivity;
-import xyz.realms.mgit.ui.adapters.CommitsListAdapter;
-import xyz.realms.mgit.database.Repo;
-import xyz.realms.mgit.ui.dialogs.CheckoutDialog;
-
 import org.eclipse.jgit.revwalk.RevCommit;
 
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+
+import xyz.realms.mgit.R;
+import xyz.realms.mgit.database.Repo;
+import xyz.realms.mgit.ui.CommitDiffActivity;
+import xyz.realms.mgit.ui.RepoDetailActivity;
+import xyz.realms.mgit.ui.SheimiFragmentActivity.OnBackClickListener;
+import xyz.realms.mgit.ui.adapters.CommitsListAdapter;
+import xyz.realms.mgit.ui.dialogs.CheckoutDialog;
 
 /**
  * Created by sheimi on 8/5/13.

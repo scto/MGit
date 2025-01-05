@@ -1,13 +1,13 @@
 package xyz.realms.mgit.tasks.repo;
 
+import org.eclipse.jgit.api.FetchCommand;
+import org.eclipse.jgit.api.Git;
+import org.eclipse.jgit.api.errors.TransportException;
+
 import xyz.realms.mgit.R;
 import xyz.realms.mgit.database.Repo;
 import xyz.realms.mgit.errors.StopTaskException;
 import xyz.realms.mgit.transport.ssh.SgitTransportCallback;
-
-import org.eclipse.jgit.api.FetchCommand;
-import org.eclipse.jgit.api.Git;
-import org.eclipse.jgit.api.errors.TransportException;
 
 public class FetchTask extends RepoRemoteOpTask {
 

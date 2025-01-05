@@ -2,17 +2,17 @@ package xyz.realms.mgit.actions;
 
 import android.content.DialogInterface;
 
-import xyz.realms.mgit.R;
-import xyz.realms.mgit.ui.RepoDetailActivity;
-import xyz.realms.mgit.database.Repo;
-import xyz.realms.mgit.errors.StopTaskException;
-import xyz.realms.mgit.tasks.SheimiAsyncTask.AsyncTaskPostCallback;
-import xyz.realms.mgit.tasks.repo.UndoCommitTask;
-
 import org.eclipse.jgit.api.errors.GitAPIException;
 import org.eclipse.jgit.revwalk.RevCommit;
 
 import java.util.Iterator;
+
+import xyz.realms.mgit.R;
+import xyz.realms.mgit.database.Repo;
+import xyz.realms.mgit.errors.StopTaskException;
+import xyz.realms.mgit.tasks.SheimiAsyncTask.AsyncTaskPostCallback;
+import xyz.realms.mgit.tasks.repo.UndoCommitTask;
+import xyz.realms.mgit.ui.RepoDetailActivity;
 
 public class UndoAction extends RepoAction {
     public UndoAction(Repo repo, RepoDetailActivity activity) {

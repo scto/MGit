@@ -1,8 +1,8 @@
 package xyz.realms.mgit.actions;
 
-import xyz.realms.mgit.ui.RepoDetailActivity;
 import xyz.realms.mgit.database.Repo;
 import xyz.realms.mgit.tasks.repo.AddToStageTask;
+import xyz.realms.mgit.ui.RepoDetailActivity;
 
 public class AddAllAction extends RepoAction {
 
@@ -12,7 +12,7 @@ public class AddAllAction extends RepoAction {
 
     @Override
     public void execute() {
-        AddToStageTask addTask = new AddToStageTask(mRepo, ".", mActivity);
+        AddToStageTask addTask = new AddToStageTask(mRepo, ".", null);
         addTask.executeTask();
         mActivity.closeOperationDrawer();
     }

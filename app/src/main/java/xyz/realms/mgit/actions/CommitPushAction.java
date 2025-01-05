@@ -16,14 +16,6 @@ import android.widget.Filter;
 import android.widget.Filterable;
 import android.widget.TextView;
 
-import xyz.realms.android.utils.Profile;
-import xyz.realms.mgit.R;
-import xyz.realms.mgit.ui.RepoDetailActivity;
-import xyz.realms.mgit.database.Repo;
-import xyz.realms.mgit.ui.dialogs.DummyDialogListener;
-import xyz.realms.mgit.errors.StopTaskException;
-import xyz.realms.mgit.tasks.repo.CommitChangesTask;
-
 import org.eclipse.jgit.api.Status;
 import org.eclipse.jgit.api.errors.GitAPIException;
 import org.eclipse.jgit.lib.PersonIdent;
@@ -33,6 +25,14 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
+
+import xyz.realms.android.utils.Profile;
+import xyz.realms.mgit.R;
+import xyz.realms.mgit.database.Repo;
+import xyz.realms.mgit.errors.StopTaskException;
+import xyz.realms.mgit.tasks.repo.CommitChangesTask;
+import xyz.realms.mgit.ui.RepoDetailActivity;
+import xyz.realms.mgit.ui.dialogs.DummyDialogListener;
 
 
 public class CommitPushAction extends RepoAction {

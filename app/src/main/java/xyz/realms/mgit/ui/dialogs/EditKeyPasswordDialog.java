@@ -8,14 +8,13 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 
-import xyz.realms.mgit.ui.fragments.SheimiDialogFragment;
-import xyz.realms.android.MGitApplication;
-import xyz.realms.mgit.R;
-import xyz.realms.mgit.ui.explorer.PrivateKeyManageActivity;
-
 import java.io.File;
 
 import timber.log.Timber;
+import xyz.realms.android.MGitApplication;
+import xyz.realms.mgit.R;
+import xyz.realms.mgit.ui.explorer.PrivateKeyManageActivity;
+import xyz.realms.mgit.ui.fragments.SheimiDialogFragment;
 
 /**
  * Allowing editing password for a stored private key

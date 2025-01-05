@@ -10,13 +10,6 @@ import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
-import xyz.realms.mgit.ui.SheimiFragmentActivity;
-import xyz.realms.android.utils.BasicFunctions;
-import xyz.realms.mgit.R;
-import xyz.realms.mgit.database.Repo;
-import xyz.realms.mgit.tasks.repo.GetCommitTask;
-import xyz.realms.mgit.tasks.repo.GetCommitTask.GetCommitCallback;
-
 import org.eclipse.jgit.lib.PersonIdent;
 import org.eclipse.jgit.revwalk.RevCommit;
 
@@ -25,6 +18,13 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Set;
+
+import xyz.realms.android.utils.BasicFunctions;
+import xyz.realms.mgit.R;
+import xyz.realms.mgit.database.Repo;
+import xyz.realms.mgit.tasks.repo.GetCommitTask;
+import xyz.realms.mgit.tasks.repo.GetCommitTask.GetCommitCallback;
+import xyz.realms.mgit.ui.SheimiFragmentActivity;
 
 
 /**

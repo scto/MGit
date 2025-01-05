@@ -1,12 +1,12 @@
 package xyz.realms.mgit.tasks.repo;
 
-import xyz.realms.mgit.database.Repo;
-import xyz.realms.mgit.errors.StopTaskException;
-
 import org.eclipse.jgit.api.errors.GitAPIException;
 import org.eclipse.jgit.errors.NoWorkTreeException;
 
 import java.util.Set;
+
+import xyz.realms.mgit.database.Repo;
+import xyz.realms.mgit.errors.StopTaskException;
 
 public class StatusTask extends RepoOpTask {
 

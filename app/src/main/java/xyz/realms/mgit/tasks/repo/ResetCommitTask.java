@@ -1,14 +1,13 @@
 package xyz.realms.mgit.tasks.repo;
 
-import xyz.realms.mgit.R;
-import xyz.realms.mgit.database.Repo;
-import xyz.realms.mgit.errors.StopTaskException;
-
 import org.eclipse.jgit.api.RebaseCommand;
 import org.eclipse.jgit.api.ResetCommand;
 import org.eclipse.jgit.api.errors.WrongRepositoryStateException;
 
 import timber.log.Timber;
+import xyz.realms.mgit.R;
+import xyz.realms.mgit.database.Repo;
+import xyz.realms.mgit.errors.StopTaskException;
 
 public class ResetCommitTask extends RepoOpTask {
 

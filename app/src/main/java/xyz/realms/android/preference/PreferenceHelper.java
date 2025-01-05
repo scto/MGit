@@ -3,11 +3,10 @@ package xyz.realms.android.preference;
 import android.content.Context;
 import android.content.SharedPreferences;
 
-import xyz.realms.mgit.R;
-
 import java.io.File;
 
 import timber.log.Timber;
+import xyz.realms.mgit.R;
 
 /**
  * Clean, central access to getting/setting user preferences

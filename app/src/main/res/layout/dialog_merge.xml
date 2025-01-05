@@ -7,20 +7,20 @@
     android:padding="@dimen/general_padding">
 
     <Spinner
+        android:id="@+id/ffSpinner"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/ffSpinner"
         android:entries="@array/merge_ff_type" />
 
     <CheckBox
+        android:id="@+id/autoCommit"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/dialog_merge_checkbox"
-        android:id="@+id/autoCommit"
-        android:layout_gravity="center" />
+        android:layout_gravity="center"
+        android:text="@string/dialog_merge_checkbox" />
 
     <ListView
+        android:id="@+id/branchList"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/branchList" />
+        android:layout_height="wrap_content" />
 </LinearLayout>

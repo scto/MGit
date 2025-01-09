@@ -3,26 +3,36 @@ package xyz.realms.mgit.tasks.repo;
 import xyz.realms.mgit.R;
 import xyz.realms.mgit.database.Repo;
 import xyz.realms.mgit.errors.StopTaskException;
+import xyz.realms.mgit.tasks.MGitAsyncTask;
 
-public class CheckoutFileTask extends RepoOpTask {
+public class CheckoutFileTask extends MGitAsyncTask implements MGitAsyncTask.MGitAsyncCallBack {
 
-    private final AsyncTaskPostCallback mCallback;
+    private final MGitAsyncCallBack mCallback;
     private final String mPath;
 
-    public CheckoutFileTask(Repo repo, String path,
-                            AsyncTaskPostCallback callback) {
+    public CheckoutFileTask(Repo repo, String path, MGitAsyncCallBack callback) {
         super(repo);
+        mGitAsyncCallBack = this;
         mCallback = callback;
         mPath = path;
         setSuccessMsg(R.string.success_checkout_file);
     }
 
     @Override
-    protected Boolean doInBackground(Void... params) {
+    public void onPreExecute() {
+    }
+
+    @Override
+    public boolean doInBackground(Void... params) {
         return checkout();
     }
 
-    protected void onPostExecute(Boolean isSuccess) {
+    @Override
+    public void onProgressUpdate(String... progress) {
+    }
+
+    @Override
+    public void onPostExecute(Boolean isSuccess) {
         super.onPostExecute(isSuccess);
         if (mCallback != null) {
             mCallback.onPostExecute(isSuccess);
@@ -40,5 +50,4 @@ public class CheckoutFileTask extends RepoOpTask {
         }
         return true;
     }
-
 }

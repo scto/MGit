@@ -5,12 +5,12 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
-import xyz.realms.android.utils.BasicFunctions;
-
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
+
+import xyz.realms.android.utils.BasicFunctions;
 
 /**
  * Manage entries in the persisted database tracking local repo metadata.

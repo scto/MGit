@@ -3,33 +3,40 @@ package xyz.realms.mgit.tasks.repo;
 import android.app.Dialog;
 
 import xyz.realms.mgit.R;
-import xyz.realms.mgit.ui.RepoDetailActivity;
 import xyz.realms.mgit.database.Repo;
 import xyz.realms.mgit.errors.StopTaskException;
+import xyz.realms.mgit.tasks.MGitAsyncTask;
+import xyz.realms.mgit.ui.RepoDetailActivity;
 
-public class AddToStageTask extends RepoOpTask {
+public class AddToStageTask extends MGitAsyncTask implements MGitAsyncTask.MGitAsyncCallBack {
 
-    public String mFilePattern;
-    private AsyncTaskPostCallback mCallback;
     private final Dialog mDialog;
+    public String mFilePattern;
 
     public AddToStageTask(Repo repo, String filePattern, RepoDetailActivity activity) {
         super(repo);
+        mGitAsyncCallBack = this;
         mFilePattern = filePattern;
         mDialog = activity.showProgressDialog();
         setSuccessMsg(R.string.success_add_to_stage);
     }
 
     @Override
-    protected Boolean doInBackground(Void... params) {
+    public boolean doInBackground(Void... params) {
         return addToStage();
     }
 
-    protected void onPostExecute(Boolean isSuccess) {
+    @Override
+    public void onPreExecute() {
+    }
+
+    @Override
+    public void onProgressUpdate(String... progress) {
+    }
+
+    @Override
+    public void onPostExecute(Boolean isSuccess) {
         super.onPostExecute(isSuccess);
-        if (mCallback != null) {
-            mCallback.onPostExecute(isSuccess);
-        }
     }
 
     public boolean addToStage() {

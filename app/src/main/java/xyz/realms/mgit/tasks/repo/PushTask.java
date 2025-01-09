@@ -1,11 +1,5 @@
 package xyz.realms.mgit.tasks.repo;
 
-import xyz.realms.android.utils.BasicFunctions;
-import xyz.realms.mgit.R;
-import xyz.realms.mgit.database.Repo;
-import xyz.realms.mgit.errors.StopTaskException;
-import xyz.realms.mgit.transport.ssh.SgitTransportCallback;
-
 import org.eclipse.jgit.api.Git;
 import org.eclipse.jgit.api.PushCommand;
 import org.eclipse.jgit.api.errors.TransportException;
@@ -15,17 +9,27 @@ import org.eclipse.jgit.transport.RemoteRefUpdate;
 
 import java.util.Collection;
 
-public class PushTask extends RepoRemoteOpTask {
+import xyz.realms.android.utils.BasicFunctions;
+import xyz.realms.mgit.R;
+import xyz.realms.mgit.database.Repo;
+import xyz.realms.mgit.errors.StopTaskException;
+import xyz.realms.mgit.tasks.MGitAsyncTask;
+import xyz.realms.mgit.tasks.RepoRemoteOpTask;
+import xyz.realms.mgit.transport.ssh.SgitTransportCallback;
+import xyz.realms.mgit.ui.RepoDetailActivity;
 
-    private final AsyncTaskCallback mCallback;
+public class PushTask extends RepoRemoteOpTask implements MGitAsyncTask.MGitAsyncCallBack {
+
+    private final RepoDetailActivity.ProgressCallback mCallback;
     private final boolean mPushAll;
     private final boolean mForcePush;
     private final String mRemote;
     private final StringBuffer resultMsg = new StringBuffer();
 
     public PushTask(Repo repo, String remote, boolean pushAll, boolean forcePush,
-                    AsyncTaskCallback callback) {
+                    RepoDetailActivity.ProgressCallback callback) {
         super(repo);
+        mGitAsyncCallBack = this;
         mRemote = remote;
         mCallback = callback;
         mPushAll = pushAll;
@@ -33,7 +37,7 @@ public class PushTask extends RepoRemoteOpTask {
     }
 
     @Override
-    protected Boolean doInBackground(Void... params) {
+    public boolean doInBackground(Void... params) {
         boolean result = pushRepo();
         if (mCallback != null) {
             result = mCallback.doInBackground(params) & result;
@@ -42,29 +46,28 @@ public class PushTask extends RepoRemoteOpTask {
     }
 
     @Override
-    protected void onProgressUpdate(String... progress) {
-        super.onProgressUpdate(progress);
+    public void onProgressUpdate(String... progress) {
         if (mCallback != null) {
             mCallback.onProgressUpdate(progress);
         }
     }
 
     @Override
-    protected void onPreExecute() {
-        super.onPreExecute();
+    public void onPreExecute() {
         if (mCallback != null) {
             mCallback.onPreExecute();
         }
     }
 
-    protected void onPostExecute(Boolean isSuccess) {
+    @Override
+    public void onPostExecute(Boolean isSuccess) {
         super.onPostExecute(isSuccess);
         if (mCallback != null) {
             mCallback.onPostExecute(isSuccess);
         }
         if (isSuccess) {
-            BasicFunctions.getActiveActivity().showMessageDialog(
-                R.string.dialog_push_result, resultMsg.toString());
+            BasicFunctions.getActiveActivity().showMessageDialog(R.string.dialog_push_result,
+                resultMsg.toString());
         }
     }
 
@@ -75,10 +78,8 @@ public class PushTask extends RepoRemoteOpTask {
         } catch (StopTaskException e1) {
             return false;
         }
-        PushCommand pushCommand = git.push().setPushTags()
-            .setProgressMonitor(new BasicProgressMonitor())
-            .setTransportConfigCallback(new SgitTransportCallback())
-            .setRemote(mRemote);
+        PushCommand pushCommand =
+            git.push().setPushTags().setProgressMonitor(new BasicProgressMonitor()).setTransportConfigCallback(new SgitTransportCallback()).setRemote(mRemote);
         if (mPushAll) {
             pushCommand.setPushAll();
         } else {
@@ -121,55 +122,45 @@ public class PushTask extends RepoRemoteOpTask {
         String msg = null;
         switch (update.getStatus()) {
             case AWAITING_REPORT:
-                msg = String
-                    .format("[%s] Push process is awaiting update report from remote repository.\n",
-                        update.getRemoteName());
+                msg = String.format("[%s] Push process is awaiting update report from remote " +
+                    "repository.\n", update.getRemoteName());
                 break;
             case NON_EXISTING:
-                msg = String.format("[%s] Remote ref didn't exist.\n",
-                    update.getRemoteName());
+                msg = String.format("[%s] Remote ref didn't exist.\n", update.getRemoteName());
                 break;
             case NOT_ATTEMPTED:
-                msg = String
-                    .format("[%s] Push process hasn't yet attempted to update this ref.\n",
-                        update.getRemoteName());
+                msg =
+                    String.format("[%s] Push process hasn't yet attempted to update this ref" +
+                        ".\n", update.getRemoteName());
                 break;
             case OK:
-                msg = String.format("[%s] Success push to remote ref.\n",
-                    update.getRemoteName());
+                msg = String.format("[%s] Success push to remote ref.\n", update.getRemoteName());
                 break;
             case REJECTED_NODELETE:
-                msg = String
-                    .format("[%s] Remote ref update was rejected,"
-                            + " because remote side doesn't support/allow deleting refs.\n",
-                        update.getRemoteName());
+                msg =
+                    String.format("[%s] Remote ref update was rejected," + " because remote " +
+                        "side doesn't support/allow deleting refs.\n", update.getRemoteName());
                 break;
             case REJECTED_NONFASTFORWARD:
-                msg = String.format("[%s] Remote ref update was rejected,"
-                        + " as it would cause non fast-forward update.\n",
-                    update.getRemoteName());
+                msg = String.format("[%s] Remote ref update was rejected," + " as it would cause "
+                    + "non fast-forward update.\n", update.getRemoteName());
             case REJECTED_OTHER_REASON:
                 String reason = update.getMessage();
                 if (reason == null || reason.isEmpty()) {
-                    msg = String.format(
-                        "[%s] Remote ref update was rejected.\n",
+                    msg = String.format("[%s] Remote ref update was rejected.\n",
                         update.getRemoteName());
                 } else {
-                    msg = String
-                        .format("[%s] Remote ref update was rejected, because %s.\n",
-                            update.getRemoteName(), reason);
+                    msg = String.format("[%s] Remote ref update was rejected, because %s.\n",
+                        update.getRemoteName(), reason);
                 }
                 break;
             case REJECTED_REMOTE_CHANGED:
-                msg = String
-                    .format("[%s] Remote ref update was rejected,"
-                            + " because old object id on remote "
-                            + "repository wasn't the same as defined expected old object.\n",
-                        update.getRemoteName());
+                msg = String.format("[%s] Remote ref update was rejected," + " because old " +
+                    "object" + " id on remote " + "repository wasn't the same as defined " +
+                    "expected" + " old object" + ".\n", update.getRemoteName());
                 break;
             case UP_TO_DATE:
-                msg = String.format("[%s] remote ref is up to date\n",
-                    update.getRemoteName());
+                msg = String.format("[%s] remote ref is up to date\n", update.getRemoteName());
                 break;
         }
         resultMsg.append(msg);

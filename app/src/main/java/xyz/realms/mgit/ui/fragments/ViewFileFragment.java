@@ -15,18 +15,17 @@ import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.widget.ProgressBar;
 
-import xyz.realms.mgit.ui.SheimiFragmentActivity;
-import xyz.realms.android.utils.CodeGuesser;
-import xyz.realms.android.utils.Profile;
-import xyz.realms.mgit.R;
-import xyz.realms.mgit.ui.ViewFileActivity;
-
 import org.apache.commons.io.FileUtils;
 
 import java.io.File;
 import java.io.IOException;
 
 import timber.log.Timber;
+import xyz.realms.android.utils.CodeGuesser;
+import xyz.realms.android.utils.Profile;
+import xyz.realms.mgit.R;
+import xyz.realms.mgit.ui.SheimiFragmentActivity;
+import xyz.realms.mgit.ui.ViewFileActivity;
 
 /**
  * Created by phcoder on 09.12.15.

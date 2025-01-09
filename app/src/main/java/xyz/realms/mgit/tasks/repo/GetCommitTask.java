@@ -1,8 +1,5 @@
 package xyz.realms.mgit.tasks.repo;
 
-import xyz.realms.mgit.database.Repo;
-import xyz.realms.mgit.errors.StopTaskException;
-
 import org.eclipse.jgit.api.LogCommand;
 import org.eclipse.jgit.api.errors.GitAPIException;
 import org.eclipse.jgit.revwalk.RevCommit;
@@ -10,28 +7,40 @@ import org.eclipse.jgit.revwalk.RevCommit;
 import java.util.ArrayList;
 import java.util.List;
 
-public class GetCommitTask extends RepoOpTask {
+import xyz.realms.mgit.database.Repo;
+import xyz.realms.mgit.errors.StopTaskException;
+import xyz.realms.mgit.tasks.MGitAsyncTask;
+
+public class GetCommitTask extends MGitAsyncTask implements MGitAsyncTask.MGitAsyncCallBack {
 
     private final GetCommitCallback mCallback;
-    private List<RevCommit> mResult;
     private final String mFile;
+    private List<RevCommit> mResult;
 
     public GetCommitTask(Repo repo, String file, GetCommitCallback callback) {
         super(repo);
+        mGitAsyncCallBack = this;
         mFile = file;
         mCallback = callback;
     }
 
-    public void executeTask() {
-        execute();
-    }
-
     @Override
-    protected Boolean doInBackground(Void... params) {
+    public boolean doInBackground(Void... params) {
         return getCommitsList();
     }
 
-    protected void onPostExecute(Boolean isSuccess) {
+    @Override
+    public void onPreExecute() {
+
+    }
+
+    @Override
+    public void onProgressUpdate(String... progress) {
+
+    }
+
+    @Override
+    public void onPostExecute(Boolean isSuccess) {
         super.onPostExecute(isSuccess);
         if (mCallback != null) {
             mCallback.postCommits(mResult);
@@ -41,8 +50,7 @@ public class GetCommitTask extends RepoOpTask {
     public boolean getCommitsList() {
         try {
             LogCommand cmd = mRepo.getGit().log();
-            if (mFile != null)
-                cmd.addPath(mFile);
+            if (mFile != null) cmd.addPath(mFile);
             Iterable<RevCommit> commits = cmd.call();
             mResult = new ArrayList<RevCommit>();
             for (RevCommit commit : commits) {
@@ -59,6 +67,7 @@ public class GetCommitTask extends RepoOpTask {
         }
         return true;
     }
+
 
     public interface GetCommitCallback {
         void postCommits(List<RevCommit> commits);

@@ -7,19 +7,17 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 
-import xyz.realms.mgit.ui.fragments.SheimiDialogFragment;
 import xyz.realms.android.utils.Profile;
 import xyz.realms.mgit.R;
-import xyz.realms.mgit.ui.RepoDetailActivity;
 import xyz.realms.mgit.database.Repo;
-import xyz.realms.mgit.tasks.SheimiAsyncTask.AsyncTaskPostCallback;
 import xyz.realms.mgit.tasks.repo.RebaseTask;
+import xyz.realms.mgit.ui.RepoDetailActivity;
+import xyz.realms.mgit.ui.fragments.SheimiDialogFragment;
 
 public class RebaseAction extends RepoAction {
 
@@ -27,15 +25,9 @@ public class RebaseAction extends RepoAction {
         super(repo, activity);
     }
 
-    private static void rebase(Repo repo, String branch,
-                               final RepoDetailActivity activity) {
+    private static void rebase(Repo repo, String branch, final RepoDetailActivity activity) {
         RebaseTask rebaseTask = new RebaseTask(repo, branch,
-            new AsyncTaskPostCallback() {
-                @Override
-                public void onPostExecute(Boolean isSuccess) {
-                    activity.reset();
-                }
-            });
+            isSuccess -> activity.reset());
         rebaseTask.executeTask();
     }
 
@@ -74,22 +66,16 @@ public class RebaseAction extends RepoAction {
             String[] branches = mRepo.getBranches();
             String currentBranchName = mRepo.getBranchName();
             for (String branch : branches) {
-                if (branch.equals(currentBranchName))
-                    continue;
+                if (branch.equals(currentBranchName)) continue;
                 mAdapter.add(branch);
             }
 
             builder.setTitle(R.string.dialog_rebase_title);
-            mBranchTagList
-                .setOnItemClickListener(new AdapterView.OnItemClickListener() {
-                    @Override
-                    public void onItemClick(AdapterView<?> adapterView,
-                                            View view, int position, long id) {
-                        String commit = mAdapter.getItem(position);
-                        rebase(mRepo, commit, mActivity);
-                        getDialog().cancel();
-                    }
-                });
+            mBranchTagList.setOnItemClickListener((adapterView, view, position, id) -> {
+                String commit = mAdapter.getItem(position);
+                rebase(mRepo, commit, mActivity);
+                getDialog().cancel();
+            });
 
             return builder.create();
         }
@@ -105,14 +91,11 @@ public class RebaseAction extends RepoAction {
                 LayoutInflater inflater = LayoutInflater.from(getContext());
                 ListItemHolder holder;
                 if (convertView == null) {
-                    convertView = inflater.inflate(
-                        R.layout.listitem_dialog_choose_commit, parent,
-                        false);
+                    convertView = inflater.inflate(R.layout.listitem_dialog_choose_commit, parent
+                        , false);
                     holder = new ListItemHolder();
-                    holder.commitTitle = convertView
-                        .findViewById(R.id.commitTitle);
-                    holder.commitIcon = convertView
-                        .findViewById(R.id.commitIcon);
+                    holder.commitTitle = convertView.findViewById(R.id.commitTitle);
+                    holder.commitIcon = convertView.findViewById(R.id.commitIcon);
                     convertView.setTag(holder);
                 } else {
                     holder = (ListItemHolder) convertView.getTag();
@@ -122,11 +105,12 @@ public class RebaseAction extends RepoAction {
                 int commitType = Repo.getCommitType(commitName);
                 switch (commitType) {
                     case Repo.COMMIT_TYPE_HEAD:
-                        holder.commitIcon
-                            .setImageResource(Profile.getStyledResource(getContext(), R.attr.ic_branch_l));
+                        holder.commitIcon.setImageResource(Profile.getStyledResource(getContext()
+                            , R.attr.ic_branch_l));
                         break;
                     case Repo.COMMIT_TYPE_TAG:
-                        holder.commitIcon.setImageResource(Profile.getStyledResource(getContext(), R.attr.ic_tag_l));
+                        holder.commitIcon.setImageResource(Profile.getStyledResource(getContext()
+                            , R.attr.ic_tag_l));
                         break;
                 }
                 holder.commitTitle.setText(displayName);

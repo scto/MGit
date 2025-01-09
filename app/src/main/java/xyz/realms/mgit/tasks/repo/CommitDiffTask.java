@@ -24,15 +24,16 @@ import java.util.List;
 import xyz.realms.mgit.R;
 import xyz.realms.mgit.database.Repo;
 import xyz.realms.mgit.errors.StopTaskException;
+import xyz.realms.mgit.tasks.MGitAsyncTask;
 
-public class CommitDiffTask extends RepoOpTask {
+public class CommitDiffTask extends MGitAsyncTask implements MGitAsyncTask.MGitAsyncCallBack {
 
     private final String mOldCommit;
     private final String mNewCommit;
-    private List<DiffEntry> mDiffEntries;
-    private List<String> mDiffStrs;
     private final CommitDiffResult mCallback;
     private final boolean mShowDescription;
+    private List<DiffEntry> mDiffEntries;
+    private List<String> mDiffStrs;
     private Iterable<RevCommit> mCommits;
     private DiffFormatter mDiffFormatter;
     private ByteArrayOutputStream mDiffOutput;
@@ -40,14 +41,21 @@ public class CommitDiffTask extends RepoOpTask {
     public CommitDiffTask(Repo repo, String oldCommit, String newCommit,
                           CommitDiffResult callback, boolean showDescription) {
         super(repo);
+        mGitAsyncCallBack = this;
         mOldCommit = oldCommit;
         mNewCommit = newCommit;
         mCallback = callback;
         mShowDescription = showDescription;
     }
 
+
     @Override
-    protected Boolean doInBackground(Void... params) {
+    public void onPreExecute() {
+
+    }
+
+    @Override
+    public boolean doInBackground(Void... params) {
         boolean result = getCommitDiff();
         if (!result) {
             return false;
@@ -64,7 +72,13 @@ public class CommitDiffTask extends RepoOpTask {
         return true;
     }
 
-    protected void onPostExecute(Boolean isSuccess) {
+    @Override
+    public void onProgressUpdate(String... progress) {
+
+    }
+
+    @Override
+    public void onPostExecute(Boolean isSuccess) {
         super.onPostExecute(isSuccess);
         RevCommit retCommit = null;
         if (isSuccess && mCallback != null && mDiffEntries != null) {
@@ -153,13 +167,8 @@ public class CommitDiffTask extends RepoOpTask {
         }
     }
 
-    public void executeTask() {
-        execute();
-    }
-
     public interface CommitDiffResult {
-        void pushResult(List<DiffEntry> diffEntries,
-                        List<String> diffStrs, RevCommit description);
+        void pushResult(List<DiffEntry> diffEntries, List<String> diffStrs, RevCommit description);
     }
 
 }

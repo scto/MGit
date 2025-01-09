@@ -1,27 +1,40 @@
 package xyz.realms.mgit.tasks.repo;
 
+import org.eclipse.jgit.api.ResetCommand;
+
 import xyz.realms.mgit.R;
 import xyz.realms.mgit.database.Repo;
 import xyz.realms.mgit.errors.StopTaskException;
+import xyz.realms.mgit.tasks.MGitAsyncTask;
 
-import org.eclipse.jgit.api.ResetCommand;
+public class UndoCommitTask extends MGitAsyncTask implements MGitAsyncTask.MGitAsyncCallBack {
 
-public class UndoCommitTask extends RepoOpTask {
+    private final MGitAsyncPostCallBack mCallback;
 
-    private final AsyncTaskPostCallback mCallback;
-
-    public UndoCommitTask(Repo repo, AsyncTaskPostCallback callback) {
+    public UndoCommitTask(Repo repo, MGitAsyncPostCallBack callback) {
         super(repo);
+        mGitAsyncCallBack = this;
         mCallback = callback;
         setSuccessMsg(R.string.success_undo);
     }
 
     @Override
-    protected Boolean doInBackground(Void... params) {
+    public boolean doInBackground(Void... params) {
         return undo();
     }
 
-    protected void onPostExecute(Boolean isSuccess) {
+    @Override
+    public void onPreExecute() {
+
+    }
+
+    @Override
+    public void onProgressUpdate(String... progress) {
+
+    }
+
+    @Override
+    public void onPostExecute(Boolean isSuccess) {
         super.onPostExecute(isSuccess);
         if (mCallback != null) {
             mCallback.onPostExecute(isSuccess);

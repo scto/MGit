@@ -1,24 +1,26 @@
 package xyz.realms.mgit.tasks.repo;
 
-import xyz.realms.android.utils.BasicFunctions;
-import xyz.realms.mgit.R;
-import xyz.realms.mgit.database.Repo;
-import xyz.realms.mgit.errors.StopTaskException;
-
 import org.eclipse.jgit.api.MergeCommand;
 import org.eclipse.jgit.api.errors.GitAPIException;
 import org.eclipse.jgit.lib.Ref;
 
-public class MergeTask extends RepoOpTask {
+import xyz.realms.android.utils.BasicFunctions;
+import xyz.realms.mgit.R;
+import xyz.realms.mgit.database.Repo;
+import xyz.realms.mgit.errors.StopTaskException;
+import xyz.realms.mgit.tasks.MGitAsyncTask;
 
-    private final AsyncTaskPostCallback mCallback;
+public class MergeTask extends MGitAsyncTask implements MGitAsyncTask.MGitAsyncCallBack {
+
+    private final MGitAsyncPostCallBack mCallback;
     private final Ref mCommit;
     private final String mFFModeStr;
     private final boolean mAutoCommit;
 
-    public MergeTask(Repo repo, Ref commit, String ffModeStr,
-                     boolean autoCommit, AsyncTaskPostCallback callback) {
+    public MergeTask(Repo repo, Ref commit, String ffModeStr, boolean autoCommit,
+                     MGitAsyncPostCallBack callback) {
         super(repo);
+        mGitAsyncCallBack = this;
         mCallback = callback;
         mCommit = commit;
         mFFModeStr = ffModeStr;
@@ -27,11 +29,22 @@ public class MergeTask extends RepoOpTask {
     }
 
     @Override
-    protected Boolean doInBackground(Void... params) {
+    public boolean doInBackground(Void... params) {
         return mergeBranch();
     }
 
-    protected void onPostExecute(Boolean isSuccess) {
+    @Override
+    public void onPreExecute() {
+
+    }
+
+    @Override
+    public void onProgressUpdate(String... progress) {
+
+    }
+
+    @Override
+    public void onPostExecute(Boolean isSuccess) {
         super.onPostExecute(isSuccess);
         if (mCallback != null) {
             mCallback.onPostExecute(isSuccess);
@@ -39,8 +52,8 @@ public class MergeTask extends RepoOpTask {
     }
 
     public boolean mergeBranch() {
-        String[] stringArray = BasicFunctions.getActiveActivity()
-            .getResources().getStringArray(R.array.merge_ff_type);
+        String[] stringArray =
+            BasicFunctions.getActiveActivity().getResources().getStringArray(R.array.merge_ff_type);
         MergeCommand.FastForwardMode ffMode = MergeCommand.FastForwardMode.FF;
         if (mFFModeStr.equals(stringArray[1])) {
             // FF Only
@@ -50,8 +63,7 @@ public class MergeTask extends RepoOpTask {
             ffMode = MergeCommand.FastForwardMode.NO_FF;
         }
         try {
-            mRepo.getGit().merge().include(mCommit).setFastForward(ffMode)
-                .call();
+            mRepo.getGit().merge().include(mCommit).setFastForward(ffMode).call();
         } catch (GitAPIException e) {
             setException(e);
             return false;
@@ -66,11 +78,9 @@ public class MergeTask extends RepoOpTask {
             String b2 = mCommit.getName();
             String msg = null;
             if (b1 == null) {
-                msg = String.format("Merge branch '%s'",
-                    Repo.getCommitDisplayName(b2));
+                msg = String.format("Merge branch '%s'", Repo.getCommitDisplayName(b2));
             } else {
-                msg = String.format("Merge branch '%s' into %s",
-                    Repo.getCommitDisplayName(b2),
+                msg = String.format("Merge branch '%s' into %s", Repo.getCommitDisplayName(b2),
                     Repo.getCommitDisplayName(b1));
             }
             try {

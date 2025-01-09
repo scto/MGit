@@ -8,12 +8,12 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 
-import xyz.realms.mgit.ui.fragments.SheimiDialogFragment;
-import xyz.realms.mgit.R;
-import xyz.realms.mgit.ui.explorer.PrivateKeyManageActivity;
-import xyz.realms.mgit.transport.ssh.PrivateKeyUtils;
-
 import java.io.File;
+
+import xyz.realms.mgit.R;
+import xyz.realms.mgit.transport.ssh.PrivateKeyUtils;
+import xyz.realms.mgit.ui.explorer.PrivateKeyManageActivity;
+import xyz.realms.mgit.ui.fragments.SheimiDialogFragment;
 
 /**
  * Created by sheimi on 8/24/13.

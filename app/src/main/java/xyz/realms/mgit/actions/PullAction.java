@@ -10,14 +10,14 @@ import android.widget.ArrayAdapter;
 import android.widget.CheckBox;
 import android.widget.ListView;
 
-import xyz.realms.mgit.ui.fragments.SheimiDialogFragment;
-import xyz.realms.mgit.R;
-import xyz.realms.mgit.ui.RepoDetailActivity;
-import xyz.realms.mgit.database.Repo;
-import xyz.realms.mgit.ui.dialogs.DummyDialogListener;
-import xyz.realms.mgit.tasks.repo.PullTask;
-
 import java.util.Set;
+
+import xyz.realms.mgit.R;
+import xyz.realms.mgit.database.Repo;
+import xyz.realms.mgit.tasks.repo.PullTask;
+import xyz.realms.mgit.ui.RepoDetailActivity;
+import xyz.realms.mgit.ui.dialogs.DummyDialogListener;
+import xyz.realms.mgit.ui.fragments.SheimiDialogFragment;
 
 public class PullAction extends RepoAction {
 
@@ -25,10 +25,10 @@ public class PullAction extends RepoAction {
         super(repo, activity);
     }
 
-    private static void pull(Repo repo, RepoDetailActivity activity,
-                             String remote, boolean forcePull) {
-        PullTask pullTask = new PullTask(repo, remote, forcePull, activity.new ProgressCallback(
-            R.string.pull_msg_init));
+    private static void pull(Repo repo, RepoDetailActivity activity, String remote,
+                             boolean forcePull) {
+        PullTask pullTask = new PullTask(repo, remote, forcePull,
+            activity.new ProgressCallback(R.string.pull_msg_init));
         pullTask.executeTask();
         activity.closeOperationDrawer();
     }
@@ -70,8 +70,7 @@ public class PullAction extends RepoAction {
             mForcePull = layout.findViewById(R.id.forcePull);
             mRemoteList = layout.findViewById(R.id.remoteList);
 
-            mAdapter = new ArrayAdapter<String>(mActivity,
-                android.R.layout.simple_list_item_1);
+            mAdapter = new ArrayAdapter<String>(mActivity, android.R.layout.simple_list_item_1);
             Set<String> remotes = mRepo.getRemotes();
             mAdapter.addAll(remotes);
             mRemoteList.setAdapter(mAdapter);
@@ -79,8 +78,7 @@ public class PullAction extends RepoAction {
             mRemoteList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 
                 @Override
-                public void onItemClick(AdapterView<?> parent, View view,
-                                        int position, long id) {
+                public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                     String remote = mAdapter.getItem(position);
                     boolean isForcePull = mForcePull.isChecked();
                     pull(mRepo, mActivity, remote, isForcePull);
@@ -88,10 +86,7 @@ public class PullAction extends RepoAction {
                 }
             });
 
-            builder.setTitle(R.string.dialog_pull_repo_title)
-                .setView(layout)
-                .setNegativeButton(R.string.label_cancel,
-                    new DummyDialogListener());
+            builder.setTitle(R.string.dialog_pull_repo_title).setView(layout).setNegativeButton(R.string.label_cancel, new DummyDialogListener());
             return builder.create();
         }
     }

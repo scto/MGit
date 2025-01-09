@@ -5,7 +5,6 @@ import com.jcraft.jsch.JSchException;
 import com.jcraft.jsch.KeyPair;
 import com.jcraft.jsch.Session;
 import com.jcraft.jsch.UserInfo;
-import xyz.realms.android.MGitApplication;
 
 import org.eclipse.jgit.internal.transport.ssh.jsch.CredentialsProviderUserInfo;
 import org.eclipse.jgit.transport.ssh.jsch.JschConfigSessionFactory;
@@ -13,6 +12,8 @@ import org.eclipse.jgit.transport.ssh.jsch.OpenSshConfig.Host;
 import org.eclipse.jgit.util.FS;
 
 import java.io.File;
+
+import xyz.realms.android.MGitApplication;
 
 /**
  * Custom config for Jsch, including using user-provided private keys

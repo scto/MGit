@@ -1,20 +1,19 @@
 package xyz.realms.mgit.actions;
 
+import org.eclipse.jgit.lib.Ref;
+
+import java.io.File;
+import java.util.ArrayList;
+
 import xyz.realms.android.utils.FsUtils;
-import xyz.realms.mgit.ui.RepoDetailActivity;
 import xyz.realms.mgit.database.Repo;
-import xyz.realms.mgit.tasks.SheimiAsyncTask.AsyncTaskPostCallback;
 import xyz.realms.mgit.tasks.repo.AddToStageTask;
 import xyz.realms.mgit.tasks.repo.CheckoutFileTask;
 import xyz.realms.mgit.tasks.repo.CheckoutTask;
 import xyz.realms.mgit.tasks.repo.DeleteFileFromRepoTask;
 import xyz.realms.mgit.tasks.repo.MergeTask;
 import xyz.realms.mgit.tasks.repo.UpdateIndexTask;
-
-import org.eclipse.jgit.lib.Ref;
-
-import java.io.File;
-import java.util.ArrayList;
+import xyz.realms.mgit.ui.RepoDetailActivity;
 
 public class RepoOperationDelegate {
     private final Repo mRepo;
@@ -52,48 +51,32 @@ public class RepoOperationDelegate {
 
     public void executeAction(int key) {
         RepoAction action = mActions.get(key);
-        if (action == null)
-            return;
+        if (action == null) return;
         action.execute();
     }
 
     public void checkoutCommit(final String commitName) {
-        CheckoutTask checkoutTask = new CheckoutTask(mRepo, commitName,
-            null, new AsyncTaskPostCallback() {
-            @Override
-            public void onPostExecute(Boolean isSuccess) {
-                mActivity.reset(commitName);
-            }
-        });
+        CheckoutTask checkoutTask = new CheckoutTask(mRepo, commitName, null,
+            isSuccess -> mActivity.reset(commitName));
         checkoutTask.executeTask();
     }
 
     public void checkoutCommit(final String commitName, final String branch) {
-        CheckoutTask checkoutTask = new CheckoutTask(mRepo, commitName, branch,
-            new AsyncTaskPostCallback() {
-                @Override
-                public void onPostExecute(Boolean isSuccess) {
-                    mActivity.reset(branch);
-                }
-            });
+        CheckoutTask checkoutTask = new CheckoutTask(mRepo, commitName, branch
+            , isSuccess -> mActivity.reset(branch));
         checkoutTask.executeTask();
     }
 
-    public void mergeBranch(final Ref commit, final String ffModeStr,
-                            final boolean autoCommit) {
+    public void mergeBranch(final Ref commit, final String ffModeStr, final boolean autoCommit) {
         MergeTask mergeTask = new MergeTask(mRepo, commit, ffModeStr,
-            autoCommit, new AsyncTaskPostCallback() {
-            @Override
-            public void onPostExecute(Boolean isSuccess) {
-                mActivity.reset();
-            }
-        });
+            autoCommit, isSuccess -> mActivity.reset());
         mergeTask.executeTask();
     }
 
     public void addToStage(String filepath) {
         String relative = getRelativePath(filepath);
-        AddToStageTask addToStageTask = new AddToStageTask(mRepo, relative, mActivity);
+        AddToStageTask addToStageTask = new AddToStageTask(mRepo, relative,
+            mActivity);
         addToStageTask.executeTask();
     }
 
@@ -103,15 +86,13 @@ public class RepoOperationDelegate {
         task.executeTask();
     }
 
-    public void deleteFileFromRepo(String filepath, DeleteFileFromRepoTask.DeleteOperationType deleteOperationType) {
+    public void deleteFileFromRepo(String filepath,
+                                   DeleteFileFromRepoTask.DeleteOperationType deleteOperationType) {
         String relative = getRelativePath(filepath);
-        DeleteFileFromRepoTask task = new DeleteFileFromRepoTask(mRepo,
-            relative, deleteOperationType, new AsyncTaskPostCallback() {
-            @Override
-            public void onPostExecute(Boolean isSuccess) {
-                // TODO Auto-generated method stub
-                mActivity.getFilesFragment().reset();
-            }
+        DeleteFileFromRepoTask task = new DeleteFileFromRepoTask(mRepo, relative,
+            deleteOperationType, isSuccess -> {
+            // TODO Auto-generated method stub
+            mActivity.getFilesFragment().reset();
         });
         task.executeTask();
     }

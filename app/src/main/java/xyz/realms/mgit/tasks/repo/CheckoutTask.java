@@ -1,31 +1,42 @@
 package xyz.realms.mgit.tasks.repo;
 
-import xyz.realms.mgit.database.Repo;
-import xyz.realms.mgit.errors.StopTaskException;
-
 import org.eclipse.jgit.api.CreateBranchCommand;
 import org.eclipse.jgit.api.errors.GitAPIException;
 import org.eclipse.jgit.api.errors.JGitInternalException;
 
-public class CheckoutTask extends RepoOpTask {
+import xyz.realms.mgit.database.Repo;
+import xyz.realms.mgit.errors.StopTaskException;
+import xyz.realms.mgit.tasks.MGitAsyncTask;
 
-    private final AsyncTaskPostCallback mCallback;
+public class CheckoutTask extends MGitAsyncTask implements MGitAsyncTask.MGitAsyncCallBack {
+
+    private final MGitAsyncPostCallBack mCallback;
     private final String mCommitName;
     private final String mBranch;
 
-    public CheckoutTask(Repo repo, String name, String branch, AsyncTaskPostCallback callback) {
+    public CheckoutTask(Repo repo, String name, String branch, MGitAsyncPostCallBack callback) {
         super(repo);
+        mGitAsyncCallBack = this;
         mCallback = callback;
         mCommitName = name;
         mBranch = branch;
     }
 
     @Override
-    protected Boolean doInBackground(Void... params) {
+    public void onPreExecute() {
+    }
+
+    @Override
+    public boolean doInBackground(Void... params) {
         return checkout(mCommitName, mBranch);
     }
 
-    protected void onPostExecute(Boolean isSuccess) {
+    @Override
+    public void onProgressUpdate(String... progress) {
+    }
+
+    @Override
+    public void onPostExecute(Boolean isSuccess) {
         super.onPostExecute(isSuccess);
         if (mCallback != null) {
             mCallback.onPostExecute(isSuccess);
@@ -38,7 +49,8 @@ public class CheckoutTask extends RepoOpTask {
                 checkoutNewBranch(newBranch);
             } else {
                 if (Repo.COMMIT_TYPE_REMOTE == Repo.getCommitType(name)) {
-                    checkoutFromRemote(name, newBranch == null || newBranch.equals("") ? Repo.getCommitName(name) : newBranch);
+                    checkoutFromRemote(name, newBranch == null || newBranch.equals("") ?
+                        Repo.getCommitName(name) : newBranch);
                 } else if (newBranch == null || newBranch.equals("")) {
                     checkoutFromLocal(name);
                 } else {
@@ -61,31 +73,25 @@ public class CheckoutTask extends RepoOpTask {
         return true;
     }
 
-    public void checkoutNewBranch(String name) throws GitAPIException,
-        JGitInternalException, StopTaskException {
+    public void checkoutNewBranch(String name) throws GitAPIException, JGitInternalException,
+        StopTaskException {
         mRepo.getGit().checkout().setName(name).setCreateBranch(true).call();
     }
 
-    public void checkoutFromLocal(String name) throws GitAPIException,
-        JGitInternalException, StopTaskException {
+    public void checkoutFromLocal(String name) throws GitAPIException, JGitInternalException,
+        StopTaskException {
         mRepo.getGit().checkout().setName(name).call();
     }
 
     public void checkoutFromLocal(String name, String branch) throws GitAPIException,
         JGitInternalException, StopTaskException {
-        mRepo.getGit().checkout().setCreateBranch(true).setName(branch)
-            .setStartPoint(name).call();
+        mRepo.getGit().checkout().setCreateBranch(true).setName(branch).setStartPoint(name).call();
     }
 
-    public void checkoutFromRemote(String remoteBranchName, String branchName)
-        throws GitAPIException, JGitInternalException, StopTaskException {
-        mRepo.getGit().checkout().setCreateBranch(true).setName(branchName)
-            .setStartPoint(remoteBranchName).call();
-        mRepo.getGit()
-            .branchCreate()
-            .setUpstreamMode(
-                CreateBranchCommand.SetupUpstreamMode.SET_UPSTREAM)
-            .setStartPoint(remoteBranchName).setName(branchName)
-            .setForce(true).call();
+    public void checkoutFromRemote(String remoteBranchName, String branchName) throws GitAPIException, JGitInternalException, StopTaskException {
+        mRepo.getGit().checkout().setCreateBranch(true).setName(branchName).setStartPoint(remoteBranchName).call();
+        mRepo.getGit().branchCreate().setUpstreamMode(CreateBranchCommand.SetupUpstreamMode.SET_UPSTREAM).setStartPoint(remoteBranchName).setName(branchName).setForce(true).call();
     }
+
+
 }

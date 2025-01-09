@@ -1,27 +1,31 @@
 package xyz.realms.mgit.tasks.repo;
 
-import xyz.realms.mgit.R;
-import xyz.realms.mgit.database.Repo;
-import xyz.realms.mgit.errors.StopTaskException;
-import xyz.realms.mgit.transport.ssh.SgitTransportCallback;
-
 import org.eclipse.jgit.api.FetchCommand;
 import org.eclipse.jgit.api.Git;
 import org.eclipse.jgit.api.errors.TransportException;
 
-public class FetchTask extends RepoRemoteOpTask {
+import xyz.realms.mgit.R;
+import xyz.realms.mgit.database.Repo;
+import xyz.realms.mgit.errors.StopTaskException;
+import xyz.realms.mgit.tasks.MGitAsyncTask;
+import xyz.realms.mgit.tasks.RepoRemoteOpTask;
+import xyz.realms.mgit.transport.ssh.SgitTransportCallback;
+import xyz.realms.mgit.ui.RepoDetailActivity;
 
-    private final AsyncTaskCallback mCallback;
+public class FetchTask extends RepoRemoteOpTask implements MGitAsyncTask.MGitAsyncCallBack {
+
+    private final RepoDetailActivity.ProgressCallback mCallback;
     private final String[] mRemotes;
 
-    public FetchTask(String[] remotes, Repo repo, AsyncTaskCallback callback) {
+    public FetchTask(String[] remotes, Repo repo, RepoDetailActivity.ProgressCallback callback) {
         super(repo);
+        mGitAsyncCallBack = this;
         mCallback = callback;
         mRemotes = remotes;
     }
 
     @Override
-    protected Boolean doInBackground(Void... params) {
+    public boolean doInBackground(Void... params) {
         boolean result = true;
         for (final String remote : mRemotes) {
             result = fetchRepo(remote) & result;
@@ -33,22 +37,21 @@ public class FetchTask extends RepoRemoteOpTask {
     }
 
     @Override
-    protected void onProgressUpdate(String... progress) {
-        super.onProgressUpdate(progress);
+    public void onProgressUpdate(String... progress) {
         if (mCallback != null) {
             mCallback.onProgressUpdate(progress);
         }
     }
 
     @Override
-    protected void onPreExecute() {
-        super.onPreExecute();
+    public void onPreExecute() {
         if (mCallback != null) {
             mCallback.onPreExecute();
         }
     }
 
-    protected void onPostExecute(Boolean isSuccess) {
+    @Override
+    public void onPostExecute(Boolean isSuccess) {
         super.onPostExecute(isSuccess);
         if (mCallback != null) {
             mCallback.onPostExecute(isSuccess);
@@ -63,10 +66,8 @@ public class FetchTask extends RepoRemoteOpTask {
             return false;
         }
 
-        final FetchCommand fetchCommand = git.fetch()
-            .setProgressMonitor(new BasicProgressMonitor())
-            .setTransportConfigCallback(new SgitTransportCallback())
-            .setRemote(remote);
+        final FetchCommand fetchCommand =
+            git.fetch().setProgressMonitor(new BasicProgressMonitor()).setTransportConfigCallback(new SgitTransportCallback()).setRemote(remote);
 
         setCredentials(fetchCommand);
 

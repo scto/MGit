@@ -7,13 +7,6 @@ import android.os.Bundle;
 import android.util.Log;
 import android.util.SparseArray;
 
-import xyz.realms.android.preference.PreferenceHelper;
-import xyz.realms.android.utils.FsUtils;
-import xyz.realms.android.utils.Profile;
-import xyz.realms.android.MGitApplication;
-import xyz.realms.mgit.errors.StopTaskException;
-import xyz.realms.mgit.tasks.repo.RepoOpTask;
-
 import org.eclipse.jgit.api.Git;
 import org.eclipse.jgit.api.ListBranchCommand;
 import org.eclipse.jgit.api.errors.GitAPIException;
@@ -37,6 +30,12 @@ import java.util.List;
 import java.util.Set;
 
 import timber.log.Timber;
+import xyz.realms.android.MGitApplication;
+import xyz.realms.android.preference.PreferenceHelper;
+import xyz.realms.android.utils.FsUtils;
+import xyz.realms.android.utils.Profile;
+import xyz.realms.mgit.errors.StopTaskException;
+import xyz.realms.mgit.tasks.MGitAsyncTask;
 
 /**
  * Model for a local repo
@@ -56,7 +55,7 @@ public class Repo implements Comparable<Repo>, Serializable {
      * Generated serialVersionID
      */
     private static final long serialVersionUID = -4921633809823078219L;
-    private static final SparseArray<RepoOpTask> mRepoTasks = new SparseArray<RepoOpTask>();
+    private static final SparseArray<MGitAsyncTask> mRepoTasks = new SparseArray<MGitAsyncTask>();
     private int mID;
     private String mLocalPath;
     private String mRemoteURL;
@@ -287,22 +286,23 @@ public class Repo implements Comparable<Repo>, Serializable {
     }
 
     public void cancelTask() {
-        RepoOpTask task = mRepoTasks.get(getID());
+        MGitAsyncTask task = mRepoTasks.get(getID());
         if (task == null)
             return;
         task.cancelTask();
         removeTask(task);
     }
 
-    public boolean addTask(RepoOpTask task) {
-        if (mRepoTasks.get(getID()) != null)
+    public boolean addTask(MGitAsyncTask task) {
+        MGitAsyncTask runningTask = mRepoTasks.get(getID());
+        if (runningTask != null)
             return false;
         mRepoTasks.put(getID(), task);
         return true;
     }
 
-    public void removeTask(RepoOpTask task) {
-        RepoOpTask runningTask = mRepoTasks.get(getID());
+    public void removeTask(MGitAsyncTask task) {
+        MGitAsyncTask runningTask = mRepoTasks.get(getID());
         if (runningTask == null || runningTask != task)
             return;
         mRepoTasks.remove(getID());

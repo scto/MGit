@@ -2,12 +2,6 @@ package xyz.realms.mgit.tasks.repo;
 
 import androidx.annotation.StringRes;
 
-import xyz.realms.android.utils.Profile;
-import xyz.realms.mgit.R;
-import xyz.realms.mgit.database.RepoContract;
-import xyz.realms.mgit.database.Repo;
-import xyz.realms.mgit.transport.ssh.SgitTransportCallback;
-
 import org.eclipse.jgit.api.CloneCommand;
 import org.eclipse.jgit.api.Git;
 import org.eclipse.jgit.api.errors.GitAPIException;
@@ -21,22 +15,31 @@ import java.io.File;
 import java.util.Locale;
 
 import timber.log.Timber;
+import xyz.realms.android.utils.Profile;
+import xyz.realms.mgit.R;
+import xyz.realms.mgit.database.Repo;
+import xyz.realms.mgit.database.RepoContract;
+import xyz.realms.mgit.tasks.MGitAsyncTask;
+import xyz.realms.mgit.tasks.RepoRemoteOpTask;
+import xyz.realms.mgit.transport.ssh.SgitTransportCallback;
 
-public class CloneTask extends RepoRemoteOpTask {
+public class CloneTask extends RepoRemoteOpTask implements MGitAsyncTask.MGitAsyncCallBack {
 
-    private final AsyncTaskCallback mCallback;
+    private final MGitAsyncCallBack mCallback;
     private final boolean mCloneRecursive;
     private final String mCloneStatusName;
 
-    public CloneTask(Repo repo, boolean cloneRecursive, String statusName, AsyncTaskCallback callback) {
+    public CloneTask(Repo repo, boolean cloneRecursive, String statusName,
+                     MGitAsyncCallBack callback) {
         super(repo);
+        mGitAsyncCallBack = this;
         mCloneRecursive = cloneRecursive;
         mCloneStatusName = statusName;
         mCallback = callback;
     }
 
     @Override
-    protected Boolean doInBackground(Void... v) {
+    public boolean doInBackground(Void... v) {
         boolean result = cloneRepo();
         if (!result) {
             Timber.e("del repo. clone failed");
@@ -47,7 +50,18 @@ public class CloneTask extends RepoRemoteOpTask {
         return result;
     }
 
-    protected void onPostExecute(Boolean isSuccess) {
+    @Override
+    public void onPreExecute() {
+
+    }
+
+    @Override
+    public void onProgressUpdate(String... progress) {
+
+    }
+
+    @Override
+    public void onPostExecute(Boolean isSuccess) {
         super.onPostExecute(isSuccess);
         if (isTaskCanceled()) {
             return;
@@ -60,12 +74,8 @@ public class CloneTask extends RepoRemoteOpTask {
 
     public boolean cloneRepo() {
         File localRepo = mRepo.getDir();
-        CloneCommand cloneCommand = Git.cloneRepository()
-            .setURI(mRepo.getRemoteURL()).setCloneAllBranches(true)
-            .setProgressMonitor(new RepoCloneMonitor())
-            .setTransportConfigCallback(new SgitTransportCallback())
-            .setDirectory(localRepo)
-            .setCloneSubmodules(mCloneRecursive);
+        CloneCommand cloneCommand =
+            Git.cloneRepository().setURI(mRepo.getRemoteURL()).setCloneAllBranches(true).setProgressMonitor(new RepoCloneMonitor()).setTransportConfigCallback(new SgitTransportCallback()).setDirectory(localRepo).setCloneSubmodules(mCloneRecursive);
 
         setCredentials(cloneCommand);
 
@@ -110,7 +120,8 @@ public class CloneTask extends RepoRemoteOpTask {
 
     @Override
     public RepoRemoteOpTask getNewTask() {
-        // need to call create repo again as when clone fails due auth error, the repo initially created gets deleted
+        // need to call create repo again as when clone fails due auth error, the repo initially
+        // created gets deleted
         String userName = mRepo.getUsername();
         String password = mRepo.getPassword();
         mRepo = Repo.createRepo(mRepo.getLocalPath(), mRepo.getRemoteURL(), mCloneStatusName);

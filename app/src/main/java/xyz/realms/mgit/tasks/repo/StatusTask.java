@@ -1,41 +1,52 @@
 package xyz.realms.mgit.tasks.repo;
 
-import xyz.realms.mgit.database.Repo;
-import xyz.realms.mgit.errors.StopTaskException;
-
+import org.eclipse.jgit.api.Status;
 import org.eclipse.jgit.api.errors.GitAPIException;
 import org.eclipse.jgit.errors.NoWorkTreeException;
 
 import java.util.Set;
 
-public class StatusTask extends RepoOpTask {
+import xyz.realms.mgit.database.Repo;
+import xyz.realms.mgit.errors.StopTaskException;
+import xyz.realms.mgit.tasks.MGitAsyncTask;
+
+public class StatusTask extends MGitAsyncTask implements MGitAsyncTask.MGitAsyncCallBack {
 
     private final GetStatusCallback mCallback;
     private final StringBuffer mResult = new StringBuffer();
+
     public StatusTask(Repo repo, GetStatusCallback callback) {
         super(repo);
+        mGitAsyncCallBack = this;
         mCallback = callback;
     }
 
     @Override
-    protected Boolean doInBackground(Void... params) {
+    public boolean doInBackground(Void... params) {
         return status();
     }
 
-    protected void onPostExecute(Boolean isSuccess) {
+    @Override
+    public void onPreExecute() {
+
+    }
+
+    @Override
+    public void onProgressUpdate(String... progress) {
+
+    }
+
+    @Override
+    public void onPostExecute(Boolean isSuccess) {
         super.onPostExecute(isSuccess);
         if (mCallback != null && isSuccess) {
             mCallback.postStatus(mResult.toString());
         }
     }
 
-    public void executeTask() {
-        execute();
-    }
-
     private boolean status() {
         try {
-            org.eclipse.jgit.api.Status status = mRepo.getGit().status().call();
+            Status status = mRepo.getGit().status().call();
             convertStatus(status);
         } catch (NoWorkTreeException e) {
             setException(e);
@@ -52,7 +63,7 @@ public class StatusTask extends RepoOpTask {
         return true;
     }
 
-    private void convertStatus(org.eclipse.jgit.api.Status status) {
+    private void convertStatus(Status status) {
         if (!status.hasUncommittedChanges() && status.isClean()) {
             mResult.append("Nothing to commit, working directory clean");
             return;
@@ -69,8 +80,7 @@ public class StatusTask extends RepoOpTask {
     }
 
     private void convertStatusSet(String type, Set<String> status) {
-        if (status.isEmpty())
-            return;
+        if (status.isEmpty()) return;
         mResult.append(type);
         mResult.append("\n\n");
         for (String s : status) {

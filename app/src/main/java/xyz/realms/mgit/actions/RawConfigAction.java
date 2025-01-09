@@ -2,9 +2,9 @@ package xyz.realms.mgit.actions;
 
 import android.content.Intent;
 
+import xyz.realms.mgit.database.Repo;
 import xyz.realms.mgit.ui.RepoDetailActivity;
 import xyz.realms.mgit.ui.ViewFileActivity;
-import xyz.realms.mgit.database.Repo;
 
 /**
  * Created by phcoder on 05.12.15.
@@ -18,8 +18,8 @@ public class RawConfigAction extends RepoAction {
     @Override
     public void execute() {
         Intent intent = new Intent(mActivity, ViewFileActivity.class);
-        intent.putExtra(ViewFileActivity.TAG_FILE_NAME,
-            mRepo.getDir().getAbsoluteFile() + "/.git/config");
+        intent.putExtra(ViewFileActivity.TAG_FILE_NAME, mRepo.getDir().getAbsoluteFile() + "/.git"
+            + "/config");
         mActivity.startActivity(intent);
     }
 }

@@ -1,15 +1,15 @@
-package xyz.realms.mgit.tasks.repo;
+package xyz.realms.mgit.tasks;
 
-import xyz.realms.mgit.ui.SheimiFragmentActivity;
-import xyz.realms.android.preference.PreferenceHelper;
 import xyz.realms.android.MGitApplication;
+import xyz.realms.android.preference.PreferenceHelper;
 import xyz.realms.mgit.database.Repo;
+import xyz.realms.mgit.ui.SheimiFragmentActivity;
 
 /**
  * Super class for Tasks that operate on a git remote
  */
 
-public abstract class RepoRemoteOpTask extends RepoOpTask implements SheimiFragmentActivity.OnPasswordEntered {
+public abstract class RepoRemoteOpTask extends MGitAsyncTask implements SheimiFragmentActivity.OnPasswordEntered {
 
 
     public RepoRemoteOpTask(Repo repo) {

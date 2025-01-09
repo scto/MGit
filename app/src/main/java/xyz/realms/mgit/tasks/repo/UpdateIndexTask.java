@@ -12,30 +12,29 @@ import xyz.realms.mgit.R;
 import xyz.realms.mgit.database.Repo;
 import xyz.realms.mgit.errors.NoSuchIndexPathException;
 import xyz.realms.mgit.errors.StopTaskException;
+import xyz.realms.mgit.tasks.MGitAsyncTask;
 
-public class UpdateIndexTask extends RepoOpTask {
+public class UpdateIndexTask extends MGitAsyncTask implements MGitAsyncTask.MGitAsyncCallBack {
 
-    private final String path;
-    private final int newMode;
     private static final int Mode_755 = 0b111101101;
     private static final int Mode_644 = 0b110100100;
     private static final int Mode_777 = 0b111111111;
+    private final String path;
+    private final int newMode;
+
+    public UpdateIndexTask(Repo repo, String path, int newMode) {
+        super(repo);
+        mGitAsyncCallBack = this;
+        this.path = path;
+        this.newMode = newMode;
+    }
 
     public static int calculateNewMode(boolean executable) {
         return executable ? Mode_755 : Mode_644; // no octal literals in Java, 0o755 and 0o644
     }
 
-    public UpdateIndexTask(Repo repo, String path, int newMode) {
-        super(repo);
-        this.path = path;
-        this.newMode = newMode;
-    }
-
-
-
     @Override
-    @Deprecated
-    protected Boolean doInBackground(Void... params) {
+    public boolean doInBackground(Void... params) {
         return updateIndex();
     }
 
@@ -65,5 +64,20 @@ public class UpdateIndexTask extends RepoOpTask {
             dircache.unlock();
         }
         return true;
+    }
+
+    @Override
+    public void onPreExecute() {
+
+    }
+
+    @Override
+    public void onProgressUpdate(String... progress) {
+
+    }
+
+    @Override
+    public void onPostExecute(Boolean isSuccess) {
+
     }
 }

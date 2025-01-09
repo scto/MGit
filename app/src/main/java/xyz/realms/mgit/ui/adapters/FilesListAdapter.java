@@ -8,13 +8,13 @@ import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import xyz.realms.android.utils.Profile;
-import xyz.realms.mgit.R;
-
 import java.io.File;
 import java.io.FileFilter;
 import java.util.Arrays;
 import java.util.Comparator;
+
+import xyz.realms.android.utils.Profile;
+import xyz.realms.mgit.R;
 
 /**
  * Created by sheimi on 8/18/13.

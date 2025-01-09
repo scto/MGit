@@ -2,29 +2,31 @@ package xyz.realms.mgit.tasks.repo;
 
 import android.content.Context;
 
-import xyz.realms.android.utils.Profile;
-import xyz.realms.android.MGitApplication;
-import xyz.realms.mgit.R;
-import xyz.realms.mgit.database.Repo;
-import xyz.realms.mgit.errors.StopTaskException;
-
 import org.eclipse.jgit.api.CommitCommand;
 import org.eclipse.jgit.api.errors.GitAPIException;
 import org.eclipse.jgit.lib.StoredConfig;
 
-public class CommitChangesTask extends RepoOpTask {
+import xyz.realms.android.MGitApplication;
+import xyz.realms.android.utils.Profile;
+import xyz.realms.mgit.R;
+import xyz.realms.mgit.database.Repo;
+import xyz.realms.mgit.errors.StopTaskException;
+import xyz.realms.mgit.tasks.MGitAsyncTask;
 
-    private final AsyncTaskPostCallback mCallback;
+public class CommitChangesTask extends MGitAsyncTask implements MGitAsyncTask.MGitAsyncCallBack {
+
+    private final MGitAsyncPostCallBack mCallback;
     private final String mCommitMsg;
     private final String mAuthorName;
     private final String mAuthorEmail;
     private final boolean mIsAmend;
     private final boolean mStageAll;
 
-    public CommitChangesTask(Repo repo, String commitMsg, boolean isAmend,
-                             boolean stageAll, String authorName, String authorEmail,
-                             AsyncTaskPostCallback callback) {
+    public CommitChangesTask(Repo repo, String commitMsg, boolean isAmend, boolean stageAll,
+                             String authorName, String authorEmail,
+                             MGitAsyncPostCallBack callback) {
         super(repo);
+        mGitAsyncCallBack = this;
         mCallback = callback;
         mCommitMsg = commitMsg;
         mIsAmend = isAmend;
@@ -34,8 +36,8 @@ public class CommitChangesTask extends RepoOpTask {
         setSuccessMsg(R.string.success_commit);
     }
 
-    public static void commit(Repo repo, boolean stageAll, boolean isAmend,
-                              String msg, String authorName, String authorEmail) throws Exception {
+    public static void commit(Repo repo, boolean stageAll, boolean isAmend, String msg,
+                              String authorName, String authorEmail) throws Exception {
         Context context = MGitApplication.getContext();
         StoredConfig config = repo.getGit().getRepository().getConfig();
         String committerEmail = config.getString("user", null, "email");
@@ -53,9 +55,8 @@ public class CommitChangesTask extends RepoOpTask {
         if (msg.isEmpty()) {
             throw new Exception("Please include a commit message");
         }
-        CommitCommand cc = repo.getGit().commit()
-            .setCommitter(committerName, committerEmail).setAll(stageAll)
-            .setAmend(isAmend).setMessage(msg);
+        CommitCommand cc =
+            repo.getGit().commit().setCommitter(committerName, committerEmail).setAll(stageAll).setAmend(isAmend).setMessage(msg);
         if (authorName != null && authorEmail != null) {
             cc.setAuthor(authorName, authorEmail);
         }
@@ -64,11 +65,22 @@ public class CommitChangesTask extends RepoOpTask {
     }
 
     @Override
-    protected Boolean doInBackground(Void... params) {
+    public void onPreExecute() {
+
+    }
+
+    @Override
+    public boolean doInBackground(Void... params) {
         return commit();
     }
 
-    protected void onPostExecute(Boolean isSuccess) {
+    @Override
+    public void onProgressUpdate(String... progress) {
+
+    }
+
+    @Override
+    public void onPostExecute(Boolean isSuccess) {
         super.onPostExecute(isSuccess);
         if (mCallback != null) {
             mCallback.onPostExecute(isSuccess);
@@ -90,4 +102,6 @@ public class CommitChangesTask extends RepoOpTask {
         mRepo.updateLatestCommitInfo();
         return true;
     }
+
+
 }

@@ -32,17 +32,17 @@ import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
 import com.nostra13.universalimageloader.utils.StorageUtils;
+
+import java.io.File;
+import java.util.Locale;
+
+import timber.log.Timber;
 import xyz.realms.android.permissions.PermissionsHelper;
 import xyz.realms.android.utils.AvatarDownloader;
 import xyz.realms.android.utils.BasicFunctions;
 import xyz.realms.android.utils.Profile;
 import xyz.realms.mgit.R;
 import xyz.realms.mgit.ui.dialogs.DummyDialogListener;
-
-import java.io.File;
-import java.util.Locale;
-
-import timber.log.Timber;
 
 public class SheimiFragmentActivity extends AppCompatActivity {
 

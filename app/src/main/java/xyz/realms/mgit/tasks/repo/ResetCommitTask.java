@@ -1,31 +1,43 @@
 package xyz.realms.mgit.tasks.repo;
 
-import xyz.realms.mgit.R;
-import xyz.realms.mgit.database.Repo;
-import xyz.realms.mgit.errors.StopTaskException;
-
 import org.eclipse.jgit.api.RebaseCommand;
 import org.eclipse.jgit.api.ResetCommand;
 import org.eclipse.jgit.api.errors.WrongRepositoryStateException;
 
 import timber.log.Timber;
+import xyz.realms.mgit.R;
+import xyz.realms.mgit.database.Repo;
+import xyz.realms.mgit.errors.StopTaskException;
+import xyz.realms.mgit.tasks.MGitAsyncTask;
 
-public class ResetCommitTask extends RepoOpTask {
+public class ResetCommitTask extends MGitAsyncTask implements MGitAsyncTask.MGitAsyncCallBack {
 
-    private final AsyncTaskPostCallback mCallback;
+    private final MGitAsyncPostCallBack mCallback;
 
-    public ResetCommitTask(Repo repo, AsyncTaskPostCallback callback) {
+    public ResetCommitTask(Repo repo, MGitAsyncPostCallBack callback) {
         super(repo);
+        mGitAsyncCallBack = this;
         mCallback = callback;
         setSuccessMsg(R.string.success_reset);
     }
 
     @Override
-    protected Boolean doInBackground(Void... params) {
+    public boolean doInBackground(Void... params) {
         return reset();
     }
 
-    protected void onPostExecute(Boolean isSuccess) {
+    @Override
+    public void onPreExecute() {
+
+    }
+
+    @Override
+    public void onProgressUpdate(String... progress) {
+
+    }
+
+    @Override
+    public void onPostExecute(Boolean isSuccess) {
         super.onPostExecute(isSuccess);
         if (mCallback != null) {
             mCallback.onPostExecute(isSuccess);

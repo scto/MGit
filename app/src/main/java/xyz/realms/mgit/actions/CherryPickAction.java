@@ -1,11 +1,10 @@
 package xyz.realms.mgit.actions;
 
-import xyz.realms.mgit.ui.SheimiFragmentActivity.OnEditTextDialogClicked;
 import xyz.realms.mgit.R;
-import xyz.realms.mgit.ui.RepoDetailActivity;
 import xyz.realms.mgit.database.Repo;
-import xyz.realms.mgit.tasks.SheimiAsyncTask.AsyncTaskPostCallback;
 import xyz.realms.mgit.tasks.repo.CherryPickTask;
+import xyz.realms.mgit.ui.RepoDetailActivity;
+import xyz.realms.mgit.ui.SheimiFragmentActivity.OnEditTextDialogClicked;
 
 public class CherryPickAction extends RepoAction {
 
@@ -16,24 +15,19 @@ public class CherryPickAction extends RepoAction {
     @Override
     public void execute() {
         mActivity.showEditTextDialog(R.string.dialog_cherrypick_title,
-            R.string.dialog_cherrypick_msg_hint,
-            R.string.dialog_label_cherrypick,
+            R.string.dialog_cherrypick_msg_hint, R.string.dialog_label_cherrypick,
             new OnEditTextDialogClicked() {
-                @Override
-                public void onClicked(String text) {
-                    cherrypick(text);
-                }
-            });
+            @Override
+            public void onClicked(String text) {
+                cherrypick(text);
+            }
+        });
         mActivity.closeOperationDrawer();
     }
 
     public void cherrypick(String commit) {
-        CherryPickTask task = new CherryPickTask(mRepo, commit, new AsyncTaskPostCallback() {
-            @Override
-            public void onPostExecute(Boolean isSuccess) {
-                mActivity.reset();
-            }
-        });
+        CherryPickTask task = new CherryPickTask(mRepo, commit,
+            isSuccess -> mActivity.reset());
         task.executeTask();
     }
 

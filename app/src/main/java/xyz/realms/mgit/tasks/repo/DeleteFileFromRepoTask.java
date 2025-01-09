@@ -1,21 +1,24 @@
 package xyz.realms.mgit.tasks.repo;
 
+import java.io.File;
+
 import xyz.realms.android.utils.FsUtils;
 import xyz.realms.mgit.R;
 import xyz.realms.mgit.database.Repo;
 import xyz.realms.mgit.errors.StopTaskException;
+import xyz.realms.mgit.tasks.MGitAsyncTask;
 
-import java.io.File;
+public class DeleteFileFromRepoTask extends MGitAsyncTask implements MGitAsyncTask.MGitAsyncCallBack {
 
-public class DeleteFileFromRepoTask extends RepoOpTask {
-
-    public String mFilePattern;
-    public AsyncTaskPostCallback mCallback;
     private final DeleteOperationType mOperationType;
+    public String mFilePattern;
+    public MGitAsyncPostCallBack mCallback;
 
     public DeleteFileFromRepoTask(Repo repo, String filepattern,
-                                  DeleteOperationType deleteOperationType, AsyncTaskPostCallback callback) {
+                                  DeleteOperationType deleteOperationType,
+                                  MGitAsyncPostCallBack callback) {
         super(repo);
+        mGitAsyncCallBack = this;
         mFilePattern = filepattern;
         mCallback = callback;
         mOperationType = deleteOperationType;
@@ -23,11 +26,22 @@ public class DeleteFileFromRepoTask extends RepoOpTask {
     }
 
     @Override
-    protected Boolean doInBackground(Void... params) {
+    public boolean doInBackground(Void... params) {
         return removeFile();
     }
 
-    protected void onPostExecute(Boolean isSuccess) {
+    @Override
+    public void onPreExecute() {
+
+    }
+
+    @Override
+    public void onProgressUpdate(String... progress) {
+
+    }
+
+    @Override
+    public void onPostExecute(Boolean isSuccess) {
         super.onPostExecute(isSuccess);
         if (mCallback != null) {
             mCallback.onPostExecute(isSuccess);

@@ -25,13 +25,14 @@ import androidx.viewpager.widget.ViewPager;
 
 import xyz.realms.mgit.R;
 import xyz.realms.mgit.actions.RepoOperationDelegate;
-import xyz.realms.mgit.ui.adapters.RepoOperationsAdapter;
 import xyz.realms.mgit.database.Repo;
+import xyz.realms.mgit.tasks.MGitAsyncTask;
+import xyz.realms.mgit.ui.adapters.RepoOperationsAdapter;
 import xyz.realms.mgit.ui.fragments.BaseFragment;
 import xyz.realms.mgit.ui.fragments.CommitsFragment;
 import xyz.realms.mgit.ui.fragments.FilesFragment;
 import xyz.realms.mgit.ui.fragments.StatusFragment;
-import xyz.realms.mgit.tasks.SheimiAsyncTask;
+
 
 public class RepoDetailActivity extends SheimiFragmentActivity {
 
@@ -97,13 +98,10 @@ public class RepoDetailActivity extends SheimiFragmentActivity {
         setupDrawer();
         mCommitNameButton = findViewById(R.id.commitName);
         mCommitType = findViewById(R.id.commitType);
-        mCommitNameButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(RepoDetailActivity.this, BranchChooserActivity.class);
-                intent.putExtra(Repo.TAG, mRepo);
-                startActivityForResult(intent, BRANCH_CHOOSE_ACTIVITY);
-            }
+        mCommitNameButton.setOnClickListener(view -> {
+            Intent intent = new Intent(RepoDetailActivity.this, BranchChooserActivity.class);
+            intent.putExtra(Repo.TAG, mRepo);
+            startActivityForResult(intent, BRANCH_CHOOSE_ACTIVITY);
         });
         String branchName = mRepo.getBranchName();
         if (branchName == null) {
@@ -296,7 +294,7 @@ public class RepoDetailActivity extends SheimiFragmentActivity {
         mRepo.getRemotes();
     }
 
-    public class ProgressCallback implements SheimiAsyncTask.AsyncTaskCallback {
+    public class ProgressCallback implements MGitAsyncTask.MGitAsyncCallBack {
 
         private final int mInitMsg;
 

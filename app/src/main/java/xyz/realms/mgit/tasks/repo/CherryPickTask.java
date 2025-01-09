@@ -1,30 +1,42 @@
 package xyz.realms.mgit.tasks.repo;
 
+import org.eclipse.jgit.lib.ObjectId;
+
 import xyz.realms.mgit.R;
 import xyz.realms.mgit.database.Repo;
 import xyz.realms.mgit.errors.StopTaskException;
+import xyz.realms.mgit.tasks.MGitAsyncTask;
 
-import org.eclipse.jgit.lib.ObjectId;
+public class CherryPickTask extends MGitAsyncTask implements MGitAsyncTask.MGitAsyncCallBack {
 
-public class CherryPickTask extends RepoOpTask {
-
+    private final MGitAsyncPostCallBack mCallback;
     public String mCommitStr;
-    private final AsyncTaskPostCallback mCallback;
 
-    public CherryPickTask(Repo repo, String commit,
-                          AsyncTaskPostCallback callback) {
+    public CherryPickTask(Repo repo, String commit, MGitAsyncPostCallBack callback) {
         super(repo);
+        mGitAsyncCallBack = this;
         mCommitStr = commit;
         mCallback = callback;
         setSuccessMsg(R.string.success_cherry_pick);
     }
 
     @Override
-    protected Boolean doInBackground(Void... params) {
+    public void onPreExecute() {
+
+    }
+
+    @Override
+    public boolean doInBackground(Void... params) {
         return cherrypick();
     }
 
-    protected void onPostExecute(Boolean isSuccess) {
+    @Override
+    public void onProgressUpdate(String... progress) {
+
+    }
+
+    @Override
+    public void onPostExecute(Boolean isSuccess) {
         super.onPostExecute(isSuccess);
         if (mCallback != null) {
             mCallback.onPostExecute(isSuccess);
@@ -33,8 +45,7 @@ public class CherryPickTask extends RepoOpTask {
 
     public boolean cherrypick() {
         try {
-            ObjectId commit = mRepo.getGit().getRepository()
-                .resolve(mCommitStr);
+            ObjectId commit = mRepo.getGit().getRepository().resolve(mCommitStr);
             mRepo.getGit().cherryPick().include(commit).call();
         } catch (StopTaskException e) {
             return false;
@@ -44,4 +55,6 @@ public class CherryPickTask extends RepoOpTask {
         }
         return true;
     }
+
+
 }

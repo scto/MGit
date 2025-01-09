@@ -1,10 +1,5 @@
 package xyz.realms.mgit.tasks.repo;
 
-import xyz.realms.mgit.R;
-import xyz.realms.mgit.database.Repo;
-import xyz.realms.mgit.errors.StopTaskException;
-import xyz.realms.mgit.transport.ssh.SgitTransportCallback;
-
 import org.eclipse.jgit.api.Git;
 import org.eclipse.jgit.api.PullCommand;
 import org.eclipse.jgit.api.RebaseCommand;
@@ -12,21 +7,31 @@ import org.eclipse.jgit.api.ResetCommand;
 import org.eclipse.jgit.api.errors.GitAPIException;
 import org.eclipse.jgit.api.errors.TransportException;
 
-public class PullTask extends RepoRemoteOpTask {
+import xyz.realms.mgit.R;
+import xyz.realms.mgit.database.Repo;
+import xyz.realms.mgit.errors.StopTaskException;
+import xyz.realms.mgit.tasks.MGitAsyncTask;
+import xyz.realms.mgit.tasks.RepoRemoteOpTask;
+import xyz.realms.mgit.transport.ssh.SgitTransportCallback;
+import xyz.realms.mgit.ui.RepoDetailActivity;
 
-    private final AsyncTaskCallback mCallback;
+public class PullTask extends RepoRemoteOpTask implements MGitAsyncTask.MGitAsyncCallBack {
+
+    private final RepoDetailActivity.ProgressCallback mCallback;
     private final String mRemote;
     private final boolean mForcePull;
 
-    public PullTask(Repo repo, String remote, boolean forcePull, AsyncTaskCallback callback) {
+    public PullTask(Repo repo, String remote, boolean forcePull,
+                    RepoDetailActivity.ProgressCallback callback) {
         super(repo);
+        mGitAsyncCallBack = this;
         mCallback = callback;
         mRemote = remote;
         mForcePull = forcePull;
     }
 
     @Override
-    protected Boolean doInBackground(Void... params) {
+    public boolean doInBackground(Void... params) {
         boolean result = pullRepo();
         if (mCallback != null) {
             result = mCallback.doInBackground(params) & result;
@@ -35,22 +40,21 @@ public class PullTask extends RepoRemoteOpTask {
     }
 
     @Override
-    protected void onProgressUpdate(String... progress) {
-        super.onProgressUpdate(progress);
+    public void onProgressUpdate(String... progress) {
         if (mCallback != null) {
             mCallback.onProgressUpdate(progress);
         }
     }
 
     @Override
-    protected void onPreExecute() {
-        super.onPreExecute();
+    public void onPreExecute() {
         if (mCallback != null) {
             mCallback.onPreExecute();
         }
     }
 
-    protected void onPostExecute(Boolean isSuccess) {
+    @Override
+    public void onPostExecute(Boolean isSuccess) {
         super.onPostExecute(isSuccess);
         if (mCallback != null) {
             mCallback.onPostExecute(isSuccess);
@@ -64,10 +68,8 @@ public class PullTask extends RepoRemoteOpTask {
         } catch (StopTaskException e) {
             return false;
         }
-        PullCommand pullCommand = git.pull()
-            .setRemote(mRemote)
-            .setProgressMonitor(new BasicProgressMonitor())
-            .setTransportConfigCallback(new SgitTransportCallback());
+        PullCommand pullCommand =
+            git.pull().setRemote(mRemote).setProgressMonitor(new BasicProgressMonitor()).setTransportConfigCallback(new SgitTransportCallback());
 
         setCredentials(pullCommand);
 
@@ -77,8 +79,7 @@ public class PullTask extends RepoRemoteOpTask {
                 branch = git.getRepository().getFullBranch();
                 if (!branch.startsWith("refs/heads/")) {
                     setException(new GitAPIException("not on branch") {
-                                 },
-                        R.string.error_pull_failed_not_on_branch);
+                    }, R.string.error_pull_failed_not_on_branch);
                     return false;
                 }
                 branch = branch.substring(11);
@@ -93,16 +94,14 @@ public class PullTask extends RepoRemoteOpTask {
                 } catch (Exception e) {
                 }
                 bpm.update(2);
-                git.reset().setMode(ResetCommand.ResetType.HARD)
-                    .setRef("HEAD").call();
+                git.reset().setMode(ResetCommand.ResetType.HARD).setRef("HEAD").call();
                 bpm.endTask();
             }
             pullCommand.call();
             if (mForcePull) {
                 BasicProgressMonitor bpm = new BasicProgressMonitor();
                 bpm.beginTask("resetting to " + mRemote + "/" + branch, 1);
-                git.reset().setMode(ResetCommand.ResetType.HARD)
-                    .setRef(mRemote + "/" + branch).call();
+                git.reset().setMode(ResetCommand.ResetType.HARD).setRef(mRemote + "/" + branch).call();
                 bpm.endTask();
             }
         } catch (TransportException e) {

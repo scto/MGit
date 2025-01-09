@@ -9,11 +9,11 @@ import android.widget.Button;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
-import xyz.realms.mgit.ui.SheimiFragmentActivity.OnBackClickListener;
 import xyz.realms.mgit.R;
-import xyz.realms.mgit.ui.CommitDiffActivity;
 import xyz.realms.mgit.database.Repo;
 import xyz.realms.mgit.tasks.repo.StatusTask;
+import xyz.realms.mgit.ui.CommitDiffActivity;
+import xyz.realms.mgit.ui.SheimiFragmentActivity.OnBackClickListener;
 
 /**
  * Created by sheimi on 8/5/13.
@@ -84,13 +84,10 @@ public class StatusFragment extends RepoDetailFragment {
             return;
         mLoadding.setVisibility(View.VISIBLE);
         mStatus.setVisibility(View.GONE);
-        StatusTask task = new StatusTask(mRepo, new StatusTask.GetStatusCallback() {
-            @Override
-            public void postStatus(String result) {
-                mStatus.setText(result);
-                mLoadding.setVisibility(View.GONE);
-                mStatus.setVisibility(View.VISIBLE);
-            }
+        StatusTask task = new StatusTask(mRepo, result -> {
+            mStatus.setText(result);
+            mLoadding.setVisibility(View.GONE);
+            mStatus.setVisibility(View.VISIBLE);
         });
         task.executeTask();
     }

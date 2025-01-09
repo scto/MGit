@@ -1,18 +1,25 @@
 package xyz.realms.mgit.tasks.repo;
 
-import xyz.realms.mgit.database.RepoContract;
-import xyz.realms.mgit.database.Repo;
-
 import org.eclipse.jgit.api.Git;
 
-public class InitLocalTask extends RepoOpTask {
+import xyz.realms.mgit.database.Repo;
+import xyz.realms.mgit.database.RepoContract;
+import xyz.realms.mgit.tasks.MGitAsyncTask;
+
+public class InitLocalTask extends MGitAsyncTask implements MGitAsyncTask.MGitAsyncCallBack {
 
     public InitLocalTask(Repo repo) {
         super(repo);
+        mGitAsyncCallBack = this;
     }
 
     @Override
-    protected Boolean doInBackground(Void... params) {
+    public void onPreExecute() {
+
+    }
+
+    @Override
+    public boolean doInBackground(Void... params) {
         boolean result = init();
         if (!result) {
             mRepo.deleteRepoSync();
@@ -21,7 +28,13 @@ public class InitLocalTask extends RepoOpTask {
         return true;
     }
 
-    protected void onPostExecute(Boolean isSuccess) {
+    @Override
+    public void onProgressUpdate(String... progress) {
+
+    }
+
+    @Override
+    public void onPostExecute(Boolean isSuccess) {
         super.onPostExecute(isSuccess);
         if (isSuccess) {
             mRepo.updateLatestCommitInfo();

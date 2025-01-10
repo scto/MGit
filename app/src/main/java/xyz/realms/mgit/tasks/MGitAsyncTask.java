@@ -24,6 +24,7 @@ public abstract class MGitAsyncTask {
     private int mSuccessMsg = 0;
     private boolean mIsCanceled = false;
     private CompletableFuture<Boolean> completableIsSuccessFuture;
+    private String[] values;
 
     public MGitAsyncTask(Repo repo) {
         mRepo = repo;
@@ -107,6 +108,9 @@ public abstract class MGitAsyncTask {
 
     public final CompletableFuture executeTask(Void... params) {
         if (mIsTaskAdded) {
+            if (this.values != null && this.values.length != 0 ) {
+                mGitAsyncCallBack.onProgressUpdate(values);
+            }
             mGitAsyncCallBack.onPreExecute();
             completableIsSuccessFuture =
                 CompletableFuture.supplyAsync(() -> mGitAsyncCallBack.doInBackground(params));
@@ -125,6 +129,10 @@ public abstract class MGitAsyncTask {
     public void cancelTask() {
         completableIsSuccessFuture.cancel(true);
         mIsCanceled = completableIsSuccessFuture.isCancelled();
+    }
+
+    protected final void publishProgress(String... values) {
+        this.values = values;
     }
 
     public interface MGitAsyncCallBack {
@@ -199,7 +207,7 @@ public abstract class MGitAsyncTask {
                 leftHint = progress + "%";
             }
 //            将进度传递从异步线程给主线程里面。
-//            publishProgress(msg, leftHint, rightHint, Integer.toString(progress));
+            publishProgress(msg, leftHint, rightHint, Integer.toString(progress));
 
         }
 

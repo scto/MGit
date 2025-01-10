@@ -9,20 +9,19 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ListView;
 
-import xyz.realms.mgit.ui.SheimiFragmentActivity;
-import xyz.realms.mgit.ui.SheimiFragmentActivity.OnBackClickListener;
-import xyz.realms.android.utils.FsUtils;
-import xyz.realms.mgit.R;
-import xyz.realms.mgit.ui.ViewFileActivity;
-import xyz.realms.mgit.ui.adapters.FilesListAdapter;
-import xyz.realms.mgit.database.Repo;
-import xyz.realms.mgit.ui.dialogs.RepoFileOperationDialog;
-
 import java.io.File;
 import java.io.FileFilter;
 import java.io.IOException;
 
 import timber.log.Timber;
+import xyz.realms.android.utils.FsUtils;
+import xyz.realms.mgit.R;
+import xyz.realms.mgit.database.Repo;
+import xyz.realms.mgit.ui.SheimiFragmentActivity;
+import xyz.realms.mgit.ui.SheimiFragmentActivity.OnBackClickListener;
+import xyz.realms.mgit.ui.ViewFileActivity;
+import xyz.realms.mgit.ui.adapters.FilesListAdapter;
+import xyz.realms.mgit.ui.dialogs.RepoFileOperationDialog;
 
 /**
  * Created by sheimi on 8/5/13.

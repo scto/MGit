@@ -13,13 +13,13 @@ import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 
-import xyz.realms.mgit.ui.fragments.SheimiDialogFragment;
 import xyz.realms.android.utils.Profile;
 import xyz.realms.mgit.R;
-import xyz.realms.mgit.ui.RepoDetailActivity;
 import xyz.realms.mgit.database.Repo;
 import xyz.realms.mgit.tasks.SheimiAsyncTask.AsyncTaskPostCallback;
 import xyz.realms.mgit.tasks.repo.RebaseTask;
+import xyz.realms.mgit.ui.RepoDetailActivity;
+import xyz.realms.mgit.ui.fragments.SheimiDialogFragment;
 
 public class RebaseAction extends RepoAction {
 

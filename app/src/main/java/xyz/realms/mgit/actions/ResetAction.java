@@ -3,10 +3,10 @@ package xyz.realms.mgit.actions;
 import android.content.DialogInterface;
 
 import xyz.realms.mgit.R;
-import xyz.realms.mgit.ui.RepoDetailActivity;
 import xyz.realms.mgit.database.Repo;
 import xyz.realms.mgit.tasks.SheimiAsyncTask.AsyncTaskPostCallback;
 import xyz.realms.mgit.tasks.repo.ResetCommitTask;
+import xyz.realms.mgit.ui.RepoDetailActivity;
 
 public class ResetAction extends RepoAction {
 

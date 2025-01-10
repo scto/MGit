@@ -6,11 +6,11 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 
-import xyz.realms.mgit.R;
-import xyz.realms.mgit.database.Repo;
-
 import java.io.File;
 import java.io.FileFilter;
+
+import xyz.realms.mgit.R;
+import xyz.realms.mgit.database.Repo;
 
 public class ExploreRootDirActivity extends FileExplorerActivity {
 

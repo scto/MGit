@@ -9,10 +9,10 @@ import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 
-import xyz.realms.mgit.ui.fragments.SheimiDialogFragment;
 import xyz.realms.mgit.R;
-import xyz.realms.mgit.ui.RepoDetailActivity;
 import xyz.realms.mgit.tasks.repo.UpdateIndexTask;
+import xyz.realms.mgit.ui.RepoDetailActivity;
+import xyz.realms.mgit.ui.fragments.SheimiDialogFragment;
 
 /**
  * Created by sheimi on 8/16/13.

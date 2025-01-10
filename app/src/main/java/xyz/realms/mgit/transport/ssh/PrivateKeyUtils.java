@@ -2,13 +2,14 @@ package xyz.realms.mgit.transport.ssh;
 
 import com.jcraft.jsch.JSch;
 import com.jcraft.jsch.KeyPair;
-import xyz.realms.android.utils.FsUtils;
 
 import org.apache.commons.io.FileUtils;
 
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+
+import xyz.realms.android.utils.FsUtils;
 
 public class PrivateKeyUtils {
     private PrivateKeyUtils() {

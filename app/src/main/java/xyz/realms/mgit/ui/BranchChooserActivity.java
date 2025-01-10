@@ -19,15 +19,15 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import org.eclipse.jgit.api.errors.CannotDeleteCurrentBranchException;
+import org.eclipse.jgit.api.errors.GitAPIException;
+
 import xyz.realms.mgit.R;
 import xyz.realms.mgit.database.Repo;
-import xyz.realms.mgit.ui.dialogs.RenameBranchDialog;
 import xyz.realms.mgit.errors.StopTaskException;
 import xyz.realms.mgit.tasks.SheimiAsyncTask;
 import xyz.realms.mgit.tasks.repo.CheckoutTask;
-
-import org.eclipse.jgit.api.errors.CannotDeleteCurrentBranchException;
-import org.eclipse.jgit.api.errors.GitAPIException;
+import xyz.realms.mgit.ui.dialogs.RenameBranchDialog;
 
 public class BranchChooserActivity extends SheimiFragmentActivity implements ActionMode.Callback {
     private static final String LOGTAG = BranchChooserActivity.class.getSimpleName();

@@ -18,13 +18,18 @@ import androidx.core.view.MenuItemCompat;
 import androidx.databinding.DataBindingUtil;
 import androidx.lifecycle.ViewModelProvider;
 
+import java.io.File;
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.util.List;
+
+import timber.log.Timber;
 import xyz.realms.android.MGitApplication;
 import xyz.realms.mgit.R;
 import xyz.realms.mgit.common.OnActionClickListener;
-import xyz.realms.mgit.database.RepoDbManager;
 import xyz.realms.mgit.database.Repo;
+import xyz.realms.mgit.database.RepoDbManager;
 import xyz.realms.mgit.databinding.ActivityMainBinding;
-import xyz.realms.mgit.ui.clone.CloneViewModel;
 import xyz.realms.mgit.tasks.repo.CloneTask;
 import xyz.realms.mgit.transport.MGitHttpConnectionFactory;
 import xyz.realms.mgit.transport.ssh.PrivateKeyUtils;
@@ -32,17 +37,11 @@ import xyz.realms.mgit.ui.RepoDetailActivity;
 import xyz.realms.mgit.ui.SheimiFragmentActivity;
 import xyz.realms.mgit.ui.UserSettingsActivity;
 import xyz.realms.mgit.ui.adapters.RepoListAdapter;
+import xyz.realms.mgit.ui.clone.CloneViewModel;
 import xyz.realms.mgit.ui.dialogs.DummyDialogListener;
 import xyz.realms.mgit.ui.dialogs.ImportLocalRepoDialog;
 import xyz.realms.mgit.ui.explorer.ExploreFileActivity;
 import xyz.realms.mgit.ui.explorer.ImportRepositoryActivity;
-
-import java.io.File;
-import java.net.MalformedURLException;
-import java.net.URL;
-import java.util.List;
-
-import timber.log.Timber;
 
 public class RepoListActivity extends SheimiFragmentActivity {
 

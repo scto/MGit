@@ -20,20 +20,20 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import xyz.realms.mgit.ui.SheimiFragmentActivity;
-import xyz.realms.android.utils.BasicFunctions;
-import xyz.realms.mgit.R;
-import xyz.realms.mgit.ui.RepoDetailActivity;
-import xyz.realms.mgit.ui.repolist.RepoListActivity;
-import xyz.realms.mgit.database.RepoContract;
-import xyz.realms.mgit.database.RepoDbManager;
-import xyz.realms.mgit.database.Repo;
-
 import java.text.DateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
+
+import xyz.realms.android.utils.BasicFunctions;
+import xyz.realms.mgit.R;
+import xyz.realms.mgit.database.Repo;
+import xyz.realms.mgit.database.RepoContract;
+import xyz.realms.mgit.database.RepoDbManager;
+import xyz.realms.mgit.ui.RepoDetailActivity;
+import xyz.realms.mgit.ui.SheimiFragmentActivity;
+import xyz.realms.mgit.ui.repolist.RepoListActivity;
 
 /**
  * Created by sheimi on 8/6/13.

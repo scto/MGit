@@ -1,11 +1,11 @@
 package xyz.realms.mgit.actions;
 
-import xyz.realms.mgit.ui.SheimiFragmentActivity.OnEditTextDialogClicked;
 import xyz.realms.mgit.R;
-import xyz.realms.mgit.ui.RepoDetailActivity;
 import xyz.realms.mgit.database.Repo;
 import xyz.realms.mgit.tasks.SheimiAsyncTask.AsyncTaskPostCallback;
 import xyz.realms.mgit.tasks.repo.CherryPickTask;
+import xyz.realms.mgit.ui.RepoDetailActivity;
+import xyz.realms.mgit.ui.SheimiFragmentActivity.OnEditTextDialogClicked;
 
 public class CherryPickAction extends RepoAction {
 

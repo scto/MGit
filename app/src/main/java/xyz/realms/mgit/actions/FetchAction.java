@@ -4,13 +4,13 @@ import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.DialogInterface;
 
-import xyz.realms.mgit.R;
-import xyz.realms.mgit.ui.RepoDetailActivity;
-import xyz.realms.mgit.database.Repo;
-import xyz.realms.mgit.ui.dialogs.DummyDialogListener;
-import xyz.realms.mgit.tasks.repo.FetchTask;
-
 import java.util.ArrayList;
+
+import xyz.realms.mgit.R;
+import xyz.realms.mgit.database.Repo;
+import xyz.realms.mgit.tasks.repo.FetchTask;
+import xyz.realms.mgit.ui.RepoDetailActivity;
+import xyz.realms.mgit.ui.dialogs.DummyDialogListener;
 
 public class FetchAction extends RepoAction {
     public FetchAction(Repo repo, RepoDetailActivity activity) {

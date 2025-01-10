@@ -8,15 +8,15 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 
-import xyz.realms.mgit.ui.fragments.SheimiDialogFragment;
-import xyz.realms.android.preference.PreferenceHelper;
+import java.io.File;
+
 import xyz.realms.android.MGitApplication;
+import xyz.realms.android.preference.PreferenceHelper;
 import xyz.realms.mgit.R;
-import xyz.realms.mgit.ui.repolist.RepoListActivity;
 import xyz.realms.mgit.database.Repo;
 import xyz.realms.mgit.tasks.repo.InitLocalTask;
-
-import java.io.File;
+import xyz.realms.mgit.ui.fragments.SheimiDialogFragment;
+import xyz.realms.mgit.ui.repolist.RepoListActivity;
 
 /**
  * Created by sheimi on 8/24/13.

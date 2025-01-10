@@ -3,12 +3,6 @@ package xyz.realms.android
 import android.annotation.SuppressLint
 import android.app.Application
 import android.content.Context
-import xyz.realms.android.preference.PreferenceHelper
-import xyz.realms.android.utils.SecurePrefsHelper
-import xyz.realms.mgit.R
-import xyz.realms.mgit.errors.SecurePrefsException
-import xyz.realms.mgit.transport.AndroidJschCredentialsProvider
-import xyz.realms.mgit.transport.MGitHttpConnectionFactory
 import org.acra.config.dialog
 import org.acra.config.mailSender
 import org.acra.data.StringFormat
@@ -18,6 +12,12 @@ import org.conscrypt.BuildConfig
 import org.conscrypt.Conscrypt
 import org.eclipse.jgit.transport.CredentialsProvider
 import timber.log.Timber
+import xyz.realms.android.preference.PreferenceHelper
+import xyz.realms.android.utils.SecurePrefsHelper
+import xyz.realms.mgit.R
+import xyz.realms.mgit.errors.SecurePrefsException
+import xyz.realms.mgit.transport.AndroidJschCredentialsProvider
+import xyz.realms.mgit.transport.MGitHttpConnectionFactory
 import java.security.Security
 
 /**

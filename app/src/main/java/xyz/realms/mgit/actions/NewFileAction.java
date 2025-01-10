@@ -1,13 +1,12 @@
 package xyz.realms.mgit.actions;
 
-import xyz.realms.mgit.ui.SheimiFragmentActivity.OnEditTextDialogClicked;
-import xyz.realms.mgit.R;
-import xyz.realms.mgit.ui.RepoDetailActivity;
-import xyz.realms.mgit.database.Repo;
-
 import java.io.IOException;
 
 import timber.log.Timber;
+import xyz.realms.mgit.R;
+import xyz.realms.mgit.database.Repo;
+import xyz.realms.mgit.ui.RepoDetailActivity;
+import xyz.realms.mgit.ui.SheimiFragmentActivity.OnEditTextDialogClicked;
 
 public class NewFileAction extends RepoAction {
 

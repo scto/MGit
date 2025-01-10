@@ -1,12 +1,11 @@
 package xyz.realms.mgit.database;
 
-import xyz.realms.mgit.errors.StopTaskException;
-
 import org.eclipse.jgit.lib.StoredConfig;
 
 import java.io.IOException;
 
 import timber.log.Timber;
+import xyz.realms.mgit.errors.StopTaskException;
 
 /**
  * Model for Git configuration

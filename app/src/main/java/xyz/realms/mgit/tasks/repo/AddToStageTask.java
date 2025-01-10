@@ -1,9 +1,6 @@
 package xyz.realms.mgit.tasks.repo;
 
-import android.app.Dialog;
-
 import xyz.realms.mgit.R;
-import xyz.realms.mgit.ui.RepoDetailActivity;
 import xyz.realms.mgit.database.Repo;
 import xyz.realms.mgit.errors.StopTaskException;
 
@@ -11,12 +8,11 @@ public class AddToStageTask extends RepoOpTask {
 
     public String mFilePattern;
     private AsyncTaskPostCallback mCallback;
-    private final Dialog mDialog;
 
-    public AddToStageTask(Repo repo, String filePattern, RepoDetailActivity activity) {
+    public AddToStageTask(Repo repo, String filePattern, AsyncTaskPostCallback callback) {
         super(repo);
         mFilePattern = filePattern;
-        mDialog = activity.showProgressDialog();
+        mCallback = callback;
         setSuccessMsg(R.string.success_add_to_stage);
     }
 
@@ -42,7 +38,6 @@ public class AddToStageTask extends RepoOpTask {
             mRepo.getGit().add().addFilepattern(mFilePattern).setRenormalize(false).call();
             //add modified/deleted files
             mRepo.getGit().add().setUpdate(true).addFilepattern(mFilePattern).setRenormalize(false).call();
-            mDialog.dismiss();
         } catch (StopTaskException e) {
             return false;
         } catch (Throwable e) {

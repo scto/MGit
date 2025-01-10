@@ -6,8 +6,6 @@ import androidx.annotation.NonNull;
 import androidx.annotation.StringRes;
 
 import com.nostra13.universalimageloader.core.ImageLoader;
-import xyz.realms.mgit.ui.SheimiFragmentActivity;
-import xyz.realms.mgit.ui.dialogs.ErrorDialog;
 
 import org.jetbrains.annotations.NotNull;
 
@@ -15,6 +13,8 @@ import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
 import timber.log.Timber;
+import xyz.realms.mgit.ui.SheimiFragmentActivity;
+import xyz.realms.mgit.ui.dialogs.ErrorDialog;
 
 /**
  * Created by sheimi on 8/19/13.

@@ -1,7 +1,11 @@
 package xyz.realms.mgit.actions;
 
+import org.eclipse.jgit.lib.Ref;
+
+import java.io.File;
+import java.util.ArrayList;
+
 import xyz.realms.android.utils.FsUtils;
-import xyz.realms.mgit.ui.RepoDetailActivity;
 import xyz.realms.mgit.database.Repo;
 import xyz.realms.mgit.tasks.SheimiAsyncTask.AsyncTaskPostCallback;
 import xyz.realms.mgit.tasks.repo.AddToStageTask;
@@ -10,11 +14,7 @@ import xyz.realms.mgit.tasks.repo.CheckoutTask;
 import xyz.realms.mgit.tasks.repo.DeleteFileFromRepoTask;
 import xyz.realms.mgit.tasks.repo.MergeTask;
 import xyz.realms.mgit.tasks.repo.UpdateIndexTask;
-
-import org.eclipse.jgit.lib.Ref;
-
-import java.io.File;
-import java.util.ArrayList;
+import xyz.realms.mgit.ui.RepoDetailActivity;
 
 public class RepoOperationDelegate {
     private final Repo mRepo;
@@ -93,7 +93,7 @@ public class RepoOperationDelegate {
 
     public void addToStage(String filepath) {
         String relative = getRelativePath(filepath);
-        AddToStageTask addToStageTask = new AddToStageTask(mRepo, relative, mActivity);
+        AddToStageTask addToStageTask = new AddToStageTask(mRepo, relative, null);
         addToStageTask.executeTask();
     }
 

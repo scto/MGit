@@ -13,6 +13,7 @@
         android:layout_margin="@dimen/general_vertical_margin"
         android:hint="@string/dialog_create_branch_hint"
         android:imeOptions="actionDone"
+        android:minHeight="48dp"
         android:singleLine="true"
         android:textSize="@dimen/general_dialog_text_size" />
 </LinearLayout>

@@ -10,7 +10,7 @@
 
         <import type="xyz.realms.mgit.ui.explorer.RepoListActivity" />
 
-        <import type="xyz.realms.mgit.ui.explorer.RepoListActivity" />
+        <import type="xyz.realms.mgit.ui.explorer.RepoListActivity.ClickActions" />
 
         <variable
             name="viewModel"
@@ -59,6 +59,7 @@
                     android:hint="@string/label_remote_url"
                     android:imeOptions="actionNext"
                     android:inputType="textUri"
+                    android:minHeight="48dp"
                     android:singleLine="true"
                     android:text="@={viewModel.remoteUrl}"
                     android:textSize="@dimen/general_dialog_text_size" />
@@ -78,6 +79,7 @@
                     android:hint="@string/dialog_clone_local_path_hint"
                     android:imeOptions="actionNext"
                     android:inputType="textNoSuggestions"
+                    android:minHeight="48dp"
                     android:singleLine="true"
                     android:text="@={viewModel.localRepoName}"
                     android:textSize="@dimen/general_dialog_text_size" />
@@ -88,6 +90,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:checked="@={viewModel.initLocal}"
+                android:minHeight="48dp"
                 android:text="@string/dialog_clone_neutral_label"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/cloneViewForm" />
@@ -98,6 +101,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="left|center_vertical"
                 android:checked="@={viewModel.cloneRecursively}"
+                android:minHeight="48dp"
                 android:text="@string/dialog_clone_recursive"
                 android:visibility="@{viewModel.initLocal ? View.GONE : View.VISIBLE}" />
 

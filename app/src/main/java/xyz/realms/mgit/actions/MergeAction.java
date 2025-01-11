@@ -7,7 +7,6 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.CheckBox;
 import android.widget.ImageView;
@@ -71,26 +70,18 @@ public class MergeAction extends RepoAction {
             List<Ref> branches = mRepo.getLocalBranches();
             String currentBranchDisplayName = mRepo.getCurrentDisplayName();
             for (Ref branch : branches) {
-                if (Repo.getCommitDisplayName(branch.getName()).equals(
-                    currentBranchDisplayName))
+                if (Repo.getCommitDisplayName(branch.getName()).equals(currentBranchDisplayName))
                     continue;
                 mAdapter.add(branch);
             }
 
             builder.setTitle(R.string.dialog_merge_title);
-            mBranchTagList
-                .setOnItemClickListener(new AdapterView.OnItemClickListener() {
-                    @Override
-                    public void onItemClick(AdapterView<?> adapterView,
-                                            View view, int position, long id) {
-                        Ref commit = mAdapter.getItem(position);
-                        String mFFString = mSpinner.getSelectedItem()
-                            .toString();
-                        mActivity.getRepoDelegate().mergeBranch(commit,
-                            mFFString, mCheckbox.isChecked());
-                        getDialog().cancel();
-                    }
-                });
+            mBranchTagList.setOnItemClickListener((adapterView, view, position, id) -> {
+                Ref commit = mAdapter.getItem(position);
+                String mFFString = mSpinner.getSelectedItem().toString();
+                mActivity.getRepoDelegate().mergeBranch(commit, mFFString, mCheckbox.isChecked());
+                getDialog().cancel();
+            });
 
             return builder.create();
         }
@@ -106,14 +97,11 @@ public class MergeAction extends RepoAction {
                 LayoutInflater inflater = LayoutInflater.from(getContext());
                 ListItemHolder holder;
                 if (convertView == null) {
-                    convertView = inflater.inflate(
-                        R.layout.listitem_dialog_choose_commit, parent,
-                        false);
+                    convertView = inflater.inflate(R.layout.listitem_dialog_choose_commit, parent
+                        , false);
                     holder = new ListItemHolder();
-                    holder.commitTitle = convertView
-                        .findViewById(R.id.commitTitle);
-                    holder.commitIcon = convertView
-                        .findViewById(R.id.commitIcon);
+                    holder.commitTitle = convertView.findViewById(R.id.commitTitle);
+                    holder.commitIcon = convertView.findViewById(R.id.commitIcon);
                     convertView.setTag(holder);
                 } else {
                     holder = (ListItemHolder) convertView.getTag();
@@ -123,11 +111,12 @@ public class MergeAction extends RepoAction {
                 int commitType = Repo.getCommitType(commitName);
                 switch (commitType) {
                     case Repo.COMMIT_TYPE_HEAD:
-                        holder.commitIcon
-                            .setImageResource(Profile.getStyledResource(getContext(), R.attr.ic_branch_l));
+                        holder.commitIcon.setImageResource(Profile.getStyledResource(getContext()
+                            , R.attr.ic_branch_l));
                         break;
                     case Repo.COMMIT_TYPE_TAG:
-                        holder.commitIcon.setImageResource(Profile.getStyledResource(getContext(), R.attr.ic_tag_l));
+                        holder.commitIcon.setImageResource(Profile.getStyledResource(getContext()
+                            , R.attr.ic_tag_l));
                         break;
                 }
                 holder.commitTitle.setText(displayName);

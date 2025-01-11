@@ -33,7 +33,6 @@ public class RepoOperationDelegate {
         mActions.add(new PushAction(mRepo, mActivity));
         mActions.add(new AddAllAction(mRepo, mActivity));
         mActions.add(new CommitAction(mRepo, mActivity));
-        mActions.add(new CommitPushAction(mRepo, mActivity));
         mActions.add(new UndoAction(mRepo, mActivity));
         mActions.add(new ResetAction(mRepo, mActivity));
         mActions.add(new MergeAction(mRepo, mActivity));
@@ -52,14 +51,13 @@ public class RepoOperationDelegate {
 
     public void executeAction(int key) {
         RepoAction action = mActions.get(key);
-        if (action == null)
-            return;
+        if (action == null) return;
         action.execute();
     }
 
     public void checkoutCommit(final String commitName) {
-        CheckoutTask checkoutTask = new CheckoutTask(mRepo, commitName,
-            null, new AsyncTaskPostCallback() {
+        CheckoutTask checkoutTask = new CheckoutTask(mRepo, commitName, null,
+            new AsyncTaskPostCallback() {
             @Override
             public void onPostExecute(Boolean isSuccess) {
                 mActivity.reset(commitName);
@@ -71,18 +69,17 @@ public class RepoOperationDelegate {
     public void checkoutCommit(final String commitName, final String branch) {
         CheckoutTask checkoutTask = new CheckoutTask(mRepo, commitName, branch,
             new AsyncTaskPostCallback() {
-                @Override
-                public void onPostExecute(Boolean isSuccess) {
-                    mActivity.reset(branch);
-                }
-            });
+            @Override
+            public void onPostExecute(Boolean isSuccess) {
+                mActivity.reset(branch);
+            }
+        });
         checkoutTask.executeTask();
     }
 
-    public void mergeBranch(final Ref commit, final String ffModeStr,
-                            final boolean autoCommit) {
-        MergeTask mergeTask = new MergeTask(mRepo, commit, ffModeStr,
-            autoCommit, new AsyncTaskPostCallback() {
+    public void mergeBranch(final Ref commit, final String ffModeStr, final boolean autoCommit) {
+        MergeTask mergeTask = new MergeTask(mRepo, commit, ffModeStr, autoCommit,
+            new AsyncTaskPostCallback() {
             @Override
             public void onPostExecute(Boolean isSuccess) {
                 mActivity.reset();
@@ -103,10 +100,11 @@ public class RepoOperationDelegate {
         task.executeTask();
     }
 
-    public void deleteFileFromRepo(String filepath, DeleteFileFromRepoTask.DeleteOperationType deleteOperationType) {
+    public void deleteFileFromRepo(String filepath,
+                                   DeleteFileFromRepoTask.DeleteOperationType deleteOperationType) {
         String relative = getRelativePath(filepath);
-        DeleteFileFromRepoTask task = new DeleteFileFromRepoTask(mRepo,
-            relative, deleteOperationType, new AsyncTaskPostCallback() {
+        DeleteFileFromRepoTask task = new DeleteFileFromRepoTask(mRepo, relative,
+            deleteOperationType, new AsyncTaskPostCallback() {
             @Override
             public void onPostExecute(Boolean isSuccess) {
                 // TODO Auto-generated method stub
@@ -126,5 +124,9 @@ public class RepoOperationDelegate {
         String relative = getRelativePath(mFilePath);
         UpdateIndexTask task = new UpdateIndexTask(mRepo, relative, newMode);
         task.executeTask();
+    }
+
+    interface ActionCallBack {
+        void onPostExecute(Boolean isSuccess);
     }
 }

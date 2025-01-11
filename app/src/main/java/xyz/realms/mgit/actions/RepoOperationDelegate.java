@@ -125,8 +125,4 @@ public class RepoOperationDelegate {
         UpdateIndexTask task = new UpdateIndexTask(mRepo, relative, newMode);
         task.executeTask();
     }
-
-    interface ActionCallBack {
-        void onPostExecute(Boolean isSuccess);
-    }
 }

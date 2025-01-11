@@ -35,16 +35,9 @@ import xyz.realms.mgit.ui.explorer.RepoDetailActivity;
 import xyz.realms.mgit.ui.dialogs.DummyDialogListener;
 
 public class CommitAction extends RepoAction {
-    private RepoOperationDelegate.ActionCallBack mActionCallBack;
 
     public CommitAction(Repo repo, RepoDetailActivity activity) {
         super(repo, activity);
-    }
-
-    public CommitAction(Repo repo, RepoDetailActivity activity,
-                        RepoOperationDelegate.ActionCallBack actionCallBack) {
-        super(repo, activity);
-        mActionCallBack = actionCallBack;
     }
 
     @Override
@@ -68,10 +61,8 @@ public class CommitAction extends RepoAction {
             // 检查是否有更改
             if (status.hasUncommittedChanges()) {
                 commit();
-                mActionCallBack.onPostExecute(true);
             } else {
                 mActivity.showToastMessage(R.string.alert_uncommitted_changes);
-                mActionCallBack.onPostExecute(false);
             }
         } catch (StopTaskException | GitAPIException e) {
             throw new RuntimeException(e);

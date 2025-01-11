@@ -10,6 +10,8 @@ import org.eclipse.jgit.lib.ProgressMonitor;
 import org.eclipse.jgit.transport.UsernamePasswordCredentialsProvider;
 
 import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 import timber.log.Timber;
 import xyz.realms.android.utils.BasicFunctions;
@@ -27,6 +29,7 @@ public abstract class MGitAsyncTask {
     private boolean mIsCanceled = false;
     private CompletableFuture<Void> completableExecuteTaskFuture;
     private String[] values;
+//    private final ExecutorService executorService = Executors.newSingleThreadExecutor();
 
     public MGitAsyncTask(Repo repo) {
         mRepo = repo;
@@ -109,6 +112,8 @@ public abstract class MGitAsyncTask {
     }
 
     public final CompletableFuture executeTask(Void... params) {
+        // https://www.jianshu.com/p/37502bbbb25a
+        // https://www.jianshu.com/p/ba309c0cf533
         if (mIsTaskAdded) {
             mGitAsyncCallBack.onPreExecute();
             completableExecuteTaskFuture = CompletableFuture.runAsync(() -> {
@@ -128,8 +133,10 @@ public abstract class MGitAsyncTask {
     }
 
     public void cancelTask() {
-        completableExecuteTaskFuture.cancel(false);
-        mIsCanceled = completableExecuteTaskFuture.isCancelled();
+        if (!completableExecuteTaskFuture.isCancelled()) {
+            completableExecuteTaskFuture.cancel(false);
+            mIsCanceled = completableExecuteTaskFuture.isCancelled();
+        }
     }
 
     protected final void publishProgress(String... values) {

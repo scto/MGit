@@ -15,7 +15,7 @@ import xyz.realms.mgit.tasks.MGitAsyncTask;
 
 public class CommitChangesTask extends MGitAsyncTask implements MGitAsyncTask.MGitAsyncCallBack {
 
-    private final MGitAsyncPostCallBack mCallback;
+    private final MGitPostCallBack mCallback;
     private final String mCommitMsg;
     private final String mAuthorName;
     private final String mAuthorEmail;
@@ -24,7 +24,7 @@ public class CommitChangesTask extends MGitAsyncTask implements MGitAsyncTask.MG
 
     public CommitChangesTask(Repo repo, String commitMsg, boolean isAmend, boolean stageAll,
                              String authorName, String authorEmail,
-                             MGitAsyncPostCallBack callback) {
+                             MGitPostCallBack callback) {
         super(repo);
         mGitAsyncCallBack = this;
         mCallback = callback;

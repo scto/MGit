@@ -9,10 +9,10 @@ import xyz.realms.mgit.tasks.MGitAsyncTask;
 
 public class CherryPickTask extends MGitAsyncTask implements MGitAsyncTask.MGitAsyncCallBack {
 
-    private final MGitAsyncPostCallBack mCallback;
+    private final MGitPostCallBack mCallback;
     public String mCommitStr;
 
-    public CherryPickTask(Repo repo, String commit, MGitAsyncPostCallBack callback) {
+    public CherryPickTask(Repo repo, String commit, MGitPostCallBack callback) {
         super(repo);
         mGitAsyncCallBack = this;
         mCommitStr = commit;

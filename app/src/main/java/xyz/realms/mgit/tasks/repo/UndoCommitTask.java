@@ -9,9 +9,9 @@ import xyz.realms.mgit.tasks.MGitAsyncTask;
 
 public class UndoCommitTask extends MGitAsyncTask implements MGitAsyncTask.MGitAsyncCallBack {
 
-    private final MGitAsyncPostCallBack mCallback;
+    private final MGitPostCallBack mCallback;
 
-    public UndoCommitTask(Repo repo, MGitAsyncPostCallBack callback) {
+    public UndoCommitTask(Repo repo, MGitPostCallBack callback) {
         super(repo);
         mGitAsyncCallBack = this;
         mCallback = callback;

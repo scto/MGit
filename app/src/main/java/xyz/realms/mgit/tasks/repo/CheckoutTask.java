@@ -10,11 +10,11 @@ import xyz.realms.mgit.tasks.MGitAsyncTask;
 
 public class CheckoutTask extends MGitAsyncTask implements MGitAsyncTask.MGitAsyncCallBack {
 
-    private final MGitAsyncPostCallBack mCallback;
+    private final MGitPostCallBack mCallback;
     private final String mCommitName;
     private final String mBranch;
 
-    public CheckoutTask(Repo repo, String name, String branch, MGitAsyncPostCallBack callback) {
+    public CheckoutTask(Repo repo, String name, String branch, MGitPostCallBack callback) {
         super(repo);
         mGitAsyncCallBack = this;
         mCallback = callback;

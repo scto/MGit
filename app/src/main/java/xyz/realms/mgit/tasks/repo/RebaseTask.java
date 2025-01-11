@@ -7,10 +7,10 @@ import xyz.realms.mgit.tasks.MGitAsyncTask;
 
 public class RebaseTask extends MGitAsyncTask implements MGitAsyncTask.MGitAsyncCallBack {
 
-    private final MGitAsyncPostCallBack mCallback;
+    private final MGitPostCallBack mCallback;
     public String mUpstream;
 
-    public RebaseTask(Repo repo, String upstream, MGitAsyncPostCallBack callback) {
+    public RebaseTask(Repo repo, String upstream, MGitPostCallBack callback) {
         super(repo);
         mGitAsyncCallBack = this;
         mUpstream = upstream;

@@ -12,11 +12,11 @@ public class DeleteFileFromRepoTask extends MGitAsyncTask implements MGitAsyncTa
 
     private final DeleteOperationType mOperationType;
     public String mFilePattern;
-    public MGitAsyncPostCallBack mCallback;
+    public MGitPostCallBack mCallback;
 
     public DeleteFileFromRepoTask(Repo repo, String filepattern,
                                   DeleteOperationType deleteOperationType,
-                                  MGitAsyncPostCallBack callback) {
+                                  MGitPostCallBack callback) {
         super(repo);
         mGitAsyncCallBack = this;
         mFilePattern = filepattern;

@@ -1,5 +1,8 @@
 package xyz.realms.mgit.tasks;
 
+import android.os.Handler;
+import android.os.Looper;
+
 import androidx.annotation.StringRes;
 
 import org.eclipse.jgit.api.TransportCommand;
@@ -7,7 +10,6 @@ import org.eclipse.jgit.lib.ProgressMonitor;
 import org.eclipse.jgit.transport.UsernamePasswordCredentialsProvider;
 
 import java.util.concurrent.CompletableFuture;
-import java.util.concurrent.ExecutionException;
 
 import timber.log.Timber;
 import xyz.realms.android.utils.BasicFunctions;
@@ -23,7 +25,7 @@ public abstract class MGitAsyncTask {
     protected boolean mIsTaskAdded;
     private int mSuccessMsg = 0;
     private boolean mIsCanceled = false;
-    private CompletableFuture<Boolean> completableIsSuccessFuture;
+    private CompletableFuture<Void> completableExecuteTaskFuture;
     private String[] values;
 
     public MGitAsyncTask(Repo repo) {
@@ -108,31 +110,34 @@ public abstract class MGitAsyncTask {
 
     public final CompletableFuture executeTask(Void... params) {
         if (mIsTaskAdded) {
-            if (this.values != null && this.values.length != 0 ) {
-                mGitAsyncCallBack.onProgressUpdate(values);
-            }
             mGitAsyncCallBack.onPreExecute();
-            completableIsSuccessFuture =
-                CompletableFuture.supplyAsync(() -> mGitAsyncCallBack.doInBackground(params));
-            try {
-                boolean isSuccess = completableIsSuccessFuture.get();
-                mGitAsyncCallBack.onPostExecute(isSuccess);
-                return completableIsSuccessFuture;
-            } catch (ExecutionException | InterruptedException e) {
-                e.printStackTrace();
-            }
+            completableExecuteTaskFuture = CompletableFuture.runAsync(() -> {
+                boolean isSuccess = mGitAsyncCallBack.doInBackground(params);
+                Handler uiThread = new Handler(Looper.getMainLooper());
+                uiThread.post(() -> {
+                    mGitAsyncCallBack.onPostExecute(isSuccess);
+                    if (this.values != null && this.values.length != 0) {
+                        mGitAsyncCallBack.onProgressUpdate(values);
+                    }
+                });
+            });
+            return completableExecuteTaskFuture;
         }
         BasicFunctions.getActiveActivity().showToastMessage(R.string.error_task_running);
-        return completableIsSuccessFuture;
+        return completableExecuteTaskFuture;
     }
 
     public void cancelTask() {
-        completableIsSuccessFuture.cancel(true);
-        mIsCanceled = completableIsSuccessFuture.isCancelled();
+        completableExecuteTaskFuture.cancel(false);
+        mIsCanceled = completableExecuteTaskFuture.isCancelled();
     }
 
     protected final void publishProgress(String... values) {
-        this.values = values;
+        // 从异步线程doInBackground中调用，回到主线程执行。
+        Handler uiThread = new Handler(Looper.getMainLooper());
+        uiThread.post(() -> {
+            this.values = values;
+        });
     }
 
     public interface MGitAsyncCallBack {
@@ -145,7 +150,7 @@ public abstract class MGitAsyncTask {
         void onPostExecute(Boolean isSuccess);
     }
 
-    public interface MGitAsyncPostCallBack {
+    public interface MGitPostCallBack {
         void onPostExecute(Boolean isSuccess);
     }
 
@@ -182,9 +187,7 @@ public abstract class MGitAsyncTask {
 
         @Override
         public void endTask() {
-
         }
-
 
         @Override
         public boolean isCancelled() {
@@ -206,10 +209,8 @@ public abstract class MGitAsyncTask {
                 rightHint = showedWorkDown + "/" + mTotalWork;
                 leftHint = progress + "%";
             }
-//            将进度传递从异步线程给主线程里面。
+            //  将进度传递从异步线程给主线程里面。
             publishProgress(msg, leftHint, rightHint, Integer.toString(progress));
-
         }
-
     }
 }

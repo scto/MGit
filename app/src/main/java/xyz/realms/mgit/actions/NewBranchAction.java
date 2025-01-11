@@ -25,7 +25,7 @@ public class NewBranchAction extends RepoAction {
         mActivity.closeOperationDrawer();
     }
 
-    private class ActivityResetPostCallback implements MGitAsyncTask.MGitAsyncPostCallBack {
+    private class ActivityResetPostCallback implements MGitAsyncTask.MGitPostCallBack {
         private final String mBranchName;
 
         public ActivityResetPostCallback(String branchName) {

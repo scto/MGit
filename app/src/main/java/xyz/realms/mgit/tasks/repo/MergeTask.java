@@ -12,13 +12,13 @@ import xyz.realms.mgit.tasks.MGitAsyncTask;
 
 public class MergeTask extends MGitAsyncTask implements MGitAsyncTask.MGitAsyncCallBack {
 
-    private final MGitAsyncPostCallBack mCallback;
+    private final MGitPostCallBack mCallback;
     private final Ref mCommit;
     private final String mFFModeStr;
     private final boolean mAutoCommit;
 
     public MergeTask(Repo repo, Ref commit, String ffModeStr, boolean autoCommit,
-                     MGitAsyncPostCallBack callback) {
+                     MGitPostCallBack callback) {
         super(repo);
         mGitAsyncCallBack = this;
         mCallback = callback;

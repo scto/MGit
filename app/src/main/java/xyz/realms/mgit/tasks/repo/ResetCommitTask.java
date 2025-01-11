@@ -12,9 +12,9 @@ import xyz.realms.mgit.tasks.MGitAsyncTask;
 
 public class ResetCommitTask extends MGitAsyncTask implements MGitAsyncTask.MGitAsyncCallBack {
 
-    private final MGitAsyncPostCallBack mCallback;
+    private final MGitPostCallBack mCallback;
 
-    public ResetCommitTask(Repo repo, MGitAsyncPostCallBack callback) {
+    public ResetCommitTask(Repo repo, MGitPostCallBack callback) {
         super(repo);
         mGitAsyncCallBack = this;
         mCallback = callback;

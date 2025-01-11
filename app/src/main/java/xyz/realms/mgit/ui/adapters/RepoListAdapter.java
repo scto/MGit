@@ -149,7 +149,7 @@ public class RepoListAdapter extends ArrayAdapter<Repo> implements
     }
 
     @Override
-    public void nofityChanged() {
+    public void notifyChanged() {
         mActivity.runOnUiThread(new Runnable() {
             @Override
             public void run() {

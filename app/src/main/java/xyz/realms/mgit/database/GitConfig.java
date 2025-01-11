@@ -47,7 +47,7 @@ public class GitConfig {
     }
 
     private void setSubsection(String subsection, String value) {
-        if (value == null || value.equals("")) {
+        if (value == null || value.isEmpty()) {
             mConfig.unset(USER_SECTION, null, subsection);
         } else {
             mConfig.setString(USER_SECTION, null, subsection, value);

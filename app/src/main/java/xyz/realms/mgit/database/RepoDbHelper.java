@@ -19,32 +19,31 @@ public class RepoDbHelper extends SQLiteOpenHelper {
     }
 
     public static String addSlashes(String text) {
-        final StringBuffer sb = new StringBuffer(text.length() * 2);
-        final StringCharacterIterator iterator = new StringCharacterIterator(
-            text);
+        final StringBuilder stringBuilder = new StringBuilder(text.length() * 2);
+        final StringCharacterIterator iterator = new StringCharacterIterator(text);
 
         char character = iterator.current();
 
         while (character != StringCharacterIterator.DONE) {
             if (character == '"')
-                sb.append("\\\"");
+                stringBuilder.append("\\\"");
             else if (character == '\'')
-                sb.append("''");
+                stringBuilder.append("''");
             else if (character == '\\')
-                sb.append("\\\\");
+                stringBuilder.append("\\\\");
             else if (character == '\n')
-                sb.append("\\n");
+                stringBuilder.append("\\n");
             else if (character == '{')
-                sb.append("\\{");
+                stringBuilder.append("\\{");
             else if (character == '}')
-                sb.append("\\}");
+                stringBuilder.append("\\}");
             else
-                sb.append(character);
+                stringBuilder.append(character);
 
             character = iterator.next();
         }
 
-        return sb.toString();
+        return stringBuilder.toString();
     }
 
     @Override

@@ -31,7 +31,7 @@ import xyz.realms.mgit.R;
 import xyz.realms.mgit.database.Repo;
 import xyz.realms.mgit.errors.StopTaskException;
 import xyz.realms.mgit.tasks.repo.CommitChangesTask;
-import xyz.realms.mgit.ui.RepoDetailActivity;
+import xyz.realms.mgit.ui.explorer.RepoDetailActivity;
 import xyz.realms.mgit.ui.dialogs.DummyDialogListener;
 
 public class CommitAction extends RepoAction {

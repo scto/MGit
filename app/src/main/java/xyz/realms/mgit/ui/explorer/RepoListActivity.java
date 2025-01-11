@@ -1,4 +1,4 @@
-package xyz.realms.mgit.ui.repolist;
+package xyz.realms.mgit.ui.explorer;
 
 import android.Manifest;
 import android.app.Activity;
@@ -33,15 +33,12 @@ import xyz.realms.mgit.databinding.ActivityMainBinding;
 import xyz.realms.mgit.tasks.repo.CloneTask;
 import xyz.realms.mgit.transport.MGitHttpConnectionFactory;
 import xyz.realms.mgit.transport.ssh.PrivateKeyUtils;
-import xyz.realms.mgit.ui.RepoDetailActivity;
 import xyz.realms.mgit.ui.SheimiFragmentActivity;
-import xyz.realms.mgit.ui.UserSettingsActivity;
 import xyz.realms.mgit.ui.adapters.RepoListAdapter;
-import xyz.realms.mgit.ui.clone.CloneViewModel;
+import xyz.realms.mgit.ui.vmodel.CloneViewModel;
 import xyz.realms.mgit.ui.dialogs.DummyDialogListener;
 import xyz.realms.mgit.ui.dialogs.ImportLocalRepoDialog;
-import xyz.realms.mgit.ui.explorer.ExploreFileActivity;
-import xyz.realms.mgit.ui.explorer.ImportRepositoryActivity;
+import xyz.realms.mgit.ui.vmodel.RepoListViewModel;
 
 public class RepoListActivity extends SheimiFragmentActivity {
 

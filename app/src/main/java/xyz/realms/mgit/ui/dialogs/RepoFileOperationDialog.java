@@ -11,7 +11,7 @@ import androidx.annotation.NonNull;
 
 import xyz.realms.mgit.R;
 import xyz.realms.mgit.tasks.repo.UpdateIndexTask;
-import xyz.realms.mgit.ui.RepoDetailActivity;
+import xyz.realms.mgit.ui.explorer.RepoDetailActivity;
 import xyz.realms.mgit.ui.fragments.SheimiDialogFragment;
 
 /**

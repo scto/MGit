@@ -8,7 +8,7 @@ import java.util.ArrayList;
 import xyz.realms.mgit.R;
 import xyz.realms.mgit.database.Repo;
 import xyz.realms.mgit.tasks.repo.FetchTask;
-import xyz.realms.mgit.ui.RepoDetailActivity;
+import xyz.realms.mgit.ui.explorer.RepoDetailActivity;
 import xyz.realms.mgit.ui.dialogs.DummyDialogListener;
 
 public class FetchAction extends RepoAction {

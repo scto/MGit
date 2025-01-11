@@ -2,7 +2,7 @@ package xyz.realms.mgit.actions;
 
 import xyz.realms.mgit.R;
 import xyz.realms.mgit.database.Repo;
-import xyz.realms.mgit.ui.RepoDetailActivity;
+import xyz.realms.mgit.ui.explorer.RepoDetailActivity;
 
 public class NewDirAction extends RepoAction {
 

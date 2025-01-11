@@ -9,7 +9,7 @@ import java.util.List;
 
 import xyz.realms.android.utils.CodeGuesser;
 import xyz.realms.mgit.R;
-import xyz.realms.mgit.ui.ViewFileActivity;
+import xyz.realms.mgit.ui.explorer.ViewFileActivity;
 import xyz.realms.mgit.ui.fragments.SheimiDialogFragment;
 
 /**

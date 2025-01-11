@@ -1,4 +1,4 @@
-package xyz.realms.mgit.ui;
+package xyz.realms.mgit.ui.explorer;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -27,6 +27,7 @@ import xyz.realms.mgit.R;
 import xyz.realms.mgit.actions.RepoOperationDelegate;
 import xyz.realms.mgit.database.Repo;
 import xyz.realms.mgit.tasks.SheimiAsyncTask;
+import xyz.realms.mgit.ui.SheimiFragmentActivity;
 import xyz.realms.mgit.ui.adapters.RepoOperationsAdapter;
 import xyz.realms.mgit.ui.fragments.BaseFragment;
 import xyz.realms.mgit.ui.fragments.CommitsFragment;

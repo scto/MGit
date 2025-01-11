@@ -1,4 +1,4 @@
-package xyz.realms.mgit.ui.clone;
+package xyz.realms.mgit.ui.vmodel;
 
 import android.app.Application;
 

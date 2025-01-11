@@ -10,7 +10,7 @@ import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
 import xyz.realms.mgit.R;
-import xyz.realms.mgit.ui.RepoDetailActivity;
+import xyz.realms.mgit.ui.explorer.RepoDetailActivity;
 import xyz.realms.mgit.ui.adapters.RepoOperationsAdapter.DrawerItem;
 
 public class RepoOperationsAdapter extends ArrayAdapter<DrawerItem>

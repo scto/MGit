@@ -24,8 +24,8 @@ import java.util.Set;
 
 import xyz.realms.mgit.R;
 import xyz.realms.mgit.database.Repo;
-import xyz.realms.mgit.ui.CommitDiffActivity;
-import xyz.realms.mgit.ui.RepoDetailActivity;
+import xyz.realms.mgit.ui.explorer.CommitDiffActivity;
+import xyz.realms.mgit.ui.explorer.RepoDetailActivity;
 import xyz.realms.mgit.ui.SheimiFragmentActivity.OnBackClickListener;
 import xyz.realms.mgit.ui.adapters.CommitsListAdapter;
 import xyz.realms.mgit.ui.dialogs.CheckoutDialog;

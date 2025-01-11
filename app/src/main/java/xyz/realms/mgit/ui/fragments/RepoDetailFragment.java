@@ -1,6 +1,6 @@
 package xyz.realms.mgit.ui.fragments;
 
-import xyz.realms.mgit.ui.RepoDetailActivity;
+import xyz.realms.mgit.ui.explorer.RepoDetailActivity;
 
 public abstract class RepoDetailFragment extends BaseFragment {
 

@@ -8,13 +8,13 @@
 
         <import type="android.view.View" />
 
-        <import type="xyz.realms.mgit.ui.repolist.RepoListActivity" />
+        <import type="xyz.realms.mgit.ui.explorer.RepoListActivity" />
 
-        <import type="xyz.realms.mgit.ui.repolist.RepoListActivity.ClickActions" />
+        <import type="xyz.realms.mgit.ui.explorer.RepoListActivity" />
 
         <variable
             name="viewModel"
-            type="xyz.realms.mgit.ui.clone.CloneViewModel" />
+            type="xyz.realms.mgit.ui.vmodel.CloneViewModel" />
 
         <variable
             name="clickHandler"

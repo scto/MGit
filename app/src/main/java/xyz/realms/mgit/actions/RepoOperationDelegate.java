@@ -14,7 +14,7 @@ import xyz.realms.mgit.tasks.repo.CheckoutTask;
 import xyz.realms.mgit.tasks.repo.DeleteFileFromRepoTask;
 import xyz.realms.mgit.tasks.repo.MergeTask;
 import xyz.realms.mgit.tasks.repo.UpdateIndexTask;
-import xyz.realms.mgit.ui.RepoDetailActivity;
+import xyz.realms.mgit.ui.explorer.RepoDetailActivity;
 
 public class RepoOperationDelegate {
     private final Repo mRepo;

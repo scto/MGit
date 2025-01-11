@@ -2,7 +2,6 @@ package xyz.realms.mgit.actions;
 
 import android.app.AlertDialog;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -31,27 +30,48 @@ import xyz.realms.android.utils.Profile;
 import xyz.realms.mgit.R;
 import xyz.realms.mgit.database.Repo;
 import xyz.realms.mgit.errors.StopTaskException;
-import xyz.realms.mgit.tasks.SheimiAsyncTask.AsyncTaskPostCallback;
 import xyz.realms.mgit.tasks.repo.CommitChangesTask;
 import xyz.realms.mgit.ui.RepoDetailActivity;
 import xyz.realms.mgit.ui.dialogs.DummyDialogListener;
 
 public class CommitAction extends RepoAction {
+    private RepoOperationDelegate.ActionCallBack mActionCallBack;
 
     public CommitAction(Repo repo, RepoDetailActivity activity) {
         super(repo, activity);
     }
 
+    public CommitAction(Repo repo, RepoDetailActivity activity,
+                        RepoOperationDelegate.ActionCallBack actionCallBack) {
+        super(repo, activity);
+        mActionCallBack = actionCallBack;
+    }
+
     @Override
     public void execute() {
+        /*
+         * index.lock的作用：防止在当前运行的git过程以外去更改本地存储库的资源。
+         * 避免了多个git进程同时进行操作更改导致问题！
+         *
+         * 每当你运行一个git进程时，git就会在.git目录创建一个index.lock文件。
+         * 例如，在当前的git仓库里运行git add .来stage本地的修改点，git就会在git add执行的时候创建index.lock文件，
+         * 命令执行结束后，删除该文件。
+         *
+         * 如果某个进程退出/结束的时候除了问题，可能会导致index.lock文件没有被清除掉，此时，你需要将index.lock文件
+         * 手动移除
+         *
+         * https://blog.csdn.net/u010682774/article/details/115725354
+         */
         try {
             // 获取当前仓库的状态
             Status status = mRepo.getGit().status().call();
             // 检查是否有更改
             if (status.hasUncommittedChanges()) {
                 commit();
+                mActionCallBack.onPostExecute(true);
             } else {
                 mActivity.showToastMessage(R.string.alert_uncommitted_changes);
+                mActionCallBack.onPostExecute(false);
             }
         } catch (StopTaskException | GitAPIException e) {
             throw new RuntimeException(e);
@@ -62,14 +82,8 @@ public class CommitAction extends RepoAction {
 
     private void commit(String commitMsg, boolean isAmend, boolean stageAll, String authorName,
                         String authorEmail) {
-        CommitChangesTask commitTask = new CommitChangesTask(mRepo, commitMsg,
-            isAmend, stageAll, authorName, authorEmail, new AsyncTaskPostCallback() {
-
-            @Override
-            public void onPostExecute(Boolean isSuccess) {
-                mActivity.reset();
-            }
-        });
+        CommitChangesTask commitTask = new CommitChangesTask(mRepo, commitMsg, isAmend, stageAll,
+            authorName, authorEmail, isSuccess -> mActivity.reset());
         commitTask.executeTask();
     }
 
@@ -77,13 +91,10 @@ public class CommitAction extends RepoAction {
         AlertDialog.Builder builder = new AlertDialog.Builder(mActivity);
         LayoutInflater inflater = mActivity.getLayoutInflater();
         View layout = inflater.inflate(R.layout.dialog_commit, null);
-        final EditText commitMsg = layout
-            .findViewById(R.id.commitMsg);
-        final AutoCompleteTextView commitAuthor = layout
-            .findViewById(R.id.commitAuthor);
+        final EditText commitMsg = layout.findViewById(R.id.commitMsg);
+        final AutoCompleteTextView commitAuthor = layout.findViewById(R.id.commitAuthor);
         final CheckBox isAmend = layout.findViewById(R.id.isAmend);
-        final CheckBox autoStage = layout
-            .findViewById(R.id.autoStage);
+        final CheckBox autoStage = layout.findViewById(R.id.autoStage);
         HashSet<Author> authors = new HashSet<Author>();
         try {
             Iterable<RevCommit> commits = mRepo.getGit().log().setMaxCount(500).call();
@@ -94,8 +105,7 @@ public class CommitAction extends RepoAction {
         }
         String profileUsername = Profile.getUsername(mActivity.getApplicationContext());
         String profileEmail = Profile.getEmail(mActivity.getApplicationContext());
-        if (profileUsername != null && !profileUsername.isEmpty()
-            && profileEmail != null && !profileEmail.isEmpty()) {
+        if (profileUsername != null && !profileUsername.isEmpty() && profileEmail != null && !profileEmail.isEmpty()) {
             authors.add(new Author(profileUsername, profileEmail));
         }
         ArrayList<Author> authorList = new ArrayList<Author>(authors);
@@ -105,8 +115,7 @@ public class CommitAction extends RepoAction {
         isAmend.setOnCheckedChangeListener(new OnCheckedChangeListener() {
 
             @Override
-            public void onCheckedChanged(CompoundButton buttonView,
-                                         boolean isChecked) {
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if (isChecked) {
                     commitMsg.setText(mRepo.getLastCommitFullMsg());
                 } else {
@@ -114,52 +123,38 @@ public class CommitAction extends RepoAction {
                 }
             }
         });
-        final AlertDialog d = builder.setTitle(R.string.dialog_commit_title)
-            .setView(layout)
-            .setPositiveButton(R.string.dialog_commit_positive_label, null)
-            .setNegativeButton(R.string.label_cancel,
-                new DummyDialogListener()).create();
-        d.setOnShowListener(new DialogInterface.OnShowListener() {
-                                @Override
-                                public void onShow(DialogInterface dialog) {
+        final AlertDialog d =
+            builder.setTitle(R.string.dialog_commit_title).setView(layout).setPositiveButton(R.string.dialog_commit_positive_label, null).setNegativeButton(R.string.label_cancel, new DummyDialogListener()).create();
+        d.setOnShowListener(dialog -> {
+            Button b = d.getButton(AlertDialog.BUTTON_POSITIVE);
+            b.setOnClickListener(view -> {
+                    String msg = commitMsg.getText().toString();
+                    String author = commitAuthor.getText().toString().trim();
+                    String authorName = null, authorEmail = null;
+                    int ltidx;
+                    if (msg.trim().equals("")) {
+                        commitMsg.setError(mActivity.getString(R.string.error_no_commit_msg));
+                        return;
+                    }
+                    if (!author.equals("")) {
+                        ltidx = author.indexOf('<');
+                        if (!author.endsWith(">") || ltidx == -1) {
+                            commitAuthor.setError(mActivity.getString(R.string.error_invalid_author));
+                            return;
+                        }
+                        authorName = author.substring(0, ltidx);
+                        authorEmail = author.substring(ltidx + 1, author.length() - 1);
+                    }
+                    boolean amend = isAmend.isChecked();
+                    boolean stage = autoStage.isChecked();
 
-                                    Button b = d.getButton(AlertDialog.BUTTON_POSITIVE);
-                                    b.setOnClickListener(new View.OnClickListener() {
+                    commit(msg, amend, stage, authorName, authorEmail);
 
-                                                             @Override
-                                                             public void onClick(View view) {
-                                                                 String msg = commitMsg.getText().toString();
-                                                                 String author = commitAuthor.getText().toString().trim();
-                                                                 String authorName = null, authorEmail = null;
-                                                                 int ltidx;
-                                                                 if (msg.trim().equals("")) {
-                                                                     commitMsg.setError(mActivity.getString(R.string.error_no_commit_msg));
-                                                                     return;
-                                                                 }
-                                                                 if (!author.equals("")) {
-                                                                     ltidx = author.indexOf('<');
-                                                                     if (!author.endsWith(">") || ltidx == -1) {
-                                                                         commitAuthor.setError(mActivity.getString(R.string.error_invalid_author));
-                                                                         return;
-                                                                     }
-                                                                     authorName = author.substring(0, ltidx);
-                                                                     authorEmail = author.substring(ltidx + 1, author.length() - 1);
-                                                                 }
+                    d.dismiss();
+                }
 
-
-                                                                 boolean amend = isAmend.isChecked();
-                                                                 boolean stage = autoStage.isChecked();
-
-                                                                 commit(msg, amend, stage, authorName, authorEmail);
-
-                                                                 d.dismiss();
-                                                             }
-                                                         }
-
-                                    );
-                                }
-                            }
-        );
+            );
+        });
         d.show();
     }
 
@@ -210,8 +205,7 @@ public class CommitAction extends RepoAction {
         public int compareTo(Author another) {
             int c1;
             c1 = mName.compareTo(another.mName);
-            if (c1 != 0)
-                return c1;
+            if (c1 != 0) return c1;
             return mEmail.compareTo(another.mEmail);
         }
 
@@ -296,11 +290,13 @@ public class CommitAction extends RepoAction {
 
                 @Override
                 protected FilterResults performFiltering(CharSequence constraint) {
-                    FilterResults results = new FilterResults();        // Holds the results of a filtering operation in values
+                    FilterResults results = new FilterResults();        // Holds the results of a
+                    // filtering operation in values
                     List<Author> FilteredArrList = new ArrayList<Author>();
 
                     if (mOriginalValues == null) {
-                        mOriginalValues = new ArrayList<Author>(arrayList); // saves the original data in mOriginalValues
+                        mOriginalValues = new ArrayList<Author>(arrayList); // saves the original
+                        // data in mOriginalValues
                     }
 
                     if (constraint == null || constraint.length() == 0) {

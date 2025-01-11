@@ -5,7 +5,6 @@ import android.app.Dialog;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.CheckBox;
 import android.widget.ListView;
@@ -25,10 +24,10 @@ public class PullAction extends RepoAction {
         super(repo, activity);
     }
 
-    private static void pull(Repo repo, RepoDetailActivity activity,
-                             String remote, boolean forcePull) {
-        PullTask pullTask = new PullTask(repo, remote, forcePull, activity.new ProgressCallback(
-            R.string.pull_msg_init));
+    private static void pull(Repo repo, RepoDetailActivity activity, String remote,
+                             boolean forcePull) {
+        PullTask pullTask = new PullTask(repo, remote, forcePull,
+            activity.new ProgressCallback(R.string.pull_msg_init));
         pullTask.executeTask();
         activity.closeOperationDrawer();
     }
@@ -70,28 +69,19 @@ public class PullAction extends RepoAction {
             mForcePull = layout.findViewById(R.id.forcePull);
             mRemoteList = layout.findViewById(R.id.remoteList);
 
-            mAdapter = new ArrayAdapter<String>(mActivity,
-                android.R.layout.simple_list_item_1);
+            mAdapter = new ArrayAdapter<String>(mActivity, android.R.layout.simple_list_item_1);
             Set<String> remotes = mRepo.getRemotes();
             mAdapter.addAll(remotes);
             mRemoteList.setAdapter(mAdapter);
 
-            mRemoteList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-
-                @Override
-                public void onItemClick(AdapterView<?> parent, View view,
-                                        int position, long id) {
-                    String remote = mAdapter.getItem(position);
-                    boolean isForcePull = mForcePull.isChecked();
-                    pull(mRepo, mActivity, remote, isForcePull);
-                    dismiss();
-                }
+            mRemoteList.setOnItemClickListener((parent, view, position, id) -> {
+                String remote = mAdapter.getItem(position);
+                boolean isForcePull = mForcePull.isChecked();
+                pull(mRepo, mActivity, remote, isForcePull);
+                dismiss();
             });
 
-            builder.setTitle(R.string.dialog_pull_repo_title)
-                .setView(layout)
-                .setNegativeButton(R.string.label_cancel,
-                    new DummyDialogListener());
+            builder.setTitle(R.string.dialog_pull_repo_title).setView(layout).setNegativeButton(R.string.label_cancel, new DummyDialogListener());
             return builder.create();
         }
     }

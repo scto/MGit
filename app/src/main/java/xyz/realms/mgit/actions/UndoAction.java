@@ -34,30 +34,31 @@ public class UndoAction extends RepoAction {
             e.printStackTrace();
         }
         if (noCommit) {
-            mActivity.showMessageDialog(R.string.dialog_undo_commit_title, R.string.dialog_undo_no_commit_msg);
+            mActivity.showMessageDialog(R.string.dialog_undo_commit_title,
+                R.string.dialog_undo_no_commit_msg);
         } else if (firstCommit) {
-            mActivity.showMessageDialog(R.string.dialog_undo_commit_title, R.string.dialog_undo_first_commit_msg);
+            mActivity.showMessageDialog(R.string.dialog_undo_commit_title,
+                R.string.dialog_undo_first_commit_msg);
         } else {
             mActivity.showMessageDialog(R.string.dialog_undo_commit_title,
                 R.string.dialog_undo_commit_msg, R.string.action_undo,
                 new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialogInterface, int i) {
-                        undo();
-                    }
-                });
+                @Override
+                public void onClick(DialogInterface dialogInterface, int i) {
+                    undo();
+                }
+            });
         }
         mActivity.closeOperationDrawer();
     }
 
     public void undo() {
-        UndoCommitTask undoTask = new UndoCommitTask(mRepo,
-            new AsyncTaskPostCallback() {
-                @Override
-                public void onPostExecute(Boolean isSuccess) {
-                    mActivity.reset();
-                }
-            });
+        UndoCommitTask undoTask = new UndoCommitTask(mRepo, new AsyncTaskPostCallback() {
+            @Override
+            public void onPostExecute(Boolean isSuccess) {
+                mActivity.reset();
+            }
+        });
         undoTask.executeTask();
     }
 }

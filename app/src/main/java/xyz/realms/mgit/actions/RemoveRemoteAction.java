@@ -5,7 +5,6 @@ import android.app.Dialog;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
@@ -65,30 +64,24 @@ public class RemoveRemoteAction extends RepoAction {
             View layout = inflater.inflate(R.layout.dialog_remove_remote, null);
             mRemoteList = layout.findViewById(R.id.remoteList);
 
-            mAdapter = new ArrayAdapter<String>(mActivity,
-                android.R.layout.simple_list_item_1);
+            mAdapter = new ArrayAdapter<String>(mActivity, android.R.layout.simple_list_item_1);
             Set<String> remotes = mRepo.getRemotes();
             mAdapter.addAll(remotes);
             mRemoteList.setAdapter(mAdapter);
 
-            mRemoteList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-                @Override
-                public void onItemClick(AdapterView<?> parent, View view,
-                                        int position, long id) {
-                    String remote = mAdapter.getItem(position);
-                    try {
-                        removeRemote(mRepo, mActivity, remote);
-                    } catch (IOException e) {
-                        Timber.e(e);
-                        mActivity.showMessageDialog(R.string.dialog_error_title, getString(R.string.error_something_wrong));
-                    }
-                    dismiss();
+            mRemoteList.setOnItemClickListener((parent, view, position, id) -> {
+                String remote = mAdapter.getItem(position);
+                try {
+                    removeRemote(mRepo, mActivity, remote);
+                } catch (IOException e) {
+                    Timber.e(e);
+                    mActivity.showMessageDialog(R.string.dialog_error_title,
+                        getString(R.string.error_something_wrong));
                 }
+                dismiss();
             });
 
-            builder.setTitle(R.string.dialog_remove_remote_title)
-                .setView(layout)
-                .setNegativeButton(R.string.label_cancel, new DummyDialogListener());
+            builder.setTitle(R.string.dialog_remove_remote_title).setView(layout).setNegativeButton(R.string.label_cancel, new DummyDialogListener());
             return builder.create();
         }
     }

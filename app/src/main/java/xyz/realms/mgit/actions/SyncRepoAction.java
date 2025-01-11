@@ -27,13 +27,8 @@ public class SyncRepoAction extends RepoAction {
             Status status = mRepo.getGit().status().call();
             // 检查是否有更改
             if (status.hasUncommittedChanges()) {
-                RepoAction addAllAction = new AddAllAction(mRepo, mActivity);
+                AddAllAction addAllAction = new AddAllAction(mRepo, mActivity);
                 addAllAction.execute();
-
-                RepoAction commitAction = new CommitAction(mRepo, mActivity, (isSuccess) -> {
-
-                });
-                commitAction.execute();
             } else {
                 mActivity.showToastMessage(R.string.alert_uncommitted_changes);
             }

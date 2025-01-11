@@ -6,6 +6,9 @@ import org.eclipse.jgit.api.errors.GitAPIException;
 import xyz.realms.mgit.R;
 import xyz.realms.mgit.database.Repo;
 import xyz.realms.mgit.errors.StopTaskException;
+import xyz.realms.mgit.tasks.repo.AddToStageTask;
+import xyz.realms.mgit.tasks.repo.CheckoutFileTask;
+import xyz.realms.mgit.tasks.repo.RebaseTask;
 import xyz.realms.mgit.ui.explorer.RepoDetailActivity;
 
 public class SyncRepoAction extends RepoAction {
@@ -27,8 +30,14 @@ public class SyncRepoAction extends RepoAction {
             Status status = mRepo.getGit().status().call();
             // 检查是否有更改
             if (status.hasUncommittedChanges()) {
-                AddAllAction addAllAction = new AddAllAction(mRepo, mActivity);
-                addAllAction.execute();
+                AddToStageTask addTask = new AddToStageTask(mRepo, ".", (isAddToStageTaskSuccess) -> {
+                    new CheckoutFileTask(mRepo, null, (isCheckoutFileTaskSuccess) -> {
+                        new RebaseTask(mRepo, "true", (isRebaseTaskSuccess) -> {
+                            new RebaseTask(mRepo, "true", null).execute();
+                        }).execute();
+                    }).execute();
+                });
+                addTask.executeTask();
             } else {
                 mActivity.showToastMessage(R.string.alert_uncommitted_changes);
             }

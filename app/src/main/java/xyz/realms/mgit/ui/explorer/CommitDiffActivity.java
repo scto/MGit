@@ -1,4 +1,4 @@
-package xyz.realms.mgit.ui;
+package xyz.realms.mgit.ui.explorer;
 
 import android.content.Intent;
 import android.graphics.Color;
@@ -33,6 +33,7 @@ import xyz.realms.android.utils.Profile;
 import xyz.realms.mgit.R;
 import xyz.realms.mgit.database.Repo;
 import xyz.realms.mgit.tasks.repo.CommitDiffTask;
+import xyz.realms.mgit.ui.SheimiFragmentActivity;
 
 public class CommitDiffActivity extends SheimiFragmentActivity {
 

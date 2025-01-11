@@ -11,7 +11,7 @@ import xyz.realms.mgit.database.GitConfig;
 import xyz.realms.mgit.database.Repo;
 import xyz.realms.mgit.databinding.DialogRepoConfigBinding;
 import xyz.realms.mgit.errors.StopTaskException;
-import xyz.realms.mgit.ui.RepoDetailActivity;
+import xyz.realms.mgit.ui.explorer.RepoDetailActivity;
 
 /**
  * Action to display configuration for a Repo

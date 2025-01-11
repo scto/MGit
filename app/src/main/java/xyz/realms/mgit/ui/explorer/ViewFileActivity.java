@@ -1,4 +1,4 @@
-package xyz.realms.mgit.ui;
+package xyz.realms.mgit.ui.explorer;
 
 import android.os.Bundle;
 import android.view.Menu;
@@ -17,6 +17,7 @@ import java.io.File;
 import xyz.realms.android.utils.FsUtils;
 import xyz.realms.mgit.R;
 import xyz.realms.mgit.database.Repo;
+import xyz.realms.mgit.ui.SheimiFragmentActivity;
 import xyz.realms.mgit.ui.dialogs.ChooseLanguageDialog;
 import xyz.realms.mgit.ui.fragments.BaseFragment;
 import xyz.realms.mgit.ui.fragments.CommitsFragment;

@@ -4,7 +4,7 @@ import xyz.realms.mgit.R;
 import xyz.realms.mgit.database.Repo;
 import xyz.realms.mgit.tasks.SheimiAsyncTask;
 import xyz.realms.mgit.tasks.repo.CheckoutTask;
-import xyz.realms.mgit.ui.RepoDetailActivity;
+import xyz.realms.mgit.ui.explorer.RepoDetailActivity;
 
 /**
  * Created by liscju - piotr.listkiewicz@gmail.com on 2015-03-15.

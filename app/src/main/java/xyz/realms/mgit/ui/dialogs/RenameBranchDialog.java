@@ -20,7 +20,7 @@ import java.util.List;
 import xyz.realms.mgit.R;
 import xyz.realms.mgit.database.Repo;
 import xyz.realms.mgit.errors.StopTaskException;
-import xyz.realms.mgit.ui.BranchChooserActivity;
+import xyz.realms.mgit.ui.explorer.BranchChooserActivity;
 
 /**
  * Created by sheimi on 8/24/13.

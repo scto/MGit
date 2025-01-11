@@ -10,7 +10,7 @@ import android.widget.EditText;
 
 import xyz.realms.mgit.R;
 import xyz.realms.mgit.database.Repo;
-import xyz.realms.mgit.ui.RepoDetailActivity;
+import xyz.realms.mgit.ui.explorer.RepoDetailActivity;
 import xyz.realms.mgit.ui.fragments.SheimiDialogFragment;
 
 /**

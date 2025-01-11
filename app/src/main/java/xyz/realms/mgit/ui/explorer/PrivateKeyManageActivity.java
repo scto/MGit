@@ -19,7 +19,6 @@ import xyz.realms.android.utils.FsUtils;
 import xyz.realms.mgit.R;
 import xyz.realms.mgit.transport.ssh.PrivateKeyGenerate;
 import xyz.realms.mgit.transport.ssh.PrivateKeyUtils;
-import xyz.realms.mgit.ui.ViewFileActivity;
 import xyz.realms.mgit.ui.dialogs.EditKeyPasswordDialog;
 import xyz.realms.mgit.ui.dialogs.RenameKeyDialog;
 

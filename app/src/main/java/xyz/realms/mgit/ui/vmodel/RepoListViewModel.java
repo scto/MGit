@@ -1,4 +1,4 @@
-package xyz.realms.mgit.ui.repolist;
+package xyz.realms.mgit.ui.vmodel;
 
 import xyz.realms.mgit.common.BaseViewModel;
 

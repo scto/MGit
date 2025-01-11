@@ -19,7 +19,7 @@ import xyz.realms.mgit.R;
 import xyz.realms.mgit.database.Repo;
 import xyz.realms.mgit.ui.SheimiFragmentActivity;
 import xyz.realms.mgit.ui.SheimiFragmentActivity.OnBackClickListener;
-import xyz.realms.mgit.ui.ViewFileActivity;
+import xyz.realms.mgit.ui.explorer.ViewFileActivity;
 import xyz.realms.mgit.ui.adapters.FilesListAdapter;
 import xyz.realms.mgit.ui.dialogs.RepoFileOperationDialog;
 

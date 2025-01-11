@@ -6,7 +6,7 @@ import org.eclipse.jgit.api.errors.GitAPIException;
 import xyz.realms.mgit.R;
 import xyz.realms.mgit.database.Repo;
 import xyz.realms.mgit.errors.StopTaskException;
-import xyz.realms.mgit.ui.RepoDetailActivity;
+import xyz.realms.mgit.ui.explorer.RepoDetailActivity;
 
 public class SyncRepoAction extends RepoAction {
     public SyncRepoAction(Repo repo, RepoDetailActivity activity) {

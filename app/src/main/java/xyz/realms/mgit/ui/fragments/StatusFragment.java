@@ -12,7 +12,7 @@ import android.widget.TextView;
 import xyz.realms.mgit.R;
 import xyz.realms.mgit.database.Repo;
 import xyz.realms.mgit.tasks.repo.StatusTask;
-import xyz.realms.mgit.ui.CommitDiffActivity;
+import xyz.realms.mgit.ui.explorer.CommitDiffActivity;
 import xyz.realms.mgit.ui.SheimiFragmentActivity.OnBackClickListener;
 
 /**

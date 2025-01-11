@@ -10,13 +10,15 @@
         android:id="@+id/ffSpinner"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:entries="@array/merge_ff_type" />
+        android:entries="@array/merge_ff_type"
+        android:minHeight="48dp" />
 
     <CheckBox
         android:id="@+id/autoCommit"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
+        android:minHeight="48dp"
         android:text="@string/dialog_merge_checkbox" />
 
     <ListView

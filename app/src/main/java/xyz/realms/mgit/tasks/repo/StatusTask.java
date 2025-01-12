@@ -91,6 +91,10 @@ public class StatusTask extends MGitAsyncTask implements MGitAsyncTask.MGitAsync
         mResult.append("\n");
     }
 
+    public void executeTask() {
+        execute();
+    }
+
     public interface GetStatusCallback {
         void postStatus(String result);
     }

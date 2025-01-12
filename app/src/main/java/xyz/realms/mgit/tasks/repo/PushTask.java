@@ -14,7 +14,6 @@ import xyz.realms.mgit.R;
 import xyz.realms.mgit.database.Repo;
 import xyz.realms.mgit.errors.StopTaskException;
 import xyz.realms.mgit.tasks.MGitAsyncTask;
-import xyz.realms.mgit.tasks.RepoRemoteOpTask;
 import xyz.realms.mgit.transport.ssh.SgitTransportCallback;
 import xyz.realms.mgit.ui.RepoDetailActivity;
 

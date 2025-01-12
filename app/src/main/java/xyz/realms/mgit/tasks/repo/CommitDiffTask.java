@@ -167,6 +167,10 @@ public class CommitDiffTask extends MGitAsyncTask implements MGitAsyncTask.MGitA
         }
     }
 
+    public void executeTask() {
+        execute();
+    }
+
     public interface CommitDiffResult {
         void pushResult(List<DiffEntry> diffEntries, List<String> diffStrs, RevCommit description);
     }

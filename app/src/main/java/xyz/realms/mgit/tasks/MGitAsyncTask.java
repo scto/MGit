@@ -27,7 +27,6 @@ public abstract class MGitAsyncTask {
     private boolean mIsCanceled = false;
     private CompletableFuture<Void> completableExecuteTaskFuture;
     private String[] values;
-//    private final ExecutorService executorService = Executors.newSingleThreadExecutor();
 
     public MGitAsyncTask(Repo repo) {
         mRepo = repo;
@@ -113,20 +112,24 @@ public abstract class MGitAsyncTask {
         // https://www.jianshu.com/p/37502bbbb25a
         // https://www.jianshu.com/p/ba309c0cf533
         if (mIsTaskAdded) {
-            mGitAsyncCallBack.onPreExecute();
-            completableExecuteTaskFuture = CompletableFuture.runAsync(() -> {
-                boolean isSuccess = mGitAsyncCallBack.doInBackground(params);
-                Handler uiThread = new Handler(Looper.getMainLooper());
-                uiThread.post(() -> {
-                    mGitAsyncCallBack.onPostExecute(isSuccess);
-                    if (this.values != null && this.values.length != 0) {
-                        mGitAsyncCallBack.onProgressUpdate(values);
-                    }
-                });
-            });
-            return completableExecuteTaskFuture;
+            return execute();
         }
         BasicFunctions.getActiveActivity().showToastMessage(R.string.error_task_running);
+        return completableExecuteTaskFuture;
+    }
+
+    public CompletableFuture<Void> execute(Void... params) {
+        mGitAsyncCallBack.onPreExecute();
+        completableExecuteTaskFuture = CompletableFuture.runAsync(() -> {
+            boolean isSuccess = mGitAsyncCallBack.doInBackground(params);
+            Handler uiThread = new Handler(Looper.getMainLooper());
+            uiThread.post(() -> {
+                mGitAsyncCallBack.onPostExecute(isSuccess);
+                if (this.values != null && this.values.length != 0) {
+                    mGitAsyncCallBack.onProgressUpdate(values);
+                }
+            });
+        });
         return completableExecuteTaskFuture;
     }
 

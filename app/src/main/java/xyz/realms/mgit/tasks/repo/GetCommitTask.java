@@ -68,6 +68,9 @@ public class GetCommitTask extends MGitAsyncTask implements MGitAsyncTask.MGitAs
         return true;
     }
 
+    public void executeTask() {
+        execute();
+    }
 
     public interface GetCommitCallback {
         void postCommits(List<RevCommit> commits);

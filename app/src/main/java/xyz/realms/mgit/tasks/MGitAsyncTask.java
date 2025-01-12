@@ -10,8 +10,6 @@ import org.eclipse.jgit.lib.ProgressMonitor;
 import org.eclipse.jgit.transport.UsernamePasswordCredentialsProvider;
 
 import java.util.concurrent.CompletableFuture;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
 
 import timber.log.Timber;
 import xyz.realms.android.utils.BasicFunctions;
@@ -111,7 +109,7 @@ public abstract class MGitAsyncTask {
         return mIsCanceled;
     }
 
-    public final CompletableFuture executeTask(Void... params) {
+    public final CompletableFuture<Void> executeTask(Void... params) {
         // https://www.jianshu.com/p/37502bbbb25a
         // https://www.jianshu.com/p/ba309c0cf533
         if (mIsTaskAdded) {
@@ -142,9 +140,7 @@ public abstract class MGitAsyncTask {
     protected final void publishProgress(String... values) {
         // 从异步线程doInBackground中调用，回到主线程执行。
         Handler uiThread = new Handler(Looper.getMainLooper());
-        uiThread.post(() -> {
-            this.values = values;
-        });
+        uiThread.post(() -> this.values = values);
     }
 
     public interface MGitAsyncCallBack {

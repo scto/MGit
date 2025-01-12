@@ -294,18 +294,20 @@ public class Repo implements Comparable<Repo>, Serializable {
     }
 
     public boolean addTask(MGitAsyncTask task) {
-        MGitAsyncTask runningTask = mRepoTasks.get(getID());
+        int ID = getID();
+        MGitAsyncTask runningTask = mRepoTasks.get(ID);
         if (runningTask != null)
             return false;
-        mRepoTasks.put(getID(), task);
+        mRepoTasks.put(ID, task);
         return true;
     }
 
     public void removeTask(MGitAsyncTask task) {
-        MGitAsyncTask runningTask = mRepoTasks.get(getID());
+        int ID = getID();
+        MGitAsyncTask runningTask = mRepoTasks.get(ID);
         if (runningTask == null || runningTask != task)
             return;
-        mRepoTasks.remove(getID());
+        mRepoTasks.remove(ID);
     }
 
     public void updateStatus(String status) {

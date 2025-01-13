@@ -1,4 +1,4 @@
-package xyz.realms.android.preference;
+package xyz.realms.mgit.ui.preference;
 
 import android.content.Context;
 import android.util.AttributeSet;

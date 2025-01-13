@@ -10,7 +10,7 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
-import xyz.realms.android.utils.BasicFunctions;
+import xyz.realms.mgit.ui.utils.BasicFunctions;
 
 /**
  * Manage entries in the persisted database tracking local repo metadata.

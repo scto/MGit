@@ -6,8 +6,8 @@ import org.eclipse.jgit.api.CommitCommand;
 import org.eclipse.jgit.api.errors.GitAPIException;
 import org.eclipse.jgit.lib.StoredConfig;
 
-import xyz.realms.android.MGitApplication;
-import xyz.realms.android.utils.Profile;
+import xyz.realms.mgit.MGitApplication;
+import xyz.realms.mgit.ui.utils.Profile;
 import xyz.realms.mgit.R;
 import xyz.realms.mgit.database.Repo;
 import xyz.realms.mgit.errors.StopTaskException;

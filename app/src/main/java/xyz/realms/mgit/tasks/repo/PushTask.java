@@ -9,7 +9,7 @@ import org.eclipse.jgit.transport.RemoteRefUpdate;
 
 import java.util.Collection;
 
-import xyz.realms.android.utils.BasicFunctions;
+import xyz.realms.mgit.ui.utils.BasicFunctions;
 import xyz.realms.mgit.R;
 import xyz.realms.mgit.database.Repo;
 import xyz.realms.mgit.errors.StopTaskException;

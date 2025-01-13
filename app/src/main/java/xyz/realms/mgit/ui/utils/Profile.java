@@ -1,4 +1,4 @@
-package xyz.realms.android.utils;
+package xyz.realms.mgit.ui.utils;
 
 import android.content.Context;
 import android.content.SharedPreferences;

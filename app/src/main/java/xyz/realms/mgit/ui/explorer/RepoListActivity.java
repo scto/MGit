@@ -24,9 +24,9 @@ import java.net.URL;
 import java.util.List;
 
 import timber.log.Timber;
-import xyz.realms.android.MGitApplication;
+import xyz.realms.mgit.MGitApplication;
 import xyz.realms.mgit.R;
-import xyz.realms.mgit.common.OnActionClickListener;
+import xyz.realms.mgit.ui.common.OnActionClickListener;
 import xyz.realms.mgit.database.Repo;
 import xyz.realms.mgit.database.RepoDbManager;
 import xyz.realms.mgit.databinding.ActivityMainBinding;

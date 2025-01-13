@@ -9,7 +9,7 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 
-import xyz.realms.android.utils.FsUtils;
+import xyz.realms.mgit.ui.utils.FsUtils;
 
 public class PrivateKeyUtils {
     private PrivateKeyUtils() {

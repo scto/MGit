@@ -1,7 +1,7 @@
 package xyz.realms.mgit.tasks.repo;
 
-import xyz.realms.android.MGitApplication;
-import xyz.realms.android.preference.PreferenceHelper;
+import xyz.realms.mgit.MGitApplication;
+import xyz.realms.mgit.ui.preference.PreferenceHelper;
 import xyz.realms.mgit.database.Repo;
 import xyz.realms.mgit.ui.SheimiFragmentActivity;
 

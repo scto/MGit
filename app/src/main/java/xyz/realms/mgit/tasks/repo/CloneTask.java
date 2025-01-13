@@ -19,8 +19,8 @@ import java.nio.file.Paths;
 import java.util.Locale;
 
 import timber.log.Timber;
-import xyz.realms.android.utils.FsUtils;
-import xyz.realms.android.utils.Profile;
+import xyz.realms.mgit.ui.utils.FsUtils;
+import xyz.realms.mgit.ui.utils.Profile;
 import xyz.realms.mgit.R;
 import xyz.realms.mgit.database.Repo;
 import xyz.realms.mgit.database.RepoContract;

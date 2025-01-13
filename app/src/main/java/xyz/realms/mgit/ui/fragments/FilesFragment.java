@@ -14,7 +14,7 @@ import java.io.FileFilter;
 import java.io.IOException;
 
 import timber.log.Timber;
-import xyz.realms.android.utils.FsUtils;
+import xyz.realms.mgit.ui.utils.FsUtils;
 import xyz.realms.mgit.R;
 import xyz.realms.mgit.database.Repo;
 import xyz.realms.mgit.ui.SheimiFragmentActivity;

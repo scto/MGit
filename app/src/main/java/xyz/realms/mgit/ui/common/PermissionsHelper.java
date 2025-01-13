@@ -1,4 +1,4 @@
-package xyz.realms.android.permissions;
+package xyz.realms.mgit.ui.common;
 
 import android.content.Context;
 import android.os.Build.VERSION;

@@ -1,4 +1,4 @@
-package xyz.realms.android
+package xyz.realms.mgit
 
 import android.annotation.SuppressLint
 import android.app.Application
@@ -12,9 +12,8 @@ import org.conscrypt.BuildConfig
 import org.conscrypt.Conscrypt
 import org.eclipse.jgit.transport.CredentialsProvider
 import timber.log.Timber
-import xyz.realms.android.preference.PreferenceHelper
-import xyz.realms.android.utils.SecurePrefsHelper
-import xyz.realms.mgit.R
+import xyz.realms.mgit.ui.preference.PreferenceHelper
+import xyz.realms.mgit.ui.utils.SecurePrefsHelper
 import xyz.realms.mgit.errors.SecurePrefsException
 import xyz.realms.mgit.transport.AndroidJschCredentialsProvider
 import xyz.realms.mgit.transport.MGitHttpConnectionFactory
@@ -58,8 +57,7 @@ open class MGitApplication : Application() {
         setAppVersionPref()
         prefenceHelper = PreferenceHelper(this)
         try {
-            securePrefsHelper =
-                SecurePrefsHelper(this)
+            securePrefsHelper = SecurePrefsHelper(this)
             mCredentialsProvider =
                 AndroidJschCredentialsProvider(
                     securePrefsHelper

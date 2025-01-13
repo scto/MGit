@@ -1,4 +1,4 @@
-package xyz.realms.mgit.common;
+package xyz.realms.mgit.ui.common;
 
 /**
  * For your list item on click listening pleasure

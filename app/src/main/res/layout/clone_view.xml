@@ -18,7 +18,7 @@
 
         <variable
             name="clickHandler"
-            type="xyz.realms.mgit.common.OnActionClickListener" />
+            type="xyz.realms.mgit.ui.common.OnActionClickListener" />
 
     </data>
 

@@ -1,4 +1,4 @@
-package xyz.realms.mgit.common;
+package xyz.realms.mgit.ui.common;
 
 import androidx.databinding.BindingAdapter;
 

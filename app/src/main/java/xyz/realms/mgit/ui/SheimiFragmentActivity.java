@@ -36,7 +36,7 @@ import java.io.File;
 import java.util.Locale;
 
 import timber.log.Timber;
-import xyz.realms.mgit.ui.permissions.PermissionsHelper;
+import xyz.realms.mgit.ui.common.PermissionsHelper;
 import xyz.realms.mgit.ui.utils.AvatarDownloader;
 import xyz.realms.mgit.ui.utils.BasicFunctions;
 import xyz.realms.mgit.ui.utils.Profile;

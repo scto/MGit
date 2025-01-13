@@ -13,7 +13,7 @@ import org.eclipse.jgit.util.FS;
 
 import java.io.File;
 
-import xyz.realms.android.MGitApplication;
+import xyz.realms.mgit.MGitApplication;
 
 /**
  * Custom config for Jsch, including using user-provided private keys

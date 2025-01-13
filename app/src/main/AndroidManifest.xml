@@ -10,7 +10,7 @@
     <uses-permission android:name="android.permission.MANAGE_EXTERNAL_STORAGE" />
 
     <application
-        android:name="xyz.realms.android.MGitApplication"
+        android:name=".MGitApplication"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"

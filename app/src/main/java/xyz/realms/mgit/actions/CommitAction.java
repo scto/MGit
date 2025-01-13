@@ -26,7 +26,7 @@ import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 
-import xyz.realms.android.utils.Profile;
+import xyz.realms.mgit.ui.utils.Profile;
 import xyz.realms.mgit.R;
 import xyz.realms.mgit.database.Repo;
 import xyz.realms.mgit.errors.StopTaskException;

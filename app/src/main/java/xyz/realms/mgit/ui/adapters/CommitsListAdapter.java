@@ -19,7 +19,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.Set;
 
-import xyz.realms.android.utils.BasicFunctions;
+import xyz.realms.mgit.ui.utils.BasicFunctions;
 import xyz.realms.mgit.R;
 import xyz.realms.mgit.database.Repo;
 import xyz.realms.mgit.tasks.repo.GetCommitTask;

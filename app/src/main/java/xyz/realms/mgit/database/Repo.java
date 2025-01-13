@@ -30,10 +30,10 @@ import java.util.List;
 import java.util.Set;
 
 import timber.log.Timber;
-import xyz.realms.android.MGitApplication;
-import xyz.realms.android.preference.PreferenceHelper;
-import xyz.realms.android.utils.FsUtils;
-import xyz.realms.android.utils.Profile;
+import xyz.realms.mgit.MGitApplication;
+import xyz.realms.mgit.ui.preference.PreferenceHelper;
+import xyz.realms.mgit.ui.utils.FsUtils;
+import xyz.realms.mgit.ui.utils.Profile;
 import xyz.realms.mgit.errors.StopTaskException;
 import xyz.realms.mgit.tasks.repo.RepoOpTask;
 

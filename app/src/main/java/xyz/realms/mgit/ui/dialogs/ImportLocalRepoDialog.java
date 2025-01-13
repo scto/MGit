@@ -13,9 +13,9 @@ import android.widget.EditText;
 
 import java.io.File;
 
-import xyz.realms.android.MGitApplication;
-import xyz.realms.android.preference.PreferenceHelper;
-import xyz.realms.android.utils.FsUtils;
+import xyz.realms.mgit.MGitApplication;
+import xyz.realms.mgit.ui.preference.PreferenceHelper;
+import xyz.realms.mgit.ui.utils.FsUtils;
 import xyz.realms.mgit.R;
 import xyz.realms.mgit.database.Repo;
 import xyz.realms.mgit.database.RepoContract;

@@ -27,9 +27,9 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.util.List;
 
-import xyz.realms.android.utils.CodeGuesser;
-import xyz.realms.android.utils.FsUtils;
-import xyz.realms.android.utils.Profile;
+import xyz.realms.mgit.ui.utils.CodeGuesser;
+import xyz.realms.mgit.ui.utils.FsUtils;
+import xyz.realms.mgit.ui.utils.Profile;
 import xyz.realms.mgit.R;
 import xyz.realms.mgit.database.Repo;
 import xyz.realms.mgit.tasks.repo.CommitDiffTask;

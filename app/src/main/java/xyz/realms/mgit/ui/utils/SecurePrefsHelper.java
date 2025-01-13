@@ -1,4 +1,4 @@
-package xyz.realms.android.utils;
+package xyz.realms.mgit.ui.utils;
 
 import android.annotation.TargetApi;
 import android.content.Context;

@@ -2,8 +2,6 @@ package xyz.realms.mgit
 
 import android.util.Log
 import com.facebook.stetho.Stetho
-import xyz.realms.android.MGitApplication
-import xyz.realms.mgit.R
 import timber.log.Timber
 
 

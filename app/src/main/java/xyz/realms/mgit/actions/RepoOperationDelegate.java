@@ -5,7 +5,7 @@ import org.eclipse.jgit.lib.Ref;
 import java.io.File;
 import java.util.ArrayList;
 
-import xyz.realms.android.utils.FsUtils;
+import xyz.realms.mgit.ui.utils.FsUtils;
 import xyz.realms.mgit.database.Repo;
 import xyz.realms.mgit.tasks.SheimiAsyncTask.AsyncTaskPostCallback;
 import xyz.realms.mgit.tasks.repo.AddToStageTask;

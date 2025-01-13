@@ -9,7 +9,7 @@ import android.preference.PreferenceManager;
 
 import androidx.core.app.TaskStackBuilder;
 
-import xyz.realms.android.utils.BasicFunctions;
+import xyz.realms.mgit.ui.utils.BasicFunctions;
 import xyz.realms.mgit.R;
 import xyz.realms.mgit.ui.explorer.RepoListActivity;
 

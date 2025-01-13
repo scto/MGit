@@ -1,6 +1,8 @@
-package xyz.realms.android.utils;
+package xyz.realms.mgit.database.models;
 
 import static org.junit.Assert.assertEquals;
+
+import xyz.realms.mgit.ui.utils.CodeGuesser;
 
 /**
  *

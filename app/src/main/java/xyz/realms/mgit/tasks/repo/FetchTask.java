@@ -3,6 +3,7 @@ package xyz.realms.mgit.tasks.repo;
 import org.eclipse.jgit.api.FetchCommand;
 import org.eclipse.jgit.api.Git;
 import org.eclipse.jgit.api.errors.TransportException;
+import org.eclipse.jgit.transport.FetchResult;
 
 import xyz.realms.mgit.R;
 import xyz.realms.mgit.database.Repo;
@@ -13,10 +14,20 @@ public class FetchTask extends RepoRemoteOpTask {
 
     private final AsyncTaskCallback mCallback;
     private final String[] mRemotes;
+    private FetchResult fetchResult;
+    private FetchCallback mfetchCallback;
 
     public FetchTask(String[] remotes, Repo repo, AsyncTaskCallback callback) {
         super(repo);
         mCallback = callback;
+        mRemotes = remotes;
+    }
+
+    public FetchTask(String[] remotes, Repo repo, AsyncTaskCallback callback,
+                     FetchCallback fetchCallback) {
+        super(repo);
+        mCallback = callback;
+        mfetchCallback = fetchCallback;
         mRemotes = remotes;
     }
 
@@ -53,6 +64,9 @@ public class FetchTask extends RepoRemoteOpTask {
         if (mCallback != null) {
             mCallback.onPostExecute(isSuccess);
         }
+        if (mfetchCallback != null) {
+            mfetchCallback.onPostExecute(this.fetchResult);
+        }
     }
 
     private boolean fetchRepo(String remote) {
@@ -71,7 +85,7 @@ public class FetchTask extends RepoRemoteOpTask {
         setCredentials(fetchCommand);
 
         try {
-            fetchCommand.call();
+            fetchResult = fetchCommand.call();
         } catch (TransportException e) {
             setException(e);
             handleAuthError(this);
@@ -93,5 +107,9 @@ public class FetchTask extends RepoRemoteOpTask {
     @Override
     public RepoRemoteOpTask getNewTask() {
         return new FetchTask(mRemotes, mRepo, mCallback);
+    }
+
+    public interface FetchCallback {
+        void onPostExecute(FetchResult fetchResult);
     }
 }

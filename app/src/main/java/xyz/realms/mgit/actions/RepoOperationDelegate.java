@@ -28,6 +28,7 @@ public class RepoOperationDelegate {
     }
 
     private void initActions() {
+        mActions.add(new SyncRepoAction(mRepo, mActivity));
         mActions.add(new NewBranchAction(mRepo, mActivity));
         mActions.add(new PullAction(mRepo, mActivity));
         mActions.add(new PushAction(mRepo, mActivity));

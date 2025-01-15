@@ -103,15 +103,11 @@ public class CommitAction extends RepoAction {
         Collections.sort(authorList);
         AuthorsAdapter adapter = new AuthorsAdapter(mActivity, authorList);
         commitAuthor.setAdapter(adapter);
-        isAmend.setOnCheckedChangeListener(new OnCheckedChangeListener() {
-
-            @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                if (isChecked) {
-                    commitMsg.setText(mRepo.getLastCommitFullMsg());
-                } else {
-                    commitMsg.setText("");
-                }
+        isAmend.setOnCheckedChangeListener((buttonView, isChecked) -> {
+            if (isChecked) {
+                commitMsg.setText(mRepo.getLastCommitFullMsg());
+            } else {
+                commitMsg.setText("");
             }
         });
         final AlertDialog d =

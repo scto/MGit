@@ -13,6 +13,7 @@ public class AddAllAction extends RepoAction {
     @Override
     public void execute() {
         AddToStageTask addTask = new AddToStageTask(mRepo, ".", null);
+        mActivity.showToastMessage("正在暂存全部。");
         addTask.executeTask();
         mActivity.closeOperationDrawer();
     }

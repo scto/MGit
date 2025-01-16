@@ -12,12 +12,21 @@ import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevWalk;
 
 import java.io.IOException;
+import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
+import java.util.Locale;
+import java.util.function.Consumer;
 
 import xyz.realms.mgit.R;
 import xyz.realms.mgit.database.Repo;
 import xyz.realms.mgit.errors.StopTaskException;
+import xyz.realms.mgit.tasks.repo.AddToStageTask;
+import xyz.realms.mgit.tasks.repo.CommitChangesTask;
 import xyz.realms.mgit.tasks.repo.FetchTask;
+import xyz.realms.mgit.tasks.repo.PullTask;
+import xyz.realms.mgit.tasks.repo.PushTask;
 import xyz.realms.mgit.ui.explorer.RepoDetailActivity;
+import xyz.realms.mgit.ui.utils.Profile;
 
 public class SyncRepoAction extends RepoAction {
     private SyncStatus result;
@@ -69,6 +78,7 @@ public class SyncRepoAction extends RepoAction {
                             if (localChanged) {
                                 mActivity.showToastMessage("本地有未提交的更改。");
                                 // 暂存 提交，推送
+                                stage(stage -> commit(commit -> push()));
                             }
                         }
                         case local_new -> {
@@ -76,7 +86,9 @@ public class SyncRepoAction extends RepoAction {
                             if (localChanged) {
                                 mActivity.showToastMessage("本地有未提交的更改。");
                                 // 暂存、提交、推送，这时是推送多个commit。
+                                stage(stage -> commit(commit -> push()));
                             }
+                            commit(commit -> push());
                         }
                         case remote_new -> {
                             mActivity.showToastMessage("远程仓库有新的提交。");
@@ -84,6 +96,11 @@ public class SyncRepoAction extends RepoAction {
                                 mActivity.showToastMessage("本地有未提交的更改。");
                                 // 有两种情况，冲突和无冲突。建议在修改之前先拉取，即可避免这种情况。
                             }
+                            // TODO remote指推送到那个远程例如origin。或许需要一个默认的远程名称。
+                            String remote = mRepo.getRemotes().iterator().next();
+                            PullTask pullTask = new PullTask(mRepo, remote, false,
+                                mActivity.new ProgressCallback(R.string.pull_msg_init));
+                            pullTask.executeTask();
                             // 拉取。
                         }
                         case diverged -> {
@@ -97,11 +114,48 @@ public class SyncRepoAction extends RepoAction {
                 }
             }));
             fetchTask.executeTask();
-
         } catch (StopTaskException e) {
             throw new RuntimeException(e);
         }
 
+    }
+
+    private void stage(Consumer<Void> nextStep) {
+        AddToStageTask addTask = new AddToStageTask(mRepo, ".", isSuccess -> {
+            if (nextStep != null) {
+                nextStep.accept(null);
+            }
+        });
+        mActivity.showToastMessage("正在暂存全部。");
+        addTask.executeTask();
+    }
+
+    private void commit(Consumer<Void> nextStep) {
+        String profileUsername = Profile.getUsername(mActivity.getApplicationContext());
+        String profileEmail = Profile.getEmail(mActivity.getApplicationContext());
+        if (!(profileUsername != null && !profileUsername.isEmpty() && profileEmail != null && !profileEmail.isEmpty())) {
+            profileUsername = mRepo.getUsername();
+            profileEmail = mRepo.getLastCommitterEmail();
+        }
+        //这是时间
+        String msg = new SimpleDateFormat("yyyyMMddHHmmss",
+            Locale.getDefault(Locale.Category.FORMAT)).format(LocalDateTime.now());
+        CommitChangesTask commitTask = new CommitChangesTask(mRepo, msg, false, false,
+            profileUsername, profileEmail, isCommitChangesSuccess -> {
+            if (nextStep != null) {
+                nextStep.accept(null);
+            }
+        });
+        commitTask.executeTask();
+    }
+
+    private void push() {
+        mActivity.reset();
+        // TODO remote指推送到那个远程例如origin。或许需要一个默认的远程名称。
+        String remote = mRepo.getRemotes().iterator().next();
+        PushTask pushTask = new PushTask(mRepo, remote, true, false,
+            mActivity.new ProgressCallback(R.string.push_msg_init));
+        pushTask.executeTask();
     }
 
     enum SyncStatus {

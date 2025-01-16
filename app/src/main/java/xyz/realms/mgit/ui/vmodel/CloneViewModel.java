@@ -9,11 +9,12 @@ import java.io.File;
 
 import timber.log.Timber;
 import xyz.realms.mgit.MGitApplication;
-import xyz.realms.mgit.ui.preference.PreferenceHelper;
 import xyz.realms.mgit.R;
 import xyz.realms.mgit.database.Repo;
+import xyz.realms.mgit.tasks.repo.CheckoutTask;
 import xyz.realms.mgit.tasks.repo.CloneTask;
 import xyz.realms.mgit.tasks.repo.InitLocalTask;
+import xyz.realms.mgit.ui.preference.PreferenceHelper;
 
 public class CloneViewModel extends AndroidViewModel {
 
@@ -22,8 +23,8 @@ public class CloneViewModel extends AndroidViewModel {
     public MutableLiveData<String> remoteUrlError;
     public MutableLiveData<String> localRepoNameError;
     public MutableLiveData<Boolean> visible;
-    private String remoteUrl;
     public boolean cloneRecursively;
+    private String remoteUrl;
 
     public CloneViewModel(Application application) {
         super(application);
@@ -60,7 +61,10 @@ public class CloneViewModel extends AndroidViewModel {
             Timber.d("CLONE REPO %s %s [%b]", this.localRepoName.getValue(), this.remoteUrl,
                 this.cloneRecursively);
             Repo repo = Repo.createRepo(this.localRepoName.getValue(), this.remoteUrl, "");
-            CloneTask task = new CloneTask(repo, this.cloneRecursively, "", null);
+            CloneTask task = new CloneTask(repo, this.cloneRecursively, "", null, isSuccess -> {
+                CheckoutTask checkoutTask = new CheckoutTask(repo, repo.getBranchName(), null, null);
+                checkoutTask.executeTask();
+            });
             task.executeTask();
             this.remoteUrl = "";
             show(false);

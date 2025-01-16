@@ -10,8 +10,6 @@ import org.eclipse.jgit.api.errors.JGitInternalException;
 import org.eclipse.jgit.api.errors.TransportException;
 import org.eclipse.jgit.errors.NotSupportedException;
 import org.eclipse.jgit.lib.ProgressMonitor;
-import org.eclipse.jgit.storage.file.FileBasedConfig;
-import org.eclipse.jgit.util.FS;
 
 import java.io.File;
 import java.nio.file.Path;
@@ -19,18 +17,19 @@ import java.nio.file.Paths;
 import java.util.Locale;
 
 import timber.log.Timber;
-import xyz.realms.mgit.ui.utils.FsUtils;
-import xyz.realms.mgit.ui.utils.Profile;
 import xyz.realms.mgit.R;
 import xyz.realms.mgit.database.Repo;
 import xyz.realms.mgit.database.RepoContract;
 import xyz.realms.mgit.transport.ssh.SgitTransportCallback;
+import xyz.realms.mgit.ui.utils.FsUtils;
+import xyz.realms.mgit.ui.utils.Profile;
 
 public class CloneTask extends RepoRemoteOpTask {
 
     private final AsyncTaskCallback mCallback;
     private final boolean mCloneRecursive;
     private final String mCloneStatusName;
+    private AsyncTaskPostCallback mPostCallback;
 
     public CloneTask(Repo repo, boolean cloneRecursive, String statusName,
                      AsyncTaskCallback callback) {
@@ -38,6 +37,15 @@ public class CloneTask extends RepoRemoteOpTask {
         mCloneRecursive = cloneRecursive;
         mCloneStatusName = statusName;
         mCallback = callback;
+    }
+
+    public CloneTask(Repo repo, boolean cloneRecursive, String statusName,
+                     AsyncTaskCallback callback, AsyncTaskPostCallback postCallback) {
+        super(repo);
+        mCloneRecursive = cloneRecursive;
+        mCloneStatusName = statusName;
+        mCallback = callback;
+        mPostCallback = postCallback;
     }
 
     @Override
@@ -60,6 +68,7 @@ public class CloneTask extends RepoRemoteOpTask {
         if (isSuccess) {
             mRepo.updateLatestCommitInfo();
             mRepo.updateStatus(RepoContract.REPO_STATUS_NULL);
+            if (mPostCallback != null) mPostCallback.onPostExecute(true);
         }
     }
 
@@ -78,22 +87,15 @@ public class CloneTask extends RepoRemoteOpTask {
                 return false;
             }
 
-            File configFile = new File(String.valueOf(userHome), ".gitconfig");
-            final FS fs = FS.DETECTED.newInstance().setUserHome(userHome).setGitSystemConfig(configFile);
-            FileBasedConfig mConfig = new FileBasedConfig(null, configFile, fs);
-            mConfig.load();
-            mConfig.clear();
-            mConfig.setString("core", null, "bigFileThreshold", "256 MiB");
-            mConfig.setString("core", null, "packedGitLimit", "4 MiB");
-            mConfig.setString("core", null, "packedGitWindowSize", "4 kiB");
-            mConfig.setString("core", null, "packedGitOpenFiles ", "128");
-            mConfig.setString("core", null, "deltaBaseCacheLimit ", "4 MiB");
-            mConfig.setString("core", "dfs", "deltaBaseCacheLimit ", "4 MiB");
-            mConfig.setString("core", "dfs", "streamFileThreshold ", "8 MiB");
-            mConfig.save();
-
             File localRepo = mRepo.getDir();
-            CloneCommand cloneCommand = Git.cloneRepository().setFs(fs).setURI(mRepo.getRemoteURL()).setCloneAllBranches(true).setProgressMonitor(new RepoCloneMonitor()).setTransportConfigCallback(new SgitTransportCallback()).setDirectory(localRepo).setCloneSubmodules(mCloneRecursive);
+            CloneCommand cloneCommand = Git.cloneRepository()
+                .setNoCheckout(true)
+                .setURI(mRepo.getRemoteURL())
+                .setCloneAllBranches(true)
+                .setProgressMonitor(new RepoCloneMonitor())
+                .setTransportConfigCallback(new SgitTransportCallback())
+                .setDirectory(localRepo)
+                .setCloneSubmodules(mCloneRecursive);
 
             setCredentials(cloneCommand);
 

@@ -430,6 +430,22 @@ public class Repo implements Comparable<Repo>, Serializable {
         return "";
     }
 
+    public ArrayList<String> getRemoteBranchName() {
+        try {
+            ArrayList<String> remoteBranchNames = new ArrayList<>();
+            StringBuilder fullBranch = new StringBuilder(getGit().getRepository().getFullBranch());
+            String branch = fullBranch.substring(fullBranch.lastIndexOf("/") + 1);
+            Set<String> remotes = this.getRemotes();
+            for (String remote : remotes) {
+                remoteBranchNames.add("refs/remotes/" + remote + "/" + branch);
+            }
+            // refs/remotes/<remote>/<branch>
+            return remoteBranchNames;
+        } catch (IOException | StopTaskException e) {
+            Timber.e(e, "error getting remote branch name");
+        } return new ArrayList<>();
+    }
+
     public String[] getBranches() {
         try {
             Set<String> branchSet = new HashSet<String>();
@@ -571,6 +587,7 @@ public class Repo implements Comparable<Repo>, Serializable {
             StoredConfig config = getStoredConfig();
             Set<String> remotes = config.getSubsections("remote");
             mRemotes = new HashSet<String>(remotes);
+            // ['origin', ]
             return mRemotes;
         } catch (StopTaskException ignored) {
         }

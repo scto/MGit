@@ -34,8 +34,8 @@
         <item>添加远程</item>
         <item>删除远程</item>
         <item>从列表中移除仓库</item>
-        <item>修改repo.config</item>
-        <item>修改user.name</item>
+        <item>编辑仓库配置</item>
+        <item>设置Git用户</item>
     </string-array>
     <string-array name="dialog_choose_repo_action_items">
         <item>重命名</item>

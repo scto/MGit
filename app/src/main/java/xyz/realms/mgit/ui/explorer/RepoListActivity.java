@@ -105,7 +105,7 @@ public class RepoListActivity extends SheimiFragmentActivity {
                 List<Repo> repositoriesWithSameRemote = Repo.getRepoList(mContext, RepoDbManager.searchRepo(remoteUrl));
 
                 //if so, just open it
-                if (repositoriesWithSameRemote.size() > 0) {
+                if (!repositoriesWithSameRemote.isEmpty()) {
                     Toast.makeText(mContext, R.string.repository_already_present, Toast.LENGTH_SHORT).show();
                     Intent intent = new Intent(mContext, RepoDetailActivity.class);
                     intent.putExtra(Repo.TAG, repositoriesWithSameRemote.get(0));
@@ -117,8 +117,9 @@ public class RepoListActivity extends SheimiFragmentActivity {
                 } else {
                     final String cloningStatus = getString(R.string.cloning);
                     Repo mRepo = Repo.createRepo(repoName, repoUrlBuilder.toString(), cloningStatus);
-                    Boolean isRecursive = true;
-                    CloneTask task = new CloneTask(mRepo, true, cloningStatus, null);
+                    // TODO: 可能需要增加过滤大于50MB文件的检出操作。
+                    boolean isRecursive = true;
+                    CloneTask task = new CloneTask(mRepo, isRecursive, cloningStatus, null);
                     task.executeTask();
                 }
             }

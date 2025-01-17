@@ -1,8 +1,5 @@
 package xyz.realms.mgit.actions;
 
-import android.os.Handler;
-import android.os.Looper;
-
 import org.eclipse.jgit.api.Status;
 import org.eclipse.jgit.api.errors.GitAPIException;
 import org.eclipse.jgit.lib.ObjectId;
@@ -12,9 +9,9 @@ import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevWalk;
 
 import java.io.IOException;
-import java.text.SimpleDateFormat;
-import java.time.LocalDateTime;
-import java.util.Locale;
+import java.time.LocalDate;
+import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
 import java.util.function.Consumer;
 
 import xyz.realms.mgit.R;
@@ -29,7 +26,6 @@ import xyz.realms.mgit.ui.explorer.RepoDetailActivity;
 import xyz.realms.mgit.ui.utils.Profile;
 
 public class SyncRepoAction extends RepoAction {
-    private SyncStatus result;
 
     public SyncRepoAction(Repo repo, RepoDetailActivity activity) {
         super(repo, activity);
@@ -41,8 +37,8 @@ public class SyncRepoAction extends RepoAction {
             Repository repository = mRepo.getGit().getRepository();
             String[] originRemotes = mRepo.getRemotes().toArray(new String[0]);
             FetchTask fetchTask = new FetchTask(originRemotes, mRepo,
-                mActivity.new ProgressCallback(R.string.fetch_msg_init),
-                fetchResult -> new Handler(Looper.getMainLooper()).post(() -> {
+                mActivity.new ProgressCallback(R.string.fetch_msg_init), fetchResult -> {
+                SyncStatus result;
                 try {
                     if (fetchResult == null) {
                         mActivity.showToastMessage("fetchResult = null, 无法获取远程或本地提交。");
@@ -62,17 +58,19 @@ public class SyncRepoAction extends RepoAction {
                     ObjectId localHeadObjectID = repository.resolve("HEAD");
                     RevCommit remoteHeadCommit = revWalk.parseCommit(remoteHeadObjectID);
                     RevCommit localHeadCommit = revWalk.parseCommit(localHeadObjectID);
+
                     if (localHeadCommit.equals(remoteHeadCommit)) {
-                        this.result = SyncStatus.synced;
+                        result = SyncStatus.synced;
                     } else if (revWalk.isMergedInto(localHeadCommit, remoteHeadCommit)) {
-                        this.result = SyncStatus.remote_new;
+                        result = SyncStatus.remote_new;
                     } else if (revWalk.isMergedInto(remoteHeadCommit, localHeadCommit)) {
-                        this.result = SyncStatus.local_new;
+                        result = SyncStatus.local_new;
                     } else {
-                        this.result = SyncStatus.diverged;
+                        result = SyncStatus.diverged;
                     }
+
                     boolean localChanged = status.hasUncommittedChanges() || !status.isClean();
-                    switch (this.result) {
+                    switch (result) {
                         case synced -> {
                             mActivity.showToastMessage("远程和本地仓库的提交是同步的。");
                             if (localChanged) {
@@ -112,7 +110,8 @@ public class SyncRepoAction extends RepoAction {
                 } catch (GitAPIException | StopTaskException e) {
                     throw new RuntimeException(e);
                 }
-            }));
+
+            });
             fetchTask.executeTask();
         } catch (StopTaskException e) {
             throw new RuntimeException(e);
@@ -137,11 +136,10 @@ public class SyncRepoAction extends RepoAction {
             profileUsername = mRepo.getUsername();
             profileEmail = mRepo.getLastCommitterEmail();
         }
-        //这是时间
-        String msg = new SimpleDateFormat("yyyyMMddHHmmss",
-            Locale.getDefault(Locale.Category.FORMAT)).format(LocalDateTime.now());
-        CommitChangesTask commitTask = new CommitChangesTask(mRepo, msg, false, false,
-            profileUsername, profileEmail, isCommitChangesSuccess -> {
+        String nowDate = DateTimeFormatter.ofPattern("yyyy-MM-dd").format(LocalDate.now());
+        String nowTime = DateTimeFormatter.ofPattern("HHmm").format(LocalTime.now());
+        CommitChangesTask commitTask = new CommitChangesTask(mRepo, nowDate + "-" + nowTime,
+            false, false, profileUsername, profileEmail, isCommitChangesSuccess -> {
             if (nextStep != null) {
                 nextStep.accept(null);
             }

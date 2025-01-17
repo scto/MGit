@@ -7,7 +7,7 @@
     <!-- action -->
     <string name="action_search">查找</string>
     <string name="action_clone">克隆</string>
-    <string name="action_import_repo">导入仓库</string>
+    <string name="action_import_repo">导入</string>
     <string name="action_settings">设置</string>
     <string name="action_mode_rename_key">重命名密钥</string>
     <string name="action_mode_rename_branch">重命名分支</string>

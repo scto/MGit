@@ -9,7 +9,7 @@
     <!-- action -->
     <string name="action_search">Search</string>
     <string name="action_clone">Clone</string>
-    <string name="action_import_repo">Import Repository</string>
+    <string name="action_import_repo">Import</string>
     <string name="action_settings">Settings</string>
     <string name="action_mode_rename_key">Rename key</string>
     <string name="action_mode_rename_branch">Rename branch</string>

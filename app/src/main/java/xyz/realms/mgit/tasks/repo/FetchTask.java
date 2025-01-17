@@ -29,7 +29,6 @@ public class FetchTask extends RepoRemoteOpTask {
         mCallback = callback;
         mfetchCallback = fetchCallback;
         mRemotes = remotes;
-        mIsTaskAdded = true;
     }
 
     @Override
@@ -61,6 +60,7 @@ public class FetchTask extends RepoRemoteOpTask {
     }
 
     protected void onPostExecute(Boolean isSuccess) {
+        super.onPostExecute(isSuccess);
         if (mCallback != null) {
             mCallback.onPostExecute(isSuccess);
         }

@@ -3,6 +3,7 @@ package xyz.realms.mgit
 import android.annotation.SuppressLint
 import android.app.Application
 import android.content.Context
+import android.os.Environment
 import org.acra.config.dialog
 import org.acra.config.mailSender
 import org.acra.data.StringFormat
@@ -12,11 +13,13 @@ import org.conscrypt.BuildConfig
 import org.conscrypt.Conscrypt
 import org.eclipse.jgit.transport.CredentialsProvider
 import timber.log.Timber
-import xyz.realms.mgit.ui.preference.PreferenceHelper
-import xyz.realms.mgit.ui.utils.SecurePrefsHelper
+import xyz.realms.mgit.database.Repo
 import xyz.realms.mgit.errors.SecurePrefsException
 import xyz.realms.mgit.transport.AndroidJschCredentialsProvider
 import xyz.realms.mgit.transport.MGitHttpConnectionFactory
+import xyz.realms.mgit.ui.preference.PreferenceHelper
+import xyz.realms.mgit.ui.utils.SecurePrefsHelper
+import java.io.File
 import java.security.Security
 
 /**
@@ -56,12 +59,17 @@ open class MGitApplication : Application() {
         mContext = applicationContext
         setAppVersionPref()
         prefenceHelper = PreferenceHelper(this)
+
+        // /storage/emulated/0/Documents
+        if (prefenceHelper?.getRepoRoot() == null || prefenceHelper?.getRepoRoot().toString()
+                .isEmpty()
+        ) {
+            val documentsDir = File(Environment.getExternalStorageDirectory(), "Documents")
+            Repo.setLocalRepoRoot(this, documentsDir)
+        }
         try {
             securePrefsHelper = SecurePrefsHelper(this)
-            mCredentialsProvider =
-                AndroidJschCredentialsProvider(
-                    securePrefsHelper
-                )
+            mCredentialsProvider = AndroidJschCredentialsProvider(securePrefsHelper)
         } catch (e: SecurePrefsException) {
             Timber.e(e)
         }
@@ -87,13 +95,10 @@ open class MGitApplication : Application() {
 
     private fun setAppVersionPref() {
         val sharedPreference = getSharedPreferences(
-            getString(R.string.preference_file_key),
-            Context.MODE_PRIVATE
+            getString(R.string.preference_file_key), Context.MODE_PRIVATE
         )
         val version = BuildConfig.VERSION_NAME
-        sharedPreference
-            .edit()
-            .putString(getString(R.string.preference_key_app_version), version)
+        sharedPreference.edit().putString(getString(R.string.preference_key_app_version), version)
             .apply()
     }
 }

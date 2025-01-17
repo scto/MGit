@@ -3,7 +3,6 @@ package xyz.realms.mgit
 import android.annotation.SuppressLint
 import android.app.Application
 import android.content.Context
-import android.os.Environment
 import org.acra.config.dialog
 import org.acra.config.mailSender
 import org.acra.data.StringFormat
@@ -12,13 +11,11 @@ import org.bouncycastle.jce.provider.BouncyCastleProvider
 import org.conscrypt.Conscrypt
 import org.eclipse.jgit.transport.CredentialsProvider
 import timber.log.Timber
-import xyz.realms.mgit.database.Repo
 import xyz.realms.mgit.errors.SecurePrefsException
 import xyz.realms.mgit.transport.AndroidJschCredentialsProvider
 import xyz.realms.mgit.transport.MGitHttpConnectionFactory
 import xyz.realms.mgit.ui.preference.PreferenceHelper
 import xyz.realms.mgit.ui.utils.SecurePrefsHelper
-import java.io.File
 import java.security.Security
 
 /**
@@ -59,13 +56,6 @@ open class MGitApplication : Application() {
         setAppVersionPref()
         prefenceHelper = PreferenceHelper(this)
 
-        // /storage/emulated/0/Documents
-        if (prefenceHelper?.getRepoRoot() == null || prefenceHelper?.getRepoRoot().toString()
-                .isEmpty()
-        ) {
-            val documentsDir = File(Environment.getExternalStorageDirectory(), "Documents")
-            Repo.setLocalRepoRoot(this, documentsDir)
-        }
         try {
             securePrefsHelper = SecurePrefsHelper(this)
             mCredentialsProvider = AndroidJschCredentialsProvider(securePrefsHelper)

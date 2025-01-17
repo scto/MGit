@@ -1,8 +1,5 @@
 package xyz.realms.mgit.tasks.repo;
 
-import org.eclipse.jgit.api.errors.GitAPIException;
-import org.eclipse.jgit.errors.NoWorkTreeException;
-
 import java.util.Set;
 
 import xyz.realms.mgit.database.Repo;
@@ -15,6 +12,7 @@ public class StatusTask extends RepoOpTask {
     public StatusTask(Repo repo, GetStatusCallback callback) {
         super(repo);
         mCallback = callback;
+        mIsTaskAdded = true;
     }
 
     @Override
@@ -23,7 +21,6 @@ public class StatusTask extends RepoOpTask {
     }
 
     protected void onPostExecute(Boolean isSuccess) {
-        super.onPostExecute(isSuccess);
         if (mCallback != null && isSuccess) {
             mCallback.postStatus(mResult.toString());
         }
@@ -37,12 +34,6 @@ public class StatusTask extends RepoOpTask {
         try {
             org.eclipse.jgit.api.Status status = mRepo.getGit().status().call();
             convertStatus(status);
-        } catch (NoWorkTreeException e) {
-            setException(e);
-            return false;
-        } catch (GitAPIException e) {
-            setException(e);
-            return false;
         } catch (StopTaskException e) {
             return false;
         } catch (Throwable e) {

@@ -3,14 +3,13 @@ package xyz.realms.mgit.tasks.repo;
 import android.content.Context;
 
 import org.eclipse.jgit.api.CommitCommand;
-import org.eclipse.jgit.api.errors.GitAPIException;
 import org.eclipse.jgit.lib.StoredConfig;
 
 import xyz.realms.mgit.MGitApplication;
-import xyz.realms.mgit.ui.utils.Profile;
 import xyz.realms.mgit.R;
 import xyz.realms.mgit.database.Repo;
 import xyz.realms.mgit.errors.StopTaskException;
+import xyz.realms.mgit.ui.utils.Profile;
 
 public class CommitChangesTask extends RepoOpTask {
 
@@ -21,8 +20,8 @@ public class CommitChangesTask extends RepoOpTask {
     private final boolean mIsAmend;
     private final boolean mStageAll;
 
-    public CommitChangesTask(Repo repo, String commitMsg, boolean isAmend,
-                             boolean stageAll, String authorName, String authorEmail,
+    public CommitChangesTask(Repo repo, String commitMsg, boolean isAmend, boolean stageAll,
+                             String authorName, String authorEmail,
                              AsyncTaskPostCallback callback) {
         super(repo);
         mCallback = callback;
@@ -34,8 +33,8 @@ public class CommitChangesTask extends RepoOpTask {
         setSuccessMsg(R.string.success_commit);
     }
 
-    public static void commit(Repo repo, boolean stageAll, boolean isAmend,
-                              String msg, String authorName, String authorEmail) throws Exception {
+    public static void commit(Repo repo, boolean stageAll, boolean isAmend, String msg,
+                              String authorName, String authorEmail) throws Exception {
         Context context = MGitApplication.getContext();
         StoredConfig config = repo.getGit().getRepository().getConfig();
         String committerEmail = config.getString("user", null, "email");
@@ -53,9 +52,16 @@ public class CommitChangesTask extends RepoOpTask {
         if (msg.isEmpty()) {
             throw new Exception("Please include a commit message");
         }
-        CommitCommand cc = repo.getGit().commit()
-            .setCommitter(committerName, committerEmail).setAll(stageAll)
-            .setAmend(isAmend).setMessage(msg);
+        /*
+         * Git().commit().setAll(stageAll)
+         * 将所有已经被 Git 跟踪的文件（即那些之前已经被 git add 过的文件）的最新更改暂存并提交
+         */
+        if (stageAll) {
+            repo.getGit().add().addFilepattern(".").setRenormalize(false).call();
+            repo.getGit().add().setUpdate(true).addFilepattern(".").setRenormalize(false).call();
+        }
+        CommitCommand cc =
+            repo.getGit().commit().setCommitter(committerName, committerEmail).setAmend(isAmend).setMessage(msg);
         if (authorName != null && authorEmail != null) {
             cc.setAuthor(authorName, authorEmail);
         }
@@ -79,9 +85,6 @@ public class CommitChangesTask extends RepoOpTask {
         try {
             commit(mRepo, mStageAll, mIsAmend, mCommitMsg, mAuthorName, mAuthorEmail);
         } catch (StopTaskException e) {
-            return false;
-        } catch (GitAPIException e) {
-            setException(e);
             return false;
         } catch (Throwable e) {
             setException(e);

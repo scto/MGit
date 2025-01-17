@@ -130,11 +130,13 @@ public class SyncRepoAction extends RepoAction {
     }
 
     private void commit(Consumer<Void> nextStep) {
+        //Git用户配置来自首选项中的设置
         String profileUsername = Profile.getUsername(mActivity.getApplicationContext());
         String profileEmail = Profile.getEmail(mActivity.getApplicationContext());
         if (!(profileUsername != null && !profileUsername.isEmpty() && profileEmail != null && !profileEmail.isEmpty())) {
-            profileUsername = mRepo.getUsername();
-            profileEmail = mRepo.getLastCommitterEmail();
+            // 为空的话只能结束然后提示用户设置。
+            mActivity.showMessageDialog(R.string.dialog_commit_title, "Git 用户名或邮箱未设置。");
+            return;
         }
         String nowDate = DateTimeFormatter.ofPattern("yyyy-MM-dd").format(LocalDate.now());
         String nowTime = DateTimeFormatter.ofPattern("HHmm").format(LocalTime.now());

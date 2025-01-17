@@ -31,11 +31,11 @@ import java.util.Set;
 
 import timber.log.Timber;
 import xyz.realms.mgit.MGitApplication;
+import xyz.realms.mgit.errors.StopTaskException;
+import xyz.realms.mgit.tasks.repo.RepoOpTask;
 import xyz.realms.mgit.ui.preference.PreferenceHelper;
 import xyz.realms.mgit.ui.utils.FsUtils;
 import xyz.realms.mgit.ui.utils.Profile;
-import xyz.realms.mgit.errors.StopTaskException;
-import xyz.realms.mgit.tasks.repo.RepoOpTask;
 
 /**
  * Model for a local repo
@@ -101,8 +101,8 @@ public class Repo implements Comparable<Repo>, Serializable {
         return repo;
     }
 
-    public static List<Repo> getRepoList(Context context, Cursor cursor) {
-        List<Repo> repos = new ArrayList<Repo>();
+    public static List<Repo> getRepoList(Cursor cursor) {
+        List<Repo> repos = new ArrayList<>();
         cursor.moveToFirst();
         while (!cursor.isAfterLast()) {
             repos.add(new Repo(cursor));
@@ -199,11 +199,11 @@ public class Repo implements Comparable<Repo>, Serializable {
 
     public static void setLocalRepoRoot(Context context, File repoRoot) {
         PreferenceHelper prefs = ((MGitApplication) context.getApplicationContext()).getPrefenceHelper();
-        File oldRoot = prefs.getRepoRoot();
         prefs.setRepoRoot(repoRoot.getAbsolutePath());
 
         // need to make any existing "internal" repos "external" so that their paths are still correct
-        List<Repo> allRepos = Repo.getRepoList(context, RepoDbManager.queryAllRepo());
+        File oldRoot = prefs.getRepoRoot();
+        List<Repo> allRepos = Repo.getRepoList(RepoDbManager.queryAllRepo());
         for (Repo repo : allRepos) {
             if (!repo.isExternal()) {
                 repo.mLocalPath = EXTERNAL_PREFIX + oldRoot.getAbsolutePath() + "/" + repo.mLocalPath;

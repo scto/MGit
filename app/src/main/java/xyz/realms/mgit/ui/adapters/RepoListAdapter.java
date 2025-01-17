@@ -33,7 +33,7 @@ import xyz.realms.mgit.database.RepoContract;
 import xyz.realms.mgit.database.RepoDbManager;
 import xyz.realms.mgit.ui.explorer.RepoDetailActivity;
 import xyz.realms.mgit.ui.SheimiFragmentActivity;
-import xyz.realms.mgit.ui.explorer.RepoListActivity;
+import xyz.realms.mgit.ui.RepoListActivity;
 
 /**
  * Created by sheimi on 8/6/13.
@@ -79,7 +79,7 @@ public class RepoListAdapter extends ArrayAdapter<Repo> implements
                 cursor = RepoDbManager.queryAllRepo();
                 break;
         }
-        List<Repo> repo = Repo.getRepoList(mActivity, cursor);
+        List<Repo> repo = Repo.getRepoList(cursor);
         Collections.sort(repo);
         cursor.close();
         clear();

@@ -11,7 +11,7 @@ import androidx.core.app.TaskStackBuilder;
 
 import xyz.realms.mgit.ui.utils.BasicFunctions;
 import xyz.realms.mgit.R;
-import xyz.realms.mgit.ui.explorer.RepoListActivity;
+import xyz.realms.mgit.ui.RepoListActivity;
 
 public class SettingsFragment extends PreferenceFragment {
     private SharedPreferences.OnSharedPreferenceChangeListener mListener;

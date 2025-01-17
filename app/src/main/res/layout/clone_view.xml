@@ -8,9 +8,9 @@
 
         <import type="android.view.View" />
 
-        <import type="xyz.realms.mgit.ui.explorer.RepoListActivity" />
+        <import type="xyz.realms.mgit.ui.RepoListActivity.ClickActions" />
 
-        <import type="xyz.realms.mgit.ui.explorer.RepoListActivity.ClickActions" />
+        <import type="xyz.realms.mgit.ui.RepoListActivity" />
 
         <variable
             name="viewModel"

@@ -1,10 +1,9 @@
-package xyz.realms.mgit.ui.explorer;
+package xyz.realms.mgit.ui;
 
 import android.Manifest;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
@@ -26,18 +25,20 @@ import java.util.List;
 import timber.log.Timber;
 import xyz.realms.mgit.MGitApplication;
 import xyz.realms.mgit.R;
-import xyz.realms.mgit.ui.common.OnActionClickListener;
 import xyz.realms.mgit.database.Repo;
 import xyz.realms.mgit.database.RepoDbManager;
 import xyz.realms.mgit.databinding.ActivityMainBinding;
 import xyz.realms.mgit.tasks.repo.CloneTask;
 import xyz.realms.mgit.transport.MGitHttpConnectionFactory;
 import xyz.realms.mgit.transport.ssh.PrivateKeyUtils;
-import xyz.realms.mgit.ui.SheimiFragmentActivity;
 import xyz.realms.mgit.ui.adapters.RepoListAdapter;
-import xyz.realms.mgit.ui.vmodel.CloneViewModel;
 import xyz.realms.mgit.ui.dialogs.DummyDialogListener;
 import xyz.realms.mgit.ui.dialogs.ImportLocalRepoDialog;
+import xyz.realms.mgit.ui.explorer.ExploreFileActivity;
+import xyz.realms.mgit.ui.explorer.ImportRepositoryActivity;
+import xyz.realms.mgit.ui.explorer.RepoDetailActivity;
+import xyz.realms.mgit.ui.explorer.UserSettingsActivity;
+import xyz.realms.mgit.ui.vmodel.CloneViewModel;
 import xyz.realms.mgit.ui.vmodel.RepoListViewModel;
 
 public class RepoListActivity extends SheimiFragmentActivity {
@@ -58,14 +59,11 @@ public class RepoListActivity extends SheimiFragmentActivity {
         activityMainBinding.setLifecycleOwner(this);
         activityMainBinding.setCloneViewModel(cloneViewModel);
         activityMainBinding.setViewModel(viewModel);
-        activityMainBinding.setClickHandler(new OnActionClickListener() {
-            @Override
-            public void onActionClick(String action) {
-                if (ClickActions.CLONE.name().equals(action)) {
-                    cloneRepo();
-                } else {
-                    hideCloneView();
-                }
+        activityMainBinding.setClickHandler(action -> {
+            if (ClickActions.CLONE.name().equals(action)) {
+                cloneRepo();
+            } else {
+                hideCloneView();
             }
         });
 
@@ -102,7 +100,7 @@ public class RepoListActivity extends SheimiFragmentActivity {
                     repoName = repoName.substring(0, repoName.lastIndexOf('.'));
                 }
                 //Check if there are others repositories with same remote
-                List<Repo> repositoriesWithSameRemote = Repo.getRepoList(mContext, RepoDbManager.searchRepo(remoteUrl));
+                List<Repo> repositoriesWithSameRemote = Repo.getRepoList(RepoDbManager.searchRepo(remoteUrl));
 
                 //if so, just open it
                 if (!repositoriesWithSameRemote.isEmpty()) {
@@ -146,7 +144,6 @@ public class RepoListActivity extends SheimiFragmentActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         Intent intent;
         if (item.getItemId() == R.id.action_new) {
-
             showCloneView();
             return true;
         } else if (item.getItemId() == R.id.action_import_repo) {
@@ -164,8 +161,7 @@ public class RepoListActivity extends SheimiFragmentActivity {
 
     public void configSearchAction(MenuItem searchItem) {
         SearchView searchView = (SearchView) searchItem.getActionView();
-        if (searchView == null)
-            return;
+        if (searchView == null) return;
         SearchListener searchListener = new SearchListener();
         MenuItemCompat.setOnActionExpandListener(searchItem, searchListener);
         searchView.setIconifiedByDefault(true);
@@ -175,36 +171,27 @@ public class RepoListActivity extends SheimiFragmentActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (resultCode != Activity.RESULT_OK)
-            return;
+        if (resultCode != Activity.RESULT_OK) return;
         switch (requestCode) {
             case REQUEST_IMPORT_REPO:
-                final String path = data.getExtras().getString(
-                    ExploreFileActivity.RESULT_PATH);
+                final String path = data.getExtras().getString(ExploreFileActivity.RESULT_PATH);
                 File file = new File(path);
                 File dotGit = new File(file, Repo.DOT_GIT_DIR);
                 if (!dotGit.exists()) {
                     showToastMessage(getString(R.string.error_no_repository));
                     return;
                 }
-                AlertDialog.Builder builder = new AlertDialog.Builder(
-                    this);
+                AlertDialog.Builder builder = new AlertDialog.Builder(this);
                 builder.setTitle(R.string.dialog_comfirm_import_repo_title);
                 builder.setMessage(R.string.dialog_comfirm_import_repo_msg);
-                builder.setNegativeButton(R.string.label_cancel,
-                    new DummyDialogListener());
-                builder.setPositiveButton(R.string.label_import,
-                    new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(
-                            DialogInterface dialogInterface, int i) {
-                            Bundle args = new Bundle();
-                            args.putString(ImportLocalRepoDialog.FROM_PATH, path);
-                            ImportLocalRepoDialog rld = new ImportLocalRepoDialog();
-                            rld.setArguments(args);
-                            rld.show(getSupportFragmentManager(), "import-local-dialog");
-                        }
-                    });
+                builder.setNegativeButton(R.string.label_cancel, new DummyDialogListener());
+                builder.setPositiveButton(R.string.label_import, (dialogInterface, i) -> {
+                    Bundle args = new Bundle();
+                    args.putString(ImportLocalRepoDialog.FROM_PATH, path);
+                    ImportLocalRepoDialog rld = new ImportLocalRepoDialog();
+                    rld.setArguments(args);
+                    rld.show(getSupportFragmentManager(), "import-local-dialog");
+                });
                 builder.show();
                 break;
         }

@@ -21,7 +21,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
-        tools:context="xyz.realms.mgit.ui.explorer.RepoListActivity">
+        tools:context="xyz.realms.mgit.ui.RepoListActivity">
 
         <include
             android:id="@+id/cloneViewInclude"

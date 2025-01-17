@@ -17,7 +17,7 @@
         android:theme="@style/AppTheme"
         tools:replace="android:name">
         <activity
-            android:name="xyz.realms.mgit.ui.explorer.RepoListActivity"
+            android:name="xyz.realms.mgit.ui.RepoListActivity"
             android:exported="true"
             android:label="@string/app_name">
             <intent-filter>
@@ -28,10 +28,10 @@
         <activity
             android:name="xyz.realms.mgit.ui.explorer.RepoDetailActivity"
             android:label="@string/title_activity_repo_detail"
-            android:parentActivityName="xyz.realms.mgit.ui.explorer.RepoListActivity">
+            android:parentActivityName="xyz.realms.mgit.ui.RepoListActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="xyz.realms.mgit.ui.explorer.RepoListActivity" />
+                android:value="xyz.realms.mgit.ui.RepoListActivity" />
         </activity>
         <activity
             android:name="xyz.realms.mgit.ui.explorer.ViewFileActivity"
@@ -59,18 +59,18 @@
         <activity
             android:name="xyz.realms.mgit.ui.explorer.ImportRepositoryActivity"
             android:label="@string/title_activity_import_repository"
-            android:parentActivityName="xyz.realms.mgit.ui.explorer.RepoListActivity">
+            android:parentActivityName="xyz.realms.mgit.ui.RepoListActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="xyz.realms.mgit.ui.explorer.RepoListActivity" />
+                android:value="xyz.realms.mgit.ui.RepoListActivity" />
         </activity>
         <activity
             android:name="xyz.realms.mgit.ui.explorer.PrivateKeyManageActivity"
             android:label="@string/title_activity_private_key_manage"
-            android:parentActivityName="xyz.realms.mgit.ui.explorer.RepoListActivity">
+            android:parentActivityName="xyz.realms.mgit.ui.RepoListActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="xyz.realms.mgit.ui.explorer.RepoListActivity" />
+                android:value="xyz.realms.mgit.ui.RepoListActivity" />
         </activity>
         <activity
             android:name="xyz.realms.mgit.ui.explorer.ExploreFileActivity"
@@ -83,10 +83,10 @@
         <activity
             android:name="xyz.realms.mgit.ui.explorer.UserSettingsActivity"
             android:label="@string/title_activity_settings"
-            android:parentActivityName="xyz.realms.mgit.ui.explorer.RepoListActivity">
+            android:parentActivityName="xyz.realms.mgit.ui.RepoListActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="xyz.realms.mgit.ui.explorer.RepoListActivity" />
+                android:value="xyz.realms.mgit.ui.RepoListActivity" />
         </activity>
         <activity
             android:name="xyz.realms.mgit.ui.explorer.ExploreRootDirActivity"

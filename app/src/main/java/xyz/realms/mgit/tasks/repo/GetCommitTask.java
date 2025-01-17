@@ -17,10 +17,9 @@ public class GetCommitTask extends RepoOpTask {
     private final String mFile;
 
     public GetCommitTask(Repo repo, String file, GetCommitCallback callback) {
-        super(repo);
+        super(repo,true);
         mFile = file;
         mCallback = callback;
-        mIsTaskAdded = true;
     }
 
     public void executeTask() {
@@ -33,6 +32,7 @@ public class GetCommitTask extends RepoOpTask {
     }
 
     protected void onPostExecute(Boolean isSuccess) {
+        super.onPostExecute(isSuccess);
         if (mCallback != null) {
             mCallback.postCommits(mResult);
         }

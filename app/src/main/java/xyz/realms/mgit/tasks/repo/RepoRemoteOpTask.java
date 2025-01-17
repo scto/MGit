@@ -1,9 +1,9 @@
 package xyz.realms.mgit.tasks.repo;
 
 import xyz.realms.mgit.MGitApplication;
-import xyz.realms.mgit.ui.preference.PreferenceHelper;
 import xyz.realms.mgit.database.Repo;
 import xyz.realms.mgit.ui.SheimiFragmentActivity;
+import xyz.realms.mgit.ui.preference.PreferenceHelper;
 
 /**
  * Super class for Tasks that operate on a git remote
@@ -16,6 +16,9 @@ public abstract class RepoRemoteOpTask extends RepoOpTask implements SheimiFragm
         super(repo);
     }
 
+    public RepoRemoteOpTask(Repo repo, boolean parallel) {
+        super(repo, parallel);
+    }
 
     @Override
     public void onClicked(String username, String password, boolean savePassword) {

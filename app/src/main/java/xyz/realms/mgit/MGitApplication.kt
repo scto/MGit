@@ -9,7 +9,6 @@ import org.acra.config.mailSender
 import org.acra.data.StringFormat
 import org.acra.ktx.initAcra
 import org.bouncycastle.jce.provider.BouncyCastleProvider
-import org.conscrypt.BuildConfig
 import org.conscrypt.Conscrypt
 import org.eclipse.jgit.transport.CredentialsProvider
 import timber.log.Timber

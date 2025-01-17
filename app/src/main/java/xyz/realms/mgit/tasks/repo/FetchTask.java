@@ -25,7 +25,7 @@ public class FetchTask extends RepoRemoteOpTask {
 
     public FetchTask(String[] remotes, Repo repo, AsyncTaskCallback callback,
                      FetchCallback fetchCallback) {
-        super(repo);
+        super(repo,true);
         mCallback = callback;
         mfetchCallback = fetchCallback;
         mRemotes = remotes;

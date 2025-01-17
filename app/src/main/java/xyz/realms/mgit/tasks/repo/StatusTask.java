@@ -10,9 +10,8 @@ public class StatusTask extends RepoOpTask {
     private final GetStatusCallback mCallback;
     private final StringBuffer mResult = new StringBuffer();
     public StatusTask(Repo repo, GetStatusCallback callback) {
-        super(repo);
+        super(repo,true);
         mCallback = callback;
-        mIsTaskAdded = true;
     }
 
     @Override
@@ -21,6 +20,7 @@ public class StatusTask extends RepoOpTask {
     }
 
     protected void onPostExecute(Boolean isSuccess) {
+        super.onPostExecute(isSuccess);
         if (mCallback != null && isSuccess) {
             mCallback.postStatus(mResult.toString());
         }

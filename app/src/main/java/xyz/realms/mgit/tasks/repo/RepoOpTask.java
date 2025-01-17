@@ -5,31 +5,41 @@ import org.eclipse.jgit.lib.ProgressMonitor;
 import org.eclipse.jgit.transport.UsernamePasswordCredentialsProvider;
 
 import timber.log.Timber;
-import xyz.realms.mgit.ui.utils.BasicFunctions;
 import xyz.realms.mgit.R;
 import xyz.realms.mgit.database.Repo;
 import xyz.realms.mgit.tasks.SheimiAsyncTask;
 import xyz.realms.mgit.ui.SheimiFragmentActivity.OnPasswordEntered;
+import xyz.realms.mgit.ui.utils.BasicFunctions;
 
 public abstract class RepoOpTask extends SheimiAsyncTask<Void, String, Boolean> {
 
     protected Repo mRepo;
     protected boolean mIsTaskAdded;
     private int mSuccessMsg = 0;
+    private boolean mParallel = false;
 
     public RepoOpTask(Repo repo) {
         mRepo = repo;
         mIsTaskAdded = repo.addTask(this);
     }
 
+    public RepoOpTask(Repo repo, boolean parallel) {
+        mRepo = repo;
+        // 有并行任务，也有串行任务。
+        mIsTaskAdded = parallel;
+        mParallel = parallel;
+    }
+
     protected void onPostExecute(Boolean isSuccess) {
         super.onPostExecute(isSuccess);
-        mRepo.removeTask(this);
+        if (!mParallel) mRepo.removeTask(this);
         if (!isSuccess && !isTaskCanceled()) {
             if (mException == null) {
-                BasicFunctions.showError(BasicFunctions.getActiveActivity(), mErrorRes, getErrorTitleRes());
+                BasicFunctions.showError(BasicFunctions.getActiveActivity(), mErrorRes,
+                    getErrorTitleRes());
             } else {
-                BasicFunctions.showException(BasicFunctions.getActiveActivity(), mException, mErrorRes, getErrorTitleRes());
+                BasicFunctions.showException(BasicFunctions.getActiveActivity(), mException,
+                    mErrorRes, getErrorTitleRes());
             }
         }
         if (isSuccess && mSuccessMsg != 0) {
@@ -46,18 +56,16 @@ public abstract class RepoOpTask extends SheimiAsyncTask<Void, String, Boolean> 
             execute();
             return;
         }
-        BasicFunctions.getActiveActivity().showToastMessage(
-            R.string.error_task_running);
+        BasicFunctions.getActiveActivity().showToastMessage(R.string.error_task_running);
     }
 
     protected void setCredentials(TransportCommand command) {
         String username = mRepo.getUsername();
         String password = mRepo.getPassword();
 
-        if (username != null && password != null && !username.trim().isEmpty()
-            && !password.trim().isEmpty()) {
-            UsernamePasswordCredentialsProvider auth = new UsernamePasswordCredentialsProvider(
-                username, password);
+        if (username != null && password != null && !username.trim().isEmpty() && !password.trim().isEmpty()) {
+            UsernamePasswordCredentialsProvider auth =
+                new UsernamePasswordCredentialsProvider(username, password);
             command.setCredentialsProvider(auth);
         } else {
             Timber.d("no CredentialsProvider when no username/password provided");
@@ -69,18 +77,16 @@ public abstract class RepoOpTask extends SheimiAsyncTask<Void, String, Boolean> 
         String msg = mException.getMessage();
         Timber.w("clone Auth error: %s", msg);
 
-        if (msg == null || ((!msg.contains("Auth fail"))
-            && (!msg.toLowerCase().contains("auth")))) {
+        if (msg == null || ((!msg.contains("Auth fail")) && (!msg.toLowerCase().contains("auth")))) {
             return;
         }
 
         String errorInfo = null;
         if (msg.contains("Auth fail")) {
-            errorInfo = BasicFunctions.getActiveActivity().getString(
-                R.string.dialog_prompt_for_password_title_auth_fail);
+            errorInfo =
+                BasicFunctions.getActiveActivity().getString(R.string.dialog_prompt_for_password_title_auth_fail);
         }
-        BasicFunctions.getActiveActivity().promptForPassword(onPassEntered,
-            errorInfo);
+        BasicFunctions.getActiveActivity().promptForPassword(onPassEntered, errorInfo);
     }
 
     class BasicProgressMonitor implements ProgressMonitor {
@@ -138,8 +144,7 @@ public abstract class RepoOpTask extends SheimiAsyncTask<Void, String, Boolean> 
                 rightHint = showedWorkDown + "/" + mTotalWork;
                 leftHint = progress + "%";
             }
-            publishProgress(msg, leftHint, rightHint,
-                Integer.toString(progress));
+            publishProgress(msg, leftHint, rightHint, Integer.toString(progress));
         }
 
     }

@@ -37,12 +37,11 @@ public class CommitDiffTask extends RepoOpTask {
 
     public CommitDiffTask(Repo repo, String oldCommit, String newCommit,
                           CommitDiffResult callback, boolean showDescription) {
-        super(repo);
+        super(repo,true);
         mOldCommit = oldCommit;
         mNewCommit = newCommit;
         mCallback = callback;
         mShowDescription = showDescription;
-        mIsTaskAdded = true;
     }
 
     @Override
@@ -64,6 +63,7 @@ public class CommitDiffTask extends RepoOpTask {
     }
 
     protected void onPostExecute(Boolean isSuccess) {
+        super.onPostExecute(isSuccess);
         RevCommit retCommit = null;
         if (isSuccess && mCallback != null && mDiffEntries != null) {
             if (mCommits != null) {

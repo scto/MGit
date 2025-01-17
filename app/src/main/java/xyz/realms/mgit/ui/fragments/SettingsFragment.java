@@ -4,14 +4,20 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.os.Environment;
 import android.preference.PreferenceFragment;
 import android.preference.PreferenceManager;
 
 import androidx.core.app.TaskStackBuilder;
 
-import xyz.realms.mgit.ui.utils.BasicFunctions;
+import java.io.File;
+
+import xyz.realms.mgit.MGitApplication;
 import xyz.realms.mgit.R;
+import xyz.realms.mgit.database.Repo;
 import xyz.realms.mgit.ui.RepoListActivity;
+import xyz.realms.mgit.ui.preference.PreferenceHelper;
+import xyz.realms.mgit.ui.utils.BasicFunctions;
 
 public class SettingsFragment extends PreferenceFragment {
     private SharedPreferences.OnSharedPreferenceChangeListener mListener;
@@ -24,6 +30,14 @@ public class SettingsFragment extends PreferenceFragment {
         PreferenceManager prefMgr = getPreferenceManager();
         prefMgr.setSharedPreferencesName(getString(R.string.preference_file_key));
         prefMgr.setSharedPreferencesMode(Context.MODE_PRIVATE);
+
+        // /storage/emulated/0/Documents
+        PreferenceHelper prefs =
+            ((MGitApplication) this.getContext().getApplicationContext()).getPrefenceHelper();
+        if (prefs.getRepoRoot() == null || prefs.getRepoRoot().toString().isEmpty()) {
+            File documentsDir = new File(Environment.getExternalStorageDirectory(), "Documents");
+            Repo.setLocalRepoRoot(this.getContext(), documentsDir);
+        }
 
         // Load the preferences from an XML resource
         addPreferencesFromResource(R.xml.preferences);

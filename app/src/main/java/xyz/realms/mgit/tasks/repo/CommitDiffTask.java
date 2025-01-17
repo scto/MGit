@@ -4,8 +4,6 @@ import org.eclipse.jgit.api.errors.GitAPIException;
 import org.eclipse.jgit.diff.DiffEntry;
 import org.eclipse.jgit.diff.DiffFormatter;
 import org.eclipse.jgit.dircache.DirCacheIterator;
-import org.eclipse.jgit.errors.AmbiguousObjectException;
-import org.eclipse.jgit.errors.IncorrectObjectTypeException;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.ObjectReader;
 import org.eclipse.jgit.lib.Repository;
@@ -44,6 +42,7 @@ public class CommitDiffTask extends RepoOpTask {
         mNewCommit = newCommit;
         mCallback = callback;
         mShowDescription = showDescription;
+        mIsTaskAdded = true;
     }
 
     @Override
@@ -65,7 +64,6 @@ public class CommitDiffTask extends RepoOpTask {
     }
 
     protected void onPostExecute(Boolean isSuccess) {
-        super.onPostExecute(isSuccess);
         RevCommit retCommit = null;
         if (isSuccess && mCallback != null && mDiffEntries != null) {
             if (mCommits != null) {
@@ -122,17 +120,9 @@ public class CommitDiffTask extends RepoOpTask {
             return true;
         } catch (GitAPIException e) {
             setException(e);
-        } catch (IncorrectObjectTypeException e) {
+        } catch (NullPointerException | IllegalStateException | IOException e) {
             setException(e, R.string.error_diff_failed);
-        } catch (AmbiguousObjectException e) {
-            setException(e, R.string.error_diff_failed);
-        } catch (IOException e) {
-            setException(e, R.string.error_diff_failed);
-        } catch (IllegalStateException e) {
-            setException(e, R.string.error_diff_failed);
-        } catch (NullPointerException e) {
-            setException(e, R.string.error_diff_failed);
-        } catch (StopTaskException e) {
+        } catch (StopTaskException ignored) {
         }
         return false;
     }

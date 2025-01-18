@@ -89,6 +89,7 @@ dependencies {
     // Jgit
     implementation 'org.eclipse.jgit:org.eclipse.jgit:7.1.0.202411261347-r'
     implementation 'org.eclipse.jgit:org.eclipse.jgit.ssh.jsch:7.1.0.202411261347-r'
+    implementation 'org.eclipse.jgit:org.eclipse.jgit.lfs:7.1.0.202411261347-r'
 
     // ViewModel and LiveData
     runtimeOnly 'androidx.lifecycle:lifecycle-extensions:2.2.0'

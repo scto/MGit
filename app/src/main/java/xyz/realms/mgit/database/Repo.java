@@ -10,6 +10,9 @@ import android.util.SparseArray;
 import org.eclipse.jgit.api.Git;
 import org.eclipse.jgit.api.ListBranchCommand;
 import org.eclipse.jgit.api.errors.GitAPIException;
+import org.eclipse.jgit.attributes.FilterCommandRegistry;
+import org.eclipse.jgit.lfs.CleanFilter;
+import org.eclipse.jgit.lfs.SmudgeFilter;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.PersonIdent;
@@ -72,6 +75,14 @@ public class Repo implements Comparable<Repo>, Serializable {
     private Git mGit;
     private StoredConfig mStoredConfig;
 
+    // Git LFS
+    private static final String SMUDGE_NAME = Constants.BUILTIN_FILTER_PREFIX
+        + org.eclipse.jgit.lfs.lib.Constants.ATTR_FILTER_DRIVER_PREFIX
+        + Constants.ATTR_FILTER_TYPE_SMUDGE;
+    private static final String CLEAN_NAME = Constants.BUILTIN_FILTER_PREFIX
+        + org.eclipse.jgit.lfs.lib.Constants.ATTR_FILTER_DRIVER_PREFIX
+        + Constants.ATTR_FILTER_TYPE_CLEAN;
+
     public Repo(Cursor cursor) {
         mID = RepoContract.getRepoID(cursor);
         mRemoteURL = RepoContract.getRemoteURL(cursor);
@@ -91,6 +102,16 @@ public class Repo implements Comparable<Repo>, Serializable {
 
     public static Repo importRepo(String localPath, String status) {
         return getRepoById(RepoDbManager.importRepo(localPath, status));
+    }
+
+    public static void installLfs() {
+        FilterCommandRegistry.register(SMUDGE_NAME, SmudgeFilter.FACTORY);
+        FilterCommandRegistry.register(CLEAN_NAME, CleanFilter.FACTORY);
+    }
+
+    public static void removeLfs() {
+        FilterCommandRegistry.unregister(SMUDGE_NAME);
+        FilterCommandRegistry.unregister(CLEAN_NAME);
     }
 
     public static Repo getRepoById(long id) {

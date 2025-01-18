@@ -91,7 +91,8 @@ public class SyncRepoAction extends RepoAction {
                         case remote_new -> {
                             mActivity.showToastMessage("远程仓库有新的提交。");
                             if (localChanged) {
-                                mActivity.showToastMessage("本地有未提交的更改。");
+                                mActivity.showMessageDialog(R.string.pull_msg_init,"本地有未提交更改，请先处理。建议使用前拉取远程最新仓库，避免冲突。");
+                                return;
                                 // 有两种情况，冲突和无冲突。建议在修改之前先拉取，即可避免这种情况。
                             }
                             // TODO remote指推送到那个远程例如origin。或许需要一个默认的远程名称。

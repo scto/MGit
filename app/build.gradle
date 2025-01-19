@@ -58,7 +58,7 @@ android {
 
     packagingOptions {
         resources {
-            excludes += ['plugin.properties']
+            excludes += ['**/plugin.properties']
         }
     }
 }

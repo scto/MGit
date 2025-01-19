@@ -44,7 +44,6 @@ public class RepoOperationDelegate {
         mActions.add(new NewDirAction(mRepo, mActivity));
         mActions.add(new AddRemoteAction(mRepo, mActivity));
         mActions.add(new RemoveRemoteAction(mRepo, mActivity));
-        mActions.add(new DeleteAction(mRepo, mActivity));
         mActions.add(new RawConfigAction(mRepo, mActivity));
         mActions.add(new ConfigAction(mRepo, mActivity));
     }

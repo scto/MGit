@@ -83,7 +83,7 @@
     <string name="dialog_rename_repo_title">重命名仓库</string>
     <string name="dialog_rename_repo_hint">仓库名称</string>
     <string name="dialog_delete_repo_title">确认删除</string>
-    <string name="dialog_delete_repo_msg">您确定要删除此仓库吗？</string>
+    <string name="dialog_delete_repo_msg">您确定要删除此仓库吗？仓库中的所有文件都将被移除。</string>
     <string name="dialog_rename_key_title">重命名</string>
     <string name="dialog_edit_key_password_title">密钥密码</string>
     <string name="dialog_rename_branch_title">重命名</string>

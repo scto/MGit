@@ -15,7 +15,7 @@ public class InitLocalTask extends RepoOpTask {
     protected Boolean doInBackground(Void... params) {
         boolean result = init();
         if (!result) {
-            mRepo.deleteRepoSync();
+            mRepo.deleteRepoSync(true);
             return false;
         }
         return true;

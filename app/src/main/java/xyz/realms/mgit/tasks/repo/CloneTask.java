@@ -53,7 +53,7 @@ public class CloneTask extends RepoRemoteOpTask {
         boolean result = cloneRepo();
         if (!result) {
             Timber.e("del repo. clone failed");
-            mRepo.deleteRepoSync();
+            mRepo.deleteRepoSync(true);
         } else if (mCallback != null) {
             result = mCallback.doInBackground(v) & result;
         }
@@ -122,7 +122,7 @@ public class CloneTask extends RepoRemoteOpTask {
     @Override
     public void cancelTask() {
         super.cancelTask();
-        mRepo.deleteRepo();
+        mRepo.deleteRepo(true);
     }
 
     @Override

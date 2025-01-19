@@ -14,7 +14,7 @@ public class DeleteAction extends RepoAction {
     public void execute() {
         mActivity.showMessageDialog(R.string.dialog_delete_repo_title,
             R.string.dialog_delete_repo_msg, R.string.label_delete, (dialogInterface, i) -> {
-            mRepo.deleteRepo();
+            mRepo.deleteRepo(true);
             mActivity.finish();
         });
         mActivity.closeOperationDrawer();

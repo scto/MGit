@@ -125,12 +125,9 @@ public class RepoListAdapter extends ArrayAdapter<Repo> implements
             holder.commitMsgContainer.setVisibility(View.GONE);
             holder.progressContainer.setVisibility(View.VISIBLE);
             holder.progressMsg.setText(repo.getRepoStatus());
-            holder.cancelBtn.setOnClickListener(new OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    repo.deleteRepo();
-                    repo.cancelTask();
-                }
+            holder.cancelBtn.setOnClickListener(v -> {
+                repo.deleteRepo(true);
+                repo.cancelTask();
             });
         } else if (repo.getLastCommitter() != null) {
             holder.commitMsgContainer.setVisibility(View.VISIBLE);
@@ -280,15 +277,10 @@ public class RepoListAdapter extends ArrayAdapter<Repo> implements
         context.showMessageDialog(
             R.string.dialog_delete_repo_title,
             R.string.dialog_delete_repo_msg,
-            R.string.label_delete,
-            new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialogInterface, int i) {
-                    repo.deleteRepo();
-                    repo.cancelTask();
-                }
-            }
-        );
+            R.string.label_delete, (dialogInterface, i) -> {
+                repo.deleteRepo(true);
+                repo.cancelTask();
+            });
     }
 
     private void showRenameRepoDialog(final SheimiFragmentActivity context, final Repo repo) {

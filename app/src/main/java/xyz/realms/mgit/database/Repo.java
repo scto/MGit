@@ -374,22 +374,18 @@ public class Repo implements Comparable<Repo>, Serializable {
         return repo.getID() - getID();
     }
 
-    public void deleteRepo() {
-        Thread thread = new Thread(new Runnable() {
-            @Override
-            public void run() {
-                deleteRepoSync();
-            }
-        });
+    public void deleteRepo(boolean delExternal) {
+        Thread thread = new Thread(() -> deleteRepoSync(delExternal));
         thread.start();
     }
 
-    public void deleteRepoSync() {
-        if (isDeleted)
-            return;
+    public void deleteRepoSync(boolean delExternal) {
+        if (isDeleted) return;
         RepoDbManager.deleteRepo(mID);
+        File fileToDelete = getDir();
         if (!isExternal()) {
-            File fileToDelete = getDir();
+            FsUtils.deleteFile(fileToDelete);
+        } else if (delExternal) {
             FsUtils.deleteFile(fileToDelete);
         }
         isDeleted = true;

@@ -12,7 +12,7 @@
     <string name="dialog_commit_msg_hint">Commit message</string>
     <string name="dialog_commit_author_hint">Commit author (optional)</string>
     <string name="dialog_commit_is_amend">Amend previous commit</string>
-    <string name="dialog_commit_auto_stage">Auto stage modified files</string>
+    <string name="dialog_commit_auto_stage">Stage All files</string>
     <string name="dialog_commit_positive_label">Commit</string>
 
     <!-- Import Repo -->

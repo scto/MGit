@@ -61,12 +61,9 @@ public class CloneViewModel extends AndroidViewModel {
             Timber.d("CLONE REPO %s %s [%b]", this.localRepoName.getValue(), this.remoteUrl,
                 this.cloneRecursively);
             Repo repo = Repo.createRepo(this.localRepoName.getValue(), this.remoteUrl, "");
-            CloneTask task = new CloneTask(repo, this.cloneRecursively, "", null, isSuccess -> {
-                CheckoutTask checkoutTask = new CheckoutTask(repo, repo.getBranchName(), null, null);
-                checkoutTask.executeTask();
-            });
+            CloneTask task = new CloneTask(repo, this.cloneRecursively, "", null);
             task.executeTask();
-            this.remoteUrl = "";
+            this.setRemoteUrl("");
             show(false);
         }
     }

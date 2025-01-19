@@ -88,7 +88,6 @@ public class RepoDetailActivity extends SheimiFragmentActivity {
             return;
         }
         repoInit();
-        mRepo.setToken(this);
         setTitle(mRepo.getDiaplayName());
         setContentView(R.layout.activity_repo_detail);
         setupActionBar();

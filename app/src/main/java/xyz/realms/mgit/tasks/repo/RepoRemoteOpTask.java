@@ -14,10 +14,12 @@ public abstract class RepoRemoteOpTask extends RepoOpTask implements SheimiFragm
 
     public RepoRemoteOpTask(Repo repo) {
         super(repo);
+        mRepo.setToken(MGitApplication.getContext());
     }
 
     public RepoRemoteOpTask(Repo repo, boolean parallel) {
         super(repo, parallel);
+        mRepo.setToken(MGitApplication.getContext());
     }
 
     @Override

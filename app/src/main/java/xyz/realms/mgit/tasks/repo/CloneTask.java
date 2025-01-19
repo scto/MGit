@@ -1,5 +1,8 @@
 package xyz.realms.mgit.tasks.repo;
 
+import android.os.Handler;
+import android.os.Looper;
+
 import androidx.annotation.StringRes;
 
 import org.eclipse.jgit.api.CloneCommand;
@@ -9,9 +12,16 @@ import org.eclipse.jgit.api.errors.InvalidRemoteException;
 import org.eclipse.jgit.api.errors.JGitInternalException;
 import org.eclipse.jgit.api.errors.TransportException;
 import org.eclipse.jgit.errors.NotSupportedException;
+import org.eclipse.jgit.lib.ObjectLoader;
+import org.eclipse.jgit.lib.ObjectReader;
 import org.eclipse.jgit.lib.ProgressMonitor;
+import org.eclipse.jgit.lib.Repository;
+import org.eclipse.jgit.revwalk.RevWalk;
+import org.eclipse.jgit.treewalk.TreeWalk;
 
 import java.io.File;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Locale;
 
 import timber.log.Timber;
@@ -20,13 +30,13 @@ import xyz.realms.mgit.database.Repo;
 import xyz.realms.mgit.database.RepoContract;
 import xyz.realms.mgit.transport.ssh.SgitTransportCallback;
 import xyz.realms.mgit.ui.preference.Profile;
+import xyz.realms.mgit.ui.utils.BasicFunctions;
 
 public class CloneTask extends RepoRemoteOpTask {
 
     private final AsyncTaskCallback mCallback;
     private final boolean mCloneRecursive;
     private final String mCloneStatusName;
-    private AsyncTaskPostCallback mPostCallback;
 
     public CloneTask(Repo repo, boolean cloneRecursive, String statusName,
                      AsyncTaskCallback callback) {
@@ -36,15 +46,6 @@ public class CloneTask extends RepoRemoteOpTask {
         mCallback = callback;
     }
 
-    public CloneTask(Repo repo, boolean cloneRecursive, String statusName,
-                     AsyncTaskCallback callback, AsyncTaskPostCallback postCallback) {
-        super(repo);
-        mCloneRecursive = cloneRecursive;
-        mCloneStatusName = statusName;
-        mCallback = callback;
-        mPostCallback = postCallback;
-    }
-
     @Override
     protected Boolean doInBackground(Void... v) {
         boolean result = cloneRepo();
@@ -52,7 +53,7 @@ public class CloneTask extends RepoRemoteOpTask {
             Timber.e("del repo. clone failed");
             mRepo.deleteRepoSync(true);
         } else if (mCallback != null) {
-            result = mCallback.doInBackground(v) & result;
+            result = mCallback.doInBackground(v);
         }
         return result;
     }
@@ -65,25 +66,40 @@ public class CloneTask extends RepoRemoteOpTask {
         if (isSuccess) {
             mRepo.updateLatestCommitInfo();
             mRepo.updateStatus(RepoContract.REPO_STATUS_NULL);
-            if (mPostCallback != null) mPostCallback.onPostExecute(true);
         }
     }
 
     public boolean cloneRepo() {
         try {
             File localRepo = mRepo.getDir();
-            CloneCommand cloneCommand = Git.cloneRepository()
-                .setNoCheckout(true)
-                .setURI(mRepo.getRemoteURL())
-                .setCloneAllBranches(true)
-                .setProgressMonitor(new RepoCloneMonitor())
-                .setTransportConfigCallback(new SgitTransportCallback())
-                .setDirectory(localRepo)
-                .setCloneSubmodules(mCloneRecursive);
+            CloneCommand cloneCommand =
+                Git.cloneRepository().setNoCheckout(true).setURI(mRepo.getRemoteURL()).setCloneAllBranches(true).setProgressMonitor(new RepoCloneMonitor()).setTransportConfigCallback(new SgitTransportCallback()).setDirectory(localRepo).setCloneSubmodules(mCloneRecursive);
 
             setCredentials(cloneCommand);
-
             cloneCommand.call();
+
+            // 将大于50MB的文件添加到checkoutFiles列表。
+            List<String> largeFiles = new ArrayList<>();
+            Repository repository = mRepo.getGit().getRepository();
+            RevWalk revPool = new RevWalk(repository);
+            ObjectReader reader = revPool.getObjectReader();
+            TreeWalk treeWalk = new TreeWalk(reader);
+            treeWalk.addTree(repository.resolve("HEAD^{tree}"));
+            treeWalk.setRecursive(true);
+            while (treeWalk.next()) {
+                ObjectLoader ol = reader.open(treeWalk.getObjectId(0));
+                long fileSize = ol.getSize();
+                if (fileSize > 50 * 1024 * 1024) { // 文件大小小于等于50MB
+                    largeFiles.add(treeWalk.getPathString());
+                }
+            }
+            if (!largeFiles.isEmpty()) {
+                Handler uiThread = new Handler(Looper.getMainLooper());
+                uiThread.post(() -> BasicFunctions.getActiveActivity().showMessageDialog(R.string.title_clone_repo, String.format(Locale.getDefault(), "存在%d个文件超过50MB，无法检出, 暂不支持此类仓库!", largeFiles.size())));
+                return false;
+            }
+            BasicFunctions.getActiveActivity().showToastMessage("正在检出文件…");
+            mRepo.getGit().checkout().setName(mRepo.getBranchName()).call();
             Profile.setLastCloneSuccess();
 
         } catch (InvalidRemoteException e) {

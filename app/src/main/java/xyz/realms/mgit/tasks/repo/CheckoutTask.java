@@ -1,22 +1,9 @@
 package xyz.realms.mgit.tasks.repo;
 
-import android.widget.Toast;
-
 import org.eclipse.jgit.api.CreateBranchCommand;
 import org.eclipse.jgit.api.errors.GitAPIException;
 import org.eclipse.jgit.api.errors.JGitInternalException;
-import org.eclipse.jgit.lib.ObjectLoader;
-import org.eclipse.jgit.lib.ObjectReader;
-import org.eclipse.jgit.lib.Repository;
-import org.eclipse.jgit.revwalk.RevWalk;
-import org.eclipse.jgit.treewalk.TreeWalk;
 
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Locale;
-
-import xyz.realms.mgit.MGitApplication;
 import xyz.realms.mgit.R;
 import xyz.realms.mgit.database.Repo;
 import xyz.realms.mgit.errors.StopTaskException;
@@ -48,27 +35,7 @@ public class CheckoutTask extends RepoOpTask {
     }
 
     public boolean checkout(String name, String newBranch) {
-        // 将大于50MB的文件添加到checkoutFiles列表。
-        List<String> largeFiles = new ArrayList<>();
         try {
-            Repository repository = mRepo.getGit().getRepository();
-            RevWalk revPool = new RevWalk(repository);
-            ObjectReader reader = revPool.getObjectReader();
-            TreeWalk treeWalk = new TreeWalk(reader);
-            treeWalk.addTree(repository.resolve("HEAD^{tree}"));
-            treeWalk.setRecursive(true);
-            while (treeWalk.next()) {
-                ObjectLoader ol = reader.open(treeWalk.getObjectId(0));
-                long fileSize = ol.getSize();
-                if (fileSize > 50 * 1024 * 1024) { // 文件大小小于等于50MB
-                    largeFiles.add(treeWalk.getPathString());
-                }
-            }
-            if (!largeFiles.isEmpty()) {
-                Toast.makeText(MGitApplication.getContext(), String.format(Locale.getDefault(),
-                    "存在%d个文件超过50MB，无法检出, 暂不支持此类仓库!", largeFiles.size()), Toast.LENGTH_SHORT).show();
-                return false;
-            }
             if (name == null) {
                 checkoutNewBranch(newBranch);
             } else {
@@ -83,7 +50,7 @@ public class CheckoutTask extends RepoOpTask {
             }
         } catch (StopTaskException e) {
             return false;
-        } catch (GitAPIException | JGitInternalException | IOException e) {
+        } catch (GitAPIException | JGitInternalException e) {
             setException(mException);
             return false;
         }

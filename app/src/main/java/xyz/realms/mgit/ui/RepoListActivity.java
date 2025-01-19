@@ -116,9 +116,7 @@ public class RepoListActivity extends SheimiFragmentActivity {
                 } else {
                     final String cloningStatus = getString(R.string.cloning);
                     Repo mRepo = Repo.createRepo(repoName, repoUrlBuilder.toString(), cloningStatus);
-                    // TODO: 可能需要增加过滤大于50MB文件的检出操作。
-                    boolean isRecursive = true;
-                    CloneTask task = new CloneTask(mRepo, isRecursive, cloningStatus, null);
+                    CloneTask task = new CloneTask(mRepo, true, cloningStatus, null);
                     task.executeTask();
                 }
             }

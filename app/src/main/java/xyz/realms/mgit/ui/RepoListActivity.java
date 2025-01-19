@@ -69,8 +69,8 @@ public class RepoListActivity extends SheimiFragmentActivity {
         });
 
         PrivateKeyUtils.migratePrivateKeys();
-
         initUpdatedSSL();
+        Repo.installLfs();
 
         mRepoListAdapter = new RepoListAdapter(this);
         activityMainBinding.repoList.setAdapter(mRepoListAdapter);

@@ -16,7 +16,7 @@ import java.util.Date;
 import java.util.Locale;
 
 import xyz.realms.mgit.R;
-import xyz.realms.mgit.ui.SheimiFragmentActivity;
+import xyz.realms.mgit.ui.fragments.SheimiFragmentActivity;
 
 /**
  * Created by sheimi on 8/8/13.

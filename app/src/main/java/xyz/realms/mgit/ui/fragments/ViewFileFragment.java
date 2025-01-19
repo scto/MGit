@@ -22,9 +22,8 @@ import java.io.IOException;
 
 import timber.log.Timber;
 import xyz.realms.mgit.ui.utils.CodeGuesser;
-import xyz.realms.mgit.ui.utils.Profile;
+import xyz.realms.mgit.ui.preference.Profile;
 import xyz.realms.mgit.R;
-import xyz.realms.mgit.ui.SheimiFragmentActivity;
 import xyz.realms.mgit.ui.explorer.ViewFileActivity;
 
 /**

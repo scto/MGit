@@ -38,7 +38,7 @@ import xyz.realms.mgit.errors.StopTaskException;
 import xyz.realms.mgit.tasks.repo.RepoOpTask;
 import xyz.realms.mgit.ui.preference.PreferenceHelper;
 import xyz.realms.mgit.ui.utils.FsUtils;
-import xyz.realms.mgit.ui.utils.Profile;
+import xyz.realms.mgit.ui.preference.Profile;
 
 /**
  * Model for a local repo

@@ -27,7 +27,7 @@ import xyz.realms.mgit.database.Repo;
 import xyz.realms.mgit.errors.StopTaskException;
 import xyz.realms.mgit.tasks.SheimiAsyncTask;
 import xyz.realms.mgit.tasks.repo.CheckoutTask;
-import xyz.realms.mgit.ui.SheimiFragmentActivity;
+import xyz.realms.mgit.ui.fragments.SheimiFragmentActivity;
 import xyz.realms.mgit.ui.dialogs.RenameBranchDialog;
 
 public class BranchChooserActivity extends SheimiFragmentActivity implements ActionMode.Callback {

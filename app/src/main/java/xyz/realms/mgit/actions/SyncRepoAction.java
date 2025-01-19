@@ -23,7 +23,7 @@ import xyz.realms.mgit.tasks.repo.FetchTask;
 import xyz.realms.mgit.tasks.repo.PullTask;
 import xyz.realms.mgit.tasks.repo.PushTask;
 import xyz.realms.mgit.ui.explorer.RepoDetailActivity;
-import xyz.realms.mgit.ui.utils.Profile;
+import xyz.realms.mgit.ui.preference.Profile;
 
 public class SyncRepoAction extends RepoAction {
 

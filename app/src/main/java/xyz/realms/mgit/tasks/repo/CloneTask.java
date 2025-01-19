@@ -12,8 +12,6 @@ import org.eclipse.jgit.errors.NotSupportedException;
 import org.eclipse.jgit.lib.ProgressMonitor;
 
 import java.io.File;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.Locale;
 
 import timber.log.Timber;
@@ -21,8 +19,7 @@ import xyz.realms.mgit.R;
 import xyz.realms.mgit.database.Repo;
 import xyz.realms.mgit.database.RepoContract;
 import xyz.realms.mgit.transport.ssh.SgitTransportCallback;
-import xyz.realms.mgit.ui.utils.FsUtils;
-import xyz.realms.mgit.ui.utils.Profile;
+import xyz.realms.mgit.ui.preference.Profile;
 
 public class CloneTask extends RepoRemoteOpTask {
 

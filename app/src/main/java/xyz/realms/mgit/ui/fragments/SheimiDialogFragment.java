@@ -6,8 +6,6 @@ import android.content.DialogInterface;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.DialogFragment;
 
-import xyz.realms.mgit.ui.SheimiFragmentActivity;
-
 public class SheimiDialogFragment extends DialogFragment {
 
     // It's safe to assume onAttach is called before other code.

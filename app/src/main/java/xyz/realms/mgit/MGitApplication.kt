@@ -15,7 +15,7 @@ import xyz.realms.mgit.errors.SecurePrefsException
 import xyz.realms.mgit.transport.AndroidJschCredentialsProvider
 import xyz.realms.mgit.transport.MGitHttpConnectionFactory
 import xyz.realms.mgit.ui.preference.PreferenceHelper
-import xyz.realms.mgit.ui.utils.SecurePrefsHelper
+import xyz.realms.mgit.ui.preference.SecurePrefsHelper
 import java.security.Security
 
 /**
@@ -57,7 +57,8 @@ open class MGitApplication : Application() {
         prefenceHelper = PreferenceHelper(this)
 
         try {
-            securePrefsHelper = SecurePrefsHelper(this)
+            securePrefsHelper =
+                SecurePrefsHelper(this)
             mCredentialsProvider = AndroidJschCredentialsProvider(securePrefsHelper)
         } catch (e: SecurePrefsException) {
             Timber.e(e)

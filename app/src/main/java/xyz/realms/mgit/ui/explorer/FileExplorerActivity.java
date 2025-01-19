@@ -17,9 +17,9 @@ import androidx.annotation.Nullable;
 import java.io.File;
 import java.io.FileFilter;
 
-import xyz.realms.mgit.ui.utils.Profile;
+import xyz.realms.mgit.ui.preference.Profile;
 import xyz.realms.mgit.R;
-import xyz.realms.mgit.ui.SheimiFragmentActivity;
+import xyz.realms.mgit.ui.fragments.SheimiFragmentActivity;
 import xyz.realms.mgit.ui.adapters.FilesListAdapter;
 
 public abstract class FileExplorerActivity extends SheimiFragmentActivity {

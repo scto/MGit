@@ -9,7 +9,7 @@ import xyz.realms.mgit.MGitApplication;
 import xyz.realms.mgit.R;
 import xyz.realms.mgit.database.Repo;
 import xyz.realms.mgit.errors.StopTaskException;
-import xyz.realms.mgit.ui.utils.Profile;
+import xyz.realms.mgit.ui.preference.Profile;
 
 public class CommitChangesTask extends RepoOpTask {
 

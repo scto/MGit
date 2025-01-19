@@ -2,7 +2,7 @@ package xyz.realms.mgit.tasks.repo;
 
 import xyz.realms.mgit.MGitApplication;
 import xyz.realms.mgit.database.Repo;
-import xyz.realms.mgit.ui.SheimiFragmentActivity;
+import xyz.realms.mgit.ui.fragments.SheimiFragmentActivity;
 import xyz.realms.mgit.ui.preference.PreferenceHelper;
 
 /**

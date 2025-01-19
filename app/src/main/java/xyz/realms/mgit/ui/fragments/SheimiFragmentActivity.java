@@ -1,4 +1,4 @@
-package xyz.realms.mgit.ui;
+package xyz.realms.mgit.ui.fragments;
 
 import android.content.ActivityNotFoundException;
 import android.content.Context;
@@ -39,7 +39,7 @@ import timber.log.Timber;
 import xyz.realms.mgit.ui.common.PermissionsHelper;
 import xyz.realms.mgit.ui.utils.AvatarDownloader;
 import xyz.realms.mgit.ui.utils.BasicFunctions;
-import xyz.realms.mgit.ui.utils.Profile;
+import xyz.realms.mgit.ui.preference.Profile;
 import xyz.realms.mgit.R;
 import xyz.realms.mgit.ui.dialogs.DummyDialogListener;
 

@@ -29,11 +29,11 @@ import java.util.List;
 
 import xyz.realms.mgit.ui.utils.CodeGuesser;
 import xyz.realms.mgit.ui.utils.FsUtils;
-import xyz.realms.mgit.ui.utils.Profile;
+import xyz.realms.mgit.ui.preference.Profile;
 import xyz.realms.mgit.R;
 import xyz.realms.mgit.database.Repo;
 import xyz.realms.mgit.tasks.repo.CommitDiffTask;
-import xyz.realms.mgit.ui.SheimiFragmentActivity;
+import xyz.realms.mgit.ui.fragments.SheimiFragmentActivity;
 
 public class CommitDiffActivity extends SheimiFragmentActivity {
 

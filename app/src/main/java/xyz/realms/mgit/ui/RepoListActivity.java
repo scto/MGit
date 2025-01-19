@@ -38,6 +38,7 @@ import xyz.realms.mgit.ui.explorer.ExploreFileActivity;
 import xyz.realms.mgit.ui.explorer.ImportRepositoryActivity;
 import xyz.realms.mgit.ui.explorer.RepoDetailActivity;
 import xyz.realms.mgit.ui.explorer.UserSettingsActivity;
+import xyz.realms.mgit.ui.fragments.SheimiFragmentActivity;
 import xyz.realms.mgit.ui.vmodel.CloneViewModel;
 import xyz.realms.mgit.ui.vmodel.RepoListViewModel;
 

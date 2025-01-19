@@ -12,7 +12,7 @@
     <string name="dialog_commit_msg_hint">提交信息</string>
     <string name="dialog_commit_author_hint">提交作者 (可选)</string>
     <string name="dialog_commit_is_amend">修改之前的提交</string>
-    <string name="dialog_commit_auto_stage">自动添加已修改的文件到暂存区</string>
+    <string name="dialog_commit_auto_stage">暂存所有文件</string>
     <string name="dialog_commit_positive_label">提交</string>
 
     <!-- Import Repo -->

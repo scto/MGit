@@ -2,7 +2,6 @@ package xyz.realms.mgit.ui.adapters;
 
 import android.content.ComponentName;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.ApplicationInfo;
 import android.content.pm.ResolveInfo;
@@ -12,7 +11,6 @@ import android.os.Parcelable;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -32,7 +30,7 @@ import xyz.realms.mgit.database.Repo;
 import xyz.realms.mgit.database.RepoContract;
 import xyz.realms.mgit.database.RepoDbManager;
 import xyz.realms.mgit.ui.explorer.RepoDetailActivity;
-import xyz.realms.mgit.ui.SheimiFragmentActivity;
+import xyz.realms.mgit.ui.fragments.SheimiFragmentActivity;
 import xyz.realms.mgit.ui.RepoListActivity;
 
 /**

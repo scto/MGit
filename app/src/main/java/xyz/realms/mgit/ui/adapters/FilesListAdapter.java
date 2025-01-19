@@ -13,7 +13,7 @@ import java.io.FileFilter;
 import java.util.Arrays;
 import java.util.Comparator;
 
-import xyz.realms.mgit.ui.utils.Profile;
+import xyz.realms.mgit.ui.preference.Profile;
 import xyz.realms.mgit.R;
 
 /**

@@ -1,9 +1,7 @@
-package xyz.realms.mgit.ui.utils;
+package xyz.realms.mgit.ui.preference;
 
-import android.annotation.TargetApi;
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.os.Build;
 import android.security.KeyPairGeneratorSpec;
 
 import com.securepreferences.SecurePreferences;
@@ -24,6 +22,7 @@ import javax.security.auth.x500.X500Principal;
 
 import timber.log.Timber;
 import xyz.realms.mgit.errors.SecurePrefsException;
+import xyz.realms.mgit.ui.utils.BasicFunctions;
 
 /**
  * Securely store sensitive data in prefs, encrypting with a key pair that is stored in
@@ -50,9 +49,6 @@ public class SecurePrefsHelper {
     private final KeyStore mKeyStore;
 
     public SecurePrefsHelper(Context context) throws SecurePrefsException {
-        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.JELLY_BEAN_MR2) {
-            throw new SecurePrefsException("Min Android version require:" + Build.VERSION_CODES.JELLY_BEAN_MR2);
-        }
 
         try {
             mKeyStore = KeyStore.getInstance(AndroidKeyStore);
@@ -77,7 +73,6 @@ public class SecurePrefsHelper {
         }
     }
 
-    @TargetApi(Build.VERSION_CODES.JELLY_BEAN_MR2)
     void generateKeyPair(Context context) throws NoSuchProviderException, NoSuchAlgorithmException,
         InvalidAlgorithmParameterException, KeyStoreException {
         // Generate the RSA key pairs

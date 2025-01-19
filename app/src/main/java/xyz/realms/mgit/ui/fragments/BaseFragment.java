@@ -5,8 +5,7 @@ import android.content.DialogInterface;
 
 import androidx.fragment.app.Fragment;
 
-import xyz.realms.mgit.ui.SheimiFragmentActivity;
-import xyz.realms.mgit.ui.SheimiFragmentActivity.OnBackClickListener;
+import xyz.realms.mgit.ui.fragments.SheimiFragmentActivity.OnBackClickListener;
 
 /**
  * Created by sheimi on 8/7/13.

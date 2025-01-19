@@ -5,7 +5,7 @@ import org.eclipse.jgit.transport.CredentialItem;
 import org.eclipse.jgit.transport.URIish;
 
 import timber.log.Timber;
-import xyz.realms.mgit.ui.utils.SecurePrefsHelper;
+import xyz.realms.mgit.ui.preference.SecurePrefsHelper;
 
 /**
  * ref: http://stackoverflow.com/a/15290861/85472

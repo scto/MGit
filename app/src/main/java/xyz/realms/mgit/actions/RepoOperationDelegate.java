@@ -5,9 +5,7 @@ import org.eclipse.jgit.lib.Ref;
 import java.io.File;
 import java.util.ArrayList;
 
-import xyz.realms.mgit.ui.utils.FsUtils;
 import xyz.realms.mgit.database.Repo;
-import xyz.realms.mgit.tasks.SheimiAsyncTask.AsyncTaskPostCallback;
 import xyz.realms.mgit.tasks.repo.AddToStageTask;
 import xyz.realms.mgit.tasks.repo.CheckoutFileTask;
 import xyz.realms.mgit.tasks.repo.CheckoutTask;
@@ -15,6 +13,7 @@ import xyz.realms.mgit.tasks.repo.DeleteFileFromRepoTask;
 import xyz.realms.mgit.tasks.repo.MergeTask;
 import xyz.realms.mgit.tasks.repo.UpdateIndexTask;
 import xyz.realms.mgit.ui.explorer.RepoDetailActivity;
+import xyz.realms.mgit.ui.utils.FsUtils;
 
 public class RepoOperationDelegate {
     private final Repo mRepo;
@@ -58,34 +57,19 @@ public class RepoOperationDelegate {
 
     public void checkoutCommit(final String commitName) {
         CheckoutTask checkoutTask = new CheckoutTask(mRepo, commitName, null,
-            new AsyncTaskPostCallback() {
-            @Override
-            public void onPostExecute(Boolean isSuccess) {
-                mActivity.reset(commitName);
-            }
-        });
+            isSuccess -> mActivity.reset(commitName));
         checkoutTask.executeTask();
     }
 
     public void checkoutCommit(final String commitName, final String branch) {
         CheckoutTask checkoutTask = new CheckoutTask(mRepo, commitName, branch,
-            new AsyncTaskPostCallback() {
-            @Override
-            public void onPostExecute(Boolean isSuccess) {
-                mActivity.reset(branch);
-            }
-        });
+            isSuccess -> mActivity.reset(branch));
         checkoutTask.executeTask();
     }
 
     public void mergeBranch(final Ref commit, final String ffModeStr, final boolean autoCommit) {
         MergeTask mergeTask = new MergeTask(mRepo, commit, ffModeStr, autoCommit,
-            new AsyncTaskPostCallback() {
-            @Override
-            public void onPostExecute(Boolean isSuccess) {
-                mActivity.reset();
-            }
-        });
+            isSuccess -> mActivity.reset());
         mergeTask.executeTask();
     }
 
@@ -105,12 +89,9 @@ public class RepoOperationDelegate {
                                    DeleteFileFromRepoTask.DeleteOperationType deleteOperationType) {
         String relative = getRelativePath(filepath);
         DeleteFileFromRepoTask task = new DeleteFileFromRepoTask(mRepo, relative,
-            deleteOperationType, new AsyncTaskPostCallback() {
-            @Override
-            public void onPostExecute(Boolean isSuccess) {
-                // TODO Auto-generated method stub
-                mActivity.getFilesFragment().reset();
-            }
+            deleteOperationType, isSuccess -> {
+            // TODO Auto-generated method stub
+            mActivity.getFilesFragment().reset();
         });
         task.executeTask();
     }

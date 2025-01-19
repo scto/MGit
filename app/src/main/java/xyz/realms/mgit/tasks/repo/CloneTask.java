@@ -74,19 +74,6 @@ public class CloneTask extends RepoRemoteOpTask {
 
     public boolean cloneRepo() {
         try {
-            File userHome = FsUtils.getAppDir(false);
-            Path gitconfig = Paths.get(String.valueOf(userHome)).resolve(".gitconfig");
-
-            //  /data/user/0/xyz.realms.mgit/files
-            //  需要创建一个文件。
-            boolean isCratedFile = true;
-            if (!new File(gitconfig.toString()).exists()) {
-                isCratedFile = new File(gitconfig.toString()).createNewFile();
-            }
-            if (!isCratedFile) {
-                return false;
-            }
-
             File localRepo = mRepo.getDir();
             CloneCommand cloneCommand = Git.cloneRepository()
                 .setNoCheckout(true)

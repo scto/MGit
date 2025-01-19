@@ -36,12 +36,12 @@ import java.io.File;
 import java.util.Locale;
 
 import timber.log.Timber;
+import xyz.realms.mgit.R;
 import xyz.realms.mgit.ui.common.PermissionsHelper;
+import xyz.realms.mgit.ui.dialogs.DummyDialogListener;
+import xyz.realms.mgit.ui.preference.Profile;
 import xyz.realms.mgit.ui.utils.AvatarDownloader;
 import xyz.realms.mgit.ui.utils.BasicFunctions;
-import xyz.realms.mgit.ui.preference.Profile;
-import xyz.realms.mgit.R;
-import xyz.realms.mgit.ui.dialogs.DummyDialogListener;
 
 public class SheimiFragmentActivity extends AppCompatActivity {
 
@@ -267,7 +267,7 @@ public class SheimiFragmentActivity extends AppCompatActivity {
                                         String errorInfo) {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         LayoutInflater inflater = getLayoutInflater();
-        // DataBinding不是很稳定。checkBox的选中状态用它搞不来。
+        // checkBox是针对这个仓库来的，设置一次后在仓库的生命周期中就不用再设置。
         View layout = inflater.inflate(R.layout.dialog_prompt_for_password, null);
         final EditText username = layout.findViewById(R.id.username);
         final EditText password = layout.findViewById(R.id.password);

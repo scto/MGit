@@ -69,7 +69,7 @@ public class PullTask extends RepoRemoteOpTask {
             .setProgressMonitor(new BasicProgressMonitor())
             .setTransportConfigCallback(new SgitTransportCallback());
 
-        setCredentials(pullCommand);
+        requireCredentials(this, pullCommand);
 
         try {
             String branch = null;

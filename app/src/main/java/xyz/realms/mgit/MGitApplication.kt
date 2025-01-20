@@ -22,13 +22,12 @@ import java.security.Security
  * Custom Application Singleton
  */
 open class MGitApplication : Application() {
-    var securePrefsHelper: SecurePrefsHelper? = null
     var prefenceHelper: PreferenceHelper? = null
-
 
     companion object {
         @SuppressLint("StaticFieldLeak")
         private lateinit var mContext: Context
+        private lateinit var securePrefsHelper: SecurePrefsHelper
         private lateinit var mCredentialsProvider: CredentialsProvider
         val context: Context
             get() = mContext
@@ -41,6 +40,11 @@ open class MGitApplication : Application() {
         @JvmStatic
         fun getJschCredentialsProvider(): CredentialsProvider {
             return mCredentialsProvider
+        }
+
+        @JvmStatic
+        fun getSecurePrefsHelper(): SecurePrefsHelper {
+            return securePrefsHelper
         }
 
         init {

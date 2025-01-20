@@ -51,16 +51,6 @@ public class PreferenceHelper {
         Timber.d("Privacy policy accepted version:%s", PRIVACY_ACCEPTED_VERSION);
     }
 
-    public void setTokenAccount(String tokenAccount) {
-        edit(mContext.getString(R.string.pref_key_personal_access_tokens_account), tokenAccount);
-        Timber.d("set root:%s", tokenAccount);
-    }
-
-    public void setTokenSecretKey(String tokenSecretKey) {
-        edit(mContext.getString(R.string.pref_key_personal_access_tokens_secret_key), tokenSecretKey);
-        Timber.d("set tokenSecretKey:%s", tokenSecretKey);
-    }
-
     protected SharedPreferences getSharedPrefs() {
         return mContext.getSharedPreferences(
             mContext.getString(R.string.preference_file_key), Context.MODE_PRIVATE);

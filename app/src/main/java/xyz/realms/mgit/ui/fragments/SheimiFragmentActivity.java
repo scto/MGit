@@ -16,8 +16,10 @@ import android.util.DisplayMetrics;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.CheckBox;
 import android.widget.EditText;
+import android.widget.ListView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AlertDialog;
@@ -33,15 +35,18 @@ import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
 import com.nostra13.universalimageloader.utils.StorageUtils;
 
 import java.io.File;
+import java.util.ArrayList;
+import java.util.Hashtable;
+import java.util.List;
 import java.util.Locale;
 
 import timber.log.Timber;
+import xyz.realms.mgit.R;
 import xyz.realms.mgit.ui.common.PermissionsHelper;
+import xyz.realms.mgit.ui.dialogs.DummyDialogListener;
+import xyz.realms.mgit.ui.preference.Profile;
 import xyz.realms.mgit.ui.utils.AvatarDownloader;
 import xyz.realms.mgit.ui.utils.BasicFunctions;
-import xyz.realms.mgit.ui.preference.Profile;
-import xyz.realms.mgit.R;
-import xyz.realms.mgit.ui.dialogs.DummyDialogListener;
 
 public class SheimiFragmentActivity extends AppCompatActivity {
 
@@ -120,16 +125,16 @@ public class SheimiFragmentActivity extends AppCompatActivity {
         }
         showMessageDialog(R.string.dialog_access_all_files_title,
             R.string.dialog_access_all_files_msg, R.string.label_ok, (dialog, which) -> {
-                try {
-                    Uri uri = Uri.fromParts("package", getPackageName(), null);
-                    Intent intent = new Intent(Settings.ACTION_MANAGE_APP_ALL_FILES_ACCESS_PERMISSION
-                        , uri);
-                    startActivityForResult(intent, requestCode);
-                } catch (ActivityNotFoundException e) {
-                    Intent intent = new Intent(Settings.ACTION_MANAGE_ALL_FILES_ACCESS_PERMISSION);
-                    startActivityForResult(intent, requestCode);
-                }
-            });
+            try {
+                Uri uri = Uri.fromParts("package", getPackageName(), null);
+                Intent intent = new Intent(Settings.ACTION_MANAGE_APP_ALL_FILES_ACCESS_PERMISSION
+                    , uri);
+                startActivityForResult(intent, requestCode);
+            } catch (ActivityNotFoundException e) {
+                Intent intent = new Intent(Settings.ACTION_MANAGE_ALL_FILES_ACCESS_PERMISSION);
+                startActivityForResult(intent, requestCode);
+            }
+        });
         return true;
     }
 
@@ -139,21 +144,21 @@ public class SheimiFragmentActivity extends AppCompatActivity {
                 showMessageDialog(R.string.dialog_access_all_files_title,
                     getString(R.string.dialog_access_all_files_msg), R.string.label_ok,
                     R.string.label_cancel, (dialogInterface, i) -> {
-                        try {
-                            Uri uri = Uri.fromParts("package", getPackageName(), null);
-                            Intent permissionAllowIntent =
-                                new Intent(Settings.ACTION_MANAGE_APP_ALL_FILES_ACCESS_PERMISSION, uri);
-                            startActivity(permissionAllowIntent);
-                        } catch (ActivityNotFoundException e) {
-                            Timber.tag("SheimiFragmentActivity")
-                                .e("could not start activity to request all " + "files permission");
-                            showMessageDialog(R.string.dialog_error_title,
-                                getString(R.string.error_couldnt_display_all_files_permission));
-                        }
-                    }, (dialogInterface, i) -> {
-                        // can't go on without all files permission
-                        finish();
-                    });
+                    try {
+                        Uri uri = Uri.fromParts("package", getPackageName(), null);
+                        Intent permissionAllowIntent =
+                            new Intent(Settings.ACTION_MANAGE_APP_ALL_FILES_ACCESS_PERMISSION, uri);
+                        startActivity(permissionAllowIntent);
+                    } catch (ActivityNotFoundException e) {
+                        Timber.tag("SheimiFragmentActivity").e("could not start activity to " +
+                            "request all " + "files permission");
+                        showMessageDialog(R.string.dialog_error_title,
+                            getString(R.string.error_couldnt_display_all_files_permission));
+                    }
+                }, (dialogInterface, i) -> {
+                    // can't go on without all files permission
+                    finish();
+                });
 
             }
         } else {
@@ -167,12 +172,7 @@ public class SheimiFragmentActivity extends AppCompatActivity {
 
     /* View Utils Start */
     public void showToastMessage(final String msg) {
-        runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
-                Toast.makeText(SheimiFragmentActivity.this, msg, Toast.LENGTH_LONG).show();
-            }
-        });
+        runOnUiThread(() -> Toast.makeText(SheimiFragmentActivity.this, msg, Toast.LENGTH_LONG).show());
     }
 
     public void showToastMessage(int resId) {
@@ -220,12 +220,7 @@ public class SheimiFragmentActivity extends AppCompatActivity {
                                   final onOptionDialogClicked[] option_listeners) {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setTitle(title);
-        builder.setItems(option_values, new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                option_listeners[which].onClicked();
-            }
-        }).create().show();
+        builder.setItems(option_values, (dialog, which) -> option_listeners[which].onClicked()).create().show();
     }
 
     public void showEditTextDialog(int title, int hint, int positiveBtn,
@@ -235,31 +230,45 @@ public class SheimiFragmentActivity extends AppCompatActivity {
         View layout = inflater.inflate(R.layout.dialog_edit_text, null);
         final EditText editText = layout.findViewById(R.id.editText);
         editText.setHint(hint);
-        builder.setTitle(title).setView(layout).setPositiveButton(positiveBtn,
-            new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialogInterface, int i) {
-                    String text = editText.getText().toString();
-                    if (text == null || text.trim().isEmpty()) {
-                        showToastMessage(R.string.alert_you_should_input_something);
-                        return;
-                    }
-                    positiveListener.onClicked(text);
-                }
-            }).setNegativeButton(R.string.label_cancel, new DummyDialogListener()).show();
+        builder.setTitle(title).setView(layout).setPositiveButton(positiveBtn, (dialogInterface,
+                                                                                i) -> {
+            String text = editText.getText().toString();
+            if (text == null || text.trim().isEmpty()) {
+                showToastMessage(R.string.alert_you_should_input_something);
+                return;
+            }
+            positiveListener.onClicked(text);
+        }).setNegativeButton(R.string.label_cancel, new DummyDialogListener()).show();
     }
 
     public void promptForPassword(OnPasswordEntered onPasswordEntered, int errorId) {
         promptForPassword(onPasswordEntered, errorId);
     }
 
-    public void promptForPassword(final OnPasswordEntered onPasswordEntered,
-                                  final String errorInfo) {
-        runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
-                promptForPasswordInner(onPasswordEntered, errorInfo);
-            }
+    public void promptForPassword(final OnPasswordEntered onPasswordEntered, final String errorInfo) {
+        runOnUiThread(() -> promptForPasswordInner(onPasswordEntered, errorInfo));
+    }
+
+    public void selectAccount(final OnPasswordEntered onPasswordEntered, final Hashtable<String, String> accounts) {
+        runOnUiThread(() -> {
+            AlertDialog.Builder builder = new AlertDialog.Builder(this);
+            LayoutInflater inflater = getLayoutInflater();
+            View layout = inflater.inflate(R.layout.dialog_select_account, null);
+            final ListView accountsListView = layout.findViewById(R.id.accounts_list_view);
+            List<String> accountNames = new ArrayList<>(accounts.keySet());
+            accountsListView.setAdapter(new ArrayAdapter<>(SheimiFragmentActivity.this, android.R.layout.simple_list_item_1, accountNames));
+            builder.setTitle("选择账户")
+                .setView(layout)
+                .setNegativeButton(R.string.label_cancel, (dialog, which) -> {
+                    onPasswordEntered.onCanceled();
+                });
+            AlertDialog dialog = builder.create();
+            accountsListView.setOnItemClickListener((parent, view, position, id) -> {
+                String username = accountNames.get(position);
+                onPasswordEntered.onClicked(username, accounts.get(username), false);
+                dialog.dismiss();
+            });
+            dialog.show();
         });
     }
 
@@ -267,7 +276,6 @@ public class SheimiFragmentActivity extends AppCompatActivity {
                                         String errorInfo) {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         LayoutInflater inflater = getLayoutInflater();
-        // DataBinding不是很稳定。checkBox的选中状态用它搞不来。
         View layout = inflater.inflate(R.layout.dialog_prompt_for_password, null);
         final EditText username = layout.findViewById(R.id.username);
         final EditText password = layout.findViewById(R.id.password);
@@ -275,14 +283,13 @@ public class SheimiFragmentActivity extends AppCompatActivity {
         if (errorInfo == null) {
             errorInfo = getString(R.string.dialog_prompt_for_password_title);
         }
-        builder.setTitle(errorInfo).setView(layout).setPositiveButton(
-            R.string.label_done,
-            (dialogInterface, i) -> onPasswordEntered.onClicked(username.getText().toString(),
-                password.getText().toString(), checkBox.isChecked())
-        ).setNegativeButton(
-            R.string.label_cancel,
-            (dialogInterface, i) -> onPasswordEntered.onCanceled()
-        ).show();
+        builder.setTitle(errorInfo).setView(layout).setPositiveButton(R.string.label_done,
+            (dialogInterface, i) -> {
+            onPasswordEntered.onClicked(username.getText().toString(),
+                password.getText().toString(), checkBox.isChecked());
+        }).setNegativeButton(R.string.label_cancel, (dialogInterface, i) -> {
+            onPasswordEntered.onCanceled();
+        }).show();
     }
 
     /* Switch Activity Animation Start */

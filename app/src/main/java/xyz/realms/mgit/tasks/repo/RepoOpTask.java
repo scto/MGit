@@ -59,7 +59,7 @@ public abstract class RepoOpTask extends SheimiAsyncTask<Void, String, Boolean> 
         BasicFunctions.getActiveActivity().showToastMessage(R.string.error_task_running);
     }
 
-    protected void setCredentials(TransportCommand command) {
+    protected void requireCredentials(OnPasswordEntered onPassEntered,TransportCommand command) {
         String username = mRepo.getUsername();
         String password = mRepo.getPassword();
 
@@ -68,7 +68,9 @@ public abstract class RepoOpTask extends SheimiAsyncTask<Void, String, Boolean> 
                 new UsernamePasswordCredentialsProvider(username, password);
             command.setCredentialsProvider(auth);
         } else {
-            Timber.d("no CredentialsProvider when no username/password provided");
+            BasicFunctions.getActiveActivity().selectAccount(onPassEntered, mRepo.getAccount());
+            // 出现账户选择对话框，用户选择后继续尝试，不行什么都不做然后抛出异常。
+            // Timber.d("no CredentialsProvider when no username/password provided");
         }
 
     }

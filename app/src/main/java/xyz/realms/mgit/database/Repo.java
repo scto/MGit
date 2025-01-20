@@ -4,7 +4,6 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.os.Bundle;
-import android.util.Log;
 import android.util.SparseArray;
 
 import org.eclipse.jgit.api.Git;
@@ -22,14 +21,20 @@ import org.eclipse.jgit.lib.StoredConfig;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevWalk;
 
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashSet;
+import java.util.Hashtable;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Properties;
 import java.util.Set;
 
 import timber.log.Timber;
@@ -37,8 +42,8 @@ import xyz.realms.mgit.MGitApplication;
 import xyz.realms.mgit.errors.StopTaskException;
 import xyz.realms.mgit.tasks.repo.RepoOpTask;
 import xyz.realms.mgit.ui.preference.PreferenceHelper;
+import xyz.realms.mgit.ui.preference.SecurePrefsHelper;
 import xyz.realms.mgit.ui.utils.FsUtils;
-import xyz.realms.mgit.ui.preference.Profile;
 
 /**
  * Model for a local repo
@@ -137,13 +142,10 @@ public class Repo implements Comparable<Repo>, Serializable {
     }
 
     public static int getCommitType(String[] splits) {
-        if (splits.length == 4)
-            return COMMIT_TYPE_REMOTE;
-        if (splits.length != 3)
-            return COMMIT_TYPE_TEMP;
+        if (splits.length == 4) return COMMIT_TYPE_REMOTE;
+        if (splits.length != 3) return COMMIT_TYPE_TEMP;
         String type = splits[1];
-        if ("tags".equals(type))
-            return COMMIT_TYPE_TAG;
+        if ("tags".equals(type)) return COMMIT_TYPE_TAG;
         return COMMIT_TYPE_HEAD;
     }
 
@@ -185,7 +187,8 @@ public class Repo implements Comparable<Repo>, Serializable {
      */
     public static String getCommitDisplayName(String ref) {
         if (getCommitType(ref) == COMMIT_TYPE_REMOTE) {
-            return (ref != null && ref.length() > Constants.R_REFS.length()) ? ref.substring(Constants.R_REFS.length()) : "";
+            return (ref != null && ref.length() > Constants.R_REFS.length()) ?
+                ref.substring(Constants.R_REFS.length()) : "";
         }
         return Repository.shortenRefName(ref);
     }
@@ -233,6 +236,32 @@ public class Repo implements Comparable<Repo>, Serializable {
         }
     }
 
+    public static String serializeHashtable(Hashtable<String, String> hashtable) {
+        try {
+            Properties properties = new Properties();
+            properties.putAll(hashtable);
+            ByteArrayOutputStream byteStream = new ByteArrayOutputStream();
+            properties.storeToXML(byteStream, "Hashtable");
+            return byteStream.toString();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public static Hashtable<String, String> deserializeHashtable(String xmlString) {
+        try {
+            Properties properties = new Properties();
+            properties.loadFromXML(new ByteArrayInputStream(xmlString.getBytes()));
+            Hashtable<String, String> hashtable = new Hashtable<>();
+            for (String key : properties.stringPropertyNames()) {
+                hashtable.put(key, properties.getProperty(key));
+            }
+            return hashtable;
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
     public Bundle getBundle() {
         Bundle bundle = new Bundle();
         bundle.putSerializable(TAG, this);
@@ -248,8 +277,7 @@ public class Repo implements Comparable<Repo>, Serializable {
     }
 
     public String getDiaplayName() {
-        if (!isExternal())
-            return mLocalPath;
+        if (!isExternal()) return mLocalPath;
         String[] strs = mLocalPath.split("/");
         return strs[strs.length - 1] + " (external)";
     }
@@ -290,41 +318,62 @@ public class Repo implements Comparable<Repo>, Serializable {
         return mLastCommitDate;
     }
 
-    public String getPassword() {
-        return mPassword;
-    }
-
-    public void setPassword(String password) {
-        mPassword = password;
-    }
-
     public String getUsername() {
         return mUsername;
     }
 
-    public void setUsername(String username) {
+    public String getPassword() {
+        return mPassword;
+    }
+
+    public void setAndAddAccount(String username, String password) {
         mUsername = username;
+        mPassword = password;
+        Hashtable<String, String> account = new Hashtable<>();
+        SecurePrefsHelper securePrefsHelper = MGitApplication.getSecurePrefsHelper();
+        String strAccount = securePrefsHelper.get("Account");
+        if (strAccount != null) {
+            account = deserializeHashtable(strAccount);
+        }
+        account.put(username, password);
+        strAccount = serializeHashtable(account);
+        MGitApplication.getSecurePrefsHelper().set("Account", strAccount);
+    }
+
+    public void delAccount(String username) {
+        SecurePrefsHelper securePrefsHelper = MGitApplication.getSecurePrefsHelper();
+        String strAccount = securePrefsHelper.get("Account");
+        Hashtable<String, String> account;
+        if (strAccount == null) return;
+        account = deserializeHashtable(strAccount);
+        account.remove(username);
+        strAccount = serializeHashtable(account);
+        MGitApplication.getSecurePrefsHelper().set("Account", strAccount);
+    }
+
+    public Hashtable<String, String> getAccount(){
+        SecurePrefsHelper securePrefsHelper = MGitApplication.getSecurePrefsHelper();
+        String strAccount = securePrefsHelper.get("Account");
+        if (strAccount == null) return new Hashtable<>();
+        return deserializeHashtable(strAccount);
     }
 
     public void cancelTask() {
         RepoOpTask task = mRepoTasks.get(getID());
-        if (task == null)
-            return;
+        if (task == null) return;
         task.cancelTask();
         removeTask(task);
     }
 
     public boolean addTask(RepoOpTask task) {
-        if (mRepoTasks.get(getID()) != null)
-            return false;
+        if (mRepoTasks.get(getID()) != null) return false;
         mRepoTasks.put(getID(), task);
         return true;
     }
 
     public void removeTask(RepoOpTask task) {
         RepoOpTask runningTask = mRepoTasks.get(getID());
-        if (runningTask == null || runningTask != task)
-            return;
+        if (runningTask == null || runningTask != task) return;
         mRepoTasks.remove(getID());
     }
 
@@ -337,12 +386,11 @@ public class Repo implements Comparable<Repo>, Serializable {
 
     public void updateRemote() {
         ContentValues values = new ContentValues();
-        values.put(RepoContract.RepoEntry.COLUMN_NAME_REMOTE_URL,
-            getRemoteOriginURL());
+        values.put(RepoContract.RepoEntry.COLUMN_NAME_REMOTE_URL, getRemoteOriginURL());
         RepoDbManager.updateRepo(mID, values);
     }
 
-    private void writeObject(java.io.ObjectOutputStream out) throws IOException {
+    private void writeObject(ObjectOutputStream out) throws IOException {
         out.writeInt(mID);
         out.writeObject(mRemoteURL);
         out.writeObject(mLocalPath);
@@ -355,8 +403,7 @@ public class Repo implements Comparable<Repo>, Serializable {
         out.writeObject(mLastCommitMsg);
     }
 
-    private void readObject(java.io.ObjectInputStream in) throws IOException,
-        ClassNotFoundException {
+    private void readObject(ObjectInputStream in) throws IOException, ClassNotFoundException {
         mID = in.readInt();
         mRemoteURL = (String) in.readObject();
         mLocalPath = (String) in.readObject();
@@ -417,24 +464,18 @@ public class Repo implements Comparable<Repo>, Serializable {
         if (commit != null) {
             PersonIdent committer = commit.getCommitterIdent();
             if (committer != null) {
-                email = committer.getEmailAddress() != null ? committer
-                    .getEmailAddress() : email;
-                uname = committer.getName() != null ? committer.getName()
-                    : uname;
+                email = committer.getEmailAddress() != null ? committer.getEmailAddress() : email;
+                uname = committer.getName() != null ? committer.getName() : uname;
             }
-            msg = commit.getShortMessage() != null ? commit.getShortMessage()
-                : msg;
+            msg = commit.getShortMessage() != null ? commit.getShortMessage() : msg;
             long date = committer.getWhen().getTime();
             commitDateStr = Long.toString(date);
 
         }
-        values.put(RepoContract.RepoEntry.COLUMN_NAME_LATEST_COMMIT_DATE,
-            commitDateStr);
+        values.put(RepoContract.RepoEntry.COLUMN_NAME_LATEST_COMMIT_DATE, commitDateStr);
         values.put(RepoContract.RepoEntry.COLUMN_NAME_LATEST_COMMIT_MSG, msg);
-        values.put(RepoContract.RepoEntry.COLUMN_NAME_LATEST_COMMITTER_EMAIL,
-            email);
-        values.put(RepoContract.RepoEntry.COLUMN_NAME_LATEST_COMMITTER_UNAME,
-            uname);
+        values.put(RepoContract.RepoEntry.COLUMN_NAME_LATEST_COMMITTER_EMAIL, email);
+        values.put(RepoContract.RepoEntry.COLUMN_NAME_LATEST_COMMITTER_UNAME, uname);
         RepoDbManager.updateRepo(getID(), values);
     }
 
@@ -460,7 +501,8 @@ public class Repo implements Comparable<Repo>, Serializable {
             return remoteBranchNames;
         } catch (IOException | StopTaskException e) {
             Timber.e(e, "error getting remote branch name");
-        } return new ArrayList<>();
+        }
+        return new ArrayList<>();
     }
 
     public String[] getBranches() {
@@ -477,8 +519,7 @@ public class Repo implements Comparable<Repo>, Serializable {
             for (Ref ref : remoteRefs) {
                 String name = ref.getName();
                 String localName = convertRemoteName(name);
-                if (branchSet.contains(localName))
-                    continue;
+                if (branchSet.contains(localName)) continue;
                 branchList.add(name);
             }
             return branchList.toArray(new String[0]);
@@ -492,8 +533,7 @@ public class Repo implements Comparable<Repo>, Serializable {
         try {
             Iterable<RevCommit> commits = getGit().log().setMaxCount(1).call();
             Iterator<RevCommit> it = commits.iterator();
-            if (!it.hasNext())
-                return null;
+            if (!it.hasNext()) return null;
             return it.next();
         } catch (GitAPIException | StopTaskException e) {
             Timber.e(e);
@@ -546,24 +586,13 @@ public class Repo implements Comparable<Repo>, Serializable {
         return getCommitDisplayName(getBranchName());
     }
 
-    public void setToken(Context context) {
-        String tokenAccount = Profile.getTokenAccount(context);
-        String tokenSecretKey = Profile.getTokenSecretKey(context);
-        if (tokenAccount != null && !tokenAccount.isEmpty() && tokenSecretKey != null && !tokenSecretKey.isEmpty()) {
-            setUsername(tokenAccount);
-            setPassword(tokenSecretKey);
-            Timber.tag("Repo").log(Log.INFO, "Set token: " + tokenAccount);
-        }
-    }
-
     public File getDir() {
         PreferenceHelper prefHelper = MGitApplication.getContext().getPrefenceHelper();
         return Repo.getDir(prefHelper, getLocalPath());
     }
 
     public Git getGit() throws StopTaskException {
-        if (mGit != null)
-            return mGit;
+        if (mGit != null) return mGit;
         try {
             File repoFile = getDir();
             mGit = Git.open(repoFile);
@@ -585,21 +614,17 @@ public class Repo implements Comparable<Repo>, Serializable {
         try {
             StoredConfig config = getStoredConfig();
             String origin = config.getString("remote", "origin", "url");
-            if (origin != null && !origin.isEmpty())
-                return origin;
+            if (origin != null && !origin.isEmpty()) return origin;
             Set<String> remoteNames = config.getSubsections("remote");
-            if (remoteNames.isEmpty())
-                return "";
-            return config.getString("remote", remoteNames.iterator()
-                .next(), "url");
+            if (remoteNames.isEmpty()) return "";
+            return config.getString("remote", remoteNames.iterator().next(), "url");
         } catch (StopTaskException ignored) {
         }
         return "";
     }
 
     public Set<String> getRemotes() {
-        if (mRemotes != null)
-            return mRemotes;
+        if (mRemotes != null) return mRemotes;
         try {
             StoredConfig config = getStoredConfig();
             Set<String> remotes = config.getSubsections("remote");
@@ -616,12 +641,10 @@ public class Repo implements Comparable<Repo>, Serializable {
             StoredConfig config = getStoredConfig();
             Set<String> remoteNames = config.getSubsections("remote");
             if (remoteNames.contains(remote)) {
-                throw new IOException(String.format(
-                    "Remote %s already exists.", remote));
+                throw new IOException(String.format("Remote %s already exists.", remote));
             }
             config.setString("remote", remote, "url", url);
-            String fetch = String.format("+refs/heads/*:refs/remotes/%s/*",
-                remote);
+            String fetch = String.format("+refs/heads/*:refs/remotes/%s/*", remote);
             config.setString("remote", remote, "fetch", fetch);
             config.save();
             mRemotes.add(remote);

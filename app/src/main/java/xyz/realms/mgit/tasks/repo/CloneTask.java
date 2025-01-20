@@ -81,7 +81,7 @@ public class CloneTask extends RepoRemoteOpTask {
                 .setDirectory(localRepo)
                 .setCloneSubmodules(mCloneRecursive);
 
-            setCredentials(cloneCommand);
+            requireCredentials(this, cloneCommand);
 
             cloneCommand.call();
             Profile.setLastCloneSuccess();
@@ -129,8 +129,7 @@ public class CloneTask extends RepoRemoteOpTask {
         String userName = mRepo.getUsername();
         String password = mRepo.getPassword();
         mRepo = Repo.createRepo(mRepo.getLocalPath(), mRepo.getRemoteURL(), mCloneStatusName);
-        mRepo.setUsername(userName);
-        mRepo.setPassword(password);
+        mRepo.setAndAddAccount(userName, password);
         return new CloneTask(mRepo, mCloneRecursive, mCloneStatusName, mCallback);
     }
 

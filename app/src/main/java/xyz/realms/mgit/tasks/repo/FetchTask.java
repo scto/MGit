@@ -82,7 +82,7 @@ public class FetchTask extends RepoRemoteOpTask {
             .setTransportConfigCallback(new SgitTransportCallback())
             .setRemote(remote);
 
-        setCredentials(fetchCommand);
+        requireCredentials(this, fetchCommand);
 
         try {
             fetchResult = fetchCommand.call();

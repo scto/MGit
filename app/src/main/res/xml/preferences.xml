@@ -54,21 +54,6 @@
     </PreferenceCategory>
 
     <PreferenceCategory android:title="@string/pref_category_title_security">
-        <!-- TODO: personal_access_tokens-->
-        <xyz.realms.mgit.ui.preference.EditTextPreference
-            android:title="@string/preference_personal_access_tokens_account"
-            android:key="@string/pref_key_personal_access_tokens_account"
-            android:summary="%s"
-            android:persistent="true">
-        </xyz.realms.mgit.ui.preference.EditTextPreference>
-
-        <xyz.realms.mgit.ui.preference.EditTextPreference
-            android:title="@string/preference_personal_access_tokens_secret_key"
-            android:key="@string/pref_key_personal_access_tokens_secret_key"
-            android:summary="%s"
-            android:persistent="true">
-        </xyz.realms.mgit.ui.preference.EditTextPreference>
-
         <Preference
             android:title="@string/preference_manage_ssh_keys"
             android:summary="@string/preference_manage_ssh_keys_summary"

@@ -72,6 +72,7 @@ public class CheckoutTask extends RepoOpTask {
             if (name == null) {
                 checkoutNewBranch(newBranch);
             } else {
+                Toast.makeText(MGitApplication.getContext(), "检出文件中…", Toast.LENGTH_SHORT).show();
                 if (Repo.COMMIT_TYPE_REMOTE == Repo.getCommitType(name)) {
                     checkoutFromRemote(name, newBranch == null || newBranch.isEmpty() ?
                         Repo.getCommitName(name) : newBranch);
@@ -80,6 +81,7 @@ public class CheckoutTask extends RepoOpTask {
                 } else {
                     checkoutFromLocal(name, newBranch);
                 }
+                Toast.makeText(MGitApplication.getContext(), "检出完成。", Toast.LENGTH_SHORT).show();
             }
         } catch (StopTaskException e) {
             return false;

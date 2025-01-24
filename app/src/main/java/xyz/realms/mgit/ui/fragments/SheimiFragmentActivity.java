@@ -20,6 +20,7 @@ import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
@@ -97,19 +98,15 @@ public class SheimiFragmentActivity extends AppCompatActivity {
     }
 
     @Override
-    public void onRequestPermissionsResult(int requestCode, String[] permissions,
-                                           int[] grantResults) {
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions,
+                                           @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-        switch (requestCode) {
-            case MGIT_PERMISSIONS_REQUEST: {
-                // If request is cancelled, the result arrays are empty.
-                if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-
-                } else {
-                    // permission denied
-                    showMessageDialog(R.string.dialog_not_supported,
-                        getString(R.string.dialog_permission_not_granted));
-                }
+        if (requestCode == MGIT_PERMISSIONS_REQUEST) {
+            // If request is cancelled, the result arrays are empty.
+            if (!(grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED)) {
+                // permission denied
+                showMessageDialog(R.string.dialog_not_supported,
+                    getString(R.string.dialog_permission_not_granted));
             }
         }
     }
@@ -120,16 +117,16 @@ public class SheimiFragmentActivity extends AppCompatActivity {
         }
         showMessageDialog(R.string.dialog_access_all_files_title,
             R.string.dialog_access_all_files_msg, R.string.label_ok, (dialog, which) -> {
-                try {
-                    Uri uri = Uri.fromParts("package", getPackageName(), null);
-                    Intent intent = new Intent(Settings.ACTION_MANAGE_APP_ALL_FILES_ACCESS_PERMISSION
-                        , uri);
-                    startActivityForResult(intent, requestCode);
-                } catch (ActivityNotFoundException e) {
-                    Intent intent = new Intent(Settings.ACTION_MANAGE_ALL_FILES_ACCESS_PERMISSION);
-                    startActivityForResult(intent, requestCode);
-                }
-            });
+            try {
+                Uri uri = Uri.fromParts("package", getPackageName(), null);
+                Intent intent = new Intent(Settings.ACTION_MANAGE_APP_ALL_FILES_ACCESS_PERMISSION
+                    , uri);
+                startActivityForResult(intent, requestCode);
+            } catch (ActivityNotFoundException e) {
+                Intent intent = new Intent(Settings.ACTION_MANAGE_ALL_FILES_ACCESS_PERMISSION);
+                startActivityForResult(intent, requestCode);
+            }
+        });
         return true;
     }
 
@@ -139,21 +136,21 @@ public class SheimiFragmentActivity extends AppCompatActivity {
                 showMessageDialog(R.string.dialog_access_all_files_title,
                     getString(R.string.dialog_access_all_files_msg), R.string.label_ok,
                     R.string.label_cancel, (dialogInterface, i) -> {
-                        try {
-                            Uri uri = Uri.fromParts("package", getPackageName(), null);
-                            Intent permissionAllowIntent =
-                                new Intent(Settings.ACTION_MANAGE_APP_ALL_FILES_ACCESS_PERMISSION, uri);
-                            startActivity(permissionAllowIntent);
-                        } catch (ActivityNotFoundException e) {
-                            Timber.tag("SheimiFragmentActivity")
-                                .e("could not start activity to request all " + "files permission");
-                            showMessageDialog(R.string.dialog_error_title,
-                                getString(R.string.error_couldnt_display_all_files_permission));
-                        }
-                    }, (dialogInterface, i) -> {
-                        // can't go on without all files permission
-                        finish();
-                    });
+                    try {
+                        Uri uri = Uri.fromParts("package", getPackageName(), null);
+                        Intent permissionAllowIntent =
+                            new Intent(Settings.ACTION_MANAGE_APP_ALL_FILES_ACCESS_PERMISSION, uri);
+                        startActivity(permissionAllowIntent);
+                    } catch (ActivityNotFoundException e) {
+                        Timber.tag("SheimiFragmentActivity").e("could not start activity to " +
+                            "request all " + "files permission");
+                        showMessageDialog(R.string.dialog_error_title,
+                            getString(R.string.error_couldnt_display_all_files_permission));
+                    }
+                }, (dialogInterface, i) -> {
+                    // can't go on without all files permission
+                    finish();
+                });
 
             }
         } else {
@@ -235,32 +232,24 @@ public class SheimiFragmentActivity extends AppCompatActivity {
         View layout = inflater.inflate(R.layout.dialog_edit_text, null);
         final EditText editText = layout.findViewById(R.id.editText);
         editText.setHint(hint);
-        builder.setTitle(title).setView(layout).setPositiveButton(positiveBtn,
-            new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialogInterface, int i) {
-                    String text = editText.getText().toString();
-                    if (text == null || text.trim().isEmpty()) {
-                        showToastMessage(R.string.alert_you_should_input_something);
-                        return;
-                    }
-                    positiveListener.onClicked(text);
-                }
-            }).setNegativeButton(R.string.label_cancel, new DummyDialogListener()).show();
+        builder.setTitle(title).setView(layout).setPositiveButton(positiveBtn, (dialogInterface,
+                                                                                i) -> {
+            String text = editText.getText().toString();
+            if (text.trim().isEmpty()) {
+                showToastMessage(R.string.alert_you_should_input_something);
+                return;
+            }
+            positiveListener.onClicked(text);
+        }).setNegativeButton(R.string.label_cancel, new DummyDialogListener()).show();
     }
 
     public void promptForPassword(OnPasswordEntered onPasswordEntered, int errorId) {
-        promptForPassword(onPasswordEntered, errorId);
+        promptForPassword(onPasswordEntered, getString(errorId));
     }
 
     public void promptForPassword(final OnPasswordEntered onPasswordEntered,
                                   final String errorInfo) {
-        runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
-                promptForPasswordInner(onPasswordEntered, errorInfo);
-            }
-        });
+        runOnUiThread(() -> promptForPasswordInner(onPasswordEntered, errorInfo));
     }
 
     private void promptForPasswordInner(final OnPasswordEntered onPasswordEntered,

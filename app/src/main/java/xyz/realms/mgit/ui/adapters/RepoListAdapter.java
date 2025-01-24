@@ -8,7 +8,6 @@ import android.content.pm.ResolveInfo;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Parcelable;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,27 +17,29 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
+
 import java.text.DateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
-import xyz.realms.mgit.ui.utils.BasicFunctions;
+import timber.log.Timber;
 import xyz.realms.mgit.R;
 import xyz.realms.mgit.database.Repo;
 import xyz.realms.mgit.database.RepoContract;
 import xyz.realms.mgit.database.RepoDbManager;
+import xyz.realms.mgit.ui.RepoListActivity;
 import xyz.realms.mgit.ui.explorer.RepoDetailActivity;
 import xyz.realms.mgit.ui.fragments.SheimiFragmentActivity;
-import xyz.realms.mgit.ui.RepoListActivity;
+import xyz.realms.mgit.ui.utils.BasicFunctions;
 
 /**
  * Created by sheimi on 8/6/13.
  */
-public class RepoListAdapter extends ArrayAdapter<Repo> implements
-    RepoDbManager.RepoDbObserver, AdapterView.OnItemClickListener,
-    AdapterView.OnItemLongClickListener {
+public class RepoListAdapter extends ArrayAdapter<Repo> implements RepoDbManager.RepoDbObserver,
+    AdapterView.OnItemClickListener, AdapterView.OnItemLongClickListener {
 
     private static final int QUERY_TYPE_SEARCH = 0;
     private static final int QUERY_TYPE_QUERY = 1;
@@ -50,8 +51,7 @@ public class RepoListAdapter extends ArrayAdapter<Repo> implements
 
     public RepoListAdapter(Context context) {
         super(context, 0);
-        RepoDbManager.registerDbObserver(RepoContract.RepoEntry.TABLE_NAME,
-            this);
+        RepoDbManager.registerDbObserver(RepoContract.RepoEntry.TABLE_NAME, this);
         mActivity = (RepoListActivity) context;
         mCommitDateFormatter = android.text.format.DateFormat.getDateFormat(context);
     }
@@ -85,8 +85,9 @@ public class RepoListAdapter extends ArrayAdapter<Repo> implements
         notifyDataSetChanged();
     }
 
+    @NonNull
     @Override
-    public View getView(int position, View convertView, ViewGroup parent) {
+    public View getView(int position, View convertView, @NonNull ViewGroup parent) {
         if (convertView == null) {
             convertView = newView(getContext(), parent);
         }
@@ -154,8 +155,7 @@ public class RepoListAdapter extends ArrayAdapter<Repo> implements
     }
 
     @Override
-    public void onItemClick(AdapterView<?> adapterView, View view,
-                            int position, long id) {
+    public void onItemClick(AdapterView<?> adapterView, View view, int position, long id) {
         Repo repo = getItem(position);
         if (repo.isExternal() && mActivity.checkAndRequestAccessAllFilesPermission(0)) {
             return;
@@ -166,11 +166,9 @@ public class RepoListAdapter extends ArrayAdapter<Repo> implements
     }
 
     @Override
-    public boolean onItemLongClick(AdapterView<?> adapterView, View view,
-                                   int position, long id) {
+    public boolean onItemLongClick(AdapterView<?> adapterView, View view, int position, long id) {
         final Repo repo = getItem(position);
-        if (!repo.getRepoStatus().equals(RepoContract.REPO_STATUS_NULL))
-            return false;
+        if (!repo.getRepoStatus().equals(RepoContract.REPO_STATUS_NULL)) return false;
         Context context = getContext();
         if (context instanceof SheimiFragmentActivity) {
             showRepoOptionsDialog((SheimiFragmentActivity) context, repo);
@@ -180,72 +178,63 @@ public class RepoListAdapter extends ArrayAdapter<Repo> implements
 
     private void showRepoOptionsDialog(final SheimiFragmentActivity context, final Repo repo) {
 
-        SheimiFragmentActivity.onOptionDialogClicked[] dialog = new SheimiFragmentActivity.onOptionDialogClicked[]{
-            new SheimiFragmentActivity.onOptionDialogClicked() {
-                @Override
-                public void onClicked() {
-                    showRenameRepoDialog(context, repo);
-                }
-            },
-            new SheimiFragmentActivity.onOptionDialogClicked() {
-                @Override
-                public void onClicked() {
-                    showRemoveRepoDialog(context, repo);
-                }
-            },
-            null
-        };
+        SheimiFragmentActivity.onOptionDialogClicked[] dialog =
+            new SheimiFragmentActivity.onOptionDialogClicked[]{() -> showRenameRepoDialog(context
+                , repo), () -> showRemoveRepoDialog(context, repo), null};
 
         final String remoteRaw = repo.getRemoteURL().toLowerCase();
 
-        boolean repoHasHttpRemote = (remoteRaw != null && !remoteRaw.equals("local repository") && remoteRaw.contains("http"));
+        boolean repoHasHttpRemote = !remoteRaw.equals("local repository") && remoteRaw.contains("http");
 
         if (repoHasHttpRemote) {
             //TODO : Transform ssh uri in http?
-            dialog[2] = new SheimiFragmentActivity.onOptionDialogClicked() {
-                @Override
-                public void onClicked() {
+            dialog[2] = () -> {
 
-                    //remove git extension if present
-                    String repoUrl =
-                        remoteRaw.endsWith(context.getString(R.string.git_extension)) ?
-                            remoteRaw.substring(0, remoteRaw.lastIndexOf('.')) :
-                            remoteRaw;
+                //remove git extension if present
+                String repoUrl = remoteRaw.endsWith(context.getString(R.string.git_extension)) ?
+                    remoteRaw.substring(0, remoteRaw.lastIndexOf('.')) : remoteRaw;
 
-                    Intent openUrlIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(repoUrl));
+                Intent openUrlIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(repoUrl));
 
-                    //get activities that open this url
-                    List<ResolveInfo> activitiesToOpenUrlIntentList = context.getPackageManager().queryIntentActivities(openUrlIntent, 0);
+                //get activities that open this url
+                List<ResolveInfo> activitiesToOpenUrlIntentList =
+                    context.getPackageManager().queryIntentActivities(openUrlIntent, 0);
 
-                    List<Intent> intentList = new ArrayList<Intent>();
+                List<Intent> intentList = new ArrayList<Intent>();
 
-                    //Get application info to exclude it from the intent chooser
-                    ApplicationInfo applicationInfo = context.getApplicationInfo();
-                    int stringId = applicationInfo.labelRes;
-                    String applicationName = (stringId == 0) ? applicationInfo.nonLocalizedLabel.toString().toLowerCase() : context.getString(stringId).toLowerCase();
+                //Get application info to exclude it from the intent chooser
+                ApplicationInfo applicationInfo = context.getApplicationInfo();
+                int stringId = applicationInfo.labelRes;
+                String applicationName = (stringId == 0) ?
+                    applicationInfo.nonLocalizedLabel.toString().toLowerCase() :
+                    context.getString(stringId).toLowerCase();
 
-                    if (!activitiesToOpenUrlIntentList.isEmpty()) {
-                        for (ResolveInfo resolveInfo : activitiesToOpenUrlIntentList) {
-                            String packageName = resolveInfo.activityInfo.packageName;
-                            //create and add intent from other applications
-                            //this way MGit doesn't show up to open the remote url
-                            if (!packageName.toLowerCase().contains(applicationName)) {
-                                Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(repoUrl));
-                                intent.setComponent(new ComponentName(packageName, resolveInfo.activityInfo.name));
-                                intent.setAction(Intent.ACTION_VIEW);
-                                intent.setPackage(packageName);
-                                intentList.add(intent);
-                            }
+                if (!activitiesToOpenUrlIntentList.isEmpty()) {
+                    for (ResolveInfo resolveInfo : activitiesToOpenUrlIntentList) {
+                        String packageName = resolveInfo.activityInfo.packageName;
+                        //create and add intent from other applications
+                        //this way MGit doesn't show up to open the remote url
+                        if (!packageName.toLowerCase().contains(applicationName)) {
+                            Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(repoUrl));
+                            intent.setComponent(new ComponentName(packageName,
+                                resolveInfo.activityInfo.name));
+                            intent.setAction(Intent.ACTION_VIEW);
+                            intent.setPackage(packageName);
+                            intentList.add(intent);
                         }
-                        if (!intentList.isEmpty()) {
-                            String title = String.format(context.getString(R.string.dialog_open_remote_title), repo.getDiaplayName());
-                            Intent chooserIntent = Intent.createChooser(intentList.remove(0), title);
-                            chooserIntent.putExtra(Intent.EXTRA_INITIAL_INTENTS, intentList.toArray(new Parcelable[intentList.size()]));
-                            context.startActivity(chooserIntent);
-                        } else {
-                            Log.i(TAG, context.getString(R.string.dialog_open_remote_no_app_available));
-                            Toast.makeText(context, R.string.dialog_open_remote_no_app_available, Toast.LENGTH_LONG).show();
-                        }
+                    }
+                    if (!intentList.isEmpty()) {
+                        String title =
+                            String.format(context.getString(R.string.dialog_open_remote_title),
+                                repo.getDiaplayName());
+                        Intent chooserIntent = Intent.createChooser(intentList.remove(0), title);
+                        chooserIntent.putExtra(Intent.EXTRA_INITIAL_INTENTS,
+                            intentList.toArray(new Parcelable[intentList.size()]));
+                        context.startActivity(chooserIntent);
+                    } else {
+                        Timber.tag(TAG).i(context.getString(R.string.dialog_open_remote_no_app_available));
+                        Toast.makeText(context, R.string.dialog_open_remote_no_app_available,
+                            Toast.LENGTH_LONG).show();
                     }
                 }
             };
@@ -257,44 +246,28 @@ public class RepoListAdapter extends ArrayAdapter<Repo> implements
             stringList.add(context.getString(R.string.dialog_open_remote));
             String[] options_values = stringList.toArray(new String[0]);
 
-            context.showOptionsDialog(
-                R.string.dialog_choose_option,
-                options_values,
-                dialog
-            );
+            context.showOptionsDialog(R.string.dialog_choose_option, options_values, dialog);
         } else {
-            context.showOptionsDialog(
-                R.string.dialog_choose_option,
-                R.array.dialog_choose_repo_action_items,
-                dialog
-            );
+            context.showOptionsDialog(R.string.dialog_choose_option,
+                R.array.dialog_choose_repo_action_items, dialog);
         }
     }
 
     private void showRemoveRepoDialog(SheimiFragmentActivity context, final Repo repo) {
-        context.showMessageDialog(
-            R.string.dialog_delete_repo_title,
-            R.string.dialog_delete_repo_msg,
-            R.string.label_delete, (dialogInterface, i) -> {
-                repo.deleteRepo(true);
-                repo.cancelTask();
-            });
+        context.showMessageDialog(R.string.dialog_delete_repo_title,
+            R.string.dialog_delete_repo_msg, R.string.label_delete, (dialogInterface, i) -> {
+            repo.deleteRepo(true);
+            repo.cancelTask();
+        });
     }
 
     private void showRenameRepoDialog(final SheimiFragmentActivity context, final Repo repo) {
-        context.showEditTextDialog(
-            R.string.dialog_rename_repo_title,
-            R.string.dialog_rename_repo_hint,
-            R.string.label_rename,
-            new SheimiFragmentActivity.OnEditTextDialogClicked() {
-                @Override
-                public void onClicked(String newRepoName) {
-                    if (!repo.renameRepo(newRepoName)) {
-                        context.showToastMessage(R.string.error_rename_repo_fail);
-                    }
-                }
+        context.showEditTextDialog(R.string.dialog_rename_repo_title,
+            R.string.dialog_rename_repo_hint, R.string.label_rename, newRepoName -> {
+            if (!repo.renameRepo(newRepoName)) {
+                context.showToastMessage(R.string.error_rename_repo_fail);
             }
-        );
+        });
     }
 
     private class RepoListItemHolder {

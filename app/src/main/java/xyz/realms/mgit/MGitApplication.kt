@@ -52,6 +52,12 @@ open class MGitApplication : Application() {
 
     override fun onCreate() {
         super.onCreate()
+        // 对可能出现的异常进行捕获，避免因未处理的异常导致应用崩溃。
+        Thread.setDefaultUncaughtExceptionHandler { _, throwable ->
+            Timber.tag("MGitApplication").e(throwable, "未处理的异常")
+            // 可以选择退出应用或重启应用
+            // System.exit(0);
+        }
         mContext = applicationContext
         setAppVersionPref()
         prefenceHelper = PreferenceHelper(this)

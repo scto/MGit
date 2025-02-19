@@ -6,7 +6,7 @@
         android:id="@+id/status_text"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@+id/diff_buttons"
+        android:layout_above="@+id/diff_buttons"
         android:layout_alignParentTop="true">
 
         <ProgressBar

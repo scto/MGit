@@ -16,12 +16,12 @@
         <item>Make not executable</item>
     </string-array>
     <string-array name="repo_operation_names">
+        <item>Sync</item>
         <item>New Branch</item>
         <item>Pull</item>
         <item>Push</item>
         <item>Stage changes</item>
         <item>Commit</item>
-        <item>CommitPush</item>
         <item>Undo Commit</item>
         <item>Reset (HARD)</item>
         <item>Merge</item>
@@ -33,8 +33,8 @@
         <item>New Directory</item>
         <item>Add Remote</item>
         <item>Remove Remote</item>
-        <item>Edit Repo.Config</item>
-        <item>Setting Git User</item>
+        <item>Git Repository Config</item>
+        <item>Git User Config</item>
     </string-array>
     <string-array name="dialog_choose_repo_action_items">
         <item>Rename</item>

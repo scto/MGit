@@ -2,6 +2,7 @@ package xyz.realms.mgit.ui.fragments;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.method.ScrollingMovementMethod;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -50,6 +51,7 @@ public class StatusFragment extends RepoDetailFragment {
         }
         mLoadding = v.findViewById(R.id.loading);
         mStatus = v.findViewById(R.id.status);
+        mStatus.setMovementMethod(ScrollingMovementMethod.getInstance());
         mStagedDiff = v.findViewById(R.id.button_staged_diff);
         mUnstagedDiff = v.findViewById(R.id.button_unstaged_diff);
         mStagedDiff.setOnClickListener(new View.OnClickListener() {

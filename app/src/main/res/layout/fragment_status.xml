@@ -24,6 +24,7 @@
             android:layout_alignParentLeft="true"
             android:layout_alignParentTop="true"
             android:padding="@dimen/general_padding_larger"
+            android:scrollbars="vertical"
             android:text="@string/default_text"
             android:visibility="gone" />
     </RelativeLayout>

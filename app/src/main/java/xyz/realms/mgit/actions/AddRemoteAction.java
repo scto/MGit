@@ -10,8 +10,8 @@ import java.io.IOException;
 import timber.log.Timber;
 import xyz.realms.mgit.R;
 import xyz.realms.mgit.database.Repo;
-import xyz.realms.mgit.ui.explorer.RepoDetailActivity;
 import xyz.realms.mgit.ui.dialogs.DummyDialogListener;
+import xyz.realms.mgit.ui.explorer.RepoDetailActivity;
 
 public class AddRemoteAction extends RepoAction {
 

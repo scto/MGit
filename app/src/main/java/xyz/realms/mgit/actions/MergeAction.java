@@ -18,11 +18,11 @@ import org.eclipse.jgit.lib.Ref;
 
 import java.util.List;
 
-import xyz.realms.mgit.ui.preference.Profile;
 import xyz.realms.mgit.R;
 import xyz.realms.mgit.database.Repo;
 import xyz.realms.mgit.ui.explorer.RepoDetailActivity;
 import xyz.realms.mgit.ui.fragments.SheimiDialogFragment;
+import xyz.realms.mgit.ui.preference.Profile;
 
 public class MergeAction extends RepoAction {
 

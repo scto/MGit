@@ -13,8 +13,8 @@ import java.io.FileFilter;
 import java.util.Arrays;
 import java.util.Comparator;
 
-import xyz.realms.mgit.ui.preference.Profile;
 import xyz.realms.mgit.R;
+import xyz.realms.mgit.ui.preference.Profile;
 
 /**
  * Created by sheimi on 8/18/13.

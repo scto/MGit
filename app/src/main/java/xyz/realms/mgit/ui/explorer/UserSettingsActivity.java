@@ -2,8 +2,8 @@ package xyz.realms.mgit.ui.explorer;
 
 import android.os.Bundle;
 
-import xyz.realms.mgit.ui.fragments.SheimiFragmentActivity;
 import xyz.realms.mgit.ui.fragments.SettingsFragment;
+import xyz.realms.mgit.ui.fragments.SheimiFragmentActivity;
 
 /**
  * Activity for user settings

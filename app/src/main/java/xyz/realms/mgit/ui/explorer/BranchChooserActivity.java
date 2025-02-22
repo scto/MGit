@@ -3,7 +3,6 @@ package xyz.realms.mgit.ui.explorer;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.ActionMode;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -11,7 +10,6 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.ListView;
@@ -22,13 +20,13 @@ import android.widget.Toast;
 import org.eclipse.jgit.api.errors.CannotDeleteCurrentBranchException;
 import org.eclipse.jgit.api.errors.GitAPIException;
 
+import timber.log.Timber;
 import xyz.realms.mgit.R;
 import xyz.realms.mgit.database.Repo;
 import xyz.realms.mgit.errors.StopTaskException;
-import xyz.realms.mgit.tasks.SheimiAsyncTask;
 import xyz.realms.mgit.tasks.repo.CheckoutTask;
-import xyz.realms.mgit.ui.fragments.SheimiFragmentActivity;
 import xyz.realms.mgit.ui.dialogs.RenameBranchDialog;
+import xyz.realms.mgit.ui.fragments.SheimiFragmentActivity;
 
 public class BranchChooserActivity extends SheimiFragmentActivity implements ActionMode.Callback {
     private static final String LOGTAG = BranchChooserActivity.class.getSimpleName();
@@ -79,18 +77,13 @@ public class BranchChooserActivity extends SheimiFragmentActivity implements Act
                                 break;
                         }
                     } catch (CannotDeleteCurrentBranchException e) {
-                        Log.e(LOGTAG, "can't delete " + mChosenCommit, e);
+                        Timber.tag(LOGTAG).e(e, "can't delete %s", mChosenCommit);
                         runOnUiThread(() -> Toast.makeText(BranchChooserActivity.this, getString(R.string.cannot_delete_current_branch, mChosenCommit),
                             Toast.LENGTH_LONG).show());
                     } catch (StopTaskException | GitAPIException e) {
-                        Log.e(LOGTAG, "can't delete " + mChosenCommit, e);
-                        runOnUiThread(new Runnable() {
-                            @Override
-                            public void run() {
-                                Toast.makeText(BranchChooserActivity.this, getString(R.string.cannot_delete_branch, mChosenCommit),
-                                    Toast.LENGTH_LONG).show();
-                            }
-                        });
+                        Timber.tag(LOGTAG).e(e, "can't delete %s", mChosenCommit);
+                        runOnUiThread(() -> Toast.makeText(BranchChooserActivity.this, getString(R.string.cannot_delete_branch, mChosenCommit),
+                            Toast.LENGTH_LONG).show());
                     }
                     refreshList();
                 })
@@ -140,22 +133,12 @@ public class BranchChooserActivity extends SheimiFragmentActivity implements Act
         refreshList();
 
         mBranchTagList
-            .setOnItemClickListener(new AdapterView.OnItemClickListener() {
-                @Override
-                public void onItemClick(AdapterView<?> adapterView,
-                                        View view, int position, long id) {
-                    String commitName = mAdapter.getItem(position);
-                    CheckoutTask checkoutTask = new CheckoutTask(mRepo, commitName, null,
-                        new SheimiAsyncTask.AsyncTaskPostCallback() {
-                            @Override
-                            public void onPostExecute(Boolean isSuccess) {
-                                finish();
-                            }
-                        });
-                    mLoadding.setVisibility(View.VISIBLE);
-                    mBranchTagList.setVisibility(View.GONE);
-                    checkoutTask.executeTask();
-                }
+            .setOnItemClickListener((adapterView, view, position, id) -> {
+                String commitName = mAdapter.getItem(position);
+                CheckoutTask checkoutTask = new CheckoutTask(mRepo, commitName, null, isSuccess -> finish());
+                mLoadding.setVisibility(View.VISIBLE);
+                mBranchTagList.setVisibility(View.GONE);
+                checkoutTask.executeTask();
             });
 
         mBranchTagList

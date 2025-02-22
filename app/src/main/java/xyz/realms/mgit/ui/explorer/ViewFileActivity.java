@@ -14,14 +14,14 @@ import androidx.viewpager.widget.ViewPager;
 
 import java.io.File;
 
-import xyz.realms.mgit.ui.utils.FsUtils;
 import xyz.realms.mgit.R;
 import xyz.realms.mgit.database.Repo;
-import xyz.realms.mgit.ui.fragments.SheimiFragmentActivity;
 import xyz.realms.mgit.ui.dialogs.ChooseLanguageDialog;
 import xyz.realms.mgit.ui.fragments.BaseFragment;
 import xyz.realms.mgit.ui.fragments.CommitsFragment;
+import xyz.realms.mgit.ui.fragments.SheimiFragmentActivity;
 import xyz.realms.mgit.ui.fragments.ViewFileFragment;
+import xyz.realms.mgit.ui.utils.FsUtils;
 
 public class ViewFileActivity extends SheimiFragmentActivity {
 

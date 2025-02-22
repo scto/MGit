@@ -8,12 +8,12 @@
     </string-array>
     <string-array name="repo_file_operations">
         <item>添加到暂存区</item>
-        <item>检出 (Reset更改)</item>
-        <item>删除</item>
-        <item>Remove cached from repository</item>
-        <item>Remove force from repository</item>
-        <item>将文件设置为可执行</item>
-        <item>将文件设置为不可执行</item>
+        <item>检出文件（重置已更改）</item>
+        <item>删除（fs）</item>
+        <item>取消跟踪（git rm cached）</item>
+        <item>强制删除（git rm force）</item>
+        <item>设为可执行</item>
+        <item>设为不可执行</item>
     </string-array>
     <string-array name="repo_operation_names">
         <item>同步</item>

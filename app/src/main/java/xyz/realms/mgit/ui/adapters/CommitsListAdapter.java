@@ -19,12 +19,12 @@ import java.util.Date;
 import java.util.List;
 import java.util.Set;
 
-import xyz.realms.mgit.ui.utils.BasicFunctions;
 import xyz.realms.mgit.R;
 import xyz.realms.mgit.database.Repo;
 import xyz.realms.mgit.tasks.repo.GetCommitTask;
 import xyz.realms.mgit.tasks.repo.GetCommitTask.GetCommitCallback;
 import xyz.realms.mgit.ui.fragments.SheimiFragmentActivity;
+import xyz.realms.mgit.ui.utils.BasicFunctions;
 
 
 /**

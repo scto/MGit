@@ -14,12 +14,12 @@ import android.widget.EditText;
 import java.io.File;
 
 import xyz.realms.mgit.MGitApplication;
-import xyz.realms.mgit.ui.preference.PreferenceHelper;
-import xyz.realms.mgit.ui.utils.FsUtils;
 import xyz.realms.mgit.R;
 import xyz.realms.mgit.database.Repo;
 import xyz.realms.mgit.database.RepoContract;
 import xyz.realms.mgit.ui.fragments.SheimiDialogFragment;
+import xyz.realms.mgit.ui.preference.PreferenceHelper;
+import xyz.realms.mgit.ui.utils.FsUtils;
 
 /**
  * Created by sheimi on 8/24/13.

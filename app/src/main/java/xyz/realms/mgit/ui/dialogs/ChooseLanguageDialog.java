@@ -7,10 +7,10 @@ import android.os.Bundle;
 
 import java.util.List;
 
-import xyz.realms.mgit.ui.utils.CodeGuesser;
 import xyz.realms.mgit.R;
 import xyz.realms.mgit.ui.explorer.ViewFileActivity;
 import xyz.realms.mgit.ui.fragments.SheimiDialogFragment;
+import xyz.realms.mgit.ui.utils.CodeGuesser;
 
 /**
  * Created by sheimi on 8/16/13.

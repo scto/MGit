@@ -5,7 +5,6 @@ import android.content.ClipboardManager;
 import android.content.Context;
 import android.graphics.Color;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,10 +20,10 @@ import java.io.File;
 import java.io.IOException;
 
 import timber.log.Timber;
-import xyz.realms.mgit.ui.utils.CodeGuesser;
-import xyz.realms.mgit.ui.preference.Profile;
 import xyz.realms.mgit.R;
 import xyz.realms.mgit.ui.explorer.ViewFileActivity;
+import xyz.realms.mgit.ui.preference.Profile;
+import xyz.realms.mgit.ui.utils.CodeGuesser;
 
 /**
  * Created by phcoder on 09.12.15.
@@ -62,8 +61,7 @@ public class ViewFileFragment extends BaseFragment {
             @Override
             public void onConsoleMessage(String message, int lineNumber,
                                          String sourceID) {
-                Log.d("MyApplication", message + " -- From line " + lineNumber
-                    + " of " + sourceID);
+                Timber.tag("MyApplication").d(message + " -- From line " + lineNumber + " of " + sourceID);
             }
 
             public boolean shouldOverrideUrlLoading(WebView view, String url) {
@@ -114,13 +112,8 @@ public class ViewFileFragment extends BaseFragment {
 
     private void showUserError(Throwable e, final int errorMessageId) {
         Timber.e(e);
-        getActivity().runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
-                ((SheimiFragmentActivity) getActivity()).
-                    showMessageDialog(R.string.dialog_error_title, getString(errorMessageId));
-            }
-        });
+        getActivity().runOnUiThread(() -> ((SheimiFragmentActivity) getActivity()).
+            showMessageDialog(R.string.dialog_error_title, getString(errorMessageId)));
     }
 
     private class CodeLoader {
@@ -141,16 +134,13 @@ public class ViewFileFragment extends BaseFragment {
 
         @JavascriptInterface()
         public void loadCode() {
-            Thread thread = new Thread(new Runnable() {
-                @Override
-                public void run() {
-                    try {
-                        mCode = FileUtils.readFileToString(mFile);
-                    } catch (IOException e) {
-                        showUserError(e, R.string.error_can_not_open_file);
-                    }
-                    display();
+            Thread thread = new Thread(() -> {
+                try {
+                    mCode = FileUtils.readFileToString(mFile);
+                } catch (IOException e) {
+                    showUserError(e, R.string.error_can_not_open_file);
                 }
+                display();
             });
             thread.start();
         }
@@ -161,21 +151,18 @@ public class ViewFileFragment extends BaseFragment {
         }
 
         private void display() {
-            getActivity().runOnUiThread(new Runnable() {
-                @Override
-                public void run() {
-                    String lang;
-                    if (mActivityMode == ViewFileActivity.TAG_MODE_SSH_KEY) {
-                        lang = null;
-                    } else {
-                        lang = CodeGuesser.guessCodeType(mFile.getName());
-                    }
-                    String js = String.format("setLang('%s')", lang);
-                    mFileContent.loadUrl(CodeGuesser.wrapUrlScript(js));
-                    mLoading.setVisibility(View.INVISIBLE);
-                    mFileContent.loadUrl(CodeGuesser
-                        .wrapUrlScript("display();"));
+            getActivity().runOnUiThread(() -> {
+                String lang;
+                if (mActivityMode == ViewFileActivity.TAG_MODE_SSH_KEY) {
+                    lang = null;
+                } else {
+                    lang = CodeGuesser.guessCodeType(mFile.getName());
                 }
+                String js = String.format("setLang('%s')", lang);
+                mFileContent.loadUrl(CodeGuesser.wrapUrlScript(js));
+                mLoading.setVisibility(View.INVISIBLE);
+                mFileContent.loadUrl(CodeGuesser
+                    .wrapUrlScript("display();"));
             });
         }
     }

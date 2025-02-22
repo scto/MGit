@@ -9,11 +9,11 @@ import org.eclipse.jgit.transport.RemoteRefUpdate;
 
 import java.util.Collection;
 
-import xyz.realms.mgit.ui.utils.BasicFunctions;
 import xyz.realms.mgit.R;
 import xyz.realms.mgit.database.Repo;
 import xyz.realms.mgit.errors.StopTaskException;
 import xyz.realms.mgit.transport.ssh.SgitTransportCallback;
+import xyz.realms.mgit.ui.utils.BasicFunctions;
 
 public class PushTask extends RepoRemoteOpTask {
 

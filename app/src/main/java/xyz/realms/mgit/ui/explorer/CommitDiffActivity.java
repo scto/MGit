@@ -4,7 +4,6 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -27,13 +26,14 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.util.List;
 
-import xyz.realms.mgit.ui.utils.CodeGuesser;
-import xyz.realms.mgit.ui.utils.FsUtils;
-import xyz.realms.mgit.ui.preference.Profile;
+import timber.log.Timber;
 import xyz.realms.mgit.R;
 import xyz.realms.mgit.database.Repo;
 import xyz.realms.mgit.tasks.repo.CommitDiffTask;
 import xyz.realms.mgit.ui.fragments.SheimiFragmentActivity;
+import xyz.realms.mgit.ui.preference.Profile;
+import xyz.realms.mgit.ui.utils.CodeGuesser;
+import xyz.realms.mgit.ui.utils.FsUtils;
 
 public class CommitDiffActivity extends SheimiFragmentActivity {
 
@@ -91,8 +91,7 @@ public class CommitDiffActivity extends SheimiFragmentActivity {
         mDiffContent.setWebChromeClient(new WebChromeClient() {
             public void onConsoleMessage(String message, int lineNumber,
                                          String sourceID) {
-                Log.d("MyApplication", message + " -- From line " + lineNumber
-                    + " of " + sourceID);
+                Timber.tag("MyApplication").d(message + " -- From line " + lineNumber + " of " + sourceID);
             }
 
             public boolean shouldOverrideUrlLoading(WebView view, String url) {

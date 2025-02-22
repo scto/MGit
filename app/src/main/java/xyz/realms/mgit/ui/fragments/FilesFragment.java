@@ -14,13 +14,13 @@ import java.io.FileFilter;
 import java.io.IOException;
 
 import timber.log.Timber;
-import xyz.realms.mgit.ui.utils.FsUtils;
 import xyz.realms.mgit.R;
 import xyz.realms.mgit.database.Repo;
-import xyz.realms.mgit.ui.fragments.SheimiFragmentActivity.OnBackClickListener;
-import xyz.realms.mgit.ui.explorer.ViewFileActivity;
 import xyz.realms.mgit.ui.adapters.FilesListAdapter;
 import xyz.realms.mgit.ui.dialogs.RepoFileOperationDialog;
+import xyz.realms.mgit.ui.explorer.ViewFileActivity;
+import xyz.realms.mgit.ui.fragments.SheimiFragmentActivity.OnBackClickListener;
+import xyz.realms.mgit.ui.utils.FsUtils;
 
 /**
  * Created by sheimi on 8/5/13.

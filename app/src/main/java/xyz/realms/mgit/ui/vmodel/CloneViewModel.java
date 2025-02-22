@@ -11,7 +11,6 @@ import timber.log.Timber;
 import xyz.realms.mgit.MGitApplication;
 import xyz.realms.mgit.R;
 import xyz.realms.mgit.database.Repo;
-import xyz.realms.mgit.tasks.repo.CheckoutTask;
 import xyz.realms.mgit.tasks.repo.CloneTask;
 import xyz.realms.mgit.tasks.repo.InitLocalTask;
 import xyz.realms.mgit.ui.preference.PreferenceHelper;

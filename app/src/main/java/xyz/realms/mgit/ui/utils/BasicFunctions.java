@@ -13,8 +13,8 @@ import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
 import timber.log.Timber;
-import xyz.realms.mgit.ui.fragments.SheimiFragmentActivity;
 import xyz.realms.mgit.ui.dialogs.ErrorDialog;
+import xyz.realms.mgit.ui.fragments.SheimiFragmentActivity;
 
 /**
  * Created by sheimi on 8/19/13.

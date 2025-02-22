@@ -27,11 +27,11 @@ import xyz.realms.mgit.R;
 import xyz.realms.mgit.actions.RepoOperationDelegate;
 import xyz.realms.mgit.database.Repo;
 import xyz.realms.mgit.tasks.SheimiAsyncTask;
-import xyz.realms.mgit.ui.fragments.SheimiFragmentActivity;
 import xyz.realms.mgit.ui.adapters.RepoOperationsAdapter;
 import xyz.realms.mgit.ui.fragments.BaseFragment;
 import xyz.realms.mgit.ui.fragments.CommitsFragment;
 import xyz.realms.mgit.ui.fragments.FilesFragment;
+import xyz.realms.mgit.ui.fragments.SheimiFragmentActivity;
 import xyz.realms.mgit.ui.fragments.StatusFragment;
 
 public class RepoDetailActivity extends SheimiFragmentActivity {

@@ -11,12 +11,12 @@ import android.widget.EditText;
 import java.io.File;
 
 import xyz.realms.mgit.MGitApplication;
-import xyz.realms.mgit.ui.preference.PreferenceHelper;
 import xyz.realms.mgit.R;
 import xyz.realms.mgit.database.Repo;
 import xyz.realms.mgit.tasks.repo.InitLocalTask;
-import xyz.realms.mgit.ui.fragments.SheimiDialogFragment;
 import xyz.realms.mgit.ui.RepoListActivity;
+import xyz.realms.mgit.ui.fragments.SheimiDialogFragment;
+import xyz.realms.mgit.ui.preference.PreferenceHelper;
 
 /**
  * Created by sheimi on 8/24/13.

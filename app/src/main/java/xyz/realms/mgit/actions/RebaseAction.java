@@ -12,12 +12,12 @@ import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 
-import xyz.realms.mgit.ui.preference.Profile;
 import xyz.realms.mgit.R;
 import xyz.realms.mgit.database.Repo;
 import xyz.realms.mgit.tasks.repo.RebaseTask;
 import xyz.realms.mgit.ui.explorer.RepoDetailActivity;
 import xyz.realms.mgit.ui.fragments.SheimiDialogFragment;
+import xyz.realms.mgit.ui.preference.Profile;
 
 public class RebaseAction extends RepoAction {
 

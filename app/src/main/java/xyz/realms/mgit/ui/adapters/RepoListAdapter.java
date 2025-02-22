@@ -4,6 +4,7 @@ import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.ApplicationInfo;
+import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
 import android.database.Cursor;
 import android.net.Uri;
@@ -198,7 +199,8 @@ public class RepoListAdapter extends ArrayAdapter<Repo> implements RepoDbManager
 
                 //get activities that open this url
                 List<ResolveInfo> activitiesToOpenUrlIntentList =
-                    context.getPackageManager().queryIntentActivities(openUrlIntent, 0);
+                    context.getPackageManager().queryIntentActivities(openUrlIntent,
+                        PackageManager.MATCH_ALL);
 
                 List<Intent> intentList = new ArrayList<Intent>();
 

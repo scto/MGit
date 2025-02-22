@@ -13,6 +13,14 @@
         tools:ignore="ScopedStorage" />
     <uses-permission android:name="android.permission.REORDER_TASKS" />
 
+    <queries>
+        <intent>
+            <action android:name="android.intent.action.VIEW" />
+            <data android:mimeType="text/html" />
+        </intent>
+    </queries>
+
+
     <application
         android:name=".MGitApplication"
         android:allowBackup="true"

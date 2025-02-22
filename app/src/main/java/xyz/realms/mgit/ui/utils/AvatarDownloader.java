@@ -19,7 +19,7 @@ import xyz.realms.mgit.R;
  */
 public class AvatarDownloader extends BaseImageDownloader {
 
-    private static final String IMAGE_REQUEST_HASH = "https://www.gravatar.com/avatar/%s?s=40&d=identicon";
+    private static final String IMAGE_REQUEST_HASH = "https://cravatar.cn/avatar/%s?s=40&d=identicon";
     private static final String AVATAR_SCHEME = "avatar://";
 
     private final boolean useGravatar;

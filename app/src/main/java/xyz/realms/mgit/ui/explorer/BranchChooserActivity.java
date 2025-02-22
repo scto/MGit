@@ -134,6 +134,7 @@ public class BranchChooserActivity extends SheimiFragmentActivity implements Act
 
         mBranchTagList
             .setOnItemClickListener((adapterView, view, position, id) -> {
+                // TODO 分支无法切换 #36
                 String commitName = mAdapter.getItem(position);
                 CheckoutTask checkoutTask = new CheckoutTask(mRepo, commitName, null, isSuccess -> finish());
                 mLoadding.setVisibility(View.VISIBLE);

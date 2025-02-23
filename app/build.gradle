@@ -72,6 +72,7 @@ configurations.configureEach {
         }
     }
     exclude module: 'httpclient'
+    exclude module: "org.eclipse.jgit"
 }
 
 //tasks.withType(JavaCompile).configureEach {
@@ -88,7 +89,8 @@ dependencies {
     implementation 'com.google.android.material:material:1.9.0'  // max
 
     // Jgit
-    implementation 'org.eclipse.jgit:org.eclipse.jgit:6.10.0.202406032230-r'
+    //implementation 'org.eclipse.jgit:org.eclipse.jgit:6.10.0.202406032230-r'
+    implementation files('libs/org.eclipse.jgit-6.10.0.202406032230-r.jar')
     implementation 'org.eclipse.jgit:org.eclipse.jgit.ssh.jsch:6.10.0.202406032230-r'
     implementation 'org.eclipse.jgit:org.eclipse.jgit.lfs:6.10.0.202406032230-r'
 

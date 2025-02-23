@@ -182,11 +182,11 @@ public class RepoListAdapter extends ArrayAdapter<Repo> implements RepoDbManager
         SheimiFragmentActivity.onOptionDialogClicked[] dialog =
             new SheimiFragmentActivity.onOptionDialogClicked[]{() -> showRenameRepoDialog(context
                 , repo), () -> showRemoveRepoDialog(context, repo), null};
-
-        final String remoteRaw = repo.getRemoteURL().toLowerCase();
-
-        boolean repoHasHttpRemote = !remoteRaw.equals("local repository") && remoteRaw.contains("http");
-
+        // 区分大小写
+        final String remoteRaw = repo.getRemoteURL();
+        final String remoteRawLowerCase = repo.getRemoteURL().toLowerCase();
+        boolean repoHasHttpRemote =
+            !remoteRawLowerCase.equals("local repository") && remoteRawLowerCase.contains("http");
         if (repoHasHttpRemote) {
             //TODO : Transform ssh uri in http?
             dialog[2] = () -> {

@@ -51,7 +51,8 @@ public class CheckoutTask extends RepoOpTask {
         } catch (StopTaskException e) {
             return false;
         } catch (GitAPIException | JGitInternalException e) {
-            setException(mException);
+            // TODO这个对话框一闪而过
+            setException(e);
             return false;
         }
         mRepo.updateLatestCommitInfo();
@@ -65,7 +66,7 @@ public class CheckoutTask extends RepoOpTask {
 
     public void checkoutFromLocal(String name) throws GitAPIException, JGitInternalException,
         StopTaskException {
-        mRepo.getGit().checkout().setStartPoint(name).call();
+        mRepo.getGit().checkout().setName(name).call();
     }
 
     public void checkoutFromLocal(String name, String branch) throws GitAPIException,

@@ -18,6 +18,9 @@ public class RepoDbHelper extends SQLiteOpenHelper {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
     }
 
+    /**
+     * 此方法暂未使用。
+     */
     public static String addSlashes(String text) {
         final StringBuilder stringBuilder = new StringBuilder(text.length() * 2);
         final StringCharacterIterator iterator = new StringCharacterIterator(text);
@@ -25,20 +28,13 @@ public class RepoDbHelper extends SQLiteOpenHelper {
         char character = iterator.current();
 
         while (character != StringCharacterIterator.DONE) {
-            if (character == '"')
-                stringBuilder.append("\\\"");
-            else if (character == '\'')
-                stringBuilder.append("''");
-            else if (character == '\\')
-                stringBuilder.append("\\\\");
-            else if (character == '\n')
-                stringBuilder.append("\\n");
-            else if (character == '{')
-                stringBuilder.append("\\{");
-            else if (character == '}')
-                stringBuilder.append("\\}");
-            else
-                stringBuilder.append(character);
+            if (character == '"') stringBuilder.append("\\\"");
+            else if (character == '\'') stringBuilder.append("''");
+            else if (character == '\\') stringBuilder.append("\\\\");
+            else if (character == '\n') stringBuilder.append("\\n");
+            else if (character == '{') stringBuilder.append("\\{");
+            else if (character == '}') stringBuilder.append("\\}");
+            else stringBuilder.append(character);
 
             character = iterator.next();
         }
@@ -49,11 +45,13 @@ public class RepoDbHelper extends SQLiteOpenHelper {
     @Override
     public void onCreate(SQLiteDatabase sqLiteDatabase) {
         sqLiteDatabase.execSQL(RepoContract.REPO_ENTRY_CREATE);
+        sqLiteDatabase.execSQL(RepoContract.REPO_CREDENTIALS_CREATE);
     }
 
     @Override
     public void onUpgrade(SQLiteDatabase sqLiteDatabase, int i, int i2) {
         sqLiteDatabase.execSQL(RepoContract.REPO_ENTRY_DROP);
+        sqLiteDatabase.execSQL(RepoContract.REPO_CREDENTIALS_DROP);
         onCreate(sqLiteDatabase);
     }
 }

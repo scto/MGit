@@ -12,6 +12,7 @@ public final class RepoContract {
 
     public static final String REPO_STATUS_NULL = "";
     public static final String REPO_ENTRY_DROP = "DROP TABLE IF EXISTS " + RepoEntry.TABLE_NAME;
+    public static final String REPO_CREDENTIALS_DROP = "DROP TABLE IF EXISTS " + RepoCredential.TABLE_NAME;
     private static final String TEXT_TYPE = " TEXT ";
     private static final String INT_TYPE = " INTEGER ";
     private static final String PRIMARY_KEY_TYPE = INT_TYPE + "PRIMARY KEY " + "AUTOINCREMENT ";
@@ -29,36 +30,50 @@ public final class RepoContract {
             + RepoEntry.COLUMN_NAME_LATEST_COMMIT_DATE + TEXT_TYPE + COMMA_SEP
             + RepoEntry.COLUMN_NAME_LATEST_COMMIT_MSG + TEXT_TYPE
         + " )";
+    public static final String REPO_CREDENTIALS_CREATE =
+        "CREATE TABLE " + RepoCredential.TABLE_NAME + " ("
+            + RepoCredential._ID + PRIMARY_KEY_TYPE + COMMA_SEP
+            + RepoCredential.COLUMN_TOKEN_ACCOUNT + TEXT_TYPE + COMMA_SEP
+            + RepoCredential.COLUMN_TOKEN_SECRET + TEXT_TYPE + COMMA_SEP
+            + RepoCredential.COLUMN_REL_REPO + TEXT_TYPE + COMMA_SEP
+        + ")";
 
     public RepoContract() {
     }
 
     public static int getRepoID(Cursor cursor) {
-        return cursor.getInt(0);
+        int columnIndex = cursor.getColumnIndex(RepoContract.RepoEntry._ID);
+        return cursor.getInt(columnIndex);
     }
 
     public static String getLocalPath(Cursor cursor) {
-        return cursor.getString(1);
+        int columnIndex = cursor.getColumnIndex(RepoContract.RepoEntry.COLUMN_NAME_LOCAL_PATH);
+        return cursor.getString(columnIndex);
     }
 
     public static String getRemoteURL(Cursor cursor) {
-        return cursor.getString(2);
+        int columnIndex = cursor.getColumnIndex(RepoContract.RepoEntry.COLUMN_NAME_REMOTE_URL);
+        return cursor.getString(columnIndex);
     }
 
     public static String getRepoStatus(Cursor cursor) {
-        return cursor.getString(3);
+        int columnIndex = cursor.getColumnIndex(RepoContract.RepoEntry.COLUMN_NAME_REPO_STATUS);
+        return cursor.getString(columnIndex);
     }
 
     public static String getLatestCommitterName(Cursor cursor) {
-        return cursor.getString(4);
+        int columnIndex = cursor.getColumnIndex(RepoContract.RepoEntry.COLUMN_NAME_LATEST_COMMITTER_UNAME);
+        return cursor.getString(columnIndex);
     }
 
     public static String getLatestCommitterEmail(Cursor cursor) {
-        return cursor.getString(5);
+        int columnIndex = cursor.getColumnIndex(RepoContract.RepoEntry.COLUMN_NAME_LATEST_COMMITTER_EMAIL);
+        return cursor.getString(columnIndex);
     }
 
     public static Date getLatestCommitDate(Cursor cursor) {
-        String longStr = cursor.getString(6);
+        int columnIndex = cursor.getColumnIndex(RepoContract.RepoEntry.COLUMN_NAME_LATEST_COMMIT_DATE);
+        String longStr = cursor.getString(columnIndex);
         if (longStr == null || longStr.isEmpty()) {
             return null;
         }
@@ -67,15 +82,40 @@ public final class RepoContract {
     }
 
     public static String getLatestCommitMsg(Cursor cursor) {
-        return cursor.getString(7);
+        int columnIndex = cursor.getColumnIndex(RepoContract.RepoEntry.COLUMN_NAME_LATEST_COMMIT_MSG);
+        return cursor.getString(columnIndex);
     }
 
     public static String getUsername(Cursor cursor) {
-        return cursor.getString(8);
+        int columnIndex = cursor.getColumnIndex(RepoContract.RepoEntry.COLUMN_NAME_USERNAME);
+        return cursor.getString(columnIndex);
     }
 
     public static String getPassword(Cursor cursor) {
-        return cursor.getString(9);
+        int columnIndex = cursor.getColumnIndex(RepoContract.RepoEntry.COLUMN_NAME_PASSWORD);
+        return cursor.getString(columnIndex);
+    }
+
+    public static int getCredentialId(Cursor cursor) {
+        int columnIndex = cursor.getColumnIndex(RepoContract.RepoCredential._ID);
+        return cursor.getInt(columnIndex);
+    }
+
+    public static String getTokenAccount(Cursor cursor) {
+        int columnIndex = cursor.getColumnIndex(RepoContract.RepoCredential.COLUMN_TOKEN_ACCOUNT);
+        return cursor.getString(columnIndex);
+    }
+
+    public static String getTokenSecret(Cursor cursor) {
+        int columnIndex = cursor.getColumnIndex(RepoContract.RepoCredential.COLUMN_TOKEN_SECRET);
+        return cursor.getString(columnIndex);
+    }
+
+    public static String[] getRelReop(Cursor cursor) {
+        int columnIndex = cursor.getColumnIndex(RepoContract.RepoCredential.COLUMN_REL_REPO);
+        String relRepoString = cursor.getString(columnIndex);
+        if (relRepoString == null) return null;
+        return relRepoString.split(",");
     }
 
     public static abstract class RepoEntry implements BaseColumns {
@@ -101,6 +141,19 @@ public final class RepoContract {
             COLUMN_NAME_LATEST_COMMIT_MSG,
             COLUMN_NAME_USERNAME,
             COLUMN_NAME_PASSWORD
+        };
+    }
+
+    public static abstract class RepoCredential implements BaseColumns{
+        public static final String TABLE_NAME = "credentials";
+        public static final String COLUMN_TOKEN_ACCOUNT = "token_account";
+        public static final String COLUMN_TOKEN_SECRET = "token_secret";
+        public static final String COLUMN_REL_REPO = "rel_repo"; //将多个值用逗号隔开，存储为一个字符串，例如："值1,值2,值3"。
+        public static final String[] ALL_COLUMNS = {
+            _ID,
+            COLUMN_TOKEN_ACCOUNT,
+            COLUMN_TOKEN_SECRET,
+            COLUMN_REL_REPO
         };
     }
 

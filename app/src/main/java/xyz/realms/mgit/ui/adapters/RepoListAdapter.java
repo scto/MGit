@@ -147,12 +147,7 @@ public class RepoListAdapter extends ArrayAdapter<Repo> implements RepoDbManager
 
     @Override
     public void notifyChanged() {
-        mActivity.runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
-                requery();
-            }
-        });
+        mActivity.runOnUiThread(this::requery);
     }
 
     @Override
